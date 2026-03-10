@@ -2,7 +2,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { newsletterSchema, brochureSchema, callBookingSchema } from '$lib/utils/validators';
 import db from '$lib/server/db';
-import { notifyManager } from '$lib/server/email';
+import { sendLeadNotification } from '$lib/server/email';
 import { ZodError } from 'zod';
 
 export const load: PageServerLoad = async () => {
@@ -44,7 +44,7 @@ export const actions = {
 			}
 		});
 
-		await notifyManager({ source: 'newsletter', email });
+		await sendLeadNotification({ source: 'newsletter', email });
 
 		return { success: true, form: 'newsletter' as const };
 	},
@@ -75,7 +75,7 @@ export const actions = {
 			}
 		});
 
-		await notifyManager({ source: 'brochure', name, email, phone });
+		await sendLeadNotification({ source: 'brochure', name, email, phone });
 
 		return { success: true, form: 'brochure' as const };
 	},
@@ -105,7 +105,7 @@ export const actions = {
 			}
 		});
 
-		await notifyManager({ source: 'call_booking', name, phone });
+		await sendLeadNotification({ source: 'call_booking', name, phone });
 
 		return { success: true, form: 'callBooking' as const };
 	}

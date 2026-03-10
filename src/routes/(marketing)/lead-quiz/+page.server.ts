@@ -2,7 +2,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { quizSchema } from '$lib/utils/validators';
 import db from '$lib/server/db';
-import { notifyManager } from '$lib/server/email';
+import { sendLeadNotification } from '$lib/server/email';
 import { ZodError } from 'zod';
 
 export const actions = {
@@ -60,7 +60,7 @@ export const actions = {
 			}
 		});
 
-		await notifyManager({ source: 'quiz', name, phone });
+		await sendLeadNotification({ source: 'quiz', name, phone });
 
 		return { success: true };
 	}

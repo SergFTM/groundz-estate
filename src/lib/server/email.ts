@@ -1,22 +1,39 @@
-export async function notifyManager(lead: {
-	source: string;
-	name?: string | null;
-	email?: string | null;
-	phone?: string | null;
-}) {
-	// TODO: Configure nodemailer with SMTP credentials from .env
-	// When ready, uncomment and configure:
-	//
-	// import nodemailer from 'nodemailer';
-	// const transporter = nodemailer.createTransport({
-	//   host: SMTP_HOST, port: SMTP_PORT, auth: { user: SMTP_USER, pass: SMTP_PASS }
-	// });
-	// await transporter.sendMail({
-	//   from: '"Develta Platform" <noreply@develta.cy>',
-	//   to: MANAGER_EMAIL,
-	//   subject: `New Lead: ${lead.source}`,
-	//   text: `Name: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone}`
-	// });
+import nodemailer from 'nodemailer';
 
-	console.log(`[EMAIL STUB] New lead from ${lead.source}: ${lead.name || lead.email || lead.phone}`);
+export async function sendLeadNotification(lead: {
+  source: string;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  data?: string | null;
+}) {
+  if (!process.env.SMTP_HOST) {
+    console.log('[EMAIL] Lead notification (SMTP not configured):', lead);
+    return;
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT ?? 587),
+    secure: Number(process.env.SMTP_PORT ?? 587) === 465,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const lines = [
+    `Source: ${lead.source}`,
+    lead.name ? `Name: ${lead.name}` : null,
+    lead.email ? `Email: ${lead.email}` : null,
+    lead.phone ? `Phone: ${lead.phone}` : null,
+    lead.data ? `Data: ${lead.data}` : null,
+  ].filter(Boolean).join('\n');
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM ?? 'noreply@develta.cy',
+    to: process.env.ADMIN_EMAIL ?? 'admin@develta.cy',
+    subject: `New Lead: ${lead.source}`,
+    text: lines,
+  });
 }
