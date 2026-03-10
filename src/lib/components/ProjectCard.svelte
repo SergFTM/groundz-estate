@@ -35,7 +35,7 @@
     <div class="project-card__location">{location}</div>
     <h3 class="project-card__name">{name}</h3>
     <div class="project-card__meta">
-      {#if priceFrom}
+      {#if priceFrom != null}
         <span class="project-card__price">From {formatPrice(priceFrom)}</span>
       {/if}
       <span class="project-card__units">{unitCount} units</span>

@@ -14,7 +14,7 @@
 
   let { name, projectName, status, goalAmount, raisedAmount, targetYield, description }: Props = $props();
 
-  let progressPercent = $derived(Math.min(100, Math.round((raisedAmount / goalAmount) * 100)));
+  let progressPercent = $derived(goalAmount > 0 ? Math.min(100, Math.round((raisedAmount / goalAmount) * 100)) : 0);
 
   function formatAmount(n: number): string {
     if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(1)}M`;

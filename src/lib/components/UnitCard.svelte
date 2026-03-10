@@ -35,7 +35,7 @@
     <span>Floor {floor}</span>
     <span>{areaSqm}m²</span>
   </div>
-  {#if price}
+  {#if price != null}
     <div class="unit-card__price">{formatPrice(price)}</div>
   {/if}
 </div>
