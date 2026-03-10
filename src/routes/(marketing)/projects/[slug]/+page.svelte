@@ -12,7 +12,7 @@
   let availableUnits = $derived(project.units.filter((u) => u.status === 'available'));
 
   let priceFrom = $derived(
-    project.units.reduce((min: number | null, u) => {
+    availableUnits.reduce((min: number | null, u) => {
       if (u.price === null || u.price === undefined) return min;
       return min === null ? u.price : Math.min(min, u.price);
     }, null)
