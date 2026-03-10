@@ -7,7 +7,7 @@ export async function sendLeadNotification(lead: {
   phone?: string | null;
   data?: string | null;
 }) {
-  if (!process.env.SMTP_HOST) {
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.log('[EMAIL] Lead notification (SMTP not configured):', lead);
     return;
   }
@@ -30,10 +30,14 @@ export async function sendLeadNotification(lead: {
     lead.data ? `Data: ${lead.data}` : null,
   ].filter(Boolean).join('\n');
 
-  await transporter.sendMail({
-    from: process.env.SMTP_FROM ?? 'noreply@develta.cy',
-    to: process.env.ADMIN_EMAIL ?? 'admin@develta.cy',
-    subject: `New Lead: ${lead.source}`,
-    text: lines,
-  });
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM ?? 'noreply@develta.cy',
+      to: process.env.ADMIN_EMAIL ?? 'admin@develta.cy',
+      subject: `New Lead: ${lead.source}`,
+      text: lines,
+    });
+  } catch (err) {
+    console.error('[EMAIL] Failed to send lead notification:', err);
+  }
 }
