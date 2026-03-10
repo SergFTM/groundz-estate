@@ -136,6 +136,7 @@ model InvestmentPool {
   minTicket    Float
   status       String   @default("active") // active | closed | completed
   imageUrl     String?
+  description  String?
   createdAt    DateTime @default(now())
 
   investments InvestorInvestment[]
@@ -160,6 +161,7 @@ model JobPosition {
   type        String   // full_time | part_time | contract
   description String
   isActive    Boolean  @default(true)
+  slug        String   @unique
   createdAt   DateTime @default(now())
 }
 
@@ -190,4 +192,5 @@ model FAQ {
   question  String
   answer    String
   sortOrder Int
+  category  String  @default("General")
 }

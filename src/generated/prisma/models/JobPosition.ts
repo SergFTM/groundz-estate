@@ -32,6 +32,7 @@ export type JobPositionMinAggregateOutputType = {
   type: string | null
   description: string | null
   isActive: boolean | null
+  slug: string | null
   createdAt: Date | null
 }
 
@@ -43,6 +44,7 @@ export type JobPositionMaxAggregateOutputType = {
   type: string | null
   description: string | null
   isActive: boolean | null
+  slug: string | null
   createdAt: Date | null
 }
 
@@ -54,6 +56,7 @@ export type JobPositionCountAggregateOutputType = {
   type: number
   description: number
   isActive: number
+  slug: number
   createdAt: number
   _all: number
 }
@@ -67,6 +70,7 @@ export type JobPositionMinAggregateInputType = {
   type?: true
   description?: true
   isActive?: true
+  slug?: true
   createdAt?: true
 }
 
@@ -78,6 +82,7 @@ export type JobPositionMaxAggregateInputType = {
   type?: true
   description?: true
   isActive?: true
+  slug?: true
   createdAt?: true
 }
 
@@ -89,6 +94,7 @@ export type JobPositionCountAggregateInputType = {
   type?: true
   description?: true
   isActive?: true
+  slug?: true
   createdAt?: true
   _all?: true
 }
@@ -173,6 +179,7 @@ export type JobPositionGroupByOutputType = {
   type: string
   description: string
   isActive: boolean
+  slug: string
   createdAt: Date
   _count: JobPositionCountAggregateOutputType | null
   _min: JobPositionMinAggregateOutputType | null
@@ -205,6 +212,7 @@ export type JobPositionWhereInput = {
   type?: Prisma.StringFilter<"JobPosition"> | string
   description?: Prisma.StringFilter<"JobPosition"> | string
   isActive?: Prisma.BoolFilter<"JobPosition"> | boolean
+  slug?: Prisma.StringFilter<"JobPosition"> | string
   createdAt?: Prisma.DateTimeFilter<"JobPosition"> | Date | string
 }
 
@@ -216,11 +224,13 @@ export type JobPositionOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type JobPositionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.JobPositionWhereInput | Prisma.JobPositionWhereInput[]
   OR?: Prisma.JobPositionWhereInput[]
   NOT?: Prisma.JobPositionWhereInput | Prisma.JobPositionWhereInput[]
@@ -231,7 +241,7 @@ export type JobPositionWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"JobPosition"> | string
   isActive?: Prisma.BoolFilter<"JobPosition"> | boolean
   createdAt?: Prisma.DateTimeFilter<"JobPosition"> | Date | string
-}, "id">
+}, "id" | "slug">
 
 export type JobPositionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -241,6 +251,7 @@ export type JobPositionOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.JobPositionCountOrderByAggregateInput
   _max?: Prisma.JobPositionMaxOrderByAggregateInput
@@ -258,6 +269,7 @@ export type JobPositionScalarWhereWithAggregatesInput = {
   type?: Prisma.StringWithAggregatesFilter<"JobPosition"> | string
   description?: Prisma.StringWithAggregatesFilter<"JobPosition"> | string
   isActive?: Prisma.BoolWithAggregatesFilter<"JobPosition"> | boolean
+  slug?: Prisma.StringWithAggregatesFilter<"JobPosition"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JobPosition"> | Date | string
 }
 
@@ -269,6 +281,7 @@ export type JobPositionCreateInput = {
   type: string
   description: string
   isActive?: boolean
+  slug: string
   createdAt?: Date | string
 }
 
@@ -280,6 +293,7 @@ export type JobPositionUncheckedCreateInput = {
   type: string
   description: string
   isActive?: boolean
+  slug: string
   createdAt?: Date | string
 }
 
@@ -291,6 +305,7 @@ export type JobPositionUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -302,6 +317,7 @@ export type JobPositionUncheckedUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -313,6 +329,7 @@ export type JobPositionCreateManyInput = {
   type: string
   description: string
   isActive?: boolean
+  slug: string
   createdAt?: Date | string
 }
 
@@ -324,6 +341,7 @@ export type JobPositionUpdateManyMutationInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -335,6 +353,7 @@ export type JobPositionUncheckedUpdateManyInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -346,6 +365,7 @@ export type JobPositionCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -357,6 +377,7 @@ export type JobPositionMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -368,6 +389,7 @@ export type JobPositionMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -385,6 +407,7 @@ export type JobPositionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   type?: boolean
   description?: boolean
   isActive?: boolean
+  slug?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["jobPosition"]>
 
@@ -396,6 +419,7 @@ export type JobPositionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   type?: boolean
   description?: boolean
   isActive?: boolean
+  slug?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["jobPosition"]>
 
@@ -407,6 +431,7 @@ export type JobPositionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   type?: boolean
   description?: boolean
   isActive?: boolean
+  slug?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["jobPosition"]>
 
@@ -418,10 +443,11 @@ export type JobPositionSelectScalar = {
   type?: boolean
   description?: boolean
   isActive?: boolean
+  slug?: boolean
   createdAt?: boolean
 }
 
-export type JobPositionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "department" | "location" | "type" | "description" | "isActive" | "createdAt", ExtArgs["result"]["jobPosition"]>
+export type JobPositionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "department" | "location" | "type" | "description" | "isActive" | "slug" | "createdAt", ExtArgs["result"]["jobPosition"]>
 
 export type $JobPositionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "JobPosition"
@@ -434,6 +460,7 @@ export type $JobPositionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     type: string
     description: string
     isActive: boolean
+    slug: string
     createdAt: Date
   }, ExtArgs["result"]["jobPosition"]>
   composites: {}
@@ -865,6 +892,7 @@ export interface JobPositionFieldRefs {
   readonly type: Prisma.FieldRef<"JobPosition", 'String'>
   readonly description: Prisma.FieldRef<"JobPosition", 'String'>
   readonly isActive: Prisma.FieldRef<"JobPosition", 'Boolean'>
+  readonly slug: Prisma.FieldRef<"JobPosition", 'String'>
   readonly createdAt: Prisma.FieldRef<"JobPosition", 'DateTime'>
 }
     

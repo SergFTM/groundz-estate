@@ -53,6 +53,7 @@ export type InvestmentPoolMinAggregateOutputType = {
   minTicket: number | null
   status: string | null
   imageUrl: string | null
+  description: string | null
   createdAt: Date | null
 }
 
@@ -67,6 +68,7 @@ export type InvestmentPoolMaxAggregateOutputType = {
   minTicket: number | null
   status: string | null
   imageUrl: string | null
+  description: string | null
   createdAt: Date | null
 }
 
@@ -81,6 +83,7 @@ export type InvestmentPoolCountAggregateOutputType = {
   minTicket: number
   status: number
   imageUrl: number
+  description: number
   createdAt: number
   _all: number
 }
@@ -113,6 +116,7 @@ export type InvestmentPoolMinAggregateInputType = {
   minTicket?: true
   status?: true
   imageUrl?: true
+  description?: true
   createdAt?: true
 }
 
@@ -127,6 +131,7 @@ export type InvestmentPoolMaxAggregateInputType = {
   minTicket?: true
   status?: true
   imageUrl?: true
+  description?: true
   createdAt?: true
 }
 
@@ -141,6 +146,7 @@ export type InvestmentPoolCountAggregateInputType = {
   minTicket?: true
   status?: true
   imageUrl?: true
+  description?: true
   createdAt?: true
   _all?: true
 }
@@ -242,6 +248,7 @@ export type InvestmentPoolGroupByOutputType = {
   minTicket: number
   status: string
   imageUrl: string | null
+  description: string | null
   createdAt: Date
   _count: InvestmentPoolCountAggregateOutputType | null
   _avg: InvestmentPoolAvgAggregateOutputType | null
@@ -279,6 +286,7 @@ export type InvestmentPoolWhereInput = {
   minTicket?: Prisma.FloatFilter<"InvestmentPool"> | number
   status?: Prisma.StringFilter<"InvestmentPool"> | string
   imageUrl?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
+  description?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InvestmentPool"> | Date | string
   investments?: Prisma.InvestorInvestmentListRelationFilter
 }
@@ -294,6 +302,7 @@ export type InvestmentPoolOrderByWithRelationInput = {
   minTicket?: Prisma.SortOrder
   status?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   investments?: Prisma.InvestorInvestmentOrderByRelationAggregateInput
 }
@@ -312,6 +321,7 @@ export type InvestmentPoolWhereUniqueInput = Prisma.AtLeast<{
   minTicket?: Prisma.FloatFilter<"InvestmentPool"> | number
   status?: Prisma.StringFilter<"InvestmentPool"> | string
   imageUrl?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
+  description?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InvestmentPool"> | Date | string
   investments?: Prisma.InvestorInvestmentListRelationFilter
 }, "id">
@@ -327,6 +337,7 @@ export type InvestmentPoolOrderByWithAggregationInput = {
   minTicket?: Prisma.SortOrder
   status?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.InvestmentPoolCountOrderByAggregateInput
   _avg?: Prisma.InvestmentPoolAvgOrderByAggregateInput
@@ -349,6 +360,7 @@ export type InvestmentPoolScalarWhereWithAggregatesInput = {
   minTicket?: Prisma.FloatWithAggregatesFilter<"InvestmentPool"> | number
   status?: Prisma.StringWithAggregatesFilter<"InvestmentPool"> | string
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
+  description?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InvestmentPool"> | Date | string
 }
 
@@ -363,6 +375,7 @@ export type InvestmentPoolCreateInput = {
   minTicket: number
   status?: string
   imageUrl?: string | null
+  description?: string | null
   createdAt?: Date | string
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutPoolInput
 }
@@ -378,6 +391,7 @@ export type InvestmentPoolUncheckedCreateInput = {
   minTicket: number
   status?: string
   imageUrl?: string | null
+  description?: string | null
   createdAt?: Date | string
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutPoolInput
 }
@@ -393,6 +407,7 @@ export type InvestmentPoolUpdateInput = {
   minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutPoolNestedInput
 }
@@ -408,6 +423,7 @@ export type InvestmentPoolUncheckedUpdateInput = {
   minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutPoolNestedInput
 }
@@ -423,6 +439,7 @@ export type InvestmentPoolCreateManyInput = {
   minTicket: number
   status?: string
   imageUrl?: string | null
+  description?: string | null
   createdAt?: Date | string
 }
 
@@ -437,6 +454,7 @@ export type InvestmentPoolUpdateManyMutationInput = {
   minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -451,6 +469,7 @@ export type InvestmentPoolUncheckedUpdateManyInput = {
   minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -465,6 +484,7 @@ export type InvestmentPoolCountOrderByAggregateInput = {
   minTicket?: Prisma.SortOrder
   status?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -487,6 +507,7 @@ export type InvestmentPoolMaxOrderByAggregateInput = {
   minTicket?: Prisma.SortOrder
   status?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -501,6 +522,7 @@ export type InvestmentPoolMinOrderByAggregateInput = {
   minTicket?: Prisma.SortOrder
   status?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -542,6 +564,7 @@ export type InvestmentPoolCreateWithoutInvestmentsInput = {
   minTicket: number
   status?: string
   imageUrl?: string | null
+  description?: string | null
   createdAt?: Date | string
 }
 
@@ -556,6 +579,7 @@ export type InvestmentPoolUncheckedCreateWithoutInvestmentsInput = {
   minTicket: number
   status?: string
   imageUrl?: string | null
+  description?: string | null
   createdAt?: Date | string
 }
 
@@ -586,6 +610,7 @@ export type InvestmentPoolUpdateWithoutInvestmentsInput = {
   minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -600,6 +625,7 @@ export type InvestmentPoolUncheckedUpdateWithoutInvestmentsInput = {
   minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -645,6 +671,7 @@ export type InvestmentPoolSelect<ExtArgs extends runtime.Types.Extensions.Intern
   minTicket?: boolean
   status?: boolean
   imageUrl?: boolean
+  description?: boolean
   createdAt?: boolean
   investments?: boolean | Prisma.InvestmentPool$investmentsArgs<ExtArgs>
   _count?: boolean | Prisma.InvestmentPoolCountOutputTypeDefaultArgs<ExtArgs>
@@ -661,6 +688,7 @@ export type InvestmentPoolSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   minTicket?: boolean
   status?: boolean
   imageUrl?: boolean
+  description?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["investmentPool"]>
 
@@ -675,6 +703,7 @@ export type InvestmentPoolSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   minTicket?: boolean
   status?: boolean
   imageUrl?: boolean
+  description?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["investmentPool"]>
 
@@ -689,10 +718,11 @@ export type InvestmentPoolSelectScalar = {
   minTicket?: boolean
   status?: boolean
   imageUrl?: boolean
+  description?: boolean
   createdAt?: boolean
 }
 
-export type InvestmentPoolOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "projectName" | "goalAmount" | "raisedAmount" | "targetYield" | "termMonths" | "minTicket" | "status" | "imageUrl" | "createdAt", ExtArgs["result"]["investmentPool"]>
+export type InvestmentPoolOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "projectName" | "goalAmount" | "raisedAmount" | "targetYield" | "termMonths" | "minTicket" | "status" | "imageUrl" | "description" | "createdAt", ExtArgs["result"]["investmentPool"]>
 export type InvestmentPoolInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   investments?: boolean | Prisma.InvestmentPool$investmentsArgs<ExtArgs>
   _count?: boolean | Prisma.InvestmentPoolCountOutputTypeDefaultArgs<ExtArgs>
@@ -716,6 +746,7 @@ export type $InvestmentPoolPayload<ExtArgs extends runtime.Types.Extensions.Inte
     minTicket: number
     status: string
     imageUrl: string | null
+    description: string | null
     createdAt: Date
   }, ExtArgs["result"]["investmentPool"]>
   composites: {}
@@ -1151,6 +1182,7 @@ export interface InvestmentPoolFieldRefs {
   readonly minTicket: Prisma.FieldRef<"InvestmentPool", 'Float'>
   readonly status: Prisma.FieldRef<"InvestmentPool", 'String'>
   readonly imageUrl: Prisma.FieldRef<"InvestmentPool", 'String'>
+  readonly description: Prisma.FieldRef<"InvestmentPool", 'String'>
   readonly createdAt: Prisma.FieldRef<"InvestmentPool", 'DateTime'>
 }
     

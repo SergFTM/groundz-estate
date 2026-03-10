@@ -206,6 +206,7 @@ export const InvestmentPoolScalarFieldEnum = {
   minTicket: 'minTicket',
   status: 'status',
   imageUrl: 'imageUrl',
+  description: 'description',
   createdAt: 'createdAt'
 } as const
 
@@ -231,6 +232,7 @@ export const JobPositionScalarFieldEnum = {
   type: 'type',
   description: 'description',
   isActive: 'isActive',
+  slug: 'slug',
   createdAt: 'createdAt'
 } as const
 
@@ -269,7 +271,8 @@ export const FAQScalarFieldEnum = {
   id: 'id',
   question: 'question',
   answer: 'answer',
-  sortOrder: 'sortOrder'
+  sortOrder: 'sortOrder',
+  category: 'category'
 } as const
 
 export type FAQScalarFieldEnum = (typeof FAQScalarFieldEnum)[keyof typeof FAQScalarFieldEnum]

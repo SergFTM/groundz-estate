@@ -39,6 +39,7 @@ export type FAQMinAggregateOutputType = {
   question: string | null
   answer: string | null
   sortOrder: number | null
+  category: string | null
 }
 
 export type FAQMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type FAQMaxAggregateOutputType = {
   question: string | null
   answer: string | null
   sortOrder: number | null
+  category: string | null
 }
 
 export type FAQCountAggregateOutputType = {
@@ -53,6 +55,7 @@ export type FAQCountAggregateOutputType = {
   question: number
   answer: number
   sortOrder: number
+  category: number
   _all: number
 }
 
@@ -70,6 +73,7 @@ export type FAQMinAggregateInputType = {
   question?: true
   answer?: true
   sortOrder?: true
+  category?: true
 }
 
 export type FAQMaxAggregateInputType = {
@@ -77,6 +81,7 @@ export type FAQMaxAggregateInputType = {
   question?: true
   answer?: true
   sortOrder?: true
+  category?: true
 }
 
 export type FAQCountAggregateInputType = {
@@ -84,6 +89,7 @@ export type FAQCountAggregateInputType = {
   question?: true
   answer?: true
   sortOrder?: true
+  category?: true
   _all?: true
 }
 
@@ -178,6 +184,7 @@ export type FAQGroupByOutputType = {
   question: string
   answer: string
   sortOrder: number
+  category: string
   _count: FAQCountAggregateOutputType | null
   _avg: FAQAvgAggregateOutputType | null
   _sum: FAQSumAggregateOutputType | null
@@ -208,6 +215,7 @@ export type FAQWhereInput = {
   question?: Prisma.StringFilter<"FAQ"> | string
   answer?: Prisma.StringFilter<"FAQ"> | string
   sortOrder?: Prisma.IntFilter<"FAQ"> | number
+  category?: Prisma.StringFilter<"FAQ"> | string
 }
 
 export type FAQOrderByWithRelationInput = {
@@ -215,6 +223,7 @@ export type FAQOrderByWithRelationInput = {
   question?: Prisma.SortOrder
   answer?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  category?: Prisma.SortOrder
 }
 
 export type FAQWhereUniqueInput = Prisma.AtLeast<{
@@ -225,6 +234,7 @@ export type FAQWhereUniqueInput = Prisma.AtLeast<{
   question?: Prisma.StringFilter<"FAQ"> | string
   answer?: Prisma.StringFilter<"FAQ"> | string
   sortOrder?: Prisma.IntFilter<"FAQ"> | number
+  category?: Prisma.StringFilter<"FAQ"> | string
 }, "id">
 
 export type FAQOrderByWithAggregationInput = {
@@ -232,6 +242,7 @@ export type FAQOrderByWithAggregationInput = {
   question?: Prisma.SortOrder
   answer?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   _count?: Prisma.FAQCountOrderByAggregateInput
   _avg?: Prisma.FAQAvgOrderByAggregateInput
   _max?: Prisma.FAQMaxOrderByAggregateInput
@@ -247,6 +258,7 @@ export type FAQScalarWhereWithAggregatesInput = {
   question?: Prisma.StringWithAggregatesFilter<"FAQ"> | string
   answer?: Prisma.StringWithAggregatesFilter<"FAQ"> | string
   sortOrder?: Prisma.IntWithAggregatesFilter<"FAQ"> | number
+  category?: Prisma.StringWithAggregatesFilter<"FAQ"> | string
 }
 
 export type FAQCreateInput = {
@@ -254,6 +266,7 @@ export type FAQCreateInput = {
   question: string
   answer: string
   sortOrder: number
+  category?: string
 }
 
 export type FAQUncheckedCreateInput = {
@@ -261,6 +274,7 @@ export type FAQUncheckedCreateInput = {
   question: string
   answer: string
   sortOrder: number
+  category?: string
 }
 
 export type FAQUpdateInput = {
@@ -268,6 +282,7 @@ export type FAQUpdateInput = {
   question?: Prisma.StringFieldUpdateOperationsInput | string
   answer?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FAQUncheckedUpdateInput = {
@@ -275,6 +290,7 @@ export type FAQUncheckedUpdateInput = {
   question?: Prisma.StringFieldUpdateOperationsInput | string
   answer?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FAQCreateManyInput = {
@@ -282,6 +298,7 @@ export type FAQCreateManyInput = {
   question: string
   answer: string
   sortOrder: number
+  category?: string
 }
 
 export type FAQUpdateManyMutationInput = {
@@ -289,6 +306,7 @@ export type FAQUpdateManyMutationInput = {
   question?: Prisma.StringFieldUpdateOperationsInput | string
   answer?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FAQUncheckedUpdateManyInput = {
@@ -296,6 +314,7 @@ export type FAQUncheckedUpdateManyInput = {
   question?: Prisma.StringFieldUpdateOperationsInput | string
   answer?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FAQCountOrderByAggregateInput = {
@@ -303,6 +322,7 @@ export type FAQCountOrderByAggregateInput = {
   question?: Prisma.SortOrder
   answer?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  category?: Prisma.SortOrder
 }
 
 export type FAQAvgOrderByAggregateInput = {
@@ -314,6 +334,7 @@ export type FAQMaxOrderByAggregateInput = {
   question?: Prisma.SortOrder
   answer?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  category?: Prisma.SortOrder
 }
 
 export type FAQMinOrderByAggregateInput = {
@@ -321,6 +342,7 @@ export type FAQMinOrderByAggregateInput = {
   question?: Prisma.SortOrder
   answer?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  category?: Prisma.SortOrder
 }
 
 export type FAQSumOrderByAggregateInput = {
@@ -334,6 +356,7 @@ export type FAQSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   question?: boolean
   answer?: boolean
   sortOrder?: boolean
+  category?: boolean
 }, ExtArgs["result"]["fAQ"]>
 
 export type FAQSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -341,6 +364,7 @@ export type FAQSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   question?: boolean
   answer?: boolean
   sortOrder?: boolean
+  category?: boolean
 }, ExtArgs["result"]["fAQ"]>
 
 export type FAQSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -348,6 +372,7 @@ export type FAQSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   question?: boolean
   answer?: boolean
   sortOrder?: boolean
+  category?: boolean
 }, ExtArgs["result"]["fAQ"]>
 
 export type FAQSelectScalar = {
@@ -355,9 +380,10 @@ export type FAQSelectScalar = {
   question?: boolean
   answer?: boolean
   sortOrder?: boolean
+  category?: boolean
 }
 
-export type FAQOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question" | "answer" | "sortOrder", ExtArgs["result"]["fAQ"]>
+export type FAQOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question" | "answer" | "sortOrder" | "category", ExtArgs["result"]["fAQ"]>
 
 export type $FAQPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FAQ"
@@ -367,6 +393,7 @@ export type $FAQPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     question: string
     answer: string
     sortOrder: number
+    category: string
   }, ExtArgs["result"]["fAQ"]>
   composites: {}
 }
@@ -794,6 +821,7 @@ export interface FAQFieldRefs {
   readonly question: Prisma.FieldRef<"FAQ", 'String'>
   readonly answer: Prisma.FieldRef<"FAQ", 'String'>
   readonly sortOrder: Prisma.FieldRef<"FAQ", 'Int'>
+  readonly category: Prisma.FieldRef<"FAQ", 'String'>
 }
     
 
