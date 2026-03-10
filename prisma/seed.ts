@@ -77,7 +77,7 @@ async function main() {
       slug: "sungardo",
       location: "Limassol Marina",
       description: "A premium waterfront development offering luxury living with stunning marina views.",
-      imageUrl: "/images/projects/sungardo.jpg",
+      imageUrl: "/images/projects/sungardo.svg",
       status: "active",
     },
   });
@@ -88,7 +88,7 @@ async function main() {
       slug: "antigone-court",
       location: "Germasogeia",
       description: "Modern residential complex in the heart of Germasogeia with easy access to the beach.",
-      imageUrl: "/images/projects/antigone-court.jpg",
+      imageUrl: "/images/projects/antigone-court.svg",
       status: "active",
     },
   });
@@ -99,7 +99,7 @@ async function main() {
       slug: "symphony-residence",
       location: "Tourist Area, Limassol",
       description: "Elegant apartments in Limassol's sought-after tourist area, minutes from the sea.",
-      imageUrl: "/images/projects/symphony-residence.jpg",
+      imageUrl: "/images/projects/symphony-residence.svg",
       status: "active",
     },
   });
@@ -110,7 +110,7 @@ async function main() {
       slug: "cascada-residence",
       location: "Mouttagiaka",
       description: "Upcoming coastal development with panoramic sea views and contemporary design.",
-      imageUrl: "/images/projects/cascada-residence.jpg",
+      imageUrl: "/images/projects/cascada-residence.svg",
       status: "coming_soon",
     },
   });
@@ -121,7 +121,7 @@ async function main() {
       slug: "ptolemy-studios",
       location: "Historical Center",
       description: "Boutique studio apartments in Limassol's charming historical center.",
-      imageUrl: "/images/projects/ptolemy-studios.jpg",
+      imageUrl: "/images/projects/ptolemy-studios.svg",
       status: "completed",
     },
   });

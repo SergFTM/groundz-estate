@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#b8c4d4"/>
+  <rect x="300" y="150" width="200" height="160" fill="#a8a49c" rx="4" opacity="0.6"/>
+  <rect x="340" y="210" width="40" height="70" fill="#888480" rx="2" opacity="0.7"/>
+  <rect x="410" y="210" width="50" height="50" fill="#888480" rx="2" opacity="0.7"/>
+  <text x="400" y="360" font-family="sans-serif" font-size="18" fill="#666" text-anchor="middle" font-weight="600">Antigone Court</text>
+</svg>
