@@ -10,6 +10,7 @@ async function main() {
   console.log("Seeding database...");
 
   // Clean existing data
+  await prisma.investorInvestment.deleteMany();
   await prisma.constructionMedia.deleteMany();
   await prisma.constructionPhase.deleteMany();
   await prisma.payment.deleteMany();
@@ -163,6 +164,14 @@ async function main() {
   ]);
 
   console.log(`  Created ${units.length} units`);
+
+  // ── Link buyer to a unit ─────────────────────────────────
+  const symUnitBuyer = units.find((u) => u.code === "SYM-202")!;
+  await prisma.unit.update({
+    where: { id: symUnitBuyer.id },
+    data: { buyerId: buyer.id },
+  });
+  console.log("  Linked buyer to unit SYM-202");
 
   // ── Construction Phases (Symphony Residence) ───────────
   const phase1 = await prisma.constructionPhase.create({
@@ -341,47 +350,67 @@ async function main() {
   console.log("  Created 5 documents");
 
   // ── Leads ──────────────────────────────────────────────
-  await prisma.lead.createMany({
-    data: [
-      { source: "quiz", name: "Elena Karasova", email: "elena@example.com", data: '{"budget":"300k-500k","preference":"2bed","timeline":"6months"}', tag: "hot" },
-      { source: "newsletter", email: "john.smith@example.com", tag: "warm" },
-      { source: "brochure", name: "Ahmed Al-Hassan", email: "ahmed@example.com", phone: "+971 50 1234567", tag: "warm" },
-      { source: "call_booking", name: "Li Wei", email: "li.wei@example.com", phone: "+86 138 0000 1234", data: '{"preferredDate":"2026-03-15","project":"sungardo"}', tag: "hot" },
-      { userId: investor.id, source: "quiz", name: "Alexander Chen", email: "investor@develta.cy", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot" },
-    ],
+  await prisma.lead.create({
+    data: { source: "quiz", status: "contacted", name: "Elena Karasova", email: "elena@example.com", data: '{"budget":"300k-500k","preference":"2bed","timeline":"6months"}', tag: "hot", agentId: agent.id },
+  });
+  await prisma.lead.create({
+    data: { source: "newsletter", status: "new", email: "john.smith@example.com", tag: "warm" },
+  });
+  await prisma.lead.create({
+    data: { source: "brochure", status: "contacted", name: "Ahmed Al-Hassan", email: "ahmed@example.com", phone: "+971 50 1234567", tag: "warm", agentId: agent.id },
+  });
+  await prisma.lead.create({
+    data: { source: "call_booking", status: "new", name: "Li Wei", email: "li.wei@example.com", phone: "+86 138 0000 1234", data: '{"preferredDate":"2026-03-15","project":"sungardo"}', tag: "hot" },
+  });
+  await prisma.lead.create({
+    data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@develta.cy", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id },
+  });
+  await prisma.lead.create({
+    data: { source: "quiz", status: "contacted", name: "Dmitry Volkov", email: "dmitry@example.com", phone: "+357 99 123456", tag: "hot", agentId: agent.id, data: JSON.stringify({ timing: "1-3 months", budget: "€500k+" }) },
   });
 
-  console.log("  Created 5 leads");
+  console.log("  Created 6 leads");
 
   // ── Investment Pools ───────────────────────────────────
-  await prisma.investmentPool.createMany({
-    data: [
-      {
-        name: "Aura Residences Pool",
-        projectName: "Aura Residences",
-        goalAmount: 2500000,
-        raisedAmount: 1850000,
-        targetYield: 7.2,
-        termMonths: 24,
-        minTicket: 50000,
-        status: "active",
-        imageUrl: "/images/pools/aura-residences.jpg",
-      },
-      {
-        name: "Elysium Villas Pool",
-        projectName: "Elysium Villas",
-        goalAmount: 1800000,
-        raisedAmount: 450000,
-        targetYield: 8.5,
-        termMonths: 18,
-        minTicket: 25000,
-        status: "active",
-        imageUrl: "/images/pools/elysium-villas.jpg",
-      },
-    ],
+  const auraPool = await prisma.investmentPool.create({
+    data: {
+      name: "Aura Residences Pool",
+      projectName: "Aura Residences",
+      goalAmount: 2500000,
+      raisedAmount: 1850000,
+      targetYield: 7.2,
+      termMonths: 24,
+      minTicket: 50000,
+      status: "active",
+      imageUrl: "/images/pools/aura-residences.jpg",
+    },
+  });
+
+  const elysiumPool = await prisma.investmentPool.create({
+    data: {
+      name: "Elysium Villas Pool",
+      projectName: "Elysium Villas",
+      goalAmount: 1800000,
+      raisedAmount: 450000,
+      targetYield: 8.5,
+      termMonths: 18,
+      minTicket: 25000,
+      status: "active",
+      imageUrl: "/images/pools/elysium-villas.jpg",
+    },
   });
 
   console.log("  Created 2 investment pools");
+
+  // ── Investor Investments ─────────────────────────────────
+  await prisma.investorInvestment.create({
+    data: { userId: investor.id, poolId: auraPool.id, amount: 100000 },
+  });
+  await prisma.investorInvestment.create({
+    data: { userId: investor.id, poolId: elysiumPool.id, amount: 50000 },
+  });
+
+  console.log("  Created 2 investor investments");
 
   // ── Job Positions ──────────────────────────────────────
   await prisma.jobPosition.createMany({
