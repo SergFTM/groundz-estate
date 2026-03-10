@@ -7,6 +7,8 @@
   let { data, form } = $props();
   let { project } = $derived(data);
 
+  let formErrors = $derived((form as { errors?: Record<string, string>; success?: boolean } | null)?.errors ?? {});
+
   let availableUnits = $derived(project.units.filter((u) => u.status === 'available'));
 
   let priceFrom = $derived(
@@ -99,7 +101,11 @@
 
         {#if project.constructionPhases.length > 0}
           <div class="timeline-section">
-            <ConstructionTimeline phases={project.constructionPhases} />
+            <ConstructionTimeline phases={project.constructionPhases.map((p) => ({
+              ...p,
+              startDate: p.startDate ? p.startDate.toISOString() : null,
+              endDate: p.endDate ? p.endDate.toISOString() : null,
+            }))} />
           </div>
         {/if}
       </div>
@@ -118,13 +124,13 @@
               <div class="form-field">
                 <label for="name">Your Name</label>
                 <input id="name" name="name" type="text" placeholder="Full name" required />
-                {#if form?.errors?.name}<span class="field-error">{form.errors.name}</span>{/if}
+                {#if formErrors.name}<span class="field-error">{formErrors.name}</span>{/if}
               </div>
 
               <div class="form-field">
                 <label for="phone">Phone Number</label>
                 <input id="phone" name="phone" type="tel" placeholder="+357 99 000000" required />
-                {#if form?.errors?.phone}<span class="field-error">{form.errors.phone}</span>{/if}
+                {#if formErrors.phone}<span class="field-error">{formErrors.phone}</span>{/if}
               </div>
 
               <div class="form-field">
@@ -135,7 +141,7 @@
                   <option value="afternoon">Afternoon (12–17)</option>
                   <option value="evening">Evening (17–20)</option>
                 </select>
-                {#if form?.errors?.timeSlot}<span class="field-error">{form.errors.timeSlot}</span>{/if}
+                {#if formErrors.timeSlot}<span class="field-error">{formErrors.timeSlot}</span>{/if}
               </div>
 
               <button type="submit" class="btn-primary">Send Request →</button>
