@@ -1,0 +1,9 @@
+export type Role = 'buyer' | 'investor' | 'agent' | 'internal_team';
+export type LeadSource = 'quiz' | 'newsletter' | 'brochure' | 'call_booking';
+export type LeadTag = 'hot' | 'warm' | 'cold';
+export type UnitStatus = 'available' | 'reserved' | 'sold';
+export type UnitType = 'studio' | '1bed' | '2bed' | '3bed' | 'penthouse';
+export type ProjectStatus = 'active' | 'coming_soon' | 'completed';
+export type PaymentStatus = 'paid' | 'upcoming' | 'overdue';
+export type DocumentStatus = 'approved' | 'pending' | 'action_required';
+export type ConstructionStatus = 'completed' | 'in_progress' | 'pending';

@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  role      String     // buyer | investor | agent | internal_team
+  name      String?
+  phone     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  leads     Lead[]
+  documents Document[]
+  payments  Payment[]
+}
+
+model Project {
+  id                String              @id @default(uuid())
+  name              String
+  slug              String              @unique
+  location          String
+  description       String?
+  imageUrl          String?
+  status            String              // active | coming_soon | completed
+  createdAt         DateTime            @default(now())
+
+  units             Unit[]
+  constructionPhases ConstructionPhase[]
+}
+
+model Unit {
+  id        String    @id @default(uuid())
+  projectId String
+  code      String
+  type      String    // studio | 1bed | 2bed | 3bed | penthouse
+  bedrooms  Int
+  floor     Int
+  areaSqm   Float
+  price     Float?
+  status    String    @default("available") // available | reserved | sold
+
+  project   Project   @relation(fields: [projectId], references: [id])
+  payments  Payment[]
+}
+
+model ConstructionPhase {
+  id          String             @id @default(uuid())
+  projectId   String
+  name        String
+  description String?
+  status      String             // completed | in_progress | pending
+  startDate   DateTime?
+  endDate     DateTime?
+  sortOrder   Int
+
+  project     Project            @relation(fields: [projectId], references: [id])
+  media       ConstructionMedia[]
+}
+
+model ConstructionMedia {
+  id       String            @id @default(uuid())
+  phaseId  String
+  url      String
+  type     String            // image | video
+  caption  String?
+
+  phase    ConstructionPhase @relation(fields: [phaseId], references: [id])
+}
+
+model Payment {
+  id          String    @id @default(uuid())
+  userId      String
+  unitId      String
+  description String
+  amount      Float
+  dueDate     DateTime
+  paidDate    DateTime?
+  status      String    // paid | upcoming | overdue
+  invoiceUrl  String?
+
+  user        User      @relation(fields: [userId], references: [id])
+  unit        Unit      @relation(fields: [unitId], references: [id])
+}
+
+model Document {
+  id         String   @id @default(uuid())
+  userId     String
+  name       String
+  category   String   // contract | passport | tax | floor_plan
+  fileUrl    String
+  fileSize   Int
+  status     String   @default("pending") // approved | pending | action_required
+  uploadedAt DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  userId    String?
+  source    String   // quiz | newsletter | brochure | call_booking
+  name      String?
+  email     String?
+  phone     String?
+  data      String?  // JSON string
+  tag       String?  // hot | warm | cold
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model InvestmentPool {
+  id           String   @id @default(uuid())
+  name         String
+  projectName  String
+  goalAmount   Float
+  raisedAmount Float    @default(0)
+  targetYield  Float
+  termMonths   Int
+  minTicket    Float
+  status       String   @default("active") // active | closed | completed
+  imageUrl     String?
+  createdAt    DateTime @default(now())
+}
+
+model JobPosition {
+  id          String   @id @default(uuid())
+  title       String
+  department  String
+  location    String
+  type        String   // full_time | part_time | contract
+  description String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model JobApplication {
+  id          String   @id @default(uuid())
+  positionId  String
+  name        String
+  email       String
+  linkedinUrl String?
+  resumeUrl   String?
+  coverLetter String?
+  createdAt   DateTime @default(now())
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  category    String
+  excerpt     String?
+  content     String
+  imageUrl    String?
+  publishedAt DateTime @default(now())
+}
+
+model FAQ {
+  id        String @id @default(uuid())
+  question  String
+  answer    String
+  sortOrder Int
+}

@@ -1,0 +1,57 @@
+<script lang="ts">
+	import '../app.css';
+	import { page } from '$app/stores';
+	import { platformStore } from '$lib/stores/platform';
+	import NavigationMenu from '$lib/components/NavigationMenu.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import CookieConsent from '$lib/components/CookieConsent.svelte';
+	import Toast from '$lib/components/ui/Toast.svelte';
+	import favicon from '$lib/assets/favicon.svg';
+
+	let { data, children } = $props();
+
+	let isLandingPage = $derived($page.url.pathname === '/');
+
+	$effect(() => {
+		if (data.user) {
+			platformStore.set({
+				isAuthenticated: true,
+				userRole: data.user.role,
+				userName: data.user.name ?? data.user.email,
+				selectedPropertyPrice: 450000
+			});
+		} else {
+			platformStore.set({
+				isAuthenticated: false,
+				userRole: null,
+				userName: null,
+				selectedPropertyPrice: 450000
+			});
+		}
+	});
+</script>
+
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
+
+<NavigationMenu user={data.user} transparent={isLandingPage} />
+
+<main class="main-content" class:main-content--no-pad={isLandingPage}>
+	{@render children()}
+</main>
+
+<Footer />
+<CookieConsent />
+<Toast />
+
+<style>
+	.main-content {
+		padding-top: var(--header-height);
+		min-height: 100vh;
+	}
+
+	.main-content--no-pad {
+		padding-top: 0;
+	}
+</style>
