@@ -383,6 +383,7 @@ async function main() {
       minTicket: 50000,
       status: "active",
       imageUrl: "/images/pools/aura-residences.jpg",
+      description: "Co-investment pool for Aura Residences, a premium seafront development in Limassol Marina. 74% funded with strong investor demand.",
     },
   });
 
@@ -397,6 +398,7 @@ async function main() {
       minTicket: 25000,
       status: "active",
       imageUrl: "/images/pools/elysium-villas.jpg",
+      description: "Early-stage investment opportunity in Elysium Villas, a boutique villa complex in Germasogeia. High yield potential with 18-month term.",
     },
   });
 
@@ -417,34 +419,38 @@ async function main() {
     data: [
       {
         title: "Senior Full-Stack Developer",
+        slug: "senior-full-stack-developer",
         department: "Engineering",
         location: "Limassol, Cyprus",
         type: "full_time",
-        description: "We are looking for an experienced full-stack developer to build and maintain our property technology platform. You will work with SvelteKit, TypeScript, and Prisma to deliver features for buyers, investors, and agents.",
+        description: "<h3>About the Role</h3><p>We are looking for an experienced full-stack developer to build and maintain our property technology platform. You will work with SvelteKit, TypeScript, and Prisma to deliver features for buyers, investors, and agents.</p><h3>Requirements</h3><ul><li>3+ years experience with TypeScript and modern frameworks</li><li>Experience with SvelteKit or similar SSR frameworks</li><li>Strong SQL and ORM skills (Prisma preferred)</li><li>Passion for clean, maintainable code</li></ul><h3>What We Offer</h3><p>Competitive salary, flexible working arrangements, and the opportunity to shape a product used by high-net-worth real estate investors across the Mediterranean.</p>",
         isActive: true,
       },
       {
         title: "Real Estate Sales Manager",
+        slug: "real-estate-sales-manager",
         department: "Sales",
         location: "Limassol, Cyprus",
         type: "full_time",
-        description: "Lead our sales team in promoting luxury residential projects across Limassol. You will manage client relationships, conduct property viewings, and close deals for off-plan and ready properties.",
+        description: "<h3>About the Role</h3><p>Lead our sales team in promoting luxury residential projects across Limassol. You will manage client relationships, conduct property viewings, and close deals for off-plan and ready properties.</p><h3>Requirements</h3><ul><li>5+ years in luxury real estate sales</li><li>Fluent English; Russian or Arabic is a strong asset</li><li>Proven track record closing €500k+ transactions</li><li>Deep knowledge of the Cyprus property market</li></ul><h3>What We Offer</h3><p>Attractive base salary plus uncapped commission, company car, and access to our exclusive portfolio of premium developments.</p>",
         isActive: true,
       },
       {
         title: "Marketing Specialist",
+        slug: "marketing-specialist",
         department: "Marketing",
         location: "Limassol, Cyprus",
         type: "full_time",
-        description: "Drive digital marketing campaigns for our real estate portfolio. Experience with property marketing, social media advertising, and lead generation in the Cyprus market is highly valued.",
+        description: "<h3>About the Role</h3><p>Drive digital marketing campaigns for our real estate portfolio. Experience with property marketing, social media advertising, and lead generation in the Cyprus market is highly valued.</p><h3>Requirements</h3><ul><li>3+ years in digital marketing</li><li>Experience with Meta Ads, Google Ads, and email campaigns</li><li>Strong analytical skills and data-driven mindset</li><li>Experience in real estate or luxury brands is a plus</li></ul><h3>What We Offer</h3><p>Creative freedom to shape the brand identity of Limassol's leading proptech platform, competitive salary, and a collaborative team environment.</p>",
         isActive: true,
       },
       {
         title: "Construction Project Coordinator",
+        slug: "construction-project-coordinator",
         department: "Operations",
         location: "Limassol, Cyprus",
         type: "contract",
-        description: "Coordinate construction timelines, liaise with contractors, and ensure quality standards are met across our active development projects. Report progress to stakeholders and update our digital tracking systems.",
+        description: "<h3>About the Role</h3><p>Coordinate construction timelines, liaise with contractors, and ensure quality standards are met across our active development projects. Report progress to stakeholders and update our digital tracking systems.</p><h3>Requirements</h3><ul><li>Background in civil engineering or construction management</li><li>Experience managing residential developments</li><li>Strong organisational and reporting skills</li><li>Familiarity with construction scheduling software</li></ul><h3>What We Offer</h3><p>Contract engagement with a leading Limassol developer, competitive day rate, and potential for long-term collaboration as our project pipeline grows.</p>",
         isActive: true,
       },
     ],
@@ -459,26 +465,42 @@ async function main() {
         question: "What is the process for purchasing property in Cyprus as a foreign buyer?",
         answer: "Foreign buyers can purchase property in Cyprus with minimal restrictions. The process includes selecting a property, signing a reservation agreement, conducting due diligence, signing the sale contract at the Land Registry, and obtaining Council of Ministers approval (for non-EU citizens). We guide you through every step.",
         sortOrder: 1,
+        category: "Buying Process",
       },
       {
         question: "What are the typical payment terms for off-plan properties?",
         answer: "Payment is usually structured in installments tied to construction milestones: a booking deposit (5-10%), contract signing (20-30%), foundation completion (15-20%), structural completion (20-25%), and final payment on handover (15-20%). Exact terms vary by project.",
         sortOrder: 2,
+        category: "Buying Process",
       },
       {
         question: "Can I earn rental income from my investment property?",
         answer: "Yes. Limassol has strong rental demand driven by the tech sector and tourism. We offer rental management services and can connect you with our partner agencies. Typical net yields range from 4-7% depending on property type and location.",
         sortOrder: 3,
+        category: "Investment",
       },
       {
         question: "What tax benefits are available for property investors in Cyprus?",
         answer: "Cyprus offers attractive tax incentives including no property tax (abolished in 2017), reduced VAT at 5% for primary residences, no inheritance tax, and favorable capital gains treatment. We recommend consulting with a local tax advisor for your specific situation.",
         sortOrder: 4,
+        category: "Investment",
+      },
+      {
+        question: "How long does the title deed transfer process take?",
+        answer: "The title deed transfer in Cyprus typically takes 2-4 weeks after all payments are settled. We work with experienced local lawyers to ensure a smooth process. For off-plan properties, title deeds are issued after construction completion and final inspection.",
+        sortOrder: 5,
+        category: "Legal & Tax",
+      },
+      {
+        question: "Do I need a local bank account to buy property in Cyprus?",
+        answer: "It is advisable to open a Cyprus bank account to facilitate property transactions, especially for mortgage purposes. However, international wire transfers are accepted. We can recommend banking partners experienced with international property buyers.",
+        sortOrder: 6,
+        category: "Legal & Tax",
       },
     ],
   });
 
-  console.log("  Created 4 FAQ entries");
+  console.log("  Created 6 FAQ entries");
 
   // ── Articles ───────────────────────────────────────────
   await prisma.article.createMany({
@@ -488,7 +510,7 @@ async function main() {
         slug: "limassol-hottest-property-market-2026",
         category: "Market Insights",
         excerpt: "Discover why international investors are flocking to Limassol and what makes this coastal city a prime real estate destination.",
-        content: "Limassol has emerged as one of the Mediterranean's most dynamic property markets, attracting investors from across Europe, the Middle East, and Asia. The city's transformation over the past decade has been remarkable, with world-class infrastructure, a thriving tech ecosystem, and an enviable lifestyle drawing high-net-worth individuals.\n\nKey factors driving demand include the Cyprus Investment Programme legacy, a favorable tax environment, EU membership benefits, and a growing expatriate community. Property prices have seen consistent year-over-year growth of 8-12%, with prime seafront locations commanding premium valuations.\n\nFor investors seeking a combination of capital appreciation and rental yield, Limassol offers a compelling proposition that few Mediterranean cities can match.",
+        content: "<p>Limassol has emerged as one of the Mediterranean's most dynamic property markets, attracting investors from across Europe, the Middle East, and Asia. The city's transformation over the past decade has been remarkable, with world-class infrastructure, a thriving tech ecosystem, and an enviable lifestyle drawing high-net-worth individuals.</p><p>Key factors driving demand include the Cyprus Investment Programme legacy, a favorable tax environment, EU membership benefits, and a growing expatriate community. Property prices have seen consistent year-over-year growth of 8–12%, with prime seafront locations commanding premium valuations.</p><p>For investors seeking a combination of capital appreciation and rental yield, Limassol offers a compelling proposition that few Mediterranean cities can match. The city's international airport, modern marina, and cosmopolitan dining scene make it equally attractive as a primary residence or a rental investment.</p>",
         imageUrl: "/images/articles/limassol-market-2026.jpg",
       },
       {
@@ -496,7 +518,7 @@ async function main() {
         slug: "guide-off-plan-property-investment-cyprus",
         category: "Investment Guide",
         excerpt: "Everything you need to know about buying off-plan in Cyprus, from legal requirements to payment structures.",
-        content: "Off-plan property purchases represent one of the most attractive investment strategies in Cyprus real estate. By purchasing during the construction phase, buyers can benefit from lower entry prices, flexible payment terms, and significant capital appreciation by completion.\n\nThis guide covers the essential aspects of off-plan investment: understanding the legal framework, evaluating developer track records, structuring payments around construction milestones, and managing risk. We also discuss the importance of title deed insurance, escrow arrangements, and independent legal representation.\n\nWhether you are a first-time buyer or an experienced investor, understanding these fundamentals will help you make informed decisions and maximize your returns in the Cyprus property market.",
+        content: "<p>Off-plan property purchases represent one of the most attractive investment strategies in Cyprus real estate. By purchasing during the construction phase, buyers can benefit from lower entry prices, flexible payment terms, and significant capital appreciation by completion.</p><p>This guide covers the essential aspects of off-plan investment: understanding the legal framework, evaluating developer track records, structuring payments around construction milestones, and managing risk. We also discuss the importance of title deed insurance, escrow arrangements, and independent legal representation.</p><p>Whether you are a first-time buyer or an experienced investor, understanding these fundamentals will help you make informed decisions and maximize your returns in the Cyprus property market. Our team is available to walk you through each step of the process.</p>",
         imageUrl: "/images/articles/off-plan-guide.jpg",
       },
       {
@@ -504,7 +526,7 @@ async function main() {
         slug: "symphony-residence-construction-update-march-2026",
         category: "Project Updates",
         excerpt: "Our flagship Symphony Residence project is progressing on schedule with the superstructure framework nearing completion.",
-        content: "We are pleased to share that Symphony Residence in Limassol's tourist area has reached a significant construction milestone. The superstructure framework is progressing on schedule, with the third-floor slab now complete and exterior wall work underway.\n\nThe project remains on track for its planned completion in Q3 2026. Buyers can monitor real-time progress through our construction tracker in the Develta portal, which includes drone footage, photo galleries, and milestone completion status.\n\nWith over 60% of units already reserved or sold, Symphony Residence continues to generate strong interest from both local and international buyers. A limited number of premium units remain available, including a spectacular penthouse on the sixth floor.",
+        content: "<p>We are pleased to share that Symphony Residence in Limassol's tourist area has reached a significant construction milestone. The superstructure framework is progressing on schedule, with the third-floor slab now complete and exterior wall work underway.</p><p>The project remains on track for its planned completion in Q3 2026. Buyers can monitor real-time progress through our construction tracker in the Develta portal, which includes drone footage, photo galleries, and milestone completion status.</p><p>With over 60% of units already reserved or sold, Symphony Residence continues to generate strong interest from both local and international buyers. A limited number of premium units remain available, including a spectacular penthouse on the sixth floor with panoramic sea views.</p>",
         imageUrl: "/images/articles/symphony-update-march.jpg",
       },
     ],
