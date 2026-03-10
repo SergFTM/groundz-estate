@@ -40,9 +40,36 @@ export const quizSchema = z.object({
 	phone: z.string().min(7, 'Phone is required')
 });
 
+export const updateLeadSchema = z.object({
+	tag: z.enum(['hot', 'warm', 'cold']).optional(),
+	status: z.enum(['new', 'contacted', 'converted', 'lost']).optional(),
+	agentId: z.string().uuid().optional().or(z.literal('')),
+	name: z.string().min(1).optional(),
+	phone: z.string().min(7).optional()
+});
+
+export const updateRoleSchema = z.object({
+	role: z.enum(['buyer', 'investor', 'agent', 'internal_team'])
+});
+
+export const createProjectSchema = z.object({
+	name: z.string().min(2, 'Project name is required'),
+	slug: z.string().min(2, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens'),
+	location: z.string().min(2, 'Location is required'),
+	status: z.enum(['active', 'coming_soon', 'completed'])
+});
+
+export const documentActionSchema = z.object({
+	id: z.string().uuid()
+});
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
 export type BrochureInput = z.infer<typeof brochureSchema>;
 export type CallBookingInput = z.infer<typeof callBookingSchema>;
 export type QuizInput = z.infer<typeof quizSchema>;
+export type UpdateLeadInput = z.infer<typeof updateLeadSchema>;
+export type UpdateRoleInput = z.infer<typeof updateRoleSchema>;
+export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type DocumentActionInput = z.infer<typeof documentActionSchema>;
