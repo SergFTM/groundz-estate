@@ -63,6 +63,20 @@ export const documentActionSchema = z.object({
 	id: z.string().uuid()
 });
 
+export const jobApplicationSchema = z.object({
+	name: z.string().min(2, 'Name is required'),
+	email: z.string().email('Invalid email address'),
+	linkedinUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+	coverLetter: z.string().min(10, 'Please write at least a short message').optional(),
+});
+
+export const contactSchema = z.object({
+	name: z.string().min(2, 'Name is required'),
+	email: z.string().email('Invalid email address'),
+	phone: z.string().min(7, 'Valid phone number required').optional().or(z.literal('')),
+	message: z.string().min(10, 'Message must be at least 10 characters'),
+});
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
@@ -73,3 +87,5 @@ export type UpdateLeadInput = z.infer<typeof updateLeadSchema>;
 export type UpdateRoleInput = z.infer<typeof updateRoleSchema>;
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type DocumentActionInput = z.infer<typeof documentActionSchema>;
+export type JobApplicationInput = z.infer<typeof jobApplicationSchema>;
+export type ContactInput = z.infer<typeof contactSchema>;
