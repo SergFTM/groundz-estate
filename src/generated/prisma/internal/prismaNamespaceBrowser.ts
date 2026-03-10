@@ -60,6 +60,7 @@ export const ModelName = {
   Document: 'Document',
   Lead: 'Lead',
   InvestmentPool: 'InvestmentPool',
+  InvestorInvestment: 'InvestorInvestment',
   JobPosition: 'JobPosition',
   JobApplication: 'JobApplication',
   Article: 'Article',
@@ -116,7 +117,8 @@ export const UnitScalarFieldEnum = {
   floor: 'floor',
   areaSqm: 'areaSqm',
   price: 'price',
-  status: 'status'
+  status: 'status',
+  buyerId: 'buyerId'
 } as const
 
 export type UnitScalarFieldEnum = (typeof UnitScalarFieldEnum)[keyof typeof UnitScalarFieldEnum]
@@ -179,7 +181,9 @@ export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typ
 export const LeadScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  agentId: 'agentId',
   source: 'source',
+  status: 'status',
   name: 'name',
   email: 'email',
   phone: 'phone',
@@ -206,6 +210,17 @@ export const InvestmentPoolScalarFieldEnum = {
 } as const
 
 export type InvestmentPoolScalarFieldEnum = (typeof InvestmentPoolScalarFieldEnum)[keyof typeof InvestmentPoolScalarFieldEnum]
+
+
+export const InvestorInvestmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  poolId: 'poolId',
+  amount: 'amount',
+  createdAt: 'createdAt'
+} as const
+
+export type InvestorInvestmentScalarFieldEnum = (typeof InvestorInvestmentScalarFieldEnum)[keyof typeof InvestorInvestmentScalarFieldEnum]
 
 
 export const JobPositionScalarFieldEnum = {

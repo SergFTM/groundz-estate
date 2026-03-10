@@ -50,6 +50,7 @@ export type UnitMinAggregateOutputType = {
   areaSqm: number | null
   price: number | null
   status: string | null
+  buyerId: string | null
 }
 
 export type UnitMaxAggregateOutputType = {
@@ -62,6 +63,7 @@ export type UnitMaxAggregateOutputType = {
   areaSqm: number | null
   price: number | null
   status: string | null
+  buyerId: string | null
 }
 
 export type UnitCountAggregateOutputType = {
@@ -74,6 +76,7 @@ export type UnitCountAggregateOutputType = {
   areaSqm: number
   price: number
   status: number
+  buyerId: number
   _all: number
 }
 
@@ -102,6 +105,7 @@ export type UnitMinAggregateInputType = {
   areaSqm?: true
   price?: true
   status?: true
+  buyerId?: true
 }
 
 export type UnitMaxAggregateInputType = {
@@ -114,6 +118,7 @@ export type UnitMaxAggregateInputType = {
   areaSqm?: true
   price?: true
   status?: true
+  buyerId?: true
 }
 
 export type UnitCountAggregateInputType = {
@@ -126,6 +131,7 @@ export type UnitCountAggregateInputType = {
   areaSqm?: true
   price?: true
   status?: true
+  buyerId?: true
   _all?: true
 }
 
@@ -225,6 +231,7 @@ export type UnitGroupByOutputType = {
   areaSqm: number
   price: number | null
   status: string
+  buyerId: string | null
   _count: UnitCountAggregateOutputType | null
   _avg: UnitAvgAggregateOutputType | null
   _sum: UnitSumAggregateOutputType | null
@@ -260,7 +267,9 @@ export type UnitWhereInput = {
   areaSqm?: Prisma.FloatFilter<"Unit"> | number
   price?: Prisma.FloatNullableFilter<"Unit"> | number | null
   status?: Prisma.StringFilter<"Unit"> | string
+  buyerId?: Prisma.StringNullableFilter<"Unit"> | string | null
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  buyer?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   payments?: Prisma.PaymentListRelationFilter
 }
 
@@ -274,7 +283,9 @@ export type UnitOrderByWithRelationInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  buyerId?: Prisma.SortOrderInput | Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
+  buyer?: Prisma.UserOrderByWithRelationInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
 }
 
@@ -291,7 +302,9 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   areaSqm?: Prisma.FloatFilter<"Unit"> | number
   price?: Prisma.FloatNullableFilter<"Unit"> | number | null
   status?: Prisma.StringFilter<"Unit"> | string
+  buyerId?: Prisma.StringNullableFilter<"Unit"> | string | null
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  buyer?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   payments?: Prisma.PaymentListRelationFilter
 }, "id">
 
@@ -305,6 +318,7 @@ export type UnitOrderByWithAggregationInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  buyerId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UnitCountOrderByAggregateInput
   _avg?: Prisma.UnitAvgOrderByAggregateInput
   _max?: Prisma.UnitMaxOrderByAggregateInput
@@ -325,6 +339,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   areaSqm?: Prisma.FloatWithAggregatesFilter<"Unit"> | number
   price?: Prisma.FloatNullableWithAggregatesFilter<"Unit"> | number | null
   status?: Prisma.StringWithAggregatesFilter<"Unit"> | string
+  buyerId?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
 }
 
 export type UnitCreateInput = {
@@ -337,6 +352,7 @@ export type UnitCreateInput = {
   price?: number | null
   status?: string
   project: Prisma.ProjectCreateNestedOneWithoutUnitsInput
+  buyer?: Prisma.UserCreateNestedOneWithoutUnitsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUnitInput
 }
 
@@ -350,6 +366,7 @@ export type UnitUncheckedCreateInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  buyerId?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUnitInput
 }
 
@@ -363,6 +380,7 @@ export type UnitUpdateInput = {
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutUnitsNestedInput
+  buyer?: Prisma.UserUpdateOneWithoutUnitsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUnitNestedInput
 }
 
@@ -376,6 +394,7 @@ export type UnitUncheckedUpdateInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUnitNestedInput
 }
 
@@ -389,6 +408,7 @@ export type UnitCreateManyInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  buyerId?: string | null
 }
 
 export type UnitUpdateManyMutationInput = {
@@ -412,6 +432,7 @@ export type UnitUncheckedUpdateManyInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitListRelationFilter = {
@@ -434,6 +455,7 @@ export type UnitCountOrderByAggregateInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  buyerId?: Prisma.SortOrder
 }
 
 export type UnitAvgOrderByAggregateInput = {
@@ -453,6 +475,7 @@ export type UnitMaxOrderByAggregateInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  buyerId?: Prisma.SortOrder
 }
 
 export type UnitMinOrderByAggregateInput = {
@@ -465,6 +488,7 @@ export type UnitMinOrderByAggregateInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  buyerId?: Prisma.SortOrder
 }
 
 export type UnitSumOrderByAggregateInput = {
@@ -477,6 +501,48 @@ export type UnitSumOrderByAggregateInput = {
 export type UnitScalarRelationFilter = {
   is?: Prisma.UnitWhereInput
   isNot?: Prisma.UnitWhereInput
+}
+
+export type UnitCreateNestedManyWithoutBuyerInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutBuyerInput, Prisma.UnitUncheckedCreateWithoutBuyerInput> | Prisma.UnitCreateWithoutBuyerInput[] | Prisma.UnitUncheckedCreateWithoutBuyerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutBuyerInput | Prisma.UnitCreateOrConnectWithoutBuyerInput[]
+  createMany?: Prisma.UnitCreateManyBuyerInputEnvelope
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+}
+
+export type UnitUncheckedCreateNestedManyWithoutBuyerInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutBuyerInput, Prisma.UnitUncheckedCreateWithoutBuyerInput> | Prisma.UnitCreateWithoutBuyerInput[] | Prisma.UnitUncheckedCreateWithoutBuyerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutBuyerInput | Prisma.UnitCreateOrConnectWithoutBuyerInput[]
+  createMany?: Prisma.UnitCreateManyBuyerInputEnvelope
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+}
+
+export type UnitUpdateManyWithoutBuyerNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutBuyerInput, Prisma.UnitUncheckedCreateWithoutBuyerInput> | Prisma.UnitCreateWithoutBuyerInput[] | Prisma.UnitUncheckedCreateWithoutBuyerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutBuyerInput | Prisma.UnitCreateOrConnectWithoutBuyerInput[]
+  upsert?: Prisma.UnitUpsertWithWhereUniqueWithoutBuyerInput | Prisma.UnitUpsertWithWhereUniqueWithoutBuyerInput[]
+  createMany?: Prisma.UnitCreateManyBuyerInputEnvelope
+  set?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  disconnect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  delete?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  update?: Prisma.UnitUpdateWithWhereUniqueWithoutBuyerInput | Prisma.UnitUpdateWithWhereUniqueWithoutBuyerInput[]
+  updateMany?: Prisma.UnitUpdateManyWithWhereWithoutBuyerInput | Prisma.UnitUpdateManyWithWhereWithoutBuyerInput[]
+  deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
+}
+
+export type UnitUncheckedUpdateManyWithoutBuyerNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutBuyerInput, Prisma.UnitUncheckedCreateWithoutBuyerInput> | Prisma.UnitCreateWithoutBuyerInput[] | Prisma.UnitUncheckedCreateWithoutBuyerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutBuyerInput | Prisma.UnitCreateOrConnectWithoutBuyerInput[]
+  upsert?: Prisma.UnitUpsertWithWhereUniqueWithoutBuyerInput | Prisma.UnitUpsertWithWhereUniqueWithoutBuyerInput[]
+  createMany?: Prisma.UnitCreateManyBuyerInputEnvelope
+  set?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  disconnect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  delete?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  update?: Prisma.UnitUpdateWithWhereUniqueWithoutBuyerInput | Prisma.UnitUpdateWithWhereUniqueWithoutBuyerInput[]
+  updateMany?: Prisma.UnitUpdateManyWithWhereWithoutBuyerInput | Prisma.UnitUpdateManyWithWhereWithoutBuyerInput[]
+  deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
 }
 
 export type UnitCreateNestedManyWithoutProjectInput = {
@@ -559,6 +625,73 @@ export type UnitUpdateOneRequiredWithoutPaymentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UnitUpdateWithoutPaymentsInput>, Prisma.UnitUncheckedUpdateWithoutPaymentsInput>
 }
 
+export type UnitCreateWithoutBuyerInput = {
+  id?: string
+  code: string
+  type: string
+  bedrooms: number
+  floor: number
+  areaSqm: number
+  price?: number | null
+  status?: string
+  project: Prisma.ProjectCreateNestedOneWithoutUnitsInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUnitInput
+}
+
+export type UnitUncheckedCreateWithoutBuyerInput = {
+  id?: string
+  projectId: string
+  code: string
+  type: string
+  bedrooms: number
+  floor: number
+  areaSqm: number
+  price?: number | null
+  status?: string
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutBuyerInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutBuyerInput, Prisma.UnitUncheckedCreateWithoutBuyerInput>
+}
+
+export type UnitCreateManyBuyerInputEnvelope = {
+  data: Prisma.UnitCreateManyBuyerInput | Prisma.UnitCreateManyBuyerInput[]
+}
+
+export type UnitUpsertWithWhereUniqueWithoutBuyerInput = {
+  where: Prisma.UnitWhereUniqueInput
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutBuyerInput, Prisma.UnitUncheckedUpdateWithoutBuyerInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutBuyerInput, Prisma.UnitUncheckedCreateWithoutBuyerInput>
+}
+
+export type UnitUpdateWithWhereUniqueWithoutBuyerInput = {
+  where: Prisma.UnitWhereUniqueInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutBuyerInput, Prisma.UnitUncheckedUpdateWithoutBuyerInput>
+}
+
+export type UnitUpdateManyWithWhereWithoutBuyerInput = {
+  where: Prisma.UnitScalarWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateManyMutationInput, Prisma.UnitUncheckedUpdateManyWithoutBuyerInput>
+}
+
+export type UnitScalarWhereInput = {
+  AND?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
+  OR?: Prisma.UnitScalarWhereInput[]
+  NOT?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
+  id?: Prisma.StringFilter<"Unit"> | string
+  projectId?: Prisma.StringFilter<"Unit"> | string
+  code?: Prisma.StringFilter<"Unit"> | string
+  type?: Prisma.StringFilter<"Unit"> | string
+  bedrooms?: Prisma.IntFilter<"Unit"> | number
+  floor?: Prisma.IntFilter<"Unit"> | number
+  areaSqm?: Prisma.FloatFilter<"Unit"> | number
+  price?: Prisma.FloatNullableFilter<"Unit"> | number | null
+  status?: Prisma.StringFilter<"Unit"> | string
+  buyerId?: Prisma.StringNullableFilter<"Unit"> | string | null
+}
+
 export type UnitCreateWithoutProjectInput = {
   id?: string
   code: string
@@ -568,6 +701,7 @@ export type UnitCreateWithoutProjectInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  buyer?: Prisma.UserCreateNestedOneWithoutUnitsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUnitInput
 }
 
@@ -580,6 +714,7 @@ export type UnitUncheckedCreateWithoutProjectInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  buyerId?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUnitInput
 }
 
@@ -608,21 +743,6 @@ export type UnitUpdateManyWithWhereWithoutProjectInput = {
   data: Prisma.XOR<Prisma.UnitUpdateManyMutationInput, Prisma.UnitUncheckedUpdateManyWithoutProjectInput>
 }
 
-export type UnitScalarWhereInput = {
-  AND?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
-  OR?: Prisma.UnitScalarWhereInput[]
-  NOT?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
-  id?: Prisma.StringFilter<"Unit"> | string
-  projectId?: Prisma.StringFilter<"Unit"> | string
-  code?: Prisma.StringFilter<"Unit"> | string
-  type?: Prisma.StringFilter<"Unit"> | string
-  bedrooms?: Prisma.IntFilter<"Unit"> | number
-  floor?: Prisma.IntFilter<"Unit"> | number
-  areaSqm?: Prisma.FloatFilter<"Unit"> | number
-  price?: Prisma.FloatNullableFilter<"Unit"> | number | null
-  status?: Prisma.StringFilter<"Unit"> | string
-}
-
 export type UnitCreateWithoutPaymentsInput = {
   id?: string
   code: string
@@ -633,6 +753,7 @@ export type UnitCreateWithoutPaymentsInput = {
   price?: number | null
   status?: string
   project: Prisma.ProjectCreateNestedOneWithoutUnitsInput
+  buyer?: Prisma.UserCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutPaymentsInput = {
@@ -645,6 +766,7 @@ export type UnitUncheckedCreateWithoutPaymentsInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  buyerId?: string | null
 }
 
 export type UnitCreateOrConnectWithoutPaymentsInput = {
@@ -673,9 +795,61 @@ export type UnitUpdateWithoutPaymentsInput = {
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutUnitsNestedInput
+  buyer?: Prisma.UserUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  bedrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.IntFieldUpdateOperationsInput | number
+  areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type UnitCreateManyBuyerInput = {
+  id?: string
+  projectId: string
+  code: string
+  type: string
+  bedrooms: number
+  floor: number
+  areaSqm: number
+  price?: number | null
+  status?: string
+}
+
+export type UnitUpdateWithoutBuyerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  bedrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.IntFieldUpdateOperationsInput | number
+  areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutUnitsNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutBuyerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  bedrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.IntFieldUpdateOperationsInput | number
+  areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateManyWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
@@ -696,6 +870,7 @@ export type UnitCreateManyProjectInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  buyerId?: string | null
 }
 
 export type UnitUpdateWithoutProjectInput = {
@@ -707,6 +882,7 @@ export type UnitUpdateWithoutProjectInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  buyer?: Prisma.UserUpdateOneWithoutUnitsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUnitNestedInput
 }
 
@@ -719,6 +895,7 @@ export type UnitUncheckedUpdateWithoutProjectInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUnitNestedInput
 }
 
@@ -731,6 +908,7 @@ export type UnitUncheckedUpdateManyWithoutProjectInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -774,7 +952,9 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  buyerId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
   payments?: boolean | Prisma.Unit$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
@@ -789,7 +969,9 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  buyerId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
 export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -802,7 +984,9 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  buyerId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
 export type UnitSelectScalar = {
@@ -815,25 +999,30 @@ export type UnitSelectScalar = {
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  buyerId?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "code" | "type" | "bedrooms" | "floor" | "areaSqm" | "price" | "status", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "code" | "type" | "bedrooms" | "floor" | "areaSqm" | "price" | "status" | "buyerId", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
   payments?: boolean | Prisma.Unit$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
 }
 export type UnitIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
 }
 
 export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Unit"
   objects: {
     project: Prisma.$ProjectPayload<ExtArgs>
+    buyer: Prisma.$UserPayload<ExtArgs> | null
     payments: Prisma.$PaymentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -846,6 +1035,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     areaSqm: number
     price: number | null
     status: string
+    buyerId: string | null
   }, ExtArgs["result"]["unit"]>
   composites: {}
 }
@@ -1241,6 +1431,7 @@ readonly fields: UnitFieldRefs;
 export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  buyer<T extends Prisma.Unit$buyerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$buyerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   payments<T extends Prisma.Unit$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1280,6 +1471,7 @@ export interface UnitFieldRefs {
   readonly areaSqm: Prisma.FieldRef<"Unit", 'Float'>
   readonly price: Prisma.FieldRef<"Unit", 'Float'>
   readonly status: Prisma.FieldRef<"Unit", 'String'>
+  readonly buyerId: Prisma.FieldRef<"Unit", 'String'>
 }
     
 
@@ -1671,6 +1863,25 @@ export type UnitDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Units to delete.
    */
   limit?: number
+}
+
+/**
+ * Unit.buyer
+ */
+export type Unit$buyerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

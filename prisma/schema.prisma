@@ -17,9 +17,12 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  leads     Lead[]
-  documents Document[]
-  payments  Payment[]
+  leads       Lead[]               @relation("LeadUser")
+  agentLeads  Lead[]               @relation("LeadAgent")
+  documents   Document[]
+  payments    Payment[]
+  units       Unit[]               @relation("UnitBuyer")
+  investments InvestorInvestment[]
 }
 
 model Project {
@@ -46,8 +49,10 @@ model Unit {
   areaSqm   Float
   price     Float?
   status    String    @default("available") // available | reserved | sold
+  buyerId   String?
 
   project   Project   @relation(fields: [projectId], references: [id])
+  buyer     User?     @relation("UnitBuyer", fields: [buyerId], references: [id])
   payments  Payment[]
 }
 
@@ -106,7 +111,9 @@ model Document {
 model Lead {
   id        String   @id @default(uuid())
   userId    String?
+  agentId   String?
   source    String   // quiz | newsletter | brochure | call_booking
+  status    String   @default("new") // new | contacted | converted | lost
   name      String?
   email     String?
   phone     String?
@@ -114,7 +121,8 @@ model Lead {
   tag       String?  // hot | warm | cold
   createdAt DateTime @default(now())
 
-  user      User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation("LeadUser", fields: [userId], references: [id])
+  agent     User?    @relation("LeadAgent", fields: [agentId], references: [id])
 }
 
 model InvestmentPool {
@@ -129,6 +137,19 @@ model InvestmentPool {
   status       String   @default("active") // active | closed | completed
   imageUrl     String?
   createdAt    DateTime @default(now())
+
+  investments InvestorInvestment[]
+}
+
+model InvestorInvestment {
+  id        String         @id @default(uuid())
+  userId    String
+  poolId    String
+  amount    Float
+  createdAt DateTime       @default(now())
+
+  user      User           @relation(fields: [userId], references: [id])
+  pool      InvestmentPool @relation(fields: [poolId], references: [id])
 }
 
 model JobPosition {

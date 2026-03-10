@@ -87,6 +87,11 @@ export type Lead = Prisma.LeadModel
  */
 export type InvestmentPool = Prisma.InvestmentPoolModel
 /**
+ * Model InvestorInvestment
+ * 
+ */
+export type InvestorInvestment = Prisma.InvestorInvestmentModel
+/**
  * Model JobPosition
  * 
  */

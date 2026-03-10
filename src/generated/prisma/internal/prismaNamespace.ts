@@ -393,6 +393,7 @@ export const ModelName = {
   Document: 'Document',
   Lead: 'Lead',
   InvestmentPool: 'InvestmentPool',
+  InvestorInvestment: 'InvestorInvestment',
   JobPosition: 'JobPosition',
   JobApplication: 'JobApplication',
   Article: 'Article',
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "lead" | "investmentPool" | "jobPosition" | "jobApplication" | "article" | "fAQ"
+    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "lead" | "investmentPool" | "investorInvestment" | "jobPosition" | "jobApplication" | "article" | "fAQ"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1082,6 +1083,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InvestorInvestment: {
+      payload: Prisma.$InvestorInvestmentPayload<ExtArgs>
+      fields: Prisma.InvestorInvestmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InvestorInvestmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InvestorInvestmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>
+        }
+        findFirst: {
+          args: Prisma.InvestorInvestmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InvestorInvestmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>
+        }
+        findMany: {
+          args: Prisma.InvestorInvestmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>[]
+        }
+        create: {
+          args: Prisma.InvestorInvestmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>
+        }
+        createMany: {
+          args: Prisma.InvestorInvestmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InvestorInvestmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>[]
+        }
+        delete: {
+          args: Prisma.InvestorInvestmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>
+        }
+        update: {
+          args: Prisma.InvestorInvestmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.InvestorInvestmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InvestorInvestmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InvestorInvestmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.InvestorInvestmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvestorInvestmentPayload>
+        }
+        aggregate: {
+          args: Prisma.InvestorInvestmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInvestorInvestment>
+        }
+        groupBy: {
+          args: Prisma.InvestorInvestmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InvestorInvestmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InvestorInvestmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InvestorInvestmentCountAggregateOutputType> | number
+        }
+      }
+    }
     JobPosition: {
       payload: Prisma.$JobPositionPayload<ExtArgs>
       fields: Prisma.JobPositionFieldRefs
@@ -1451,7 +1526,8 @@ export const UnitScalarFieldEnum = {
   floor: 'floor',
   areaSqm: 'areaSqm',
   price: 'price',
-  status: 'status'
+  status: 'status',
+  buyerId: 'buyerId'
 } as const
 
 export type UnitScalarFieldEnum = (typeof UnitScalarFieldEnum)[keyof typeof UnitScalarFieldEnum]
@@ -1514,7 +1590,9 @@ export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typ
 export const LeadScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  agentId: 'agentId',
   source: 'source',
+  status: 'status',
   name: 'name',
   email: 'email',
   phone: 'phone',
@@ -1541,6 +1619,17 @@ export const InvestmentPoolScalarFieldEnum = {
 } as const
 
 export type InvestmentPoolScalarFieldEnum = (typeof InvestmentPoolScalarFieldEnum)[keyof typeof InvestmentPoolScalarFieldEnum]
+
+
+export const InvestorInvestmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  poolId: 'poolId',
+  amount: 'amount',
+  createdAt: 'createdAt'
+} as const
+
+export type InvestorInvestmentScalarFieldEnum = (typeof InvestorInvestmentScalarFieldEnum)[keyof typeof InvestorInvestmentScalarFieldEnum]
 
 
 export const JobPositionScalarFieldEnum = {
@@ -1755,6 +1844,7 @@ export type GlobalOmitConfig = {
   document?: Prisma.DocumentOmit
   lead?: Prisma.LeadOmit
   investmentPool?: Prisma.InvestmentPoolOmit
+  investorInvestment?: Prisma.InvestorInvestmentOmit
   jobPosition?: Prisma.JobPositionOmit
   jobApplication?: Prisma.JobApplicationOmit
   article?: Prisma.ArticleOmit
