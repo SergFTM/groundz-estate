@@ -13,6 +13,14 @@
 
 	let { user, transparent = false }: Props = $props();
 
+	const cabinetHref = $derived(
+		user?.role === 'internal_team' ? '/admin'
+		: user?.role === 'buyer' ? '/buyer'
+		: user?.role === 'investor' ? '/investor'
+		: user?.role === 'agent' ? '/agent'
+		: null
+	);
+
 	let mobileOpen = $state(false);
 	let scrolled = $state(false);
 
@@ -50,6 +58,9 @@
 			{#each navLinks as link}
 				<a href={link.href} class="nav__link">{link.label}</a>
 			{/each}
+			{#if user && cabinetHref}
+				<a href={cabinetHref} class="nav__link nav__link--cabinet">Cabinet</a>
+			{/if}
 			<span class="nav__lang">EN</span>
 			{#if user}
 				<div class="nav__user">
@@ -90,6 +101,9 @@
 		{#each navLinks as link}
 			<a href={link.href} class="sidebar__link" onclick={closeMobile}>{link.label}</a>
 		{/each}
+		{#if user && cabinetHref}
+			<a href={cabinetHref} class="sidebar__link" onclick={closeMobile}>Cabinet</a>
+		{/if}
 	</nav>
 	<div class="sidebar__footer">
 		{#if user}
