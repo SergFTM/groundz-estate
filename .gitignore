@@ -30,3 +30,4 @@ prisma/dev.db-journal
 static/uploads/
 
 /../generated/prisma
+.worktrees/
