@@ -35,7 +35,7 @@ export const actions = {
     }
 
     const position = await db.jobPosition.findUnique({ where: { slug: params.slug } });
-    if (!position) throw error(404, 'Position not found');
+    if (!position || !position.isActive) throw error(404, 'Position not found');
 
     await db.jobApplication.create({
       data: {
