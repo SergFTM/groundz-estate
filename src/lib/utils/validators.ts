@@ -59,6 +59,25 @@ export const createProjectSchema = z.object({
 	status: z.enum(['active', 'coming_soon', 'completed'])
 });
 
+export const updateProjectSchema = z.object({
+	name: z.string().min(2, 'Project name is required'),
+	slug: z.string().min(2, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens'),
+	location: z.string().min(2, 'Location is required'),
+	description: z.string().min(10, 'Description must be at least 10 characters').optional().or(z.literal('')),
+	imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+	status: z.enum(['active', 'coming_soon', 'completed']),
+});
+
+export const addUnitSchema = z.object({
+	code: z.string().min(1, 'Unit code is required'),
+	type: z.enum(['studio', '1bed', '2bed', '3bed', 'penthouse']),
+	bedrooms: z.coerce.number().int().min(0, 'Bedrooms must be 0 or more'),
+	floor: z.coerce.number().int('Floor must be a whole number'),
+	areaSqm: z.coerce.number().positive('Area must be positive'),
+	price: z.coerce.number().positive('Price must be positive').optional(),
+	status: z.enum(['available', 'reserved', 'sold']).default('available'),
+});
+
 export const documentActionSchema = z.object({
 	id: z.string().uuid()
 });
@@ -86,6 +105,8 @@ export type QuizInput = z.infer<typeof quizSchema>;
 export type UpdateLeadInput = z.infer<typeof updateLeadSchema>;
 export type UpdateRoleInput = z.infer<typeof updateRoleSchema>;
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
+export type AddUnitInput = z.infer<typeof addUnitSchema>;
 export type DocumentActionInput = z.infer<typeof documentActionSchema>;
 export type JobApplicationInput = z.infer<typeof jobApplicationSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
