@@ -4,8 +4,8 @@
     name: string;
     description?: string | null;
     status: string;
-    startDate?: string | null;
-    endDate?: string | null;
+    startDate?: Date | string | null;
+    endDate?: Date | string | null;
     sortOrder: number;
     media?: { id: string; url: string; type: string; caption?: string | null }[];
   }

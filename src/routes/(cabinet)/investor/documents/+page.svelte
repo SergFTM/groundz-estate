@@ -37,7 +37,7 @@
     }
   ];
 
-  let rows = $derived(data.documents.map((d: { name: string; category: string; status: string; uploadedAt: string }) => ({
+  let rows = $derived(data.documents.map((d) => ({
     name: d.name,
     category: d.category,
     status: d.status,

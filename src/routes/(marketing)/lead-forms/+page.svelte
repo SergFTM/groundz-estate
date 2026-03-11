@@ -5,6 +5,10 @@
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
+	let formErrors = $derived(
+		(form as { errors?: Record<string, string> } | null)?.errors ?? {}
+	);
+
 	let newsletterSuccess = $state(false);
 	let brochureSuccess = $state(false);
 	let callBookingSuccess = $state(false);
@@ -86,8 +90,8 @@
 									placeholder="you@example.com"
 									required
 								/>
-								{#if form?.form === 'newsletter' && form?.errors?.email}
-									<p class="form-error">{form.errors.email}</p>
+								{#if form?.form === 'newsletter' && formErrors.email}
+									<p class="form-error">{formErrors.email}</p>
 								{/if}
 							</div>
 
@@ -96,8 +100,8 @@
 									<input type="checkbox" name="gdprConsent" />
 									<span>I agree to receive marketing communications</span>
 								</label>
-								{#if form?.form === 'newsletter' && form?.errors?.gdprConsent}
-									<p class="form-error">{form.errors.gdprConsent}</p>
+								{#if form?.form === 'newsletter' && formErrors.gdprConsent}
+									<p class="form-error">{formErrors.gdprConsent}</p>
 								{/if}
 							</div>
 
@@ -155,8 +159,8 @@
 									placeholder="John Doe"
 									required
 								/>
-								{#if form?.form === 'brochure' && form?.errors?.name}
-									<p class="form-error">{form.errors.name}</p>
+								{#if form?.form === 'brochure' && formErrors.name}
+									<p class="form-error">{formErrors.name}</p>
 								{/if}
 							</div>
 
@@ -170,8 +174,8 @@
 									placeholder="you@example.com"
 									required
 								/>
-								{#if form?.form === 'brochure' && form?.errors?.email}
-									<p class="form-error">{form.errors.email}</p>
+								{#if form?.form === 'brochure' && formErrors.email}
+									<p class="form-error">{formErrors.email}</p>
 								{/if}
 							</div>
 
@@ -185,8 +189,8 @@
 									placeholder="+357 XX XXX XXX"
 									required
 								/>
-								{#if form?.form === 'brochure' && form?.errors?.phone}
-									<p class="form-error">{form.errors.phone}</p>
+								{#if form?.form === 'brochure' && formErrors.phone}
+									<p class="form-error">{formErrors.phone}</p>
 								{/if}
 							</div>
 
@@ -198,8 +202,8 @@
 										<option value={project.id}>{project.name}</option>
 									{/each}
 								</select>
-								{#if form?.form === 'brochure' && form?.errors?.project}
-									<p class="form-error">{form.errors.project}</p>
+								{#if form?.form === 'brochure' && formErrors.project}
+									<p class="form-error">{formErrors.project}</p>
 								{/if}
 							</div>
 
@@ -253,8 +257,8 @@
 									placeholder="John Doe"
 									required
 								/>
-								{#if form?.form === 'callBooking' && form?.errors?.name}
-									<p class="form-error">{form.errors.name}</p>
+								{#if form?.form === 'callBooking' && formErrors.name}
+									<p class="form-error">{formErrors.name}</p>
 								{/if}
 							</div>
 
@@ -268,8 +272,8 @@
 									placeholder="+357 XX XXX XXX"
 									required
 								/>
-								{#if form?.form === 'callBooking' && form?.errors?.phone}
-									<p class="form-error">{form.errors.phone}</p>
+								{#if form?.form === 'callBooking' && formErrors.phone}
+									<p class="form-error">{formErrors.phone}</p>
 								{/if}
 							</div>
 
@@ -281,8 +285,8 @@
 									<option value="afternoon">Afternoon (12:00 — 17:00)</option>
 									<option value="evening">Evening (17:00 — 20:00)</option>
 								</select>
-								{#if form?.form === 'callBooking' && form?.errors?.timeSlot}
-									<p class="form-error">{form.errors.timeSlot}</p>
+								{#if form?.form === 'callBooking' && formErrors.timeSlot}
+									<p class="form-error">{formErrors.timeSlot}</p>
 								{/if}
 							</div>
 

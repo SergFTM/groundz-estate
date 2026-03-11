@@ -22,9 +22,7 @@
           <div class="pool-card__header">
             <div>
               <h2 class="pool-card__name">{pool.name}</h2>
-              {#if pool.location}
-                <p class="pool-card__location">{pool.location}</p>
-              {/if}
+              <p class="pool-card__location">{pool.projectName}</p>
             </div>
             <StatusBadge status={pool.status} />
           </div>

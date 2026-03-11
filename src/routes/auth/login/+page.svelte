@@ -4,6 +4,13 @@
 
 	let { form }: { form: ActionData } = $props();
 
+	let formErrors = $derived(
+		(form as { errors?: Record<string, string> } | null)?.errors ?? {}
+	);
+	let formValues = $derived(
+		(form as { values?: Record<string, string> } | null)?.values ?? {}
+	);
+
 	let activeTab = $state<'login' | 'register'>('login');
 </script>
 
@@ -51,11 +58,11 @@
 						id="login-email"
 						name="email"
 						placeholder="you@example.com"
-						value={form?.email ?? form?.values?.email ?? ''}
+						value={formValues.email ?? ''}
 						required
 					/>
-					{#if form?.errors?.email}
-						<p class="form-error">{form.errors.email}</p>
+					{#if formErrors.email}
+						<p class="form-error">{formErrors.email}</p>
 					{/if}
 				</div>
 
@@ -69,8 +76,8 @@
 						placeholder="Your password"
 						required
 					/>
-					{#if form?.errors?.password}
-						<p class="form-error">{form.errors.password}</p>
+					{#if formErrors.password}
+						<p class="form-error">{formErrors.password}</p>
 					{/if}
 				</div>
 
@@ -86,11 +93,11 @@
 						id="reg-name"
 						name="name"
 						placeholder="John Doe"
-						value={form?.values?.name ?? ''}
+						value={formValues.name ?? ''}
 						required
 					/>
-					{#if form?.errors?.name}
-						<p class="form-error">{form.errors.name}</p>
+					{#if formErrors.name}
+						<p class="form-error">{formErrors.name}</p>
 					{/if}
 				</div>
 
@@ -102,11 +109,11 @@
 						id="reg-email"
 						name="email"
 						placeholder="you@example.com"
-						value={form?.values?.email ?? ''}
+						value={formValues.email ?? ''}
 						required
 					/>
-					{#if form?.errors?.email}
-						<p class="form-error">{form.errors.email}</p>
+					{#if formErrors.email}
+						<p class="form-error">{formErrors.email}</p>
 					{/if}
 				</div>
 
@@ -120,20 +127,20 @@
 						placeholder="Min. 6 characters"
 						required
 					/>
-					{#if form?.errors?.password}
-						<p class="form-error">{form.errors.password}</p>
+					{#if formErrors.password}
+						<p class="form-error">{formErrors.password}</p>
 					{/if}
 				</div>
 
 				<div class="form-group">
 					<label class="form-label" for="reg-role">I am a</label>
 					<select class="form-input form-select" id="reg-role" name="role" required>
-						<option value="buyer" selected={form?.values?.role === 'buyer'}>Buyer</option>
-						<option value="investor" selected={form?.values?.role === 'investor'}>Investor</option>
-						<option value="agent" selected={form?.values?.role === 'agent'}>Agent</option>
+						<option value="buyer" selected={formValues.role === 'buyer'}>Buyer</option>
+						<option value="investor" selected={formValues.role === 'investor'}>Investor</option>
+						<option value="agent" selected={formValues.role === 'agent'}>Agent</option>
 					</select>
-					{#if form?.errors?.role}
-						<p class="form-error">{form.errors.role}</p>
+					{#if formErrors.role}
+						<p class="form-error">{formErrors.role}</p>
 					{/if}
 				</div>
 

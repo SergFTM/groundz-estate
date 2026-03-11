@@ -33,7 +33,7 @@
               {/if}
             </div>
             <div style="display:flex;align-items:center;gap:var(--space-4);">
-              <span style="font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;font-weight:600;letter-spacing:0.05em;">{doc.type}</span>
+              <span style="font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;font-weight:600;letter-spacing:0.05em;">{doc.category}</span>
               <span style="font-size:var(--text-xs);color:var(--color-text-muted);">{new Date(doc.uploadedAt).toLocaleDateString('en-GB')}</span>
             </div>
           </div>

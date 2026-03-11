@@ -163,17 +163,21 @@ model JobPosition {
   isActive    Boolean  @default(true)
   slug        String   @unique
   createdAt   DateTime @default(now())
+
+  applications JobApplication[]
 }
 
 model JobApplication {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   positionId  String
   name        String
   email       String
   linkedinUrl String?
   resumeUrl   String?
   coverLetter String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
+
+  position    JobPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
 }
 
 model Article {

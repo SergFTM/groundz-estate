@@ -5,6 +5,10 @@
 
 	let { form }: { form: ActionData } = $props();
 
+	let formErrors = $derived(
+		(form as { errors?: Record<string, string> } | null)?.errors ?? {}
+	);
+
 	let step = $state(1);
 	let timing = $state('');
 	let purpose = $state('');
@@ -145,8 +149,8 @@
 								</button>
 							{/each}
 						</div>
-						{#if form?.errors?.timing}
-							<p class="form-error">{form.errors.timing}</p>
+						{#if formErrors.timing}
+							<p class="form-error">{formErrors.timing}</p>
 						{/if}
 					</div>
 				{:else if step === 2}
@@ -164,8 +168,8 @@
 								</button>
 							{/each}
 						</div>
-						{#if form?.errors?.purpose}
-							<p class="form-error">{form.errors.purpose}</p>
+						{#if formErrors.purpose}
+							<p class="form-error">{formErrors.purpose}</p>
 						{/if}
 					</div>
 				{:else if step === 3}
@@ -183,8 +187,8 @@
 								</button>
 							{/each}
 						</div>
-						{#if form?.errors?.budget}
-							<p class="form-error">{form.errors.budget}</p>
+						{#if formErrors.budget}
+							<p class="form-error">{formErrors.budget}</p>
 						{/if}
 					</div>
 				{:else if step === 4}
@@ -202,8 +206,8 @@
 								</button>
 							{/each}
 						</div>
-						{#if form?.errors?.installment}
-							<p class="form-error">{form.errors.installment}</p>
+						{#if formErrors.installment}
+							<p class="form-error">{formErrors.installment}</p>
 						{/if}
 					</div>
 				{:else if step === 5}
@@ -223,8 +227,8 @@
 									bind:value={name}
 									required
 								/>
-								{#if form?.errors?.name}
-									<p class="form-error">{form.errors.name}</p>
+								{#if formErrors.name}
+									<p class="form-error">{formErrors.name}</p>
 								{/if}
 							</div>
 
@@ -239,8 +243,8 @@
 									bind:value={phone}
 									required
 								/>
-								{#if form?.errors?.phone}
-									<p class="form-error">{form.errors.phone}</p>
+								{#if formErrors.phone}
+									<p class="form-error">{formErrors.phone}</p>
 								{/if}
 							</div>
 

@@ -19,7 +19,7 @@
 <div class="pool-detail-page">
   <a href="/investor/pools" class="back-link">← Back to Pools</a>
 
-  <DetailCard title={data.pool.name} subtitle={data.pool.location ?? undefined}>
+  <DetailCard title={data.pool.name} subtitle={data.pool.projectName ?? undefined}>
     <div class="pool-detail">
       <div class="pool-detail__status">
         <StatusBadge status={data.pool.status} />
