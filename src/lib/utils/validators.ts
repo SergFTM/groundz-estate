@@ -59,23 +59,19 @@ export const createProjectSchema = z.object({
 	status: z.enum(['active', 'coming_soon', 'completed'])
 });
 
-export const updateProjectSchema = z.object({
-	name: z.string().min(2, 'Project name is required'),
-	slug: z.string().min(2, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens'),
-	location: z.string().min(2, 'Location is required'),
+export const updateProjectSchema = createProjectSchema.extend({
 	description: z.string().min(10, 'Description must be at least 10 characters').optional().or(z.literal('')),
-	imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-	status: z.enum(['active', 'coming_soon', 'completed']),
+	imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal(''))
 });
 
 export const addUnitSchema = z.object({
 	code: z.string().min(1, 'Unit code is required'),
 	type: z.enum(['studio', '1bed', '2bed', '3bed', 'penthouse']),
 	bedrooms: z.coerce.number().int().min(0, 'Bedrooms must be 0 or more'),
-	floor: z.coerce.number().int('Floor must be a whole number'),
+	floor: z.coerce.number().int('Floor must be a whole number').min(-5),
 	areaSqm: z.coerce.number().positive('Area must be positive'),
 	price: z.coerce.number().positive('Price must be positive').optional(),
-	status: z.enum(['available', 'reserved', 'sold']).default('available'),
+	status: z.enum(['available', 'reserved', 'sold']).default('available')
 });
 
 export const documentActionSchema = z.object({
