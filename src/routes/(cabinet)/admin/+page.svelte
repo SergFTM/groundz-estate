@@ -1,6 +1,7 @@
 <script lang="ts">
   import { formatCurrency } from '$lib/utils/formatters';
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
+  import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
 
   let { data } = $props();
 </script>
@@ -33,6 +34,93 @@
       <span class="kpi-card__label">Overdue Payments</span>
       <span class="kpi-card__value kpi-card__value--warning">{data.kpis.overdueCount}</span>
       <span class="kpi-card__sub">{formatCurrency(data.kpis.overdueTotal)} total</span>
+    </div>
+  </div>
+
+  <div class="admin-dash__kpis admin-dash__kpis--secondary">
+    <div class="kpi-card">
+      <span class="kpi-card__label">Total Users</span>
+      <span class="kpi-card__value">{data.kpis.totalUsers}</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-card__label">Investment Raised</span>
+      <span class="kpi-card__value kpi-card__value--success">{formatCurrency(data.kpis.totalInvestmentRaised)}</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-card__label">Active Pools</span>
+      <span class="kpi-card__value">{data.kpis.activePools}</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-card__label">Pending Documents</span>
+      <span class="kpi-card__value kpi-card__value--warning">{data.kpis.pendingDocuments}</span>
+    </div>
+  </div>
+
+  <div class="admin-dash__kpis">
+    <div class="kpi-card">
+      <span class="kpi-card__label">Conversion Rate</span>
+      <span class="kpi-card__value">{data.kpis.conversionRate}%</span>
+      <span class="kpi-card__sub">{data.kpis.convertedLeads} of {data.kpis.totalLeads} leads</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-card__label">Units Sold</span>
+      <span class="kpi-card__value kpi-card__value--success">{data.kpis.soldUnits}</span>
+      <span class="kpi-card__sub">of {data.kpis.totalUnits} total</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-card__label">Units Reserved</span>
+      <span class="kpi-card__value kpi-card__value--warning">{data.kpis.reservedUnits}</span>
+      <span class="kpi-card__sub">pending sale</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-card__label">Revenue Paid</span>
+      <span class="kpi-card__value kpi-card__value--success">{formatCurrency(data.kpis.totalRevenuePaid)}</span>
+      <span class="kpi-card__sub">confirmed payments</span>
+    </div>
+  </div>
+
+  <div class="admin-dash__breakdowns">
+    <div class="widget">
+      <div class="widget__header">
+        <span class="widget__title">Leads by Status</span>
+      </div>
+      <div class="widget__breakdown">
+        {#each [
+          { label: 'New', key: 'new' },
+          { label: 'Contacted', key: 'contacted' },
+          { label: 'Converted', key: 'converted' },
+          { label: 'Lost', key: 'lost' },
+        ] as item}
+          <ProgressBar
+            value={data.kpis.totalLeads > 0
+              ? Math.round(((data.leadStatusCounts[item.key] ?? 0) / data.kpis.totalLeads) * 100)
+              : 0}
+            label={item.label}
+          />
+        {/each}
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget__header">
+        <span class="widget__title">Units by Type</span>
+      </div>
+      <div class="widget__breakdown">
+        {#each [
+          { label: 'Studio', key: 'studio' },
+          { label: '1 Bed', key: '1bed' },
+          { label: '2 Bed', key: '2bed' },
+          { label: '3 Bed', key: '3bed' },
+          { label: 'Penthouse', key: 'penthouse' },
+        ] as item}
+          <ProgressBar
+            value={data.kpis.totalUnits > 0
+              ? Math.round(((data.unitTypeCounts[item.key] ?? 0) / data.kpis.totalUnits) * 100)
+              : 0}
+            label={item.label}
+          />
+        {/each}
+      </div>
     </div>
   </div>
 
@@ -77,6 +165,20 @@
           <p class="widget__empty">No upcoming payments</p>
         {/each}
       </div>
+    </div>
+  </div>
+
+  <div class="admin-dash__section">
+    <h2 class="admin-dash__section-title">Users by Role</h2>
+    <div class="admin-dash__role-cards">
+      {#each data.usersByRole as group}
+        <div class="role-card">
+          <span class="role-card__role">{group.role}</span>
+          <span class="role-card__count">{group._count}</span>
+        </div>
+      {:else}
+        <p class="widget__empty">No users found</p>
+      {/each}
     </div>
   </div>
 </div>
@@ -139,6 +241,7 @@
 
   .kpi-card__value--danger { color: #ef4444; }
   .kpi-card__value--warning { color: #f59e0b; }
+  .kpi-card__value--success { color: #22c55e; }
 
   .kpi-card__sub {
     font-size: var(--text-xs);
@@ -221,8 +324,66 @@
     color: var(--color-text-muted);
   }
 
+  .admin-dash__section {
+    margin-top: var(--space-8);
+  }
+
+  .admin-dash__section-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+
+  .admin-dash__role-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .role-card {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .role-card__role {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+    text-transform: capitalize;
+  }
+
+  .role-card__count {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: var(--text-2xl);
+    color: var(--color-text);
+  }
+
+  .admin-dash__breakdowns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  .widget__breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
   @media (max-width: 768px) {
     .admin-dash__kpis { grid-template-columns: 1fr; }
     .admin-dash__widgets { grid-template-columns: 1fr; }
+    .admin-dash__breakdowns { grid-template-columns: 1fr; }
   }
 </style>
