@@ -4,6 +4,16 @@ import { loginSchema, registerSchema } from '$lib/utils/validators';
 import { hashPassword, verifyPassword, signToken } from '$lib/server/auth';
 import prisma from '$lib/server/db';
 
+function redirectForRole(role: string): string {
+	switch (role) {
+		case 'internal_team': return '/admin';
+		case 'buyer': return '/buyer';
+		case 'investor': return '/investor';
+		case 'agent': return '/agent';
+		default: return '/';
+	}
+}
+
 export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const formData = await request.formData();
@@ -50,7 +60,7 @@ export const actions: Actions = {
 			sameSite: 'lax'
 		});
 
-		throw redirect(302, '/');
+		throw redirect(302, redirectForRole(user.role));
 	},
 
 	register: async ({ request, cookies }) => {
@@ -106,6 +116,6 @@ export const actions: Actions = {
 			sameSite: 'lax'
 		});
 
-		throw redirect(302, '/');
+		throw redirect(302, redirectForRole(user.role));
 	}
 };

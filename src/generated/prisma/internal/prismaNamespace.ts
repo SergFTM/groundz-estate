@@ -396,6 +396,7 @@ export const ModelName = {
   InvestorInvestment: 'InvestorInvestment',
   JobPosition: 'JobPosition',
   JobApplication: 'JobApplication',
+  PasswordReset: 'PasswordReset',
   Article: 'Article',
   FAQ: 'FAQ'
 } as const
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "lead" | "investmentPool" | "investorInvestment" | "jobPosition" | "jobApplication" | "article" | "fAQ"
+    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "lead" | "investmentPool" | "investorInvestment" | "jobPosition" | "jobApplication" | "passwordReset" | "article" | "fAQ"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1305,6 +1306,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PasswordReset: {
+      payload: Prisma.$PasswordResetPayload<ExtArgs>
+      fields: Prisma.PasswordResetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PasswordResetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PasswordResetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>
+        }
+        findFirst: {
+          args: Prisma.PasswordResetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PasswordResetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>
+        }
+        findMany: {
+          args: Prisma.PasswordResetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>[]
+        }
+        create: {
+          args: Prisma.PasswordResetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>
+        }
+        createMany: {
+          args: Prisma.PasswordResetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PasswordResetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>[]
+        }
+        delete: {
+          args: Prisma.PasswordResetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>
+        }
+        update: {
+          args: Prisma.PasswordResetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>
+        }
+        deleteMany: {
+          args: Prisma.PasswordResetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PasswordResetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PasswordResetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>[]
+        }
+        upsert: {
+          args: Prisma.PasswordResetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetPayload>
+        }
+        aggregate: {
+          args: Prisma.PasswordResetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePasswordReset>
+        }
+        groupBy: {
+          args: Prisma.PasswordResetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordResetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PasswordResetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordResetCountAggregateOutputType> | number
+        }
+      }
+    }
     Article: {
       payload: Prisma.$ArticlePayload<ExtArgs>
       fields: Prisma.ArticleFieldRefs
@@ -1662,6 +1737,18 @@ export const JobApplicationScalarFieldEnum = {
 export type JobApplicationScalarFieldEnum = (typeof JobApplicationScalarFieldEnum)[keyof typeof JobApplicationScalarFieldEnum]
 
 
+export const PasswordResetScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetScalarFieldEnum = (typeof PasswordResetScalarFieldEnum)[keyof typeof PasswordResetScalarFieldEnum]
+
+
 export const ArticleScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1850,6 +1937,7 @@ export type GlobalOmitConfig = {
   investorInvestment?: Prisma.InvestorInvestmentOmit
   jobPosition?: Prisma.JobPositionOmit
   jobApplication?: Prisma.JobApplicationOmit
+  passwordReset?: Prisma.PasswordResetOmit
   article?: Prisma.ArticleOmit
   fAQ?: Prisma.FAQOmit
 }

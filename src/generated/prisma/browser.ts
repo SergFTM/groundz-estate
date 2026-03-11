@@ -78,6 +78,11 @@ export type JobPosition = Prisma.JobPositionModel
  */
 export type JobApplication = Prisma.JobApplicationModel
 /**
+ * Model PasswordReset
+ * 
+ */
+export type PasswordReset = Prisma.PasswordResetModel
+/**
  * Model Article
  * 
  */

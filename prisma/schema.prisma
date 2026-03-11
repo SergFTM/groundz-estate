@@ -180,6 +180,15 @@ model JobApplication {
   position    JobPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
 }
 
+model PasswordReset {
+  id        String    @id @default(uuid())
+  email     String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
 model Article {
   id          String   @id @default(uuid())
   title       String

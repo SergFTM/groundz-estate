@@ -63,6 +63,7 @@ export const ModelName = {
   InvestorInvestment: 'InvestorInvestment',
   JobPosition: 'JobPosition',
   JobApplication: 'JobApplication',
+  PasswordReset: 'PasswordReset',
   Article: 'Article',
   FAQ: 'FAQ'
 } as const
@@ -251,6 +252,18 @@ export const JobApplicationScalarFieldEnum = {
 } as const
 
 export type JobApplicationScalarFieldEnum = (typeof JobApplicationScalarFieldEnum)[keyof typeof JobApplicationScalarFieldEnum]
+
+
+export const PasswordResetScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetScalarFieldEnum = (typeof PasswordResetScalarFieldEnum)[keyof typeof PasswordResetScalarFieldEnum]
 
 
 export const ArticleScalarFieldEnum = {

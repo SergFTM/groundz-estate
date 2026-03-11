@@ -81,6 +81,10 @@
 					{/if}
 				</div>
 
+				<div style="display:flex;justify-content:flex-end;margin-bottom:var(--space-4);">
+					<a href="/auth/forgot-password" style="font-size:var(--text-xs);color:var(--color-accent);text-decoration:none;">Forgot password?</a>
+				</div>
+
 				<button class="btn btn--primary btn--full" type="submit">Sign In</button>
 			</form>
 		{:else}

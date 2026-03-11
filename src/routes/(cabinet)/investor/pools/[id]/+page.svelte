@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
+  import { invalidateAll } from '$app/navigation';
   import { formatCurrency } from '$lib/utils/formatters';
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import DetailCard from '$lib/components/cabinet/DetailCard.svelte';
 
-  let { data } = $props();
+  let { data, form } = $props();
+
+  let formResult = $derived(form as { investSuccess?: boolean; error?: string } | null);
 
   let progressPct = $derived(
     data.pool.goalAmount > 0
@@ -62,6 +66,47 @@
         <div class="pool-detail__description">
           <h3 class="pool-detail__desc-title">About this Pool</h3>
           <p class="pool-detail__desc-text">{data.pool.description}</p>
+        </div>
+      {/if}
+
+      {#if data.pool.status === 'active'}
+        <div class="pool-detail__invest">
+          <h3 class="pool-detail__invest-title">Invest in this Pool</h3>
+
+          {#if formResult?.investSuccess}
+            <div class="success-msg">Your investment has been recorded successfully.</div>
+          {/if}
+          {#if formResult?.error}
+            <div class="error-msg">{formResult.error}</div>
+          {/if}
+
+          <form
+            method="POST"
+            action="?/invest"
+            use:enhance={() => {
+              return async ({ update }) => {
+                await update();
+                await invalidateAll();
+              };
+            }}
+          >
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="investAmount">Amount (€)</label>
+              <input
+                class="form-input"
+                type="number"
+                id="investAmount"
+                name="amount"
+                min={data.pool.minTicket}
+                max={data.pool.goalAmount - data.pool.raisedAmount}
+                step="0.01"
+                placeholder="Enter amount"
+                required
+              />
+              <p class="form-hint">Min. ticket: {formatCurrency(data.pool.minTicket)} · Available: {formatCurrency(data.pool.goalAmount - data.pool.raisedAmount)}</p>
+            </div>
+            <button type="submit" class="btn btn--primary" style="margin-top:var(--space-4);">Submit Investment</button>
+          </form>
         </div>
       {/if}
     </div>
@@ -184,6 +229,46 @@
     font-size: var(--text-sm);
     color: var(--color-text-body);
     line-height: 1.7;
+  }
+
+  .pool-detail__invest {
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .pool-detail__invest-title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .form-hint {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+  }
+
+  .success-msg {
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    color: #22c55e;
+  }
+
+  .error-msg {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    color: #ef4444;
   }
 
   @media (max-width: 600px) {
