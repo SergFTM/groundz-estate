@@ -36,7 +36,7 @@ Static business context loaded from `src/lib/server/ai-context.ts`. Always injec
 - **buyer** — Above + buyer process guide (reservation → contract → payments → handover).
 - **investor** — Above + investment pool overview, yield structure, terms.
 - **agent** — Above + CRM field definitions (lead statuses, tags, sources), commission structure.
-- **admin** — Above + full DB schema summary (model names, key fields, status enums).
+- **internal_team** — Above + full DB schema summary (model names, key fields, status enums).
 
 ### Layer 1 — Knowledge Base Search (conditional, ~200 tokens)
 
@@ -54,8 +54,8 @@ GPT-4o receives a set of OpenAI function definitions (tools) based on the reques
 
 ## Tool Definitions by Role
 
-| Tool | public | buyer | investor | agent | admin |
-|------|:------:|:-----:|:--------:|:-----:|:-----:|
+| Tool | public | buyer | investor | agent | internal_team |
+|------|:------:|:-----:|:--------:|:-----:|:-------------:|
 | `searchProjects(status?, location?)` | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `searchUnits(projectSlug?, type?, status?, maxPrice?)` | ✓ | ✓ | — | ✓ | ✓ |
 | `searchKnowledge(query)` | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -106,8 +106,8 @@ src/routes/(cabinet)/admin/+page.svelte         — Add inline AIChatWidget pane
 ```typescript
 {
   message: string        // user's question, max 500 chars
-  role: 'public' | 'buyer' | 'investor' | 'agent' | 'admin'
-  userId?: string        // required for buyer/investor/agent (scopes tool results)
+  role: 'public' | 'buyer' | 'investor' | 'agent' | 'internal_team'
+  userId?: string        // required for buyer/investor/agent/internal_team (scopes tool results)
   history: Array<{ role: 'user' | 'assistant', content: string }>  // last 6 messages max
 }
 ```
@@ -129,7 +129,7 @@ src/routes/(cabinet)/admin/+page.svelte         — Add inline AIChatWidget pane
 ### Auth Guard Logic
 
 - `role=public` → no session required
-- `role=buyer|investor|agent|admin` → session required; `userId` in body must match `session.userId`; role in body must match `session.user.role` (prevents role escalation)
+- `role=buyer|investor|agent|internal_team` → session required; `userId` in body must match `session.userId`; role in body must match `session.user.role` (prevents role escalation)
 
 ---
 
@@ -137,7 +137,7 @@ src/routes/(cabinet)/admin/+page.svelte         — Add inline AIChatWidget pane
 
 ```typescript
 interface Props {
-  role: 'public' | 'buyer' | 'investor' | 'agent' | 'admin'
+  role: 'public' | 'buyer' | 'investor' | 'agent' | 'internal_team'
   userId?: string      // passed from +layout.svelte server data
   floating?: boolean   // true = fixed bottom-right button, false = inline panel
 }
