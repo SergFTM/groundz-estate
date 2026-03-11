@@ -1,4 +1,4 @@
-# Admin Analytics Dashboard + Seed Data
+# Admin Analytics Dashboard Extensions + Seed Data Enrichment
 
 **Date:** 2026-03-11
 **Status:** Approved
@@ -10,171 +10,231 @@
 
 Two independent improvements to the Develta platform:
 
-1. **Admin Analytics Dashboard** — KPI metrics on the `/admin` page using existing components and Prisma queries
-2. **Seed Data** — Realistic Cypriot real estate data in `prisma/seed.ts` for local testing
+1. **Admin Analytics Dashboard Extensions** — add missing KPIs (conversion rate, sold units, revenue, breakdowns) to the existing `/admin` page
+2. **Seed Data Enrichment** — expand `prisma/seed.ts` with more leads, a second buyer, overdue payments, commissions, and lead notes for realistic testing
+
+### What Already Exists (Do Not Duplicate)
+
+**Admin dashboard (`/admin`)** already has:
+- Total Leads, Hot Leads, Active Units (available), Overdue Payments count/total
+- Total Users, Investment Raised, Active Pools, Pending Documents
+- Recent Leads list, Upcoming Payments list, Users by Role breakdown
+
+**Seed data (`prisma/seed.ts`)** already has:
+- 4 users (buyer, investor, agent, internal_team)
+- 5 projects with 22 units
+- 6 payments for buyer (3 paid, 3 upcoming — no overdue)
+- 5 documents, 6 leads, 2 investment pools, 4 job positions, 6 FAQ, 3 articles
 
 ---
 
-## Part 1: Admin Analytics Dashboard
+## Part 1: Admin Analytics Dashboard Extensions
 
 ### Goal
 
-Add a KPI metrics section to the existing `/admin` dashboard page showing leads, conversions, unit sales, and revenue — without adding new dependencies.
+Extend `src/routes/(cabinet)/admin/+page.server.ts` and `+page.svelte` with missing conversion, sales, and breakdown metrics.
 
-### Approach
+### Additional Data to Compute
 
-Pure Svelte + CSS. All data computed server-side via Prisma aggregation queries in `src/routes/(cabinet)/admin/+page.server.ts`. Rendered using existing `KPICard` and `ProgressBar` components from `src/lib/components/ui/`.
+| New Metric | Prisma Query | Note |
+|------------|-------------|------|
+| `newLeadsThisWeek` | `COUNT(Lead WHERE createdAt >= now - 7d)` | Supplementary info |
+| `convertedLeads` | `COUNT(Lead WHERE status = 'converted')` | Required for conversionRate |
+| `conversionRate` | `convertedLeads / totalLeads * 100` | Guard against division by zero: return 0 if totalLeads = 0 |
+| `soldUnits` | `COUNT(Unit WHERE status = 'sold')` | Already have `totalUnits` |
+| `reservedUnits` | `COUNT(Unit WHERE status = 'reserved')` | Complement sold |
+| `totalRevenuePaid` | `SUM(Payment.amount WHERE status = 'paid')` | Amounts stored in euros (Float) |
+| `leadsByStatus` | `groupBy('status')` → `{ new, contacted, converted, lost }` | Percentage = `count / totalLeads * 100` |
+| `unitsByType` | `groupBy('type')` → `{ studio, 1bed, 2bed, 3bed, penthouse }` | Percentage = `count / totalUnits * 100` |
 
-### Data Computed Server-Side
+### conversionRate Implementation
 
-| Metric | Source |
-|--------|--------|
-| `totalLeads` | `COUNT(Lead)` |
-| `newLeads` | `COUNT(Lead WHERE createdAt >= 7 days ago)` |
-| `conversionRate` | `converted / total * 100` |
-| `totalUnits` | `COUNT(Unit)` |
-| `soldUnits` | `COUNT(Unit WHERE status = sold)` |
-| `availableUnits` | `COUNT(Unit WHERE status = available)` |
-| `totalRevenue` | `SUM(Payment.amount WHERE status = paid)` |
-| `activeProjects` | `COUNT(Project WHERE status != completed)` |
-| `leadsByStatus` | `GROUP BY status` counts |
-| `unitsByType` | `GROUP BY type` counts |
-
-### UI Layout
-
-**Row 1 — 4 KPI cards:**
-```
-[Всего лидов + новых за неделю]  [Конверсия %]  [Юниты: продано / всего]  [Выручка €]
+```typescript
+const conversionRate = totalLeads === 0
+  ? 0
+  : Math.round((convertedLeads / totalLeads) * 100);
 ```
 
-**Row 2 — 2 breakdown panels:**
+### UI Layout — New Sections Added Below Existing KPIs
+
+**New Row — Sales & Revenue (4 cards):**
 ```
-[Лиды по статусам]        [Юниты по типам]
-new     ████░░ 40%         studio    ███░░ 30%
-contacted ██░░ 25%         1bed      ████░ 35%
-converted █░░░ 20%         2bed      ██░░░ 20%
-lost    █░░░░ 15%          3bed      █░░░░ 10%
-                           penthouse ░░░░░  5%
+[Conversion Rate %]  [Units Sold / Total]  [Units Reserved]  [Revenue Paid €]
 ```
 
-### Files Modified
-
-- `src/routes/(cabinet)/admin/+page.server.ts` — add Prisma queries, return analytics data
-- `src/routes/(cabinet)/admin/+page.svelte` — add analytics section above existing content
+**New Row — Two Breakdown Panels:**
+```
+[Leads by Status — ProgressBar each]   [Units by Type — ProgressBar each]
+new:        ████░ 33%                   studio:     ███░░ 27%
+contacted:  ███░░ 25%                   1bed:       ████░ 36%
+converted:  ██░░░ 25%                   2bed:       ███░░ 23%
+lost:       ██░░░ 17%                   3bed:       ██░░░ 18%
+                                        penthouse:  █░░░░  5%
+```
+Units panel shows all 5 type bars (no merging). Percentages use `totalUnits` as denominator. Lead percentages use `totalLeads`.
 
 ### Components Used (no new components)
 
-- `src/lib/components/ui/KPICard.svelte` — existing
-- `src/lib/components/ui/ProgressBar.svelte` — existing
+- Existing `KPICard` CSS classes (`.kpi-card`, `.kpi-card__value`) defined inline in `+page.svelte`
+- Existing `ProgressBar` component from `src/lib/components/ui/ProgressBar.svelte`
+
+### Files Modified
+
+- `src/routes/(cabinet)/admin/+page.server.ts` — add 7 new Prisma queries to existing `Promise.all()`
+- `src/routes/(cabinet)/admin/+page.svelte` — add 2 new sections after existing KPI rows
 
 ---
 
-## Part 2: Seed Data
+## Part 2: Seed Data Enrichment
 
 ### Goal
 
-Populate the SQLite database with realistic Cypriot real estate data for local development and testing. All user passwords: `develta123`.
+Expand `prisma/seed.ts` to add a second buyer, 6 more leads (reaching 12 total with all statuses represented), overdue payments, agent commissions, and lead notes.
 
-### File
+### Approach
 
-`prisma/seed.ts` — full replacement of current content.
+Full replacement of `prisma/seed.ts`. Preserve all existing data structure but expand volume and coverage.
 
-### Data Specification
+### `deleteMany()` Teardown Order (must follow FK constraints)
 
-#### Users (6)
+```text
+1. passwordReset
+2. investorInvestment
+3. constructionMedia
+4. constructionPhase
+5. leadNote
+6. commission
+7. payment
+8. document
+9. jobApplication
+10. lead
+11. unit
+12. project
+13. jobPosition
+14. investmentPool
+15. article
+16. fAQ
+17. user
+```
 
-| Email | Role | Name |
-|-------|------|------|
-| admin@develta.cy | admin | Admin User |
-| buyer1@develta.cy | buyer | Andreas Christodoulou |
-| buyer2@develta.cy | buyer | Maria Petrou |
-| investor@develta.cy | investor | Nikolaos Georgiou |
-| agent@develta.cy | agent | Elena Stavrou |
-| team@develta.cy | internal_team | Develta Team |
+### New / Changed Data
 
-#### Projects (4, matching existing SVG placeholders)
+#### Users (6, was 4)
 
-| Slug | Name | Status | Units |
-|------|------|--------|-------|
-| sungardo | Sungardo | for_sale | 12 |
-| antigone-court | Antigone Court | under_construction | 8 |
-| symphony-residence | Symphony Residence | for_sale | 10 |
-| cascada-residence | Cascada Residence | for_sale | 6 |
+| Email | Role | Name | Password |
+|-------|------|------|----------|
+| admin@develta.cy | internal_team | Sarah Admin | develta123 |
+| buyer@develta.cy | buyer | Maria Petrova | develta123 |
+| buyer2@develta.cy | buyer | Andreas Christodoulou | develta123 ← NEW |
+| investor@develta.cy | investor | Alexander Chen | develta123 |
+| agent@develta.cy | agent | Nikos Papadopoulos | develta123 |
+| team@develta.cy | internal_team | Develta Team | develta123 ← NEW |
 
-Each project has: location (Limassol area), description, priceFrom, completionDate.
+Note: `internal_team` is the admin role (schema: `buyer | investor | agent | internal_team`). Amounts stored in euros as Float.
 
-#### Units per Project
+#### Projects (5, unchanged)
 
-Mix of types: studio, 1bed, 2bed, 3bed, penthouse.
-Status mix: available, reserved, sold.
-Floor range: 1-8. Area: 45-220 sqm. Price: €120,000 – €850,000.
+Keep existing 5 projects. Status values remain: `active`, `coming_soon`, `completed`.
 
-buyer1 assigned to 1 unit in Sungardo (status: sold), buyer2 to 1 unit in Symphony (status: reserved).
+#### Units (22, unchanged structure; AC-201 status changed)
 
-#### Leads (12)
+In the seed, create AC-201 directly with `status: 'sold'` and `buyerId: buyer2.id` (not `reserved`).
+This is a direct create, not an update — the seed fully replaces all data each run.
 
-Mix of:
-- Sources: quiz, newsletter, brochure, call_booking
-- Statuses: new (4), contacted (3), converted (3), lost (2)
-- Tags: hot (4), warm (5), cold (3)
-- Some assigned to agent@develta.cy
-- Realistic Cypriot/international names and phone numbers
+#### Payments (expanded, was 6 for buyer only)
 
-#### Payments (10, for buyer1 and buyer2)
+**buyer (Maria Petrova, SYM-202):** Keep existing 3 paid + add 1 overdue:
+```
++ Overdue: "Structural Milestone Advance", €8,000, dueDate: 2026-01-15, status: overdue
+```
 
-- 4x paid (historical)
-- 4x upcoming (next 3-6 months)
-- 2x overdue
+**buyer2 (Andreas Christodoulou, AC-201):** 4 payments:
+```
+paid:     Booking Deposit €8,000 (2025-08-01)
+paid:     Contract Signing €28,000 (2025-09-15)
+overdue:  Foundation Milestone €22,000 (2026-01-01)
+upcoming: Structural Completion €32,000 (2026-06-01)
+```
 
-#### Articles (3)
+Total payments: 6 (buyer) + 4 (buyer2) = 10
 
-| Slug | Category | Title |
-|------|----------|-------|
-| limassol-market-2025 | market | Limassol Property Market 2025 Outlook |
-| roi-guide-cyprus | investment | Complete ROI Guide for Cyprus Real Estate |
-| living-in-limassol | lifestyle | Living in Limassol: Expat Guide |
+#### Leads (12, was 6)
 
-#### Job Positions (3, all active)
+Keep existing 6. Add 6 new:
+```
+7.  source: quiz,         status: new,       tag: warm,  name: "Sophie Laurent",     email: sophie@example.com
+8.  source: newsletter,   status: lost,      tag: cold,  name: "Robert Mueller",     email: r.mueller@example.com
+9.  source: brochure,     status: converted, tag: hot,   name: "Yuki Tanaka",        phone: +81 90 1234 5678, agentId: agent
+10. source: call_booking, status: lost,      tag: cold,  name: "Marco Rossi",        email: marco@example.com
+11. source: quiz,         status: converted, tag: hot,   name: "Priya Sharma",       email: priya@example.com, agentId: agent
+12. source: newsletter,   status: new,       tag: warm,  email: info@nordic-invest.dk
+```
 
-- Sales Manager
-- Property Consultant
-- Marketing Specialist
+Coverage: new (4), contacted (3), converted (3), lost (2) — all 4 statuses represented.
+Status explicitly set on all 12 leads (no reliance on schema default).
 
-#### FAQ (8)
+Converted leads breakdown: lead #5 (Alexander Chen, existing), lead #9 (Yuki Tanaka, new), lead #11 (Priya Sharma, new) = 3 converted.
 
-Categories: buying, investment, legal, general — 2 entries each.
+#### LeadNotes (3, new)
 
-#### Investment Pools (2)
+Add notes to 3 leads from agent:
+```
+Lead 1 (Elena Karasova): "Called on 10 March. Interested in 2bed at Sungardo. Budget confirmed €300-400k."
+Lead 3 (Ahmed Al-Hassan): "Visited office. Serious buyer, requesting floor plans."
+Lead 11 (Priya Sharma): "Converted — signed reservation for SYM-101."
+```
 
-| Name | Goal | Raised | Yield | Term |
-|------|------|--------|-------|------|
-| Sungardo Pool A | €2,000,000 | €1,400,000 | 9.5% | 36 months |
-| Mediterranean Fund I | €5,000,000 | €2,100,000 | 11% | 48 months |
+#### Commissions (2, new)
 
-investor@develta.cy has an investment of €50,000 in Sungardo Pool A.
+```
+{ agentId: agent, amount: 8750, status: approved, description: "SYM-101 sale commission 2.5%" }
+{ agentId: agent, amount: 5600, status: pending,  description: "AC-201 reservation commission 2%" }
+```
 
-#### Construction Phases (for Antigone Court, 4 phases)
+#### All Other Data (unchanged)
 
-- Foundation (completed)
-- Structure (completed)
-- Exterior (in_progress)
-- Interior (pending)
+- Construction phases + media (Symphony Residence, 4 phases)
+- Documents for buyer (5 docs)
+- Investment pools (2 pools: Aura, Elysium)
+- Investor investments (buyer → 100k Aura, 50k Elysium)
+- Job positions (4)
+- FAQ (6 entries)
+- Articles (3)
 
 ---
 
 ## Architecture Notes
 
-- No new npm dependencies required
-- Seed script uses `prisma/seed.ts` with `tsx` runner (already configured)
-- All passwords hashed with bcryptjs (salt rounds: 12) — same as production auth
-- Seed script uses `deleteMany()` before inserts for idempotency (safe to re-run)
-- Prisma client imported from `src/generated/prisma/`
+- No new npm dependencies
+- `bcryptjs` confirmed in `package.json` (^3.0.3)
+- All passwords hashed at salt rounds 12
+- Amounts in euros as `Float` (not cents)
+- Seed is idempotent: `deleteMany()` in FK-safe order before all inserts
+- Run with: `npx prisma db seed`
 
 ---
 
 ## Success Criteria
 
-- `/admin` shows 4 KPI cards + 2 breakdown panels with real data
-- `npx prisma db seed` populates all 13 DB models with realistic data
-- All test users can log in with `develta123`
-- Admin dashboard KPIs reflect seeded data accurately
+### Analytics Dashboard
+
+- `/admin` shows new row: Conversion Rate, Sold Units, Reserved Units, Revenue Paid
+- `/admin` shows Leads by Status panel with 4 ProgressBars reflecting seeded lead counts
+- `/admin` shows Units by Type panel with ProgressBars reflecting seeded unit counts
+- Conversion Rate = `(converted leads / total leads) * 100` — no divide-by-zero on empty DB
+- Revenue Paid = sum of all `payment.status = 'paid'` amounts in euros
+
+### Seed Data
+
+- `npx prisma db seed` runs without errors and is re-runnable (idempotent)
+- 6 users exist; all log in with password `develta123`
+- 12 leads exist covering all 4 statuses (new/contacted/converted/lost)
+- 10 payments exist including at least 2 overdue entries
+- 2 commissions exist (1 approved, 1 pending)
+- 3 lead notes exist attached to leads
+- Admin dashboard KPIs reflect seeded data:
+  - totalLeads = 12
+  - conversionRate ≈ 25% (3 converted / 12 total)
+  - soldUnits = 8. Pre-existing sold units from seed: SUN-101, AC-101, SYM-101, PT-101, PT-102, PT-201, PT-202 (7 units). AC-201 updated from `reserved` → `sold` = 8 total.
+  - convertedLeads = 3 (leads 5, 11 + existing converted lead Alexander Chen)
+  - overdueCount = 2 (buyer overdue + buyer2 overdue)
