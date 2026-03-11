@@ -170,7 +170,7 @@ async function main() {
     // Symphony Residence — 5 units (SYM-202 linked to buyer)
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 48, price: 190000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-201", type: "1bed", bedrooms: 1, floor: 2, areaSqm: 68, price: 310000, status: "reserved" } }),
-    prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-202", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 92, price: 450000, status: "available", buyerId: buyer.id } }),
+    prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-202", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 92, price: 450000, status: "reserved", buyerId: buyer.id } }),
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-301", type: "3bed", bedrooms: 3, floor: 3, areaSqm: 135, price: 620000, status: "available" } }),
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-PH1", type: "penthouse", bedrooms: 4, floor: 6, areaSqm: 200, price: 1150000, status: "available" } }),
 
