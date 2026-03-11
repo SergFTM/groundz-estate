@@ -74,8 +74,58 @@ export const addUnitSchema = z.object({
 	status: z.enum(['available', 'reserved', 'sold']).default('available')
 });
 
+export const updateUnitSchema = addUnitSchema;
+
 export const documentActionSchema = z.object({
 	id: z.string().uuid()
+});
+
+export const createArticleSchema = z.object({
+	title: z.string().min(2, 'Title is required'),
+	slug: z.string().min(2, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens'),
+	category: z.string().min(1, 'Category is required'),
+	excerpt: z.string().optional().or(z.literal('')),
+	content: z.string().min(10, 'Content must be at least 10 characters'),
+	imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal(''))
+});
+
+export const createJobSchema = z.object({
+	title: z.string().min(2, 'Title is required'),
+	slug: z.string().min(2, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens'),
+	department: z.string().min(1, 'Department is required'),
+	location: z.string().min(1, 'Location is required'),
+	type: z.enum(['full_time', 'part_time', 'contract']),
+	description: z.string().min(10, 'Description must be at least 10 characters'),
+	isActive: z.string().optional().transform((v) => v === 'on')
+});
+
+export const createPoolSchema = z.object({
+	name: z.string().min(2, 'Name is required'),
+	projectName: z.string().min(2, 'Project name is required'),
+	goalAmount: z.coerce.number().positive('Goal must be positive'),
+	raisedAmount: z.coerce.number().min(0, 'Raised amount cannot be negative').default(0),
+	targetYield: z.coerce.number().positive('Yield must be positive'),
+	termMonths: z.coerce.number().int().positive('Term must be positive'),
+	minTicket: z.coerce.number().positive('Min ticket must be positive'),
+	status: z.enum(['active', 'closed', 'completed']).default('active'),
+	imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+	description: z.string().optional().or(z.literal(''))
+});
+
+export const createFaqSchema = z.object({
+	question: z.string().min(5, 'Question must be at least 5 characters'),
+	answer: z.string().min(5, 'Answer must be at least 5 characters'),
+	category: z.string().min(1, 'Category is required').default('General'),
+	sortOrder: z.coerce.number().int().min(0).default(0)
+});
+
+export const addPhaseSchema = z.object({
+	name: z.string().min(2, 'Phase name is required'),
+	description: z.string().optional().or(z.literal('')),
+	status: z.enum(['completed', 'in_progress', 'pending']).default('pending'),
+	startDate: z.string().optional().or(z.literal('')),
+	endDate: z.string().optional().or(z.literal('')),
+	sortOrder: z.coerce.number().int().min(0).default(0)
 });
 
 export const jobApplicationSchema = z.object({
@@ -106,3 +156,9 @@ export type AddUnitInput = z.infer<typeof addUnitSchema>;
 export type DocumentActionInput = z.infer<typeof documentActionSchema>;
 export type JobApplicationInput = z.infer<typeof jobApplicationSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
+export type UpdateUnitInput = z.infer<typeof updateUnitSchema>;
+export type CreateArticleInput = z.infer<typeof createArticleSchema>;
+export type CreateJobInput = z.infer<typeof createJobSchema>;
+export type CreatePoolInput = z.infer<typeof createPoolSchema>;
+export type CreateFaqInput = z.infer<typeof createFaqSchema>;
+export type AddPhaseInput = z.infer<typeof addPhaseSchema>;

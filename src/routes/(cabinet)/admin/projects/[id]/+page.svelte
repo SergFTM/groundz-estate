@@ -11,6 +11,11 @@
   let unitErrors = $derived(
     (form as { unitErrors?: Record<string, string> } | null)?.unitErrors ?? {}
   );
+  let phaseErrors = $derived(
+    (form as { phaseErrors?: Record<string, string> } | null)?.phaseErrors ?? {}
+  );
+
+  let editingUnitId = $state<string | null>(null);
 </script>
 
 <svelte:head>
@@ -63,34 +68,103 @@
         </thead>
         <tbody>
           {#each data.project.units as unit}
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-family:monospace;font-weight:600;">{unit.code}</td>
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.type}</td>
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.bedrooms}</td>
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.floor}</td>
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.areaSqm}</td>
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.price != null ? formatCurrency(unit.price) : '—'}</td>
-              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.status}</td>
-              <td style="padding:var(--space-3) var(--space-4);">
-                <form
-                  method="POST"
-                  action="?/deleteUnit"
-                  use:enhance={() => {
-                    return async ({ update }) => {
-                      await update();
-                      await invalidateAll();
-                    };
-                  }}
-                >
-                  <input type="hidden" name="unitId" value={unit.id} />
-                  <button
-                    type="submit"
-                    style="background:none;border:none;color:#ef4444;font-size:var(--text-xs);cursor:pointer;font-weight:600;padding:0;"
-                    onclick={(e) => { if (!confirm(`Delete unit ${unit.code}?`)) e.preventDefault(); }}
-                  >Delete</button>
-                </form>
-              </td>
-            </tr>
+            {#if editingUnitId === unit.id}
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04);background:rgba(122,140,110,0.05);">
+                <td colspan="8" style="padding:var(--space-4);">
+                  <form
+                    method="POST"
+                    action="?/updateUnit"
+                    use:enhance={() => {
+                      return async ({ update }) => {
+                        await update();
+                        await invalidateAll();
+                        editingUnitId = null;
+                      };
+                    }}
+                  >
+                    <input type="hidden" name="unitId" value={unit.id} />
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);margin-bottom:var(--space-3);">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-code">Code</label>
+                        <input class="form-input" id="edit-code" name="code" value={unit.code} required />
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-type">Type</label>
+                        <select class="form-input" id="edit-type" name="type">
+                          {#each [['studio','Studio'],['1bed','1 Bed'],['2bed','2 Bed'],['3bed','3 Bed'],['penthouse','Penthouse']] as [val, lbl]}
+                            <option value={val} selected={unit.type === val}>{lbl}</option>
+                          {/each}
+                        </select>
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-bedrooms">Bedrooms</label>
+                        <input class="form-input" id="edit-bedrooms" name="bedrooms" type="number" min="0" value={unit.bedrooms} required />
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-floor">Floor</label>
+                        <input class="form-input" id="edit-floor" name="floor" type="number" value={unit.floor} required />
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-area">Area (m²)</label>
+                        <input class="form-input" id="edit-area" name="areaSqm" type="number" step="0.1" value={unit.areaSqm} required />
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-price">Price (€)</label>
+                        <input class="form-input" id="edit-price" name="price" type="number" value={unit.price ?? ''} />
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="edit-status">Status</label>
+                        <select class="form-input" id="edit-status" name="status">
+                          {#each [['available','Available'],['reserved','Reserved'],['sold','Sold']] as [val, lbl]}
+                            <option value={val} selected={unit.status === val}>{lbl}</option>
+                          {/each}
+                        </select>
+                      </div>
+                    </div>
+                    <div style="display:flex;gap:var(--space-3);align-items:center;">
+                      <button type="submit" class="btn btn--primary" style="font-size:var(--text-sm);">Save</button>
+                      <button type="button" onclick={() => editingUnitId = null} style="background:none;border:none;color:var(--color-text-muted);font-size:var(--text-sm);cursor:pointer;">Cancel</button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            {:else}
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-family:monospace;font-weight:600;">{unit.code}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.type}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.bedrooms}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.floor}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.areaSqm}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.price != null ? formatCurrency(unit.price) : '—'}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.status}</td>
+                <td style="padding:var(--space-3) var(--space-4);">
+                  <div style="display:flex;gap:var(--space-3);">
+                    <button
+                      type="button"
+                      onclick={() => editingUnitId = unit.id}
+                      style="background:none;border:none;color:var(--color-accent);font-size:var(--text-xs);cursor:pointer;font-weight:600;padding:0;"
+                    >Edit</button>
+                    <form
+                      method="POST"
+                      action="?/deleteUnit"
+                      use:enhance={() => {
+                        return async ({ update }) => {
+                          await update();
+                          await invalidateAll();
+                        };
+                      }}
+                    >
+                      <input type="hidden" name="unitId" value={unit.id} />
+                      <button
+                        type="submit"
+                        style="background:none;border:none;color:#ef4444;font-size:var(--text-xs);cursor:pointer;font-weight:600;padding:0;"
+                        onclick={(e) => { if (!confirm(`Delete unit ${unit.code}?`)) e.preventDefault(); }}
+                      >Delete</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            {/if}
           {/each}
         </tbody>
       </table>
@@ -172,9 +246,114 @@
   </div>
 </div>
 
-{#if data.project.constructionPhases.length > 0}
-  <div style="margin-top:var(--space-6);">
-    <h2 style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">Construction Timeline</h2>
+<!-- Construction Phases section -->
+<div style="margin-top:var(--space-6);">
+  <h2 style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">Construction Timeline</h2>
+
+  {#if data.project.constructionPhases.length > 0}
     <ConstructionTimeline phases={data.project.constructionPhases} />
+
+    <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);overflow:hidden;margin-top:var(--space-4);margin-bottom:var(--space-4);">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+            {#each ['Order','Name','Status','Start','End',''] as col}
+              <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--color-text-muted);">{col}</th>
+            {/each}
+          </tr>
+        </thead>
+        <tbody>
+          {#each data.project.constructionPhases as phase}
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
+              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-family:monospace;">{phase.sortOrder}</td>
+              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:600;">{phase.name}</td>
+              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);"><StatusBadge status={phase.status} /></td>
+              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{phase.startDate ? new Date(phase.startDate).toLocaleDateString('en-GB') : '—'}</td>
+              <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{phase.endDate ? new Date(phase.endDate).toLocaleDateString('en-GB') : '—'}</td>
+              <td style="padding:var(--space-3) var(--space-4);">
+                <form
+                  method="POST"
+                  action="?/deletePhase"
+                  style="display:inline;"
+                  use:enhance={() => {
+                    return async ({ update }) => {
+                      await update();
+                      await invalidateAll();
+                    };
+                  }}
+                >
+                  <input type="hidden" name="phaseId" value={phase.id} />
+                  <button
+                    type="submit"
+                    style="background:none;border:none;color:#ef4444;font-size:var(--text-xs);cursor:pointer;font-weight:600;padding:0;"
+                    onclick={(e) => { if (!confirm(`Delete phase "${phase.name}"?`)) e.preventDefault(); }}
+                  >Delete</button>
+                </form>
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {:else}
+    <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-8);text-align:center;color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">
+      No construction phases yet.
+    </div>
+  {/if}
+
+  <!-- Add phase form -->
+  <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-6);">
+    <h3 style="font-size:var(--text-sm);font-weight:700;color:var(--color-text);margin-bottom:var(--space-4);">Add Phase</h3>
+
+    {#if form?.phaseSuccess}
+      <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);font-size:var(--text-sm);color:#22c55e;">
+        Phase added successfully.
+      </div>
+    {/if}
+
+    <form
+      method="POST"
+      action="?/addPhase"
+      use:enhance={({ formElement }) => {
+        return async ({ update, result }) => {
+          await update();
+          await invalidateAll();
+          if (result.type === 'success') formElement.reset();
+        };
+      }}
+    >
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-bottom:var(--space-4);">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="phaseName">Name</label>
+          <input class="form-input" id="phaseName" name="name" placeholder="Foundation" required />
+          {#if phaseErrors.name}<p style="font-size:var(--text-xs);color:#ef4444;margin-top:var(--space-1);">{phaseErrors.name}</p>{/if}
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="phaseStatus">Status</label>
+          <select class="form-input" id="phaseStatus" name="status">
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="phaseSortOrder">Sort Order</label>
+          <input class="form-input" id="phaseSortOrder" name="sortOrder" type="number" min="0" placeholder="0" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="phaseStart">Start Date</label>
+          <input class="form-input" id="phaseStart" name="startDate" type="date" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="phaseEnd">End Date</label>
+          <input class="form-input" id="phaseEnd" name="endDate" type="date" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;grid-column:1/-1;">
+          <label class="form-label" for="phaseDesc">Description</label>
+          <textarea class="form-input" id="phaseDesc" name="description" rows="2" placeholder="Phase description…" style="resize:vertical;"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn--primary">Add Phase</button>
+    </form>
   </div>
-{/if}
+</div>

@@ -25,7 +25,8 @@
       label: 'Finance',
       items: [
         { label: 'Payments', href: '/admin/payments' },
-        { label: 'Documents', href: '/admin/documents' }
+        { label: 'Documents', href: '/admin/documents' },
+        { label: 'Inv. Pools', href: '/admin/investment-pools' }
       ]
     },
     {
