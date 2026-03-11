@@ -86,7 +86,7 @@
                   <button
                     type="submit"
                     style="background:none;border:none;color:#ef4444;font-size:var(--text-xs);cursor:pointer;font-weight:600;padding:0;"
-                    onclick={() => confirm(`Delete unit ${unit.code}?`)}
+                    onclick={(e) => { if (!confirm(`Delete unit ${unit.code}?`)) e.preventDefault(); }}
                   >Delete</button>
                 </form>
               </td>
@@ -114,10 +114,11 @@
     <form
       method="POST"
       action="?/addUnit"
-      use:enhance={() => {
-        return async ({ update }) => {
+      use:enhance={({ formElement }) => {
+        return async ({ update, result }) => {
           await update();
           await invalidateAll();
+          if (result.type === 'success') formElement.reset();
         };
       }}
     >

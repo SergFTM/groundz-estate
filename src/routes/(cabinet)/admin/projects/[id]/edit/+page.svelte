@@ -77,7 +77,7 @@
     <button
       type="submit"
       style="background:#ef4444;color:white;border:none;border-radius:var(--radius-md);padding:var(--space-2) var(--space-4);font-size:var(--text-sm);font-weight:600;cursor:pointer;"
-      onclick={() => confirm('Delete this project and all its units? This cannot be undone.')}
+      onclick={(e) => { if (!confirm('Delete this project and all its units? This cannot be undone.')) e.preventDefault(); }}
     >
       Delete Project
     </button>
