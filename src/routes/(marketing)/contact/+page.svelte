@@ -2,6 +2,7 @@
   import { enhance } from '$app/forms';
 
   let { form } = $props();
+  let formErrors = $derived((form as { errors?: Record<string, string>; success?: boolean } | null)?.errors ?? {});
 </script>
 
 <svelte:head>
@@ -25,32 +26,32 @@
           </div>
         {:else}
           <form method="POST" action="?/sendMessage" use:enhance class="contact-form">
-            {#if form?.errors?.general}
-              <p class="form-error">{form.errors.general}</p>
+            {#if formErrors.general}
+              <p class="form-error">{formErrors.general}</p>
             {/if}
 
             <div class="form-field">
               <label for="name">Full Name *</label>
               <input id="name" name="name" type="text" placeholder="Your name" required />
-              {#if form?.errors?.name}<span class="field-error">{form.errors.name}</span>{/if}
+              {#if formErrors.name}<span class="field-error">{formErrors.name}</span>{/if}
             </div>
 
             <div class="form-field">
               <label for="email">Email Address *</label>
               <input id="email" name="email" type="email" placeholder="you@example.com" required />
-              {#if form?.errors?.email}<span class="field-error">{form.errors.email}</span>{/if}
+              {#if formErrors.email}<span class="field-error">{formErrors.email}</span>{/if}
             </div>
 
             <div class="form-field">
               <label for="phone">Phone Number (optional)</label>
               <input id="phone" name="phone" type="tel" placeholder="+357 99 000000" />
-              {#if form?.errors?.phone}<span class="field-error">{form.errors.phone}</span>{/if}
+              {#if formErrors.phone}<span class="field-error">{formErrors.phone}</span>{/if}
             </div>
 
             <div class="form-field">
               <label for="message">Message *</label>
               <textarea id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
-              {#if form?.errors?.message}<span class="field-error">{form.errors.message}</span>{/if}
+              {#if formErrors.message}<span class="field-error">{formErrors.message}</span>{/if}
             </div>
 
             <button type="submit" class="btn-primary">Send Message →</button>

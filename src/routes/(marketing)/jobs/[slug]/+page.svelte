@@ -3,6 +3,7 @@
 
   let { data, form } = $props();
   let { job } = $derived(data);
+  let formErrors = $derived((form as { errors?: Record<string, string>; success?: boolean } | null)?.errors ?? {});
 
   let typeLabel = $derived(
     job.type === 'full_time' ? 'Full-time' :
@@ -45,25 +46,25 @@
             <div class="form-field">
               <label for="name">Full Name *</label>
               <input id="name" name="name" type="text" placeholder="Your name" required />
-              {#if form?.errors?.name}<span class="field-error">{form.errors.name}</span>{/if}
+              {#if formErrors.name}<span class="field-error">{formErrors.name}</span>{/if}
             </div>
             <div class="form-field">
               <label for="email">Email Address *</label>
               <input id="email" name="email" type="email" placeholder="you@example.com" required />
-              {#if form?.errors?.email}<span class="field-error">{form.errors.email}</span>{/if}
+              {#if formErrors.email}<span class="field-error">{formErrors.email}</span>{/if}
             </div>
           </div>
 
           <div class="form-field">
             <label for="linkedinUrl">LinkedIn Profile (optional)</label>
             <input id="linkedinUrl" name="linkedinUrl" type="url" placeholder="https://linkedin.com/in/yourprofile" />
-            {#if form?.errors?.linkedinUrl}<span class="field-error">{form.errors.linkedinUrl}</span>{/if}
+            {#if formErrors.linkedinUrl}<span class="field-error">{formErrors.linkedinUrl}</span>{/if}
           </div>
 
           <div class="form-field">
             <label for="coverLetter">Cover Letter (optional)</label>
             <textarea id="coverLetter" name="coverLetter" rows="5" placeholder="Tell us why you're a great fit..."></textarea>
-            {#if form?.errors?.coverLetter}<span class="field-error">{form.errors.coverLetter}</span>{/if}
+            {#if formErrors.coverLetter}<span class="field-error">{formErrors.coverLetter}</span>{/if}
           </div>
 
           <button type="submit" class="btn-primary">Submit Application →</button>
