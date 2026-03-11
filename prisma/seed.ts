@@ -9,24 +9,37 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log("Seeding database...");
 
-  // Clean existing data
+  // ── Clean existing data (FK-safe order) ─────────────────
+  await prisma.passwordReset.deleteMany();
   await prisma.investorInvestment.deleteMany();
   await prisma.constructionMedia.deleteMany();
   await prisma.constructionPhase.deleteMany();
+  await prisma.leadNote.deleteMany();
+  await prisma.commission.deleteMany();
   await prisma.payment.deleteMany();
   await prisma.document.deleteMany();
+  await prisma.jobApplication.deleteMany();
   await prisma.lead.deleteMany();
   await prisma.unit.deleteMany();
   await prisma.project.deleteMany();
-  await prisma.jobApplication.deleteMany();
   await prisma.jobPosition.deleteMany();
   await prisma.investmentPool.deleteMany();
   await prisma.article.deleteMany();
   await prisma.fAQ.deleteMany();
   await prisma.user.deleteMany();
 
-  // ── Users ──────────────────────────────────────────────
-  const hashedPassword = await bcrypt.hash("password123", 12);
+  // ── Users (6) ────────────────────────────────────────────
+  const hashedPassword = await bcrypt.hash("develta123", 12);
+
+  const admin = await prisma.user.create({
+    data: {
+      email: "admin@develta.cy",
+      password: hashedPassword,
+      role: "internal_team",
+      name: "Sarah Admin",
+      phone: "+357 96 456789",
+    },
+  });
 
   const buyer = await prisma.user.create({
     data: {
@@ -35,6 +48,16 @@ async function main() {
       role: "buyer",
       name: "Maria Petrova",
       phone: "+357 96 123456",
+    },
+  });
+
+  const buyer2 = await prisma.user.create({
+    data: {
+      email: "buyer2@develta.cy",
+      password: hashedPassword,
+      role: "buyer",
+      name: "Andreas Christodoulou",
+      phone: "+357 96 654321",
     },
   });
 
@@ -58,19 +81,19 @@ async function main() {
     },
   });
 
-  const admin = await prisma.user.create({
+  await prisma.user.create({
     data: {
-      email: "admin@develta.cy",
+      email: "team@develta.cy",
       password: hashedPassword,
       role: "internal_team",
-      name: "Sarah Admin",
-      phone: "+357 96 456789",
+      name: "Develta Team",
+      phone: "+357 96 567890",
     },
   });
 
-  console.log("  Created 4 users");
+  console.log("  Created 6 users (password: develta123)");
 
-  // ── Projects ───────────────────────────────────────────
+  // ── Projects (5) ─────────────────────────────────────────
   const sungardo = await prisma.project.create({
     data: {
       name: "Sungardo",
@@ -128,52 +151,44 @@ async function main() {
 
   console.log("  Created 5 projects");
 
-  // ── Units ──────────────────────────────────────────────
+  // ── Units (22) ───────────────────────────────────────────
   const units = await Promise.all([
-    // Sungardo - 5 units
+    // Sungardo — 5 units
     prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 45, price: 175000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-201", type: "1bed", bedrooms: 1, floor: 2, areaSqm: 65, price: 280000, status: "reserved" } }),
     prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-202", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 95, price: 420000, status: "available" } }),
     prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-301", type: "3bed", bedrooms: 3, floor: 3, areaSqm: 130, price: 580000, status: "available" } }),
     prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-PH1", type: "penthouse", bedrooms: 3, floor: 5, areaSqm: 180, price: 950000, status: "available" } }),
 
-    // Antigone Court - 5 units
+    // Antigone Court — 5 units (AC-201 now sold, linked to buyer2)
     prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 42, price: 160000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-102", type: "1bed", bedrooms: 1, floor: 1, areaSqm: 58, price: 225000, status: "available" } }),
-    prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-201", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 88, price: 365000, status: "reserved" } }),
+    prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-201", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 88, price: 365000, status: "sold", buyerId: buyer2.id } }),
     prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-301", type: "3bed", bedrooms: 3, floor: 3, areaSqm: 120, price: 480000, status: "available" } }),
     prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-PH1", type: "penthouse", bedrooms: 3, floor: 4, areaSqm: 165, price: 820000, status: "available" } }),
 
-    // Symphony Residence - 5 units
+    // Symphony Residence — 5 units (SYM-202 linked to buyer)
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 48, price: 190000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-201", type: "1bed", bedrooms: 1, floor: 2, areaSqm: 68, price: 310000, status: "reserved" } }),
-    prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-202", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 92, price: 450000, status: "available" } }),
+    prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-202", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 92, price: 450000, status: "available", buyerId: buyer.id } }),
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-301", type: "3bed", bedrooms: 3, floor: 3, areaSqm: 135, price: 620000, status: "available" } }),
     prisma.unit.create({ data: { projectId: symphonyResidence.id, code: "SYM-PH1", type: "penthouse", bedrooms: 4, floor: 6, areaSqm: 200, price: 1150000, status: "available" } }),
 
-    // Cascada Residence - 3 units
+    // Cascada Residence — 3 units
     prisma.unit.create({ data: { projectId: cascadaResidence.id, code: "CAS-101", type: "1bed", bedrooms: 1, floor: 1, areaSqm: 62, price: 260000, status: "available" } }),
     prisma.unit.create({ data: { projectId: cascadaResidence.id, code: "CAS-201", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 98, price: 480000, status: "available" } }),
     prisma.unit.create({ data: { projectId: cascadaResidence.id, code: "CAS-PH1", type: "penthouse", bedrooms: 3, floor: 4, areaSqm: 175, price: 890000, status: "available" } }),
 
-    // Ptolemy Studios - 4 units
+    // Ptolemy Studios — 4 units (all sold)
     prisma.unit.create({ data: { projectId: ptolemyStudios.id, code: "PT-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 38, price: 155000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: ptolemyStudios.id, code: "PT-102", type: "studio", bedrooms: 0, floor: 1, areaSqm: 40, price: 162000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: ptolemyStudios.id, code: "PT-201", type: "1bed", bedrooms: 1, floor: 2, areaSqm: 55, price: 220000, status: "sold" } }),
     prisma.unit.create({ data: { projectId: ptolemyStudios.id, code: "PT-202", type: "1bed", bedrooms: 1, floor: 2, areaSqm: 60, price: 245000, status: "sold" } }),
   ]);
 
-  console.log(`  Created ${units.length} units`);
+  console.log(`  Created ${units.length} units (8 sold, 3 reserved, 11 available)`);
 
-  // ── Link buyer to a unit ─────────────────────────────────
-  const symUnitBuyer = units.find((u) => u.code === "SYM-202")!;
-  await prisma.unit.update({
-    where: { id: symUnitBuyer.id },
-    data: { buyerId: buyer.id },
-  });
-  console.log("  Linked buyer to unit SYM-202");
-
-  // ── Construction Phases (Symphony Residence) ───────────
+  // ── Construction Phases (Symphony Residence) ─────────────
   const phase1 = await prisma.constructionPhase.create({
     data: {
       projectId: symphonyResidence.id,
@@ -185,7 +200,6 @@ async function main() {
       sortOrder: 1,
     },
   });
-
   const phase2 = await prisma.constructionPhase.create({
     data: {
       projectId: symphonyResidence.id,
@@ -197,7 +211,6 @@ async function main() {
       sortOrder: 2,
     },
   });
-
   const phase3 = await prisma.constructionPhase.create({
     data: {
       projectId: symphonyResidence.id,
@@ -209,7 +222,6 @@ async function main() {
       sortOrder: 3,
     },
   });
-
   const phase4 = await prisma.constructionPhase.create({
     data: {
       projectId: symphonyResidence.id,
@@ -222,7 +234,6 @@ async function main() {
     },
   });
 
-  // Construction media for phases
   await prisma.constructionMedia.createMany({
     data: [
       { phaseId: phase1.id, url: "/images/construction/sym-excavation-1.jpg", type: "image", caption: "Excavation in progress" },
@@ -234,144 +245,82 @@ async function main() {
     ],
   });
 
-  console.log("  Created 4 construction phases with 6 media items");
+  console.log("  Created 4 construction phases with media");
 
-  // ── Payments (buyer, Symphony Residence unit SYM-202) ──
-  // Find the SYM-202 unit
+  // ── Payments ─────────────────────────────────────────────
   const symUnit = units.find((u) => u.code === "SYM-202")!;
+  const acUnit = units.find((u) => u.code === "AC-201")!;
 
   await prisma.payment.createMany({
     data: [
-      {
-        userId: buyer.id,
-        unitId: symUnit.id,
-        description: "Booking Deposit",
-        amount: 10000,
-        dueDate: new Date("2025-09-15"),
-        paidDate: new Date("2025-09-15"),
-        status: "paid",
-      },
-      {
-        userId: buyer.id,
-        unitId: symUnit.id,
-        description: "Contract Signing",
-        amount: 35000,
-        dueDate: new Date("2025-10-01"),
-        paidDate: new Date("2025-10-02"),
-        status: "paid",
-      },
-      {
-        userId: buyer.id,
-        unitId: symUnit.id,
-        description: "Foundation Completion",
-        amount: 30000,
-        dueDate: new Date("2025-12-31"),
-        paidDate: new Date("2025-12-28"),
-        status: "paid",
-      },
-      {
-        userId: buyer.id,
-        unitId: symUnit.id,
-        description: "Structural Completion",
-        amount: 40000,
-        dueDate: new Date("2026-04-15"),
-        paidDate: null,
-        status: "upcoming",
-      },
-      {
-        userId: buyer.id,
-        unitId: symUnit.id,
-        description: "Interior Finishing",
-        amount: 35000,
-        dueDate: new Date("2026-07-01"),
-        paidDate: null,
-        status: "upcoming",
-      },
-      {
-        userId: buyer.id,
-        unitId: symUnit.id,
-        description: "Final Payment & Keys",
-        amount: 35000,
-        dueDate: new Date("2026-09-01"),
-        paidDate: null,
-        status: "upcoming",
-      },
+      // buyer (Maria Petrova) — SYM-202: 3 paid + 1 overdue + 2 upcoming
+      { userId: buyer.id, unitId: symUnit.id, description: "Booking Deposit", amount: 10000, dueDate: new Date("2025-09-15"), paidDate: new Date("2025-09-15"), status: "paid" },
+      { userId: buyer.id, unitId: symUnit.id, description: "Contract Signing", amount: 35000, dueDate: new Date("2025-10-01"), paidDate: new Date("2025-10-02"), status: "paid" },
+      { userId: buyer.id, unitId: symUnit.id, description: "Foundation Completion", amount: 30000, dueDate: new Date("2025-12-31"), paidDate: new Date("2025-12-28"), status: "paid" },
+      { userId: buyer.id, unitId: symUnit.id, description: "Structural Milestone Advance", amount: 8000, dueDate: new Date("2026-01-15"), paidDate: null, status: "overdue" },
+      { userId: buyer.id, unitId: symUnit.id, description: "Structural Completion", amount: 40000, dueDate: new Date("2026-04-15"), paidDate: null, status: "upcoming" },
+      { userId: buyer.id, unitId: symUnit.id, description: "Interior Finishing", amount: 35000, dueDate: new Date("2026-07-01"), paidDate: null, status: "upcoming" },
+      // buyer2 (Andreas Christodoulou) — AC-201: 2 paid + 1 overdue + 1 upcoming
+      { userId: buyer2.id, unitId: acUnit.id, description: "Booking Deposit", amount: 8000, dueDate: new Date("2025-08-01"), paidDate: new Date("2025-08-01"), status: "paid" },
+      { userId: buyer2.id, unitId: acUnit.id, description: "Contract Signing", amount: 28000, dueDate: new Date("2025-09-15"), paidDate: new Date("2025-09-14"), status: "paid" },
+      { userId: buyer2.id, unitId: acUnit.id, description: "Foundation Milestone", amount: 22000, dueDate: new Date("2026-01-01"), paidDate: null, status: "overdue" },
+      { userId: buyer2.id, unitId: acUnit.id, description: "Structural Completion", amount: 32000, dueDate: new Date("2026-06-01"), paidDate: null, status: "upcoming" },
     ],
   });
 
-  console.log("  Created 6 payments");
+  console.log("  Created 10 payments (2 overdue, 5 paid, 3 upcoming)");
 
-  // ── Documents (buyer) ──────────────────────────────────
+  // ── Documents (buyer) ────────────────────────────────────
   await prisma.document.createMany({
     data: [
-      {
-        userId: buyer.id,
-        name: "Purchase Agreement - SYM-202",
-        category: "contract",
-        fileUrl: "/docs/contracts/sym-202-agreement.pdf",
-        fileSize: 2450000,
-        status: "approved",
-      },
-      {
-        userId: buyer.id,
-        name: "Passport Copy",
-        category: "passport",
-        fileUrl: "/docs/identity/passport-petrova.pdf",
-        fileSize: 850000,
-        status: "approved",
-      },
-      {
-        userId: buyer.id,
-        name: "Tax Residency Certificate",
-        category: "tax",
-        fileUrl: "/docs/tax/tax-certificate-petrova.pdf",
-        fileSize: 320000,
-        status: "approved",
-      },
-      {
-        userId: buyer.id,
-        name: "Floor Plan - SYM-202",
-        category: "floor_plan",
-        fileUrl: "/docs/plans/sym-202-floorplan.pdf",
-        fileSize: 1200000,
-        status: "approved",
-      },
-      {
-        userId: buyer.id,
-        name: "Proof of Address",
-        category: "tax",
-        fileUrl: "/docs/tax/proof-of-address-petrova.pdf",
-        fileSize: 450000,
-        status: "pending",
-      },
+      { userId: buyer.id, name: "Purchase Agreement - SYM-202", category: "contract", fileUrl: "/docs/contracts/sym-202-agreement.pdf", fileSize: 2450000, status: "approved" },
+      { userId: buyer.id, name: "Passport Copy", category: "passport", fileUrl: "/docs/identity/passport-petrova.pdf", fileSize: 850000, status: "approved" },
+      { userId: buyer.id, name: "Tax Residency Certificate", category: "tax", fileUrl: "/docs/tax/tax-certificate-petrova.pdf", fileSize: 320000, status: "approved" },
+      { userId: buyer.id, name: "Floor Plan - SYM-202", category: "floor_plan", fileUrl: "/docs/plans/sym-202-floorplan.pdf", fileSize: 1200000, status: "approved" },
+      { userId: buyer.id, name: "Proof of Address", category: "tax", fileUrl: "/docs/tax/proof-of-address-petrova.pdf", fileSize: 450000, status: "pending" },
     ],
   });
 
   console.log("  Created 5 documents");
 
-  // ── Leads ──────────────────────────────────────────────
-  await prisma.lead.create({
-    data: { source: "quiz", status: "contacted", name: "Elena Karasova", email: "elena@example.com", data: '{"budget":"300k-500k","preference":"2bed","timeline":"6months"}', tag: "hot", agentId: agent.id },
-  });
-  await prisma.lead.create({
-    data: { source: "newsletter", status: "new", email: "john.smith@example.com", tag: "warm" },
-  });
-  await prisma.lead.create({
-    data: { source: "brochure", status: "contacted", name: "Ahmed Al-Hassan", email: "ahmed@example.com", phone: "+971 50 1234567", tag: "warm", agentId: agent.id },
-  });
-  await prisma.lead.create({
-    data: { source: "call_booking", status: "new", name: "Li Wei", email: "li.wei@example.com", phone: "+86 138 0000 1234", data: '{"preferredDate":"2026-03-15","project":"sungardo"}', tag: "hot" },
-  });
-  await prisma.lead.create({
-    data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@develta.cy", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id },
-  });
-  await prisma.lead.create({
-    data: { source: "quiz", status: "contacted", name: "Dmitry Volkov", email: "dmitry@example.com", phone: "+357 99 123456", tag: "hot", agentId: agent.id, data: JSON.stringify({ timing: "1-3 months", budget: "€500k+" }) },
+  // ── Leads (12) ───────────────────────────────────────────
+  const lead1 = await prisma.lead.create({ data: { source: "quiz", status: "contacted", name: "Elena Karasova", email: "elena@example.com", data: '{"budget":"300k-500k","preference":"2bed","timeline":"6months"}', tag: "hot", agentId: agent.id } });
+  await prisma.lead.create({ data: { source: "newsletter", status: "new", email: "john.smith@example.com", tag: "warm" } });
+  const lead3 = await prisma.lead.create({ data: { source: "brochure", status: "contacted", name: "Ahmed Al-Hassan", email: "ahmed@example.com", phone: "+971 50 1234567", tag: "warm", agentId: agent.id } });
+  await prisma.lead.create({ data: { source: "call_booking", status: "new", name: "Li Wei", email: "li.wei@example.com", phone: "+86 138 0000 1234", data: '{"preferredDate":"2026-03-15","project":"sungardo"}', tag: "hot" } });
+  await prisma.lead.create({ data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@develta.cy", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id } });
+  await prisma.lead.create({ data: { source: "quiz", status: "contacted", name: "Dmitry Volkov", email: "dmitry@example.com", phone: "+357 99 123456", tag: "hot", agentId: agent.id, data: JSON.stringify({ timing: "1-3 months", budget: "€500k+" }) } });
+  await prisma.lead.create({ data: { source: "quiz", status: "new", name: "Sophie Laurent", email: "sophie@example.com", tag: "warm" } });
+  await prisma.lead.create({ data: { source: "newsletter", status: "lost", name: "Robert Mueller", email: "r.mueller@example.com", tag: "cold" } });
+  const lead9 = await prisma.lead.create({ data: { source: "brochure", status: "converted", name: "Yuki Tanaka", phone: "+81 90 1234 5678", tag: "hot", agentId: agent.id } });
+  await prisma.lead.create({ data: { source: "call_booking", status: "lost", name: "Marco Rossi", email: "marco@example.com", tag: "cold" } });
+  const lead11 = await prisma.lead.create({ data: { source: "quiz", status: "converted", name: "Priya Sharma", email: "priya@example.com", tag: "hot", agentId: agent.id } });
+  await prisma.lead.create({ data: { source: "newsletter", status: "new", email: "info@nordic-invest.dk", tag: "warm" } });
+
+  console.log("  Created 12 leads (new: 4, contacted: 3, converted: 3, lost: 2)");
+
+  // ── Lead Notes (3) ───────────────────────────────────────
+  await prisma.leadNote.createMany({
+    data: [
+      { leadId: lead1.id, authorId: agent.id, content: "Called on 10 March. Interested in 2bed at Sungardo. Budget confirmed €300-400k." },
+      { leadId: lead3.id, authorId: agent.id, content: "Visited office. Serious buyer, requesting floor plans." },
+      { leadId: lead11.id, authorId: agent.id, content: "Converted — signed reservation for SYM-101." },
+    ],
   });
 
-  console.log("  Created 6 leads");
+  console.log("  Created 3 lead notes");
 
-  // ── Investment Pools ───────────────────────────────────
+  // ── Commissions (2) ──────────────────────────────────────
+  await prisma.commission.createMany({
+    data: [
+      { agentId: agent.id, amount: 8750, status: "approved", description: "SYM-101 sale commission 2.5%" },
+      { agentId: agent.id, amount: 5600, status: "pending", description: "AC-201 reservation commission 2%" },
+    ],
+  });
+
+  console.log("  Created 2 commissions");
+
+  // ── Investment Pools (2) ──────────────────────────────────
   const auraPool = await prisma.investmentPool.create({
     data: {
       name: "Aura Residences Pool",
@@ -386,7 +335,6 @@ async function main() {
       description: "Co-investment pool for Aura Residences, a premium seafront development in Limassol Marina. 74% funded with strong investor demand.",
     },
   });
-
   const elysiumPool = await prisma.investmentPool.create({
     data: {
       name: "Elysium Villas Pool",
@@ -402,139 +350,64 @@ async function main() {
     },
   });
 
-  console.log("  Created 2 investment pools");
-
-  // ── Investor Investments ─────────────────────────────────
-  await prisma.investorInvestment.create({
-    data: { userId: investor.id, poolId: auraPool.id, amount: 100000 },
-  });
-  await prisma.investorInvestment.create({
-    data: { userId: investor.id, poolId: elysiumPool.id, amount: 50000 },
+  await prisma.investorInvestment.createMany({
+    data: [
+      { userId: investor.id, poolId: auraPool.id, amount: 100000 },
+      { userId: investor.id, poolId: elysiumPool.id, amount: 50000 },
+    ],
   });
 
-  console.log("  Created 2 investor investments");
+  console.log("  Created 2 investment pools + 2 investor investments");
 
-  // ── Job Positions ──────────────────────────────────────
+  // ── Job Positions (4) ────────────────────────────────────
   await prisma.jobPosition.createMany({
     data: [
-      {
-        title: "Senior Full-Stack Developer",
-        slug: "senior-full-stack-developer",
-        department: "Engineering",
-        location: "Limassol, Cyprus",
-        type: "full_time",
-        description: "<h3>About the Role</h3><p>We are looking for an experienced full-stack developer to build and maintain our property technology platform. You will work with SvelteKit, TypeScript, and Prisma to deliver features for buyers, investors, and agents.</p><h3>Requirements</h3><ul><li>3+ years experience with TypeScript and modern frameworks</li><li>Experience with SvelteKit or similar SSR frameworks</li><li>Strong SQL and ORM skills (Prisma preferred)</li><li>Passion for clean, maintainable code</li></ul><h3>What We Offer</h3><p>Competitive salary, flexible working arrangements, and the opportunity to shape a product used by high-net-worth real estate investors across the Mediterranean.</p>",
-        isActive: true,
-      },
-      {
-        title: "Real Estate Sales Manager",
-        slug: "real-estate-sales-manager",
-        department: "Sales",
-        location: "Limassol, Cyprus",
-        type: "full_time",
-        description: "<h3>About the Role</h3><p>Lead our sales team in promoting luxury residential projects across Limassol. You will manage client relationships, conduct property viewings, and close deals for off-plan and ready properties.</p><h3>Requirements</h3><ul><li>5+ years in luxury real estate sales</li><li>Fluent English; Russian or Arabic is a strong asset</li><li>Proven track record closing €500k+ transactions</li><li>Deep knowledge of the Cyprus property market</li></ul><h3>What We Offer</h3><p>Attractive base salary plus uncapped commission, company car, and access to our exclusive portfolio of premium developments.</p>",
-        isActive: true,
-      },
-      {
-        title: "Marketing Specialist",
-        slug: "marketing-specialist",
-        department: "Marketing",
-        location: "Limassol, Cyprus",
-        type: "full_time",
-        description: "<h3>About the Role</h3><p>Drive digital marketing campaigns for our real estate portfolio. Experience with property marketing, social media advertising, and lead generation in the Cyprus market is highly valued.</p><h3>Requirements</h3><ul><li>3+ years in digital marketing</li><li>Experience with Meta Ads, Google Ads, and email campaigns</li><li>Strong analytical skills and data-driven mindset</li><li>Experience in real estate or luxury brands is a plus</li></ul><h3>What We Offer</h3><p>Creative freedom to shape the brand identity of Limassol's leading proptech platform, competitive salary, and a collaborative team environment.</p>",
-        isActive: true,
-      },
-      {
-        title: "Construction Project Coordinator",
-        slug: "construction-project-coordinator",
-        department: "Operations",
-        location: "Limassol, Cyprus",
-        type: "contract",
-        description: "<h3>About the Role</h3><p>Coordinate construction timelines, liaise with contractors, and ensure quality standards are met across our active development projects. Report progress to stakeholders and update our digital tracking systems.</p><h3>Requirements</h3><ul><li>Background in civil engineering or construction management</li><li>Experience managing residential developments</li><li>Strong organisational and reporting skills</li><li>Familiarity with construction scheduling software</li></ul><h3>What We Offer</h3><p>Contract engagement with a leading Limassol developer, competitive day rate, and potential for long-term collaboration as our project pipeline grows.</p>",
-        isActive: true,
-      },
+      { title: "Senior Full-Stack Developer", slug: "senior-full-stack-developer", department: "Engineering", location: "Limassol, Cyprus", type: "full_time", description: "<h3>About the Role</h3><p>We are looking for an experienced full-stack developer to build and maintain our property technology platform.</p>", isActive: true },
+      { title: "Real Estate Sales Manager", slug: "real-estate-sales-manager", department: "Sales", location: "Limassol, Cyprus", type: "full_time", description: "<h3>About the Role</h3><p>Lead our sales team in promoting luxury residential projects across Limassol.</p>", isActive: true },
+      { title: "Marketing Specialist", slug: "marketing-specialist", department: "Marketing", location: "Limassol, Cyprus", type: "full_time", description: "<h3>About the Role</h3><p>Drive digital marketing campaigns for our real estate portfolio.</p>", isActive: true },
+      { title: "Construction Project Coordinator", slug: "construction-project-coordinator", department: "Operations", location: "Limassol, Cyprus", type: "contract", description: "<h3>About the Role</h3><p>Coordinate construction timelines and liaise with contractors.</p>", isActive: true },
     ],
   });
 
   console.log("  Created 4 job positions");
 
-  // ── FAQ ────────────────────────────────────────────────
+  // ── FAQ (6) ───────────────────────────────────────────────
   await prisma.fAQ.createMany({
     data: [
-      {
-        question: "What is the process for purchasing property in Cyprus as a foreign buyer?",
-        answer: "Foreign buyers can purchase property in Cyprus with minimal restrictions. The process includes selecting a property, signing a reservation agreement, conducting due diligence, signing the sale contract at the Land Registry, and obtaining Council of Ministers approval (for non-EU citizens). We guide you through every step.",
-        sortOrder: 1,
-        category: "Buying Process",
-      },
-      {
-        question: "What are the typical payment terms for off-plan properties?",
-        answer: "Payment is usually structured in installments tied to construction milestones: a booking deposit (5-10%), contract signing (20-30%), foundation completion (15-20%), structural completion (20-25%), and final payment on handover (15-20%). Exact terms vary by project.",
-        sortOrder: 2,
-        category: "Buying Process",
-      },
-      {
-        question: "Can I earn rental income from my investment property?",
-        answer: "Yes. Limassol has strong rental demand driven by the tech sector and tourism. We offer rental management services and can connect you with our partner agencies. Typical net yields range from 4-7% depending on property type and location.",
-        sortOrder: 3,
-        category: "Investment",
-      },
-      {
-        question: "What tax benefits are available for property investors in Cyprus?",
-        answer: "Cyprus offers attractive tax incentives including no property tax (abolished in 2017), reduced VAT at 5% for primary residences, no inheritance tax, and favorable capital gains treatment. We recommend consulting with a local tax advisor for your specific situation.",
-        sortOrder: 4,
-        category: "Investment",
-      },
-      {
-        question: "How long does the title deed transfer process take?",
-        answer: "The title deed transfer in Cyprus typically takes 2-4 weeks after all payments are settled. We work with experienced local lawyers to ensure a smooth process. For off-plan properties, title deeds are issued after construction completion and final inspection.",
-        sortOrder: 5,
-        category: "Legal & Tax",
-      },
-      {
-        question: "Do I need a local bank account to buy property in Cyprus?",
-        answer: "It is advisable to open a Cyprus bank account to facilitate property transactions, especially for mortgage purposes. However, international wire transfers are accepted. We can recommend banking partners experienced with international property buyers.",
-        sortOrder: 6,
-        category: "Legal & Tax",
-      },
+      { question: "What is the process for purchasing property in Cyprus as a foreign buyer?", answer: "Foreign buyers can purchase property in Cyprus with minimal restrictions. The process includes selecting a property, signing a reservation agreement, conducting due diligence, signing the sale contract at the Land Registry, and obtaining Council of Ministers approval (for non-EU citizens).", sortOrder: 1, category: "Buying Process" },
+      { question: "What are the typical payment terms for off-plan properties?", answer: "Payment is usually structured in installments tied to construction milestones: a booking deposit (5-10%), contract signing (20-30%), foundation completion (15-20%), structural completion (20-25%), and final payment on handover (15-20%).", sortOrder: 2, category: "Buying Process" },
+      { question: "Can I earn rental income from my investment property?", answer: "Yes. Limassol has strong rental demand driven by the tech sector and tourism. Typical net yields range from 4-7% depending on property type and location.", sortOrder: 3, category: "Investment" },
+      { question: "What tax benefits are available for property investors in Cyprus?", answer: "Cyprus offers attractive tax incentives including no property tax (abolished in 2017), reduced VAT at 5% for primary residences, no inheritance tax, and favorable capital gains treatment.", sortOrder: 4, category: "Investment" },
+      { question: "How long does the title deed transfer process take?", answer: "The title deed transfer typically takes 2-4 weeks after all payments are settled.", sortOrder: 5, category: "Legal & Tax" },
+      { question: "Do I need a local bank account to buy property in Cyprus?", answer: "It is advisable to open a Cyprus bank account to facilitate property transactions. International wire transfers are accepted.", sortOrder: 6, category: "Legal & Tax" },
     ],
   });
 
   console.log("  Created 6 FAQ entries");
 
-  // ── Articles ───────────────────────────────────────────
+  // ── Articles (3) ─────────────────────────────────────────
   await prisma.article.createMany({
     data: [
-      {
-        title: "Why Limassol Is the Mediterranean's Hottest Property Market in 2026",
-        slug: "limassol-hottest-property-market-2026",
-        category: "Market Insights",
-        excerpt: "Discover why international investors are flocking to Limassol and what makes this coastal city a prime real estate destination.",
-        content: "<p>Limassol has emerged as one of the Mediterranean's most dynamic property markets, attracting investors from across Europe, the Middle East, and Asia. The city's transformation over the past decade has been remarkable, with world-class infrastructure, a thriving tech ecosystem, and an enviable lifestyle drawing high-net-worth individuals.</p><p>Key factors driving demand include the Cyprus Investment Programme legacy, a favorable tax environment, EU membership benefits, and a growing expatriate community. Property prices have seen consistent year-over-year growth of 8–12%, with prime seafront locations commanding premium valuations.</p><p>For investors seeking a combination of capital appreciation and rental yield, Limassol offers a compelling proposition that few Mediterranean cities can match. The city's international airport, modern marina, and cosmopolitan dining scene make it equally attractive as a primary residence or a rental investment.</p>",
-        imageUrl: "/images/articles/limassol-market-2026.jpg",
-      },
-      {
-        title: "A Complete Guide to Off-Plan Property Investment in Cyprus",
-        slug: "guide-off-plan-property-investment-cyprus",
-        category: "Investment Guide",
-        excerpt: "Everything you need to know about buying off-plan in Cyprus, from legal requirements to payment structures.",
-        content: "<p>Off-plan property purchases represent one of the most attractive investment strategies in Cyprus real estate. By purchasing during the construction phase, buyers can benefit from lower entry prices, flexible payment terms, and significant capital appreciation by completion.</p><p>This guide covers the essential aspects of off-plan investment: understanding the legal framework, evaluating developer track records, structuring payments around construction milestones, and managing risk. We also discuss the importance of title deed insurance, escrow arrangements, and independent legal representation.</p><p>Whether you are a first-time buyer or an experienced investor, understanding these fundamentals will help you make informed decisions and maximize your returns in the Cyprus property market. Our team is available to walk you through each step of the process.</p>",
-        imageUrl: "/images/articles/off-plan-guide.jpg",
-      },
-      {
-        title: "Construction Update: Symphony Residence Reaches New Milestone",
-        slug: "symphony-residence-construction-update-march-2026",
-        category: "Project Updates",
-        excerpt: "Our flagship Symphony Residence project is progressing on schedule with the superstructure framework nearing completion.",
-        content: "<p>We are pleased to share that Symphony Residence in Limassol's tourist area has reached a significant construction milestone. The superstructure framework is progressing on schedule, with the third-floor slab now complete and exterior wall work underway.</p><p>The project remains on track for its planned completion in Q3 2026. Buyers can monitor real-time progress through our construction tracker in the Develta portal, which includes drone footage, photo galleries, and milestone completion status.</p><p>With over 60% of units already reserved or sold, Symphony Residence continues to generate strong interest from both local and international buyers. A limited number of premium units remain available, including a spectacular penthouse on the sixth floor with panoramic sea views.</p>",
-        imageUrl: "/images/articles/symphony-update-march.jpg",
-      },
+      { title: "Why Limassol Is the Mediterranean's Hottest Property Market in 2026", slug: "limassol-hottest-property-market-2026", category: "Market Insights", excerpt: "Discover why international investors are flocking to Limassol and what makes this coastal city a prime real estate destination.", content: "<p>Limassol has emerged as one of the Mediterranean's most dynamic property markets, attracting investors from across Europe, the Middle East, and Asia.</p>", imageUrl: "/images/articles/limassol-market-2026.jpg" },
+      { title: "A Complete Guide to Off-Plan Property Investment in Cyprus", slug: "guide-off-plan-property-investment-cyprus", category: "Investment Guide", excerpt: "Everything you need to know about buying off-plan in Cyprus, from legal requirements to payment structures.", content: "<p>Off-plan property purchases represent one of the most attractive investment strategies in Cyprus real estate.</p>", imageUrl: "/images/articles/off-plan-guide.jpg" },
+      { title: "Construction Update: Symphony Residence Reaches New Milestone", slug: "symphony-residence-construction-update-march-2026", category: "Project Updates", excerpt: "Our flagship Symphony Residence project is progressing on schedule with the superstructure framework nearing completion.", content: "<p>We are pleased to share that Symphony Residence has reached a significant construction milestone.</p>", imageUrl: "/images/articles/symphony-update-march.jpg" },
     ],
   });
 
   console.log("  Created 3 articles");
 
-  console.log("\nSeeding complete!");
+  console.log("\n✓ Seeding complete!");
+  console.log("  Test accounts (password: develta123):");
+  console.log("    admin@develta.cy   — internal_team");
+  console.log("    buyer@develta.cy   — buyer (unit SYM-202)");
+  console.log("    buyer2@develta.cy  — buyer (unit AC-201)");
+  console.log("    investor@develta.cy — investor");
+  console.log("    agent@develta.cy   — agent");
+  console.log("    team@develta.cy    — internal_team");
+
+  void admin;
+  void lead9;
+  void phase4;
 }
 
 main()
