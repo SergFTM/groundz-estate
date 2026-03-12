@@ -24,7 +24,7 @@ const AGENT_CONTEXT = `${PUBLIC_CONTEXT}
 You are speaking with a Develta sales agent.
 CRM lead statuses: new → contacted → converted | lost.
 Lead tags: hot (high intent), warm (interested), cold (low priority).
-Lead sources: website, referral, social, portal, direct.
+Lead sources: quiz, newsletter, brochure, call_booking.
 You can look up leads and filter by status or tag.`;
 
 const INTERNAL_TEAM_CONTEXT = `${PUBLIC_CONTEXT}
