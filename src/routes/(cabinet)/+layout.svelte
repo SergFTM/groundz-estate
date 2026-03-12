@@ -1,6 +1,7 @@
 <script lang="ts">
   import CabinetSidebar from '$lib/components/cabinet/CabinetSidebar.svelte';
   import CabinetTabs from '$lib/components/cabinet/CabinetTabs.svelte';
+  import AIChatWidget from '$lib/components/AIChatWidget.svelte';
 
   let { data, children } = $props();
 
@@ -46,6 +47,8 @@
     {@render children()}
   </div>
 </div>
+
+<AIChatWidget role={data.user.role as 'buyer' | 'investor' | 'agent' | 'internal_team'} userId={data.user.id} floating />
 
 <style>
   .cabinet {
