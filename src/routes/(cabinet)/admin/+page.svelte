@@ -2,8 +2,11 @@
   import { formatCurrency } from '$lib/utils/formatters';
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
+  import AIChatWidget from '$lib/components/AIChatWidget.svelte';
 
   let { data } = $props();
+
+  const adminUser = data as typeof data & { user?: { id: string; role: string } };
 </script>
 
 <svelte:head>
@@ -180,6 +183,10 @@
         <p class="widget__empty">No users found</p>
       {/each}
     </div>
+  </div>
+
+  <div class="admin-dash__ai">
+    <AIChatWidget role="internal_team" userId={adminUser.user?.id} />
   </div>
 </div>
 
@@ -379,6 +386,13 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+  }
+
+  .admin-dash__ai {
+    margin-top: var(--space-8);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 500px;
   }
 
   @media (max-width: 768px) {
