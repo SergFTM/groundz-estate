@@ -23,6 +23,10 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Database
+dev.db
+dev.db-journal
+dev.db-shm
+dev.db-wal
 prisma/dev.db
 prisma/dev.db-journal
 

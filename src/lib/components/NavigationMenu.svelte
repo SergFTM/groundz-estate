@@ -27,10 +27,19 @@
 	const navLinks = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Projects', href: '/projects' },
-		{ label: 'Investment', href: '/investment' },
 		{ label: 'Knowledge Base', href: '/knowledge' },
+		{ label: 'About', href: '/about' },
 		{ label: 'Contact', href: '/contact' }
 	];
+
+	const investLinks = [
+		{ label: 'Investment Pools', href: '/investment', desc: 'Browse active pools' },
+		{ label: 'How It Works', href: '/invest/how-it-works', desc: 'SPV structure, returns' },
+		{ label: 'Investor Protections', href: '/invest/protections', desc: 'Security & guarantees' },
+		{ label: 'Apply as Investor', href: '/invest/apply', desc: 'Submit your application' },
+	];
+
+	const mobileInvestLinks = investLinks.map(l => ({ label: l.label, href: l.href }));
 
 	function toggleMobile() {
 		mobileOpen = !mobileOpen;
@@ -58,6 +67,22 @@
 			{#each navLinks as link}
 				<a href={link.href} class="nav__link">{link.label}</a>
 			{/each}
+
+			<!-- Invest dropdown -->
+			<div class="nav__dropdown">
+				<button class="nav__link nav__dropdown-trigger" type="button">
+					Invest <span class="nav__dropdown-caret">▾</span>
+				</button>
+				<div class="nav__dropdown-panel">
+					{#each investLinks as item}
+						<a href={item.href} class="nav__dropdown-item">
+							<span class="nav__dropdown-item-label">{item.label}</span>
+							<span class="nav__dropdown-item-desc">{item.desc}</span>
+						</a>
+					{/each}
+				</div>
+			</div>
+
 			{#if user && cabinetHref}
 				<a href={cabinetHref} class="nav__link nav__link--cabinet">Cabinet</a>
 			{/if}
@@ -100,6 +125,10 @@
 	<nav class="sidebar__nav" aria-label="Mobile navigation">
 		{#each navLinks as link}
 			<a href={link.href} class="sidebar__link" onclick={closeMobile}>{link.label}</a>
+		{/each}
+		<div class="sidebar__group-label">Invest</div>
+		{#each mobileInvestLinks as link}
+			<a href={link.href} class="sidebar__link sidebar__link--sub" onclick={closeMobile}>{link.label}</a>
 		{/each}
 		{#if user && cabinetHref}
 			<a href={cabinetHref} class="sidebar__link" onclick={closeMobile}>Cabinet</a>
@@ -198,6 +227,81 @@
 
 	.nav__link:hover {
 		color: var(--color-accent);
+	}
+
+	/* Dropdown */
+	.nav__dropdown {
+		position: relative;
+	}
+
+	.nav__dropdown-trigger {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-family: var(--font-body);
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 0;
+	}
+
+	.nav__dropdown-caret {
+		font-size: 9px;
+		opacity: 0.6;
+		transition: transform var(--transition-fast);
+	}
+
+	.nav__dropdown:hover .nav__dropdown-caret {
+		transform: rotate(180deg);
+	}
+
+	.nav__dropdown-panel {
+		position: absolute;
+		top: calc(100% + 12px);
+		left: 50%;
+		transform: translateX(-50%);
+		min-width: 220px;
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+		padding: var(--space-2);
+		opacity: 0;
+		pointer-events: none;
+		transform: translateX(-50%) translateY(-4px);
+		transition: opacity 0.18s ease, transform 0.18s ease;
+		z-index: 200;
+	}
+
+	.nav__dropdown:hover .nav__dropdown-panel {
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	.nav__dropdown-item {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: var(--space-3) var(--space-4);
+		border-radius: var(--radius-md);
+		text-decoration: none;
+		transition: background var(--transition-fast);
+	}
+
+	.nav__dropdown-item:hover {
+		background: var(--color-bg-alt);
+	}
+
+	.nav__dropdown-item-label {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.nav__dropdown-item-desc {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
 	}
 
 	.nav__lang {
@@ -314,6 +418,21 @@
 
 	.sidebar__link:hover {
 		color: var(--color-accent);
+	}
+
+	.sidebar__group-label {
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		padding: var(--space-4) 0 var(--space-2);
+	}
+
+	.sidebar__link--sub {
+		padding-left: var(--space-3);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
 	}
 
 	.sidebar__footer {

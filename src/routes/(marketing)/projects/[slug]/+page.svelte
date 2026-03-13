@@ -1,13 +1,42 @@
 <script lang="ts">
-  import { enhance } from '$app/forms';
   import UnitCard from '$lib/components/UnitCard.svelte';
+  import FloorTourViewer from '$lib/components/FloorTourViewer.svelte';
+  import ProjectTourSection from '$lib/components/ProjectTourSection.svelte';
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import ConstructionTimeline from '$lib/components/cabinet/ConstructionTimeline.svelte';
+  import AIChatWidget from '$lib/components/AIChatWidget.svelte';
 
-  let { data, form } = $props();
+  interface TourImage { url: string; label: string }
+
+  let { data } = $props();
   let { project } = $derived(data);
 
-  let formErrors = $derived((form as { errors?: Record<string, string>; success?: boolean } | null)?.errors ?? {});
+  let heroEl = $state<HTMLElement | null>(null);
+  let heroBgY = $state(0);
+
+  $effect(() => {
+    function onScroll() {
+      if (!heroEl) return;
+      heroBgY = -heroEl.getBoundingClientRect().top * 0.38;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  });
+
+  let tourUnit = $state<{ code: string; images: TourImage[]; floorPlanImage?: string } | null>(null);
+
+  function openTour(code: string) {
+    const unit = project.units.find((u) => u.code === code);
+    if (!unit?.tourImages) return;
+    try {
+      const images: TourImage[] = JSON.parse(unit.tourImages);
+      if (images.length) tourUnit = {
+        code,
+        images,
+        floorPlanImage: (unit as { tourFloorPlan?: string }).tourFloorPlan ?? undefined,
+      };
+    } catch { /* invalid JSON — skip */ }
+  }
 
   let availableUnits = $derived(project.units.filter((u) => u.status === 'available'));
 
@@ -38,8 +67,12 @@
   <meta name="description" content={project.description ?? `${project.name} — premium residential development in ${project.location}`} />
 </svelte:head>
 
-<!-- Hero -->
-<section class="hero" style={project.imageUrl ? `background-image: url(${project.imageUrl})` : ''}>
+<!-- Hero with parallax -->
+<section class="hero" bind:this={heroEl}>
+  <div
+    class="hero__bg"
+    style="transform: translateY({heroBgY}px); {project.imageUrl ? `background-image: url(${project.imageUrl})` : ''}"
+  ></div>
   <div class="hero__overlay">
     <div class="hero__content">
       <StatusBadge status={project.status} />
@@ -93,11 +126,14 @@
                   areaSqm={unit.areaSqm}
                   price={unit.price}
                   status={unit.status}
+                  tourImages={unit.tourImages}
                 />
               {/each}
             </div>
           {/if}
         </div>
+
+        <ProjectTourSection units={project.units} onopen={openTour} />
 
         {#if project.constructionPhases.length > 0}
           <div class="timeline-section">
@@ -110,64 +146,51 @@
         {/if}
       </div>
 
-      <!-- Sidebar -->
+      <!-- Sidebar: AI Concierge -->
       <aside class="body-sidebar">
-        <div class="sidebar-card">
-          <h3 class="sidebar-title">Book a Consultation</h3>
-
-          {#if form?.success}
-            <p class="success-msg">Request sent! We'll be in touch shortly.</p>
-          {:else}
-            <form method="POST" action="?/bookConsultation" use:enhance>
-              <input type="hidden" name="project" value={project.slug} />
-
-              <div class="form-field">
-                <label for="name">Your Name</label>
-                <input id="name" name="name" type="text" placeholder="Full name" required />
-                {#if formErrors.name}<span class="field-error">{formErrors.name}</span>{/if}
-              </div>
-
-              <div class="form-field">
-                <label for="phone">Phone Number</label>
-                <input id="phone" name="phone" type="tel" placeholder="+357 99 000000" required />
-                {#if formErrors.phone}<span class="field-error">{formErrors.phone}</span>{/if}
-              </div>
-
-              <div class="form-field">
-                <label for="timeSlot">Preferred Time</label>
-                <select id="timeSlot" name="timeSlot" required>
-                  <option value="">Select time...</option>
-                  <option value="morning">Morning (9–12)</option>
-                  <option value="afternoon">Afternoon (12–17)</option>
-                  <option value="evening">Evening (17–20)</option>
-                </select>
-                {#if formErrors.timeSlot}<span class="field-error">{formErrors.timeSlot}</span>{/if}
-              </div>
-
-              <button type="submit" class="btn-primary">Send Request →</button>
-            </form>
-          {/if}
-        </div>
+        <AIChatWidget
+          floating={false}
+          role="public"
+          projectName={project.name}
+          projectSlug={project.slug}
+        />
       </aside>
     </div>
   </div>
 </section>
 
+{#if tourUnit}
+  <FloorTourViewer
+    images={tourUnit.images}
+    unitCode={tourUnit.code}
+    onclose={() => (tourUnit = null)}
+    floorPlanImage={tourUnit.floorPlanImage}
+  />
+{/if}
+
 <style>
   .hero {
     height: 60vh;
     min-height: 400px;
-    background: linear-gradient(135deg, #2a2a28, #3a3a36);
-    background-size: cover;
-    background-position: center;
     position: relative;
+    overflow: hidden;
     display: flex;
     align-items: flex-end;
   }
 
+  .hero__bg {
+    position: absolute;
+    inset: -25% 0;
+    background: linear-gradient(135deg, #2a2a28, #3a3a36);
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+  }
+
   .hero__overlay {
-    background: rgba(30, 30, 28, 0.65);
-    backdrop-filter: blur(2px);
+    position: relative;
+    z-index: 1;
+    background: rgba(30, 30, 28, 0.55);
     width: 100%;
     padding: var(--space-12) var(--space-10);
   }
@@ -201,23 +224,45 @@
     margin: 0;
   }
 
+  /* ── Marble KPI strip ──────────────────────── */
   .kpi-strip {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    gap: 2px;
+    background: #ccc8c0;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
   }
 
   .kpi-item {
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-6) var(--space-7);
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    background: linear-gradient(160deg, #fdfaf6 0%, #f7f3ec 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+    position: relative;
   }
 
-  .kpi-item:last-child { border-right: none; }
+  /* Subtle marble vein hint */
+  .kpi-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 38%,
+      rgba(200, 190, 175, 0.12) 40%,
+      transparent 42%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
 
   .kpi-item strong {
     font-size: var(--text-2xl);
@@ -225,14 +270,16 @@
     color: var(--color-accent);
     font-family: 'IvyoraDisplay', serif;
     font-style: italic;
+    position: relative;
   }
 
   .kpi-item span {
     font-size: var(--text-xs);
-    color: var(--color-text-muted);
+    color: rgba(80, 74, 64, 0.55);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 600;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    position: relative;
   }
 
   .body-section {
@@ -290,80 +337,8 @@
     top: var(--space-6);
   }
 
-  .sidebar-card {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-  }
-
-  .sidebar-title {
-    font-size: var(--text-base);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text);
-    margin: 0 0 var(--space-5);
-  }
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    margin-bottom: var(--space-4);
-  }
-
-  .form-field label {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .form-field input,
-  .form-field select {
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.8);
-    font-size: var(--text-sm);
-    color: var(--color-text);
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .btn-primary {
-    width: 100%;
-    padding: var(--space-4);
-    background: var(--color-accent);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity var(--transition-base);
-  }
-
-  .btn-primary:hover { opacity: 0.88; }
-
-  .field-error {
-    font-size: var(--text-xs);
-    color: #ef4444;
-  }
-
-  .success-msg {
-    text-align: center;
-    color: var(--color-accent);
-    font-weight: 600;
-    padding: var(--space-6) 0;
-  }
-
   @media (max-width: 480px) {
     .kpi-strip { grid-template-columns: repeat(2, 1fr); }
-    .kpi-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .kpi-item { padding: var(--space-5) var(--space-5); }
   }
 </style>

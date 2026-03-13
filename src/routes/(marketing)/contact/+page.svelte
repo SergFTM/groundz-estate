@@ -66,15 +66,18 @@
           <div class="office-details">
             <div class="office-item">
               <span class="office-label">Address</span>
-              <span>28 Octovriou Avenue, Limassol 3035, Cyprus</span>
+              <span>Arch. Makariou III, 198<br/>Marinos Court, Flat/Office 4-5<br/>3030 Limassol, Cyprus</span>
             </div>
             <div class="office-item">
               <span class="office-label">Phone</span>
-              <a href="tel:+35725000000">+357 25 000 000</a>
+              <span>
+                <a href="tel:+35794098889">+357 94 098 889</a><br/>
+                <a href="tel:+35725335100">+357 25 335 100</a>
+              </span>
             </div>
             <div class="office-item">
               <span class="office-label">Email</span>
-              <a href="mailto:info@develta.cy">info@develta.cy</a>
+              <a href="mailto:sales@develta.cy">sales@develta.cy</a>
             </div>
             <div class="office-item">
               <span class="office-label">Hours</span>

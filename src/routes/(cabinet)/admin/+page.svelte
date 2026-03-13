@@ -82,6 +82,54 @@
     </div>
   </div>
 
+  <!-- Investment Operations -->
+  <div style="margin-bottom:var(--space-8);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4);">
+      <h2 style="font-size:var(--text-sm);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text);">Investment Operations</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-bottom:var(--space-5);">
+      <a href="/admin/leads?source=investor_application" style="text-decoration:none;">
+        <div style="background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);border:1px solid {data.kpis.investorApplications > 0 ? 'rgba(212,169,68,0.3)' : 'rgba(0,0,0,0.06)'};border-radius:var(--radius-lg);padding:var(--space-5);">
+          <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">New Investor Applications</p>
+          <p style="font-size:var(--text-2xl);font-weight:700;color:{data.kpis.investorApplications > 0 ? 'var(--color-accent)' : 'var(--color-text)'};margin-top:var(--space-2);">{data.kpis.investorApplications}</p>
+        </div>
+      </a>
+      <a href="/admin/kyc" style="text-decoration:none;">
+        <div style="background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);border:1px solid {data.kpis.kycPending > 0 ? 'rgba(245,158,11,0.3)' : 'rgba(0,0,0,0.06)'};border-radius:var(--radius-lg);padding:var(--space-5);">
+          <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">KYC Pending Review</p>
+          <p style="font-size:var(--text-2xl);font-weight:700;color:{data.kpis.kycPending > 0 ? '#f59e0b' : 'var(--color-text)'};margin-top:var(--space-2);">{data.kpis.kycPending}</p>
+        </div>
+      </a>
+      <a href="/admin/commits" style="text-decoration:none;">
+        <div style="background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-5);">
+          <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">Pending Commits</p>
+          <p style="font-size:var(--text-2xl);font-weight:700;color:var(--color-text);margin-top:var(--space-2);">{data.kpis.pendingCommits}</p>
+        </div>
+      </a>
+    </div>
+
+    {#if data.recentCommits.length > 0}
+      <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);overflow:hidden;">
+        <div style="padding:var(--space-3) var(--space-5);border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:var(--text-sm);font-weight:700;color:var(--color-text);">Recent Commits</span>
+          <a href="/admin/commits" style="font-size:var(--text-xs);font-weight:600;color:var(--color-accent);text-decoration:none;">View all →</a>
+        </div>
+        {#each data.recentCommits as c, i}
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-5);{i < data.recentCommits.length - 1 ? 'border-bottom:1px solid rgba(0,0,0,0.04);' : ''}">
+            <div>
+              <p style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);">{c.user.name ?? c.user.email}</p>
+              <p style="font-size:10px;color:var(--color-text-muted);">{c.pool.name}</p>
+            </div>
+            <div style="text-align:right;">
+              <p style="font-size:var(--text-sm);font-weight:700;color:var(--color-accent);">{formatCurrency(c.amount)}</p>
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;padding:1px 7px;border-radius:99px;background:rgba(245,158,11,0.1);color:#f59e0b;">{c.status.replace('_', ' ')}</span>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
+  </div>
+
   <div class="admin-dash__breakdowns">
     <div class="widget">
       <div class="widget__header">

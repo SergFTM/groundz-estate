@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
-  import { formatCurrency } from '$lib/utils/formatters';
+  import { formatCurrency, formatDate } from '$lib/utils/formatters';
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import DetailCard from '$lib/components/cabinet/DetailCard.svelte';
 
@@ -14,6 +14,27 @@
       ? Math.min(100, Math.round((data.pool.raisedAmount / data.pool.goalAmount) * 100))
       : 0
   );
+
+  const CATEGORY_LABEL: Record<string, string> = {
+    floor_plan:             '📐 Floor Plan',
+    subscription_agreement: '📋 Subscription Agreement',
+    contract:               '📄 Contract',
+    kyc:                    '✅ KYC',
+    other:                  '📁 Other',
+  };
+
+  const MILESTONE_ICON: Record<string, string> = {
+    completed:   '✅',
+    in_progress: '🔄',
+    delayed:     '⚠️',
+    pending:     '⏳',
+  };
+
+  function fmtSize(bytes: number): string {
+    if (bytes >= 1_048_576) return `${(bytes / 1_048_576).toFixed(1)} MB`;
+    if (bytes >= 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+    return bytes > 0 ? `${bytes} B` : '';
+  }
 </script>
 
 <svelte:head>
@@ -66,6 +87,47 @@
         <div class="pool-detail__description">
           <h3 class="pool-detail__desc-title">About this Pool</h3>
           <p class="pool-detail__desc-text">{data.pool.description}</p>
+        </div>
+      {/if}
+
+      <!-- Milestones (only if committed) -->
+      {#if data.myCommit && data.pool.milestones.length > 0}
+        <div class="pool-detail__section">
+          <h3 class="pool-detail__section-title">Milestones</h3>
+          <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+            {#each data.pool.milestones as ms}
+              <div style="display:flex;align-items:center;gap:var(--space-3);">
+                <span style="font-size:16px;flex-shrink:0;">{MILESTONE_ICON[ms.status] ?? '⏳'}</span>
+                <div style="flex:1;min-width:0;">
+                  <p style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);">{ms.name}</p>
+                  <p style="font-size:10px;color:var(--color-text-muted);">
+                    {ms.actualDate ? `Completed ${formatDate(ms.actualDate)}` : `Planned ${formatDate(ms.plannedDate)}`}
+                  </p>
+                </div>
+                <span style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);">{ms.completionPct}%</span>
+              </div>
+            {/each}
+          </div>
+        </div>
+      {/if}
+
+      <!-- Data Room (only for committed investors) -->
+      {#if data.myCommit && data.pool.documents.length > 0}
+        <div class="pool-detail__section">
+          <h3 class="pool-detail__section-title">Data Room</h3>
+          <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+            {#each data.pool.documents as doc}
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:var(--space-3) var(--space-4);background:rgba(0,0,0,0.02);border-radius:var(--radius-md);">
+                <div style="flex:1;min-width:0;">
+                  <p style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{CATEGORY_LABEL[doc.category] ?? doc.category} — {doc.name}</p>
+                  {#if doc.fileSize > 0}
+                    <p style="font-size:10px;color:var(--color-text-muted);">{fmtSize(doc.fileSize)} · {formatDate(doc.uploadedAt)}</p>
+                  {/if}
+                </div>
+                <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);text-decoration:none;flex-shrink:0;">Download →</a>
+              </div>
+            {/each}
+          </div>
         </div>
       {/if}
 
@@ -209,6 +271,20 @@
     justify-content: space-between;
     font-size: var(--text-xs);
     color: var(--color-text-muted);
+  }
+
+  .pool-detail__section {
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .pool-detail__section-title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
   }
 
   .pool-detail__description {

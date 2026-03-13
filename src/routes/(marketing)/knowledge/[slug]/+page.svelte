@@ -2,7 +2,7 @@
   import ArticleCard from '$lib/components/ArticleCard.svelte';
 
   let { data } = $props();
-  let { article, related } = $derived(data);
+  let { article, related, seoProfile } = $derived(data);
 
   let dateStr = $derived(
     new Date(article.publishedAt).toLocaleDateString('en-GB', {
@@ -14,8 +14,8 @@
 </script>
 
 <svelte:head>
-  <title>{article.title} — Develta</title>
-  <meta name="description" content={article.excerpt ?? article.title} />
+  <title>{seoProfile?.metaTitle ?? article.title} — Develta</title>
+  <meta name="description" content={seoProfile?.metaDescription ?? article.excerpt ?? article.title} />
 </svelte:head>
 
 <article class="article-page">

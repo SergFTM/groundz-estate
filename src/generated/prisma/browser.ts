@@ -53,6 +53,11 @@ export type Payment = Prisma.PaymentModel
  */
 export type Document = Prisma.DocumentModel
 /**
+ * Model Commission
+ * 
+ */
+export type Commission = Prisma.CommissionModel
+/**
  * Model Lead
  * 
  */
@@ -67,6 +72,21 @@ export type InvestmentPool = Prisma.InvestmentPoolModel
  * 
  */
 export type InvestorInvestment = Prisma.InvestorInvestmentModel
+/**
+ * Model Milestone
+ * 
+ */
+export type Milestone = Prisma.MilestoneModel
+/**
+ * Model ConstructionReport
+ * 
+ */
+export type ConstructionReport = Prisma.ConstructionReportModel
+/**
+ * Model AiResponseCache
+ * 
+ */
+export type AiResponseCache = Prisma.AiResponseCacheModel
 /**
  * Model JobPosition
  * 
@@ -88,7 +108,37 @@ export type PasswordReset = Prisma.PasswordResetModel
  */
 export type Article = Prisma.ArticleModel
 /**
+ * Model AppSetting
+ * 
+ */
+export type AppSetting = Prisma.AppSettingModel
+/**
  * Model FAQ
  * 
  */
 export type FAQ = Prisma.FAQModel
+/**
+ * Model SeoKeywordCluster
+ * 
+ */
+export type SeoKeywordCluster = Prisma.SeoKeywordClusterModel
+/**
+ * Model SeoPageProfile
+ * 
+ */
+export type SeoPageProfile = Prisma.SeoPageProfileModel
+/**
+ * Model SeoAudit
+ * 
+ */
+export type SeoAudit = Prisma.SeoAuditModel
+/**
+ * Model InternalLinkSuggestion
+ * 
+ */
+export type InternalLinkSuggestion = Prisma.InternalLinkSuggestionModel
+/**
+ * Model SeoContentRevision
+ * 
+ */
+export type SeoContentRevision = Prisma.SeoContentRevisionModel

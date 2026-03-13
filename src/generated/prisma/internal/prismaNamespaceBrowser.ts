@@ -58,14 +58,24 @@ export const ModelName = {
   ConstructionMedia: 'ConstructionMedia',
   Payment: 'Payment',
   Document: 'Document',
+  Commission: 'Commission',
   Lead: 'Lead',
   InvestmentPool: 'InvestmentPool',
   InvestorInvestment: 'InvestorInvestment',
+  Milestone: 'Milestone',
+  ConstructionReport: 'ConstructionReport',
+  AiResponseCache: 'AiResponseCache',
   JobPosition: 'JobPosition',
   JobApplication: 'JobApplication',
   PasswordReset: 'PasswordReset',
   Article: 'Article',
-  FAQ: 'FAQ'
+  AppSetting: 'AppSetting',
+  FAQ: 'FAQ',
+  SeoKeywordCluster: 'SeoKeywordCluster',
+  SeoPageProfile: 'SeoPageProfile',
+  SeoAudit: 'SeoAudit',
+  InternalLinkSuggestion: 'InternalLinkSuggestion',
+  SeoContentRevision: 'SeoContentRevision'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -119,6 +129,9 @@ export const UnitScalarFieldEnum = {
   areaSqm: 'areaSqm',
   price: 'price',
   status: 'status',
+  tourImages: 'tourImages',
+  tourFloorPlan: 'tourFloorPlan',
+  floorPlanUrl: 'floorPlanUrl',
   buyerId: 'buyerId'
 } as const
 
@@ -168,6 +181,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const DocumentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  poolId: 'poolId',
   name: 'name',
   category: 'category',
   fileUrl: 'fileUrl',
@@ -177,6 +191,18 @@ export const DocumentScalarFieldEnum = {
 } as const
 
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
+
+
+export const CommissionScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  description: 'description',
+  amount: 'amount',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type CommissionScalarFieldEnum = (typeof CommissionScalarFieldEnum)[keyof typeof CommissionScalarFieldEnum]
 
 
 export const LeadScalarFieldEnum = {
@@ -198,17 +224,38 @@ export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof Lead
 
 export const InvestmentPoolScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   name: 'name',
   projectName: 'projectName',
+  country: 'country',
+  city: 'city',
+  dealType: 'dealType',
   goalAmount: 'goalAmount',
   raisedAmount: 'raisedAmount',
   targetYield: 'targetYield',
+  targetIrr: 'targetIrr',
+  preferredReturn: 'preferredReturn',
+  hurdleRate: 'hurdleRate',
   termMonths: 'termMonths',
   minTicket: 'minTicket',
+  maxTicket: 'maxTicket',
+  exitType: 'exitType',
+  capitalType: 'capitalType',
+  spvName: 'spvName',
+  ltv: 'ltv',
+  ltc: 'ltc',
+  developerCoinvestPct: 'developerCoinvestPct',
+  raiseEnd: 'raiseEnd',
   status: 'status',
   imageUrl: 'imageUrl',
   description: 'description',
-  createdAt: 'createdAt'
+  locationThesis: 'locationThesis',
+  demandThesis: 'demandThesis',
+  constructionThesis: 'constructionThesis',
+  exitThesis: 'exitThesis',
+  summary: 'summary',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type InvestmentPoolScalarFieldEnum = (typeof InvestmentPoolScalarFieldEnum)[keyof typeof InvestmentPoolScalarFieldEnum]
@@ -219,10 +266,59 @@ export const InvestorInvestmentScalarFieldEnum = {
   userId: 'userId',
   poolId: 'poolId',
   amount: 'amount',
-  createdAt: 'createdAt'
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type InvestorInvestmentScalarFieldEnum = (typeof InvestorInvestmentScalarFieldEnum)[keyof typeof InvestorInvestmentScalarFieldEnum]
+
+
+export const MilestoneScalarFieldEnum = {
+  id: 'id',
+  poolId: 'poolId',
+  name: 'name',
+  description: 'description',
+  plannedDate: 'plannedDate',
+  actualDate: 'actualDate',
+  completionPct: 'completionPct',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MilestoneScalarFieldEnum = (typeof MilestoneScalarFieldEnum)[keyof typeof MilestoneScalarFieldEnum]
+
+
+export const ConstructionReportScalarFieldEnum = {
+  id: 'id',
+  poolId: 'poolId',
+  reportDate: 'reportDate',
+  overallPct: 'overallPct',
+  budgetTotal: 'budgetTotal',
+  budgetSpent: 'budgetSpent',
+  budgetVariance: 'budgetVariance',
+  notes: 'notes',
+  aiAnalysis: 'aiAnalysis',
+  createdAt: 'createdAt'
+} as const
+
+export type ConstructionReportScalarFieldEnum = (typeof ConstructionReportScalarFieldEnum)[keyof typeof ConstructionReportScalarFieldEnum]
+
+
+export const AiResponseCacheScalarFieldEnum = {
+  id: 'id',
+  cacheKey: 'cacheKey',
+  response: 'response',
+  model: 'model',
+  tokensUsed: 'tokensUsed',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AiResponseCacheScalarFieldEnum = (typeof AiResponseCacheScalarFieldEnum)[keyof typeof AiResponseCacheScalarFieldEnum]
 
 
 export const JobPositionScalarFieldEnum = {
@@ -280,6 +376,15 @@ export const ArticleScalarFieldEnum = {
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
 
 
+export const AppSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppSettingScalarFieldEnum = (typeof AppSettingScalarFieldEnum)[keyof typeof AppSettingScalarFieldEnum]
+
+
 export const FAQScalarFieldEnum = {
   id: 'id',
   question: 'question',
@@ -289,6 +394,84 @@ export const FAQScalarFieldEnum = {
 } as const
 
 export type FAQScalarFieldEnum = (typeof FAQScalarFieldEnum)[keyof typeof FAQScalarFieldEnum]
+
+
+export const SeoKeywordClusterScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  locale: 'locale',
+  intent: 'intent',
+  primaryTerm: 'primaryTerm',
+  termsJson: 'termsJson',
+  entitiesJson: 'entitiesJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SeoKeywordClusterScalarFieldEnum = (typeof SeoKeywordClusterScalarFieldEnum)[keyof typeof SeoKeywordClusterScalarFieldEnum]
+
+
+export const SeoPageProfileScalarFieldEnum = {
+  id: 'id',
+  route: 'route',
+  articleId: 'articleId',
+  locale: 'locale',
+  pageType: 'pageType',
+  primaryClusterId: 'primaryClusterId',
+  targetKeywords: 'targetKeywords',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
+  seoScore: 'seoScore',
+  lastAuditAt: 'lastAuditAt',
+  lastAiRunAt: 'lastAiRunAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SeoPageProfileScalarFieldEnum = (typeof SeoPageProfileScalarFieldEnum)[keyof typeof SeoPageProfileScalarFieldEnum]
+
+
+export const SeoAuditScalarFieldEnum = {
+  id: 'id',
+  seoPageProfileId: 'seoPageProfileId',
+  score: 'score',
+  issuesJson: 'issuesJson',
+  suggestionsJson: 'suggestionsJson',
+  aiSummary: 'aiSummary',
+  aiAvailable: 'aiAvailable',
+  createdAt: 'createdAt'
+} as const
+
+export type SeoAuditScalarFieldEnum = (typeof SeoAuditScalarFieldEnum)[keyof typeof SeoAuditScalarFieldEnum]
+
+
+export const InternalLinkSuggestionScalarFieldEnum = {
+  id: 'id',
+  fromProfileId: 'fromProfileId',
+  toProfileId: 'toProfileId',
+  fromRoute: 'fromRoute',
+  toRoute: 'toRoute',
+  anchorText: 'anchorText',
+  confidence: 'confidence',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type InternalLinkSuggestionScalarFieldEnum = (typeof InternalLinkSuggestionScalarFieldEnum)[keyof typeof InternalLinkSuggestionScalarFieldEnum]
+
+
+export const SeoContentRevisionScalarFieldEnum = {
+  id: 'id',
+  seoPageProfileId: 'seoPageProfileId',
+  originalText: 'originalText',
+  proposedText: 'proposedText',
+  diffJson: 'diffJson',
+  changeType: 'changeType',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type SeoContentRevisionScalarFieldEnum = (typeof SeoContentRevisionScalarFieldEnum)[keyof typeof SeoContentRevisionScalarFieldEnum]
 
 
 export const SortOrder = {

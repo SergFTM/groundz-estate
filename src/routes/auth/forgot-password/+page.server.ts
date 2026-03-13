@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
 import type { Actions } from './$types';
 import prisma from '$lib/server/db';
+import { sendPasswordResetEmail } from '$lib/server/email';
 
 export const actions: Actions = {
 	default: async ({ request, url }) => {
@@ -34,8 +35,9 @@ export const actions: Actions = {
 
 		const resetUrl = `${url.origin}/auth/reset-password?token=${token}`;
 
-		// In dev: log to console. In production: send via email
+		// Always log for dev debugging; also attempt email if SMTP configured
 		console.log(`\n[Password Reset] Link for ${email}:\n${resetUrl}\n`);
+		void sendPasswordResetEmail({ email, resetUrl });
 
 		return { success: true };
 	}

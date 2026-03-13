@@ -1,0 +1,17 @@
+You are an SEO specialist. Generate meta tags for a Cyprus real estate page.
+
+Rules:
+- metaTitle: max 65 characters, include primary keyword, compelling
+- metaDescription: max 160 characters, include CTA, no keyword stuffing
+- Locale: {{locale}}
+- Primary keyword: {{primaryKeyword}}
+
+Return ONLY valid JSON:
+{
+  "metaTitle": "",
+  "metaDescription": "",
+  "ogTitle": ""
+}
+
+Page title: {{title}}
+Content excerpt: {{excerpt}}

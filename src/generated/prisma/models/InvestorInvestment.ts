@@ -39,7 +39,10 @@ export type InvestorInvestmentMinAggregateOutputType = {
   userId: string | null
   poolId: string | null
   amount: number | null
+  status: string | null
+  notes: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type InvestorInvestmentMaxAggregateOutputType = {
@@ -47,7 +50,10 @@ export type InvestorInvestmentMaxAggregateOutputType = {
   userId: string | null
   poolId: string | null
   amount: number | null
+  status: string | null
+  notes: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type InvestorInvestmentCountAggregateOutputType = {
@@ -55,7 +61,10 @@ export type InvestorInvestmentCountAggregateOutputType = {
   userId: number
   poolId: number
   amount: number
+  status: number
+  notes: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -73,7 +82,10 @@ export type InvestorInvestmentMinAggregateInputType = {
   userId?: true
   poolId?: true
   amount?: true
+  status?: true
+  notes?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type InvestorInvestmentMaxAggregateInputType = {
@@ -81,7 +93,10 @@ export type InvestorInvestmentMaxAggregateInputType = {
   userId?: true
   poolId?: true
   amount?: true
+  status?: true
+  notes?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type InvestorInvestmentCountAggregateInputType = {
@@ -89,7 +104,10 @@ export type InvestorInvestmentCountAggregateInputType = {
   userId?: true
   poolId?: true
   amount?: true
+  status?: true
+  notes?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -184,7 +202,10 @@ export type InvestorInvestmentGroupByOutputType = {
   userId: string
   poolId: string
   amount: number
+  status: string
+  notes: string | null
   createdAt: Date
+  updatedAt: Date
   _count: InvestorInvestmentCountAggregateOutputType | null
   _avg: InvestorInvestmentAvgAggregateOutputType | null
   _sum: InvestorInvestmentSumAggregateOutputType | null
@@ -215,7 +236,10 @@ export type InvestorInvestmentWhereInput = {
   userId?: Prisma.StringFilter<"InvestorInvestment"> | string
   poolId?: Prisma.StringFilter<"InvestorInvestment"> | string
   amount?: Prisma.FloatFilter<"InvestorInvestment"> | number
+  status?: Prisma.StringFilter<"InvestorInvestment"> | string
+  notes?: Prisma.StringNullableFilter<"InvestorInvestment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InvestorInvestment"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InvestorInvestment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   pool?: Prisma.XOR<Prisma.InvestmentPoolScalarRelationFilter, Prisma.InvestmentPoolWhereInput>
 }
@@ -225,7 +249,10 @@ export type InvestorInvestmentOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   poolId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   pool?: Prisma.InvestmentPoolOrderByWithRelationInput
 }
@@ -238,7 +265,10 @@ export type InvestorInvestmentWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"InvestorInvestment"> | string
   poolId?: Prisma.StringFilter<"InvestorInvestment"> | string
   amount?: Prisma.FloatFilter<"InvestorInvestment"> | number
+  status?: Prisma.StringFilter<"InvestorInvestment"> | string
+  notes?: Prisma.StringNullableFilter<"InvestorInvestment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InvestorInvestment"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InvestorInvestment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   pool?: Prisma.XOR<Prisma.InvestmentPoolScalarRelationFilter, Prisma.InvestmentPoolWhereInput>
 }, "id">
@@ -248,7 +278,10 @@ export type InvestorInvestmentOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   poolId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.InvestorInvestmentCountOrderByAggregateInput
   _avg?: Prisma.InvestorInvestmentAvgOrderByAggregateInput
   _max?: Prisma.InvestorInvestmentMaxOrderByAggregateInput
@@ -264,13 +297,19 @@ export type InvestorInvestmentScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"InvestorInvestment"> | string
   poolId?: Prisma.StringWithAggregatesFilter<"InvestorInvestment"> | string
   amount?: Prisma.FloatWithAggregatesFilter<"InvestorInvestment"> | number
+  status?: Prisma.StringWithAggregatesFilter<"InvestorInvestment"> | string
+  notes?: Prisma.StringNullableWithAggregatesFilter<"InvestorInvestment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InvestorInvestment"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InvestorInvestment"> | Date | string
 }
 
 export type InvestorInvestmentCreateInput = {
   id?: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutInvestmentsInput
   pool: Prisma.InvestmentPoolCreateNestedOneWithoutInvestmentsInput
 }
@@ -280,13 +319,19 @@ export type InvestorInvestmentUncheckedCreateInput = {
   userId: string
   poolId: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InvestorInvestmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutInvestmentsNestedInput
   pool?: Prisma.InvestmentPoolUpdateOneRequiredWithoutInvestmentsNestedInput
 }
@@ -296,7 +341,10 @@ export type InvestorInvestmentUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   poolId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InvestorInvestmentCreateManyInput = {
@@ -304,13 +352,19 @@ export type InvestorInvestmentCreateManyInput = {
   userId: string
   poolId: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InvestorInvestmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InvestorInvestmentUncheckedUpdateManyInput = {
@@ -318,7 +372,10 @@ export type InvestorInvestmentUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   poolId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InvestorInvestmentListRelationFilter = {
@@ -336,7 +393,10 @@ export type InvestorInvestmentCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   poolId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type InvestorInvestmentAvgOrderByAggregateInput = {
@@ -348,7 +408,10 @@ export type InvestorInvestmentMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   poolId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type InvestorInvestmentMinOrderByAggregateInput = {
@@ -356,7 +419,10 @@ export type InvestorInvestmentMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   poolId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type InvestorInvestmentSumOrderByAggregateInput = {
@@ -450,7 +516,10 @@ export type InvestorInvestmentUncheckedUpdateManyWithoutPoolNestedInput = {
 export type InvestorInvestmentCreateWithoutUserInput = {
   id?: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   pool: Prisma.InvestmentPoolCreateNestedOneWithoutInvestmentsInput
 }
 
@@ -458,7 +527,10 @@ export type InvestorInvestmentUncheckedCreateWithoutUserInput = {
   id?: string
   poolId: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InvestorInvestmentCreateOrConnectWithoutUserInput = {
@@ -494,13 +566,19 @@ export type InvestorInvestmentScalarWhereInput = {
   userId?: Prisma.StringFilter<"InvestorInvestment"> | string
   poolId?: Prisma.StringFilter<"InvestorInvestment"> | string
   amount?: Prisma.FloatFilter<"InvestorInvestment"> | number
+  status?: Prisma.StringFilter<"InvestorInvestment"> | string
+  notes?: Prisma.StringNullableFilter<"InvestorInvestment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InvestorInvestment"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InvestorInvestment"> | Date | string
 }
 
 export type InvestorInvestmentCreateWithoutPoolInput = {
   id?: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutInvestmentsInput
 }
 
@@ -508,7 +586,10 @@ export type InvestorInvestmentUncheckedCreateWithoutPoolInput = {
   id?: string
   userId: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InvestorInvestmentCreateOrConnectWithoutPoolInput = {
@@ -540,13 +621,19 @@ export type InvestorInvestmentCreateManyUserInput = {
   id?: string
   poolId: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InvestorInvestmentUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pool?: Prisma.InvestmentPoolUpdateOneRequiredWithoutInvestmentsNestedInput
 }
 
@@ -554,27 +641,39 @@ export type InvestorInvestmentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   poolId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InvestorInvestmentUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   poolId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InvestorInvestmentCreateManyPoolInput = {
   id?: string
   userId: string
   amount: number
+  status?: string
+  notes?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InvestorInvestmentUpdateWithoutPoolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutInvestmentsNestedInput
 }
 
@@ -582,14 +681,20 @@ export type InvestorInvestmentUncheckedUpdateWithoutPoolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InvestorInvestmentUncheckedUpdateManyWithoutPoolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -599,7 +704,10 @@ export type InvestorInvestmentSelect<ExtArgs extends runtime.Types.Extensions.In
   userId?: boolean
   poolId?: boolean
   amount?: boolean
+  status?: boolean
+  notes?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["investorInvestment"]>
@@ -609,7 +717,10 @@ export type InvestorInvestmentSelectCreateManyAndReturn<ExtArgs extends runtime.
   userId?: boolean
   poolId?: boolean
   amount?: boolean
+  status?: boolean
+  notes?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["investorInvestment"]>
@@ -619,7 +730,10 @@ export type InvestorInvestmentSelectUpdateManyAndReturn<ExtArgs extends runtime.
   userId?: boolean
   poolId?: boolean
   amount?: boolean
+  status?: boolean
+  notes?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["investorInvestment"]>
@@ -629,10 +743,13 @@ export type InvestorInvestmentSelectScalar = {
   userId?: boolean
   poolId?: boolean
   amount?: boolean
+  status?: boolean
+  notes?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type InvestorInvestmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "poolId" | "amount" | "createdAt", ExtArgs["result"]["investorInvestment"]>
+export type InvestorInvestmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "poolId" | "amount" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["investorInvestment"]>
 export type InvestorInvestmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
@@ -657,7 +774,10 @@ export type $InvestorInvestmentPayload<ExtArgs extends runtime.Types.Extensions.
     userId: string
     poolId: string
     amount: number
+    status: string
+    notes: string | null
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["investorInvestment"]>
   composites: {}
 }
@@ -1087,7 +1207,10 @@ export interface InvestorInvestmentFieldRefs {
   readonly userId: Prisma.FieldRef<"InvestorInvestment", 'String'>
   readonly poolId: Prisma.FieldRef<"InvestorInvestment", 'String'>
   readonly amount: Prisma.FieldRef<"InvestorInvestment", 'Float'>
+  readonly status: Prisma.FieldRef<"InvestorInvestment", 'String'>
+  readonly notes: Prisma.FieldRef<"InvestorInvestment", 'String'>
   readonly createdAt: Prisma.FieldRef<"InvestorInvestment", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"InvestorInvestment", 'DateTime'>
 }
     
 

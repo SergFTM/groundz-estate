@@ -4,8 +4,10 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async () => {
   const [
     totalLeads, hotLeads, activeUnits, totalUnits, overduePayments, recentLeads, upcomingPayments,
-    totalUsers, usersByRole, investmentAgg, activePools, pendingDocuments, pendingCommissions,
-    convertedLeads, newLeadsThisWeek, soldUnits, reservedUnits, revenuePaidAgg, leadsByStatus, unitsByType
+    totalUsers, usersByRole, investmentAgg, activePools, pendingDocuments,
+    convertedLeads, newLeadsThisWeek, soldUnits, reservedUnits, revenuePaidAgg, leadsByStatus, unitsByType,
+    // Investment ops
+    investorApplications, kycPending, pendingCommits, recentCommits,
   ] =
     await Promise.all([
       db.lead.count(),
@@ -31,16 +33,25 @@ export const load: PageServerLoad = async () => {
       db.investorInvestment.aggregate({ _sum: { amount: true } }),
       db.investmentPool.count({ where: { status: 'active' } }),
       db.document.count({ where: { status: 'pending' } }),
-      db.commission.count({ where: { status: 'pending' } }),
-      // New: conversion & sales metrics
+      // conversion & sales metrics
       db.lead.count({ where: { status: 'converted' } }),
       db.lead.count({ where: { createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } } }),
       db.unit.count({ where: { status: 'sold' } }),
       db.unit.count({ where: { status: 'reserved' } }),
       db.payment.aggregate({ _sum: { amount: true }, where: { status: 'paid' } }),
-      // New: breakdown groupings
+      // breakdown groupings
       db.lead.groupBy({ by: ['status'], _count: true }),
       db.unit.groupBy({ by: ['type'], _count: true }),
+      // Investment operations
+      db.lead.count({ where: { source: 'investor_application', status: 'new' } }),
+      db.document.count({ where: { status: 'pending', category: { in: ['passport', 'kyc', 'proof_of_funds'] } } }),
+      db.investorInvestment.count({ where: { status: { in: ['soft_commit', 'pending'] } } }),
+      db.investorInvestment.findMany({
+        where: { status: { in: ['soft_commit', 'pending'] } },
+        include: { user: { select: { name: true, email: true } }, pool: { select: { name: true } } },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+      }),
     ]);
 
   const overdueTotal = overduePayments.reduce((sum, p) => sum + p.amount, 0);
@@ -62,14 +73,16 @@ export const load: PageServerLoad = async () => {
       totalLeads, hotLeads, activeUnits, totalUnits,
       overdueCount: overduePayments.length, overdueTotal,
       totalUsers, totalInvestmentRaised, activePools,
-      pendingDocuments, pendingCommissions,
+      pendingDocuments,
       convertedLeads, conversionRate, newLeadsThisWeek,
       soldUnits, reservedUnits, totalRevenuePaid,
+      investorApplications, kycPending, pendingCommits,
     },
     usersByRole,
     recentLeads,
     upcomingPayments,
     leadStatusCounts,
     unitTypeCounts,
+    recentCommits,
   };
 };

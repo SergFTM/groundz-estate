@@ -3,6 +3,7 @@ import { OPENAI_API_KEY } from '$env/static/private';
 import type { ChatRole } from './ai-context';
 import { getBusinessContext, searchKnowledgeBase } from './ai-context';
 import { getToolsForRole, executeTool } from './ai-tools';
+import { getSetting } from './settings';
 
 export type { ChatRole };
 
@@ -11,7 +12,11 @@ export interface Message {
   content: string;
 }
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+async function getOpenAI(): Promise<OpenAI> {
+  const dbKey = await getSetting('openai_api_key');
+  const apiKey = dbKey || OPENAI_API_KEY;
+  return new OpenAI({ apiKey });
+}
 
 export async function chat(params: {
   message: string;
@@ -31,6 +36,7 @@ export async function chat(params: {
 
   // Layer 2: role-scoped tools (0 tokens upfront — only paid if AI calls a tool)
   const tools = getToolsForRole(role);
+  const openai = await getOpenAI();
 
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     { role: 'system', content: systemContent },

@@ -1,0 +1,29 @@
+You are an SEO strategist for Develta — a premium real estate developer in Limassol, Cyprus targeting international buyers and investors.
+
+Analyze this content catalog and generate keyword clusters covering the main topic areas.
+
+Content catalog:
+{{CONTENT_CATALOG}}
+
+Generate 4-8 keyword clusters. Each cluster should represent a distinct, valuable topic area for real estate SEO.
+
+Return a JSON array only, no markdown:
+[
+  {
+    "name": "short cluster label (3-5 words)",
+    "primaryTerm": "main search keyword phrase",
+    "intent": "commercial | informational | transactional",
+    "locale": "en",
+    "terms": ["related keyword 1", "related keyword 2", "up to 10 total"],
+    "entities": ["Limassol", "Cyprus", "specific entity..."],
+    "reason": "one sentence explaining SEO value of this cluster"
+  }
+]
+
+Coverage guidelines:
+- Include buying/investment intent clusters (commercial + transactional)
+- Include informational clusters for content marketing
+- Cover Cyprus-specific topics: VAT 5% scheme, title deeds, residency permit, Golden Visa
+- Cover location clusters: Limassol seafront, Limassol marina, Cyprus coast
+- Base clusters on actual content topics found in the catalog
+- Mix EN clusters for international buyers (English-speaking expats, investors)

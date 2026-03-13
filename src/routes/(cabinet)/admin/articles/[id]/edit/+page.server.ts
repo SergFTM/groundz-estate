@@ -2,12 +2,19 @@ import { error, redirect } from '@sveltejs/kit';
 import db from '$lib/server/db';
 import { createArticleSchema } from '$lib/utils/validators';
 import { ZodError } from 'zod';
+import { runSeoAudit } from '$lib/server/seo/orchestrator.js';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-  const article = await db.article.findUnique({ where: { id: params.id } });
+  const [article, seoProfile] = await Promise.all([
+    db.article.findUnique({ where: { id: params.id } }),
+    db.seoPageProfile.findUnique({
+      where: { articleId: params.id },
+      select: { id: true },
+    }),
+  ]);
   if (!article) throw error(404, 'Article not found');
-  return { article };
+  return { article, seoProfileId: seoProfile?.id ?? null };
 };
 
 export const actions: Actions = {
@@ -31,6 +38,17 @@ export const actions: Actions = {
           imageUrl: data.imageUrl || null,
         },
       });
+
+      // Fire-and-forget SEO audit — does not block the save response
+      const auditHtml = `<html><head><title>${data.title}</title><meta name="description" content="${data.excerpt ?? ''}"><link rel="canonical" href="/knowledge/${data.slug}"></head><body>${data.content}</body></html>`;
+      runSeoAudit({
+        articleId: params.id,
+        route: `/knowledge/${data.slug}`,
+        html: auditHtml,
+        locale: 'en',
+        pageType: 'article',
+      }).catch(() => null);
+
       return { success: true };
     } catch (err) {
       if (err instanceof ZodError) {

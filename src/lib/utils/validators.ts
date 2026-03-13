@@ -101,15 +101,32 @@ export const createJobSchema = z.object({
 
 export const createPoolSchema = z.object({
 	name: z.string().min(2, 'Name is required'),
+	slug: z.string().min(2, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Lowercase letters, numbers and hyphens only').optional().or(z.literal('')),
 	projectName: z.string().min(2, 'Project name is required'),
+	country: z.string().min(1, 'Country is required').default('Cyprus'),
+	city: z.string().optional().or(z.literal('')),
+	dealType: z.enum(['equity', 'debt_note', 'rental', 'club_deal']).optional().or(z.literal('')),
 	goalAmount: z.coerce.number().positive('Goal must be positive'),
 	raisedAmount: z.coerce.number().min(0, 'Raised amount cannot be negative').default(0),
 	targetYield: z.coerce.number().positive('Yield must be positive'),
+	targetIrr: z.coerce.number().positive().optional().or(z.literal('')),
+	preferredReturn: z.coerce.number().positive().optional().or(z.literal('')),
 	termMonths: z.coerce.number().int().positive('Term must be positive'),
 	minTicket: z.coerce.number().positive('Min ticket must be positive'),
+	maxTicket: z.coerce.number().positive().optional().or(z.literal('')),
+	exitType: z.enum(['sale', 'refinance', 'hybrid']).optional().or(z.literal('')),
+	capitalType: z.enum(['equity', 'mezzanine', 'senior_debt']).optional().or(z.literal('')),
+	spvName: z.string().optional().or(z.literal('')),
+	ltv: z.coerce.number().positive().optional().or(z.literal('')),
+	ltc: z.coerce.number().positive().optional().or(z.literal('')),
+	developerCoinvestPct: z.coerce.number().min(0).max(100).optional().or(z.literal('')),
 	status: z.enum(['active', 'closed', 'completed']).default('active'),
 	imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-	description: z.string().optional().or(z.literal(''))
+	description: z.string().optional().or(z.literal('')),
+	locationThesis: z.string().optional().or(z.literal('')),
+	demandThesis: z.string().optional().or(z.literal('')),
+	constructionThesis: z.string().optional().or(z.literal('')),
+	exitThesis: z.string().optional().or(z.literal('')),
 });
 
 export const createFaqSchema = z.object({

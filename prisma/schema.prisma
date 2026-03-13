@@ -23,6 +23,7 @@ model User {
   payments    Payment[]
   units       Unit[]               @relation("UnitBuyer")
   investments InvestorInvestment[]
+  commissions Commission[]
 }
 
 model Project {
@@ -48,8 +49,11 @@ model Unit {
   floor     Int
   areaSqm   Float
   price     Float?
-  status    String    @default("available") // available | reserved | sold
-  buyerId   String?
+  status      String    @default("available") // available | reserved | sold
+  tourImages   String?   // JSON: [{url, label, roomIndex, angle: 'left'|'front'|'right'}]
+  tourFloorPlan String?  // AI-generated 3D isometric floor plan: /images/tours/<code>/floor-plan.jpg
+  floorPlanUrl String?   // uploaded plan: /uploads/floor-plans/<unitId>-<file>
+  buyerId      String?
 
   project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   buyer     User?     @relation("UnitBuyer", fields: [buyerId], references: [id])
@@ -98,14 +102,27 @@ model Payment {
 model Document {
   id         String   @id @default(uuid())
   userId     String
+  poolId     String?  // optional link to an investment pool
   name       String
-  category   String   // contract | passport | tax | floor_plan
+  category   String   // contract | passport | tax | proof_of_funds | kyc | floor_plan | subscription_agreement | other
   fileUrl    String
   fileSize   Int
   status     String   @default("pending") // approved | pending | action_required
   uploadedAt DateTime @default(now())
 
-  user       User     @relation(fields: [userId], references: [id])
+  user       User            @relation(fields: [userId], references: [id])
+  pool       InvestmentPool? @relation(fields: [poolId], references: [id], onDelete: SetNull)
+}
+
+model Commission {
+  id          String   @id @default(uuid())
+  agentId     String
+  description String
+  amount      Float
+  status      String   @default("pending") // pending | approved | paid
+  createdAt   DateTime @default(now())
+
+  agent User @relation(fields: [agentId], references: [id])
 }
 
 model Lead {
@@ -126,31 +143,99 @@ model Lead {
 }
 
 model InvestmentPool {
-  id           String   @id @default(uuid())
-  name         String
-  projectName  String
-  goalAmount   Float
-  raisedAmount Float    @default(0)
-  targetYield  Float
-  termMonths   Int
-  minTicket    Float
-  status       String   @default("active") // active | closed | completed
-  imageUrl     String?
-  description  String?
-  createdAt    DateTime @default(now())
+  id                   String   @id @default(uuid())
+  slug                 String?  @unique
+  name                 String
+  projectName          String
+  country              String   @default("Cyprus")
+  city                 String?
+  dealType             String?  // equity | debt_note | rental | club_deal
+  goalAmount           Float
+  raisedAmount         Float    @default(0)
+  targetYield          Float
+  targetIrr            Float?
+  preferredReturn      Float?
+  hurdleRate           Float?
+  termMonths           Int
+  minTicket            Float
+  maxTicket            Float?
+  exitType             String?  // sale | refinance | hybrid
+  capitalType          String?  // equity | mezzanine | senior_debt
+  spvName              String?
+  ltv                  Float?
+  ltc                  Float?
+  developerCoinvestPct Float?
+  raiseEnd             DateTime?
+  status               String   @default("active") // active | closed | completed
+  imageUrl             String?
+  description          String?
+  locationThesis       String?
+  demandThesis         String?
+  constructionThesis   String?
+  exitThesis           String?
+  summary              String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now()) @updatedAt
 
-  investments InvestorInvestment[]
+  investments         InvestorInvestment[]
+  milestones          Milestone[]
+  constructionReports ConstructionReport[]
+  documents           Document[]
 }
 
 model InvestorInvestment {
-  id        String         @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String
   poolId    String
   amount    Float
-  createdAt DateTime       @default(now())
+  status    String   @default("soft_commit") // soft_commit | pending | funded | cancelled
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   user      User           @relation(fields: [userId], references: [id])
-  pool      InvestmentPool @relation(fields: [poolId], references: [id])
+  pool      InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+}
+
+model Milestone {
+  id            String         @id @default(uuid())
+  poolId        String
+  name          String
+  description   String?
+  plannedDate   DateTime
+  actualDate    DateTime?
+  completionPct Int            @default(0)
+  status        String         @default("pending") // pending | in_progress | completed | delayed
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  pool InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+}
+
+model ConstructionReport {
+  id             String         @id @default(uuid())
+  poolId         String
+  reportDate     DateTime
+  overallPct     Int
+  budgetTotal    Float
+  budgetSpent    Float
+  budgetVariance Float
+  notes          String?
+  aiAnalysis     String?
+  createdAt      DateTime       @default(now())
+
+  pool InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+}
+
+model AiResponseCache {
+  id         String   @id @default(uuid())
+  cacheKey   String   @unique
+  response   String
+  model      String
+  tokensUsed Int      @default(0)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
 }
 
 model JobPosition {
@@ -200,10 +285,98 @@ model Article {
   publishedAt DateTime @default(now())
 }
 
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 model FAQ {
   id        String @id @default(uuid())
   question  String
   answer    String
   sortOrder Int
   category  String  @default("General")
+}
+
+// === MODULE: SEO ===
+
+model SeoKeywordCluster {
+  id           String   @id @default(uuid())
+  name         String
+  locale       String   // en | ru
+  intent       String   // informational | commercial | transactional
+  primaryTerm  String
+  termsJson    String   // JSON: string[]
+  entitiesJson String?  // JSON: string[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  pageProfiles SeoPageProfile[]
+}
+
+model SeoPageProfile {
+  id               String    @id @default(uuid())
+  route            String?   @unique  // null if tied to articleId
+  articleId        String?   @unique  // null if tied to route
+  locale           String    // en | ru
+  pageType         String    // landing | article | faq | project
+  primaryClusterId String?
+  targetKeywords   String?   // JSON: string[]
+  metaTitle        String?
+  metaDescription  String?
+  seoScore         Float?
+  lastAuditAt      DateTime?
+  lastAiRunAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  primaryCluster      SeoKeywordCluster?      @relation(fields: [primaryClusterId], references: [id])
+  audits              SeoAudit[]
+  revisions           SeoContentRevision[]
+  linkSuggestionsFrom InternalLinkSuggestion[] @relation("FromPage")
+  linkSuggestionsTo   InternalLinkSuggestion[] @relation("ToPage")
+}
+
+model SeoAudit {
+  id               String   @id @default(uuid())
+  seoPageProfileId String
+  score            Float
+  issuesJson       String   // JSON: SeoIssue[]
+  suggestionsJson  String   // JSON: SeoSuggestion[]
+  aiSummary        String?
+  aiAvailable      Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  pageProfile SeoPageProfile @relation(fields: [seoPageProfileId], references: [id], onDelete: Cascade)
+}
+
+// SQLite adaptation: FK targets must be non-nullable @unique or @id.
+// SeoPageProfile.route is nullable so we use ID-based relations here.
+model InternalLinkSuggestion {
+  id            String   @id @default(uuid())
+  fromProfileId String
+  toProfileId   String
+  fromRoute     String   // denormalized for display
+  toRoute       String   // denormalized for display
+  anchorText    String
+  confidence    Float
+  status        String   // suggested | approved | applied | rejected
+  createdAt     DateTime @default(now())
+
+  fromPage SeoPageProfile @relation("FromPage", fields: [fromProfileId], references: [id], onDelete: Cascade)
+  toPage   SeoPageProfile @relation("ToPage",   fields: [toProfileId],   references: [id], onDelete: Cascade)
+}
+
+model SeoContentRevision {
+  id               String   @id @default(uuid())
+  seoPageProfileId String
+  originalText     String
+  proposedText     String
+  diffJson         String?  // JSON: diff[]
+  changeType       String   // title | meta | heading | body | faq
+  status           String   // pending | approved | rejected | applied
+  createdAt        DateTime @default(now())
+
+  pageProfile SeoPageProfile @relation(fields: [seoPageProfileId], references: [id], onDelete: Cascade)
 }

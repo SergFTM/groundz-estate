@@ -14,8 +14,6 @@ async function main() {
   await prisma.investorInvestment.deleteMany();
   await prisma.constructionMedia.deleteMany();
   await prisma.constructionPhase.deleteMany();
-  await prisma.leadNote.deleteMany();
-  await prisma.commission.deleteMany();
   await prisma.payment.deleteMany();
   await prisma.document.deleteMany();
   await prisma.jobApplication.deleteMany();
@@ -98,9 +96,9 @@ async function main() {
     data: {
       name: "Sungardo",
       slug: "sungardo",
-      location: "Limassol Marina",
-      description: "A premium waterfront development offering luxury living with stunning marina views.",
-      imageUrl: "/images/projects/sungardo.svg",
+      location: "Mouttagiaka, Limassol",
+      description: "Contemporary low-rise residential complex in Mouttagiaka, 150m from the Mediterranean. 4 floors, 950 m² covered area. Apartments from 83 m² (2-bed) to 115 m² (3-bed), each with covered veranda, storage, and parking. 150m to beach · 750m Columbia Beach Restaurant · 700m Alfamega.",
+      imageUrl: "/images/projects/sungardo.jpeg",
       status: "active",
     },
   });
@@ -109,9 +107,9 @@ async function main() {
     data: {
       name: "Antigone Court",
       slug: "antigone-court",
-      location: "Germasogeia",
-      description: "Modern residential complex in the heart of Germasogeia with easy access to the beach.",
-      imageUrl: "/images/projects/antigone-court.svg",
+      location: "Limassol",
+      description: "A new Develta Group residential development in Limassol. Thoughtfully designed apartments in a prime location. Register your interest for priority access and project updates.",
+      imageUrl: "/images/projects/antigone-court.jpeg",
       status: "active",
     },
   });
@@ -121,8 +119,8 @@ async function main() {
       name: "Symphony Residence",
       slug: "symphony-residence",
       location: "Tourist Area, Limassol",
-      description: "Elegant apartments in Limassol's sought-after tourist area, minutes from the sea.",
-      imageUrl: "/images/projects/symphony-residence.svg",
+      description: "Our flagship development in Limassol's prestigious tourist area. A harmonious blend of contemporary design and Mediterranean character, with structured milestone-based payment plans.",
+      imageUrl: "/images/projects/symphony-residence.jpeg",
       status: "active",
     },
   });
@@ -131,9 +129,9 @@ async function main() {
     data: {
       name: "Cascada Residence",
       slug: "cascada-residence",
-      location: "Mouttagiaka",
-      description: "Upcoming coastal development with panoramic sea views and contemporary design.",
-      imageUrl: "/images/projects/cascada-residence.svg",
+      location: "Mouttagiaka, Limassol",
+      description: "Coastal living redefined in Mouttagiaka. A limited collection of apartments and penthouses with panoramic sea views and contemporary interiors in a prime beachside setting.",
+      imageUrl: "/images/projects/cascada-residence.jpeg",
       status: "coming_soon",
     },
   });
@@ -142,9 +140,9 @@ async function main() {
     data: {
       name: "Ptolemy Studios",
       slug: "ptolemy-studios",
-      location: "Historical Center",
-      description: "Boutique studio apartments in Limassol's charming historical center.",
-      imageUrl: "/images/projects/ptolemy-studios.svg",
+      location: "Limassol",
+      description: "A completed boutique collection of studios and one-bedroom apartments in central Limassol. Ptolemy Studios was fully sold prior to handover — demonstrating Develta Group's delivery track record.",
+      imageUrl: "/images/projects/ptolemy-studios.jpeg",
       status: "completed",
     },
   });
@@ -153,12 +151,15 @@ async function main() {
 
   // ── Units (22) ───────────────────────────────────────────
   const units = await Promise.all([
-    // Sungardo — 5 units
-    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 45, price: 175000, status: "sold" } }),
-    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-201", type: "1bed", bedrooms: 1, floor: 2, areaSqm: 65, price: 280000, status: "reserved" } }),
-    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-202", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 95, price: 420000, status: "available" } }),
-    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-301", type: "3bed", bedrooms: 3, floor: 3, areaSqm: 130, price: 580000, status: "available" } }),
-    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-PH1", type: "penthouse", bedrooms: 3, floor: 5, areaSqm: 180, price: 950000, status: "available" } }),
+    // Sungardo — real floor plans from develta.cy
+    // Floor 1: units 101 (2bed, 83.4m²) and 102 (3bed, 114.8m²)
+    // Floor 2: unit 202 (3bed, 114.8m²) confirmed; 201 estimated
+    // Floors 3-4: estimated based on building layout
+    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-101", type: "2bed", bedrooms: 2, floor: 1, areaSqm: 83, price: 430000, status: "available" } }),
+    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-102", type: "3bed", bedrooms: 3, floor: 1, areaSqm: 115, price: 590000, status: "available" } }),
+    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-201", type: "2bed", bedrooms: 2, floor: 2, areaSqm: 83, price: 445000, status: "reserved" } }),
+    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-202", type: "3bed", bedrooms: 3, floor: 2, areaSqm: 115, price: 610000, status: "available" } }),
+    prisma.unit.create({ data: { projectId: sungardo.id, code: "SUN-PH1", type: "penthouse", bedrooms: 3, floor: 4, areaSqm: 145, price: 920000, status: "available" } }),
 
     // Antigone Court — 5 units (AC-201 now sold, linked to buyer2)
     prisma.unit.create({ data: { projectId: antigoneCourt.id, code: "AC-101", type: "studio", bedrooms: 0, floor: 1, areaSqm: 42, price: 160000, status: "sold" } }),
@@ -299,27 +300,6 @@ async function main() {
 
   console.log("  Created 12 leads (new: 4, contacted: 3, converted: 3, lost: 2)");
 
-  // ── Lead Notes (3) ───────────────────────────────────────
-  await prisma.leadNote.createMany({
-    data: [
-      { leadId: lead1.id, authorId: agent.id, content: "Called on 10 March. Interested in 2bed at Sungardo. Budget confirmed €300-400k." },
-      { leadId: lead3.id, authorId: agent.id, content: "Visited office. Serious buyer, requesting floor plans." },
-      { leadId: lead11.id, authorId: agent.id, content: "Converted — signed reservation for SYM-101." },
-    ],
-  });
-
-  console.log("  Created 3 lead notes");
-
-  // ── Commissions (2) ──────────────────────────────────────
-  await prisma.commission.createMany({
-    data: [
-      { agentId: agent.id, amount: 8750, status: "approved", description: "SYM-101 sale commission 2.5%" },
-      { agentId: agent.id, amount: 5600, status: "pending", description: "AC-201 reservation commission 2%" },
-    ],
-  });
-
-  console.log("  Created 2 commissions");
-
   // ── Investment Pools (2) ──────────────────────────────────
   const auraPool = await prisma.investmentPool.create({
     data: {
@@ -362,35 +342,231 @@ async function main() {
   // ── Job Positions (4) ────────────────────────────────────
   await prisma.jobPosition.createMany({
     data: [
-      { title: "Senior Full-Stack Developer", slug: "senior-full-stack-developer", department: "Engineering", location: "Limassol, Cyprus", type: "full_time", description: "<h3>About the Role</h3><p>We are looking for an experienced full-stack developer to build and maintain our property technology platform.</p>", isActive: true },
-      { title: "Real Estate Sales Manager", slug: "real-estate-sales-manager", department: "Sales", location: "Limassol, Cyprus", type: "full_time", description: "<h3>About the Role</h3><p>Lead our sales team in promoting luxury residential projects across Limassol.</p>", isActive: true },
-      { title: "Marketing Specialist", slug: "marketing-specialist", department: "Marketing", location: "Limassol, Cyprus", type: "full_time", description: "<h3>About the Role</h3><p>Drive digital marketing campaigns for our real estate portfolio.</p>", isActive: true },
-      { title: "Construction Project Coordinator", slug: "construction-project-coordinator", department: "Operations", location: "Limassol, Cyprus", type: "contract", description: "<h3>About the Role</h3><p>Coordinate construction timelines and liaise with contractors.</p>", isActive: true },
+      {
+        title: "Senior Full-Stack Developer",
+        slug: "senior-full-stack-developer",
+        department: "Engineering",
+        location: "Limassol, Cyprus",
+        type: "full_time",
+        isActive: true,
+        description: `<h3>About the Role</h3>
+<p>We are looking for an experienced full-stack developer to build and maintain Develta's property technology platform — the digital backbone that connects our developers, buyers, investors, and agents. You'll be working on a modern SvelteKit codebase with a focus on clean architecture, real-time data, and an exceptional user experience.</p>
+<h3>What You'll Do</h3>
+<ul>
+  <li>Build and extend our buyer, investor, agent, and admin portal features</li>
+  <li>Design and implement backend APIs and database schemas (Prisma + SQLite/PostgreSQL)</li>
+  <li>Integrate third-party services: payments, document storage, email, and AI features</li>
+  <li>Own end-to-end delivery of features from spec to production</li>
+  <li>Participate in architecture decisions and code reviews</li>
+</ul>
+<h3>What We're Looking For</h3>
+<ul>
+  <li>5+ years of full-stack web development experience</li>
+  <li>Strong TypeScript skills; experience with SvelteKit or similar SSR frameworks</li>
+  <li>Comfortable with SQL and ORM tooling (Prisma, Drizzle, or similar)</li>
+  <li>Experience shipping production-grade applications</li>
+  <li>Fluent in English; Russian or Greek is a bonus</li>
+</ul>`,
+      },
+      {
+        title: "Real Estate Sales Manager",
+        slug: "real-estate-sales-manager",
+        department: "Sales",
+        location: "Limassol, Cyprus",
+        type: "full_time",
+        isActive: true,
+        description: `<h3>About the Role</h3>
+<p>Join Develta Group as a Sales Manager and take ownership of residential sales across our premium Limassol developments. You'll be working with an international client base — from local Cypriot buyers to investors from the Middle East, Eastern Europe, and Asia — guiding them through the purchase process from first inquiry to signed contract.</p>
+<h3>What You'll Do</h3>
+<ul>
+  <li>Manage the full sales cycle for off-plan and completed residential units</li>
+  <li>Build and maintain relationships with buyers, agents, and referral networks</li>
+  <li>Conduct property presentations and site visits</li>
+  <li>Use our digital CRM platform to track leads and manage your pipeline</li>
+  <li>Work with the legal and finance teams to facilitate smooth transactions</li>
+</ul>
+<h3>What We're Looking For</h3>
+<ul>
+  <li>3+ years of real estate sales experience, preferably in Cyprus or the wider Mediterranean market</li>
+  <li>Strong track record of closing premium residential deals</li>
+  <li>Excellent communication skills in English; Russian or Arabic is a significant advantage</li>
+  <li>Real Estate Agent licence (Cyprus CREAA) or willingness to obtain one</li>
+</ul>`,
+      },
+      {
+        title: "Marketing Specialist",
+        slug: "marketing-specialist",
+        department: "Marketing",
+        location: "Limassol, Cyprus",
+        type: "full_time",
+        isActive: true,
+        description: `<h3>About the Role</h3>
+<p>We are looking for a creative and data-driven Marketing Specialist to grow Develta's digital presence and drive qualified leads to our sales team. You'll manage campaigns across social media, search, and content channels, building awareness of our brand and our projects in key target markets.</p>
+<h3>What You'll Do</h3>
+<ul>
+  <li>Plan and execute paid campaigns on Meta, Google, and LinkedIn targeting international property investors</li>
+  <li>Create and manage content for Instagram (@develta.cy), LinkedIn, and Facebook</li>
+  <li>Write and edit website copy, blog articles, and email campaigns</li>
+  <li>Manage lead generation funnels and coordinate with the sales team on lead quality</li>
+  <li>Analyse campaign performance and report on key metrics</li>
+</ul>
+<h3>What We're Looking For</h3>
+<ul>
+  <li>2+ years of digital marketing experience, ideally in real estate, luxury goods, or B2C high-ticket sales</li>
+  <li>Hands-on experience with Meta Ads Manager and Google Ads</li>
+  <li>Strong copywriting skills in English; Russian is a strong plus</li>
+  <li>Comfortable working with analytics tools and producing performance reports</li>
+</ul>`,
+      },
+      {
+        title: "Construction Project Coordinator",
+        slug: "construction-project-coordinator",
+        department: "Operations",
+        location: "Limassol, Cyprus",
+        type: "contract",
+        isActive: true,
+        description: `<h3>About the Role</h3>
+<p>We are seeking an experienced Construction Project Coordinator to oversee day-to-day coordination across our active development sites in Limassol. You will be the link between our project management office, contractors, architects, and client-facing teams, ensuring that construction milestones are delivered on time and to specification.</p>
+<h3>What You'll Do</h3>
+<ul>
+  <li>Monitor construction progress against schedule on active sites (currently Symphony Residence and Sungardo)</li>
+  <li>Liaise with general contractors, subcontractors, and the supervising engineer</li>
+  <li>Document milestone completions for client portal updates and payment triggers</li>
+  <li>Identify and escalate schedule risks and quality issues</li>
+  <li>Coordinate delivery of inspection reports and construction photography</li>
+</ul>
+<h3>What We're Looking For</h3>
+<ul>
+  <li>3+ years of construction coordination or site management experience in Cyprus or Greece</li>
+  <li>Familiarity with residential construction processes and Cypriot building regulations</li>
+  <li>Strong organisational and communication skills</li>
+  <li>Fluent in Greek and English</li>
+  <li>Civil engineering or architecture background preferred</li>
+</ul>`,
+      },
     ],
   });
 
   console.log("  Created 4 job positions");
 
-  // ── FAQ (6) ───────────────────────────────────────────────
+  // ── FAQ (5) — from develta.cy ─────────────────────────────
   await prisma.fAQ.createMany({
     data: [
-      { question: "What is the process for purchasing property in Cyprus as a foreign buyer?", answer: "Foreign buyers can purchase property in Cyprus with minimal restrictions. The process includes selecting a property, signing a reservation agreement, conducting due diligence, signing the sale contract at the Land Registry, and obtaining Council of Ministers approval (for non-EU citizens).", sortOrder: 1, category: "Buying Process" },
-      { question: "What are the typical payment terms for off-plan properties?", answer: "Payment is usually structured in installments tied to construction milestones: a booking deposit (5-10%), contract signing (20-30%), foundation completion (15-20%), structural completion (20-25%), and final payment on handover (15-20%).", sortOrder: 2, category: "Buying Process" },
-      { question: "Can I earn rental income from my investment property?", answer: "Yes. Limassol has strong rental demand driven by the tech sector and tourism. Typical net yields range from 4-7% depending on property type and location.", sortOrder: 3, category: "Investment" },
-      { question: "What tax benefits are available for property investors in Cyprus?", answer: "Cyprus offers attractive tax incentives including no property tax (abolished in 2017), reduced VAT at 5% for primary residences, no inheritance tax, and favorable capital gains treatment.", sortOrder: 4, category: "Investment" },
-      { question: "How long does the title deed transfer process take?", answer: "The title deed transfer typically takes 2-4 weeks after all payments are settled.", sortOrder: 5, category: "Legal & Tax" },
-      { question: "Do I need a local bank account to buy property in Cyprus?", answer: "It is advisable to open a Cyprus bank account to facilitate property transactions. International wire transfers are accepted.", sortOrder: 6, category: "Legal & Tax" },
+      { question: "What is the expected ROI on Develta projects?", answer: "Our projects typically target a net rental yield of 6–8% per annum, supported by Limassol's strong tourism-driven rental demand. Capital appreciation has historically averaged 5–10% annually in prime Limassol locations.", sortOrder: 1, category: "Investment" },
+      { question: "Can purchasing a property help me obtain Cyprus residency?", answer: "Yes. Investing a minimum of €300,000 in new residential property in Cyprus qualifies you for the Cyprus Permanent Residency programme (Category F). Develta's legal team can guide you through the full application process.", sortOrder: 2, category: "Residency" },
+      { question: "What is the minimum investment amount?", answer: "Our studio apartments start from approximately €150,000. The minimum qualifying investment for Cyprus Permanent Residency is €300,000 (VAT included). Investment pool participation is available from €25,000.", sortOrder: 3, category: "Investment" },
+      { question: "What tax benefits does Cyprus offer property investors?", answer: "Cyprus offers some of Europe's most attractive property investment conditions: no annual property tax (abolished 2017), 5% VAT on your first residential property, no inheritance tax, and a flat 12.5% corporate tax rate — one of the lowest in the EU.", sortOrder: 4, category: "Legal & Tax" },
+      { question: "Are there residency or citizenship programmes available?", answer: "Cyprus offers a Permanent Residency programme for non-EU investors who purchase property worth €300,000 or more. Fast-track processing is available. Note: the Cyprus Investment Programme (citizenship by investment) was suspended in November 2020; Permanent Residency remains the primary route for property investors.", sortOrder: 5, category: "Residency" },
     ],
   });
 
-  console.log("  Created 6 FAQ entries");
+  console.log("  Created 5 FAQ entries");
 
   // ── Articles (3) ─────────────────────────────────────────
+  const article1Content = `
+<p>Limassol has emerged as one of the Mediterranean's most dynamic property markets, attracting investors from across Europe, the Middle East, and Asia. With a combination of strategic EU membership benefits, a booming tech and financial services sector, and year-round sunshine, the city has fundamentally transformed from a regional port into an international investment destination.</p>
+
+<h3>What's driving demand in 2026</h3>
+<p>The influx of tech companies and their employees into Limassol's central business district has created sustained rental demand that shows no sign of slowing. Major corporations have established regional headquarters here, bringing with them a well-paid workforce that requires quality housing. This has pushed vacancy rates in prime areas to below 4% — an exceptionally tight market.</p>
+<p>At the same time, Limassol's tourism sector hit record visitor numbers in 2025. Tourists drawn by the marina, the old city, and the coastline between Mouttagiaka and Amathus are fuelling short-term rental demand. Investors who purchased properties in 2022–2023 are now reporting average yields of 6.5–8.5% on well-located apartments.</p>
+
+<h3>The residency advantage</h3>
+<p>Cyprus's Permanent Residency programme — offering non-EU nationals a path to EU residency through property investment of €300,000 or more — remains one of Europe's most accessible. This has drawn buyers from Russia, Israel, Lebanon, China, and the UAE who want both a quality property asset and a European foothold.</p>
+
+<h3>Infrastructure and liveability</h3>
+<p>Limassol consistently ranks among the safest cities in Europe, with excellent international schooling, a growing private healthcare sector, and a climate that offers over 300 days of sunshine per year. For buyers seeking a second home or relocation destination, these factors are as important as the financial returns.</p>
+
+<h3>Where to invest</h3>
+<p>The seafront corridor from the Old Port to Limassol Marina commands the highest prices and strongest yields. The Mouttagiaka coastal strip — where our Sungardo and Cascada Residence projects are located — offers excellent value with direct beach access and strong rental potential from both short and long-term tenants. The tourist area near the Four Seasons remains consistently popular for mid-to-high-end apartments.</p>
+<p>For investors looking at the broader market, Germasogeia and Agios Athanasios offer emerging opportunities at lower entry points, while still benefiting from Limassol's overall growth trajectory.</p>
+`.trim();
+
+  const article2Content = `
+<p>Off-plan property purchases — buying a property before it is built, based on architectural plans and specifications — are one of the most effective ways to invest in Cyprus real estate. When executed with the right developer, you lock in today's price for tomorrow's asset, often with a significant capital appreciation by the time the keys are handed over.</p>
+
+<h3>Why buy off-plan?</h3>
+<p>The primary advantage is price. Off-plan properties are typically sold at 10–20% below their post-completion market value, as the developer needs to raise construction capital and rewards early buyers for taking on development risk. In Limassol's appreciating market, buyers who entered at launch prices have consistently seen strong capital gains by handover.</p>
+<p>The second advantage is flexibility in payment. Unlike a completed property purchase, off-plan deals are structured in milestones tied to construction progress, spreading your capital commitment over 18–36 months. This allows investors to deploy capital gradually while the asset appreciates.</p>
+
+<h3>Understanding the payment structure</h3>
+<p>A typical Develta payment schedule looks like this:</p>
+<ul>
+  <li><strong>Booking deposit (5–10%):</strong> Reserves your unit and removes it from sale</li>
+  <li><strong>Contract signing (20–30%):</strong> Paid within 30 days of signing the SPA at the Land Registry</li>
+  <li><strong>Foundation completion (15–20%):</strong> On verified completion of substructure works</li>
+  <li><strong>Structural completion (20–25%):</strong> When the building frame is complete</li>
+  <li><strong>Handover (15–20%):</strong> Final payment on key delivery</li>
+</ul>
+<p>Each milestone payment is tied to independently verifiable construction progress, giving buyers full transparency and contractual protection.</p>
+
+<h3>Legal protections for buyers</h3>
+<p>Cyprus has a well-developed legal framework for property purchases. The Sale of Property (Specific Performance) Law requires that purchase contracts be deposited at the Land Registry, which protects the buyer's title claim even if the developer has a mortgage on the land. All Develta contracts are deposited at the Land Registry as standard.</p>
+<p>For non-EU buyers, a Council of Ministers approval is required to purchase property — this is a straightforward administrative process that our legal team handles on your behalf.</p>
+
+<h3>Due diligence checklist</h3>
+<ul>
+  <li>Verify the developer's track record and completed projects</li>
+  <li>Review the building permit and architectural approvals</li>
+  <li>Confirm title deed status of the land (should be free of encumbrances)</li>
+  <li>Check VAT status: 5% reduced VAT applies to primary residences; 19% to investment properties</li>
+  <li>Engage an independent Cyprus-qualified lawyer (separate from the developer's legal team)</li>
+</ul>
+
+<h3>The Develta approach</h3>
+<p>We provide all buyers with a dedicated client portal from day one. This gives you real-time access to construction photo updates, payment schedules, document storage, and direct communication with our team. Our goal is to make off-plan investment as transparent and stress-free as a completed property purchase.</p>
+`.trim();
+
+  const article3Content = `
+<p>We are pleased to report that Symphony Residence — our flagship development in Limassol's tourist area — has successfully completed the superstructure framework phase and is progressing on schedule for Q3 2026 delivery.</p>
+
+<h3>What has been completed</h3>
+<p>The first two construction phases are now fully signed off: site preparation and excavation (October 2025) and foundation and substructure works (November–December 2025). The third phase — superstructure framework, including all floor slabs, columns, and exterior walls — reached completion in late February 2026, one week ahead of the planned schedule.</p>
+<p>Our buyers with units in Symphony Residence can view photo documentation and a drone flyover video from March 2026 in their cabinet portal under the Construction section.</p>
+
+<h3>What comes next</h3>
+<p>Phase 4, interior finishing and turnkey setup, runs from April through August 2026. This phase covers:</p>
+<ul>
+  <li>MEP (mechanical, electrical, plumbing) rough-in and fit-out</li>
+  <li>Floor and wall finishes throughout all units</li>
+  <li>Kitchen and bathroom installations to specification</li>
+  <li>Landscaping and common area completion</li>
+  <li>Final building inspections and certificate of occupancy</li>
+</ul>
+
+<h3>Payment milestones</h3>
+<p>For buyers whose payment schedules reference the structural completion milestone, invoices will be issued in March 2026 in accordance with your individual purchase agreements. Our finance team will contact all affected buyers directly with payment instructions.</p>
+
+<h3>A note on quality</h3>
+<p>Symphony Residence uses reinforced concrete frame construction with AAC block infill — the same proven system used in our completed Ptolemy Studios project, which was handed over to buyers fully on time and within budget. All structural works are supervised by our appointed independent engineer and inspected at each milestone before payment triggers are activated.</p>
+<p>If you have any questions about your unit or the construction timeline, please contact your dedicated client manager through the portal or reach our team at sales@develta.cy.</p>
+`.trim();
+
   await prisma.article.createMany({
     data: [
-      { title: "Why Limassol Is the Mediterranean's Hottest Property Market in 2026", slug: "limassol-hottest-property-market-2026", category: "Market Insights", excerpt: "Discover why international investors are flocking to Limassol and what makes this coastal city a prime real estate destination.", content: "<p>Limassol has emerged as one of the Mediterranean's most dynamic property markets, attracting investors from across Europe, the Middle East, and Asia.</p>", imageUrl: "/images/articles/limassol-market-2026.jpg" },
-      { title: "A Complete Guide to Off-Plan Property Investment in Cyprus", slug: "guide-off-plan-property-investment-cyprus", category: "Investment Guide", excerpt: "Everything you need to know about buying off-plan in Cyprus, from legal requirements to payment structures.", content: "<p>Off-plan property purchases represent one of the most attractive investment strategies in Cyprus real estate.</p>", imageUrl: "/images/articles/off-plan-guide.jpg" },
-      { title: "Construction Update: Symphony Residence Reaches New Milestone", slug: "symphony-residence-construction-update-march-2026", category: "Project Updates", excerpt: "Our flagship Symphony Residence project is progressing on schedule with the superstructure framework nearing completion.", content: "<p>We are pleased to share that Symphony Residence has reached a significant construction milestone.</p>", imageUrl: "/images/articles/symphony-update-march.jpg" },
+      {
+        title: "Why Limassol Is the Mediterranean's Hottest Property Market in 2026",
+        slug: "limassol-hottest-property-market-2026",
+        category: "Market Insights",
+        excerpt: "Discover why international investors are flocking to Limassol and what makes this coastal city a prime real estate destination.",
+        content: article1Content,
+        imageUrl: "/images/scraped/about-us.jpeg",
+      },
+      {
+        title: "A Complete Guide to Off-Plan Property Investment in Cyprus",
+        slug: "guide-off-plan-property-investment-cyprus",
+        category: "Investment Guide",
+        excerpt: "Everything you need to know about buying off-plan in Cyprus, from legal requirements to payment structures.",
+        content: article2Content,
+        imageUrl: "/images/scraped/sungardo.jpeg",
+      },
+      {
+        title: "Construction Update: Symphony Residence Reaches New Milestone",
+        slug: "symphony-residence-construction-update-march-2026",
+        category: "Project Updates",
+        excerpt: "Our flagship Symphony Residence project is progressing on schedule with the superstructure framework nearing completion.",
+        content: article3Content,
+        imageUrl: "/images/projects/symphony-residence.jpeg",
+      },
     ],
   });
 

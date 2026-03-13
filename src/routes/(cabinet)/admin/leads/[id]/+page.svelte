@@ -73,10 +73,39 @@
     </div>
 
     {#if data.lead.data}
-      <div style="margin-bottom:var(--space-6);">
-        <h3 style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-3);">Quiz Data</h3>
-        <pre style="font-size:var(--text-xs);background:rgba(0,0,0,0.03);padding:var(--space-4);border-radius:var(--radius-md);overflow-x:auto;">{JSON.stringify(JSON.parse(data.lead.data), null, 2)}</pre>
-      </div>
+      {@const parsed = (() => { try { return JSON.parse(data.lead.data); } catch { return null; } })()}
+      {#if parsed}
+        <div style="margin-bottom:var(--space-6);">
+          {#if data.lead.source === 'investor_application'}
+            <h3 style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">Application Details</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
+              {#each [
+                ['Nationality',       parsed.nationality],
+                ['Investor Type',     parsed.investorType?.replace('_', ' ')],
+                ['Ticket Size',       parsed.ticketSize?.replace(/_/g, ' ')],
+                ['Deal Types',        parsed.dealTypeInterest],
+                ['Time Horizon',      parsed.timeHorizon],
+              ] as [label, val]}
+                {#if val}
+                  <div style="background:rgba(0,0,0,0.02);border-radius:var(--radius-md);padding:var(--space-3);">
+                    <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);">{label}</p>
+                    <p style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);margin-top:2px;">{val}</p>
+                  </div>
+                {/if}
+              {/each}
+            </div>
+            {#if parsed.message}
+              <div style="margin-top:var(--space-4);background:rgba(0,0,0,0.02);border-radius:var(--radius-md);padding:var(--space-3);">
+                <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:var(--space-2);">Message</p>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.65;">{parsed.message}</p>
+              </div>
+            {/if}
+          {:else}
+            <h3 style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-3);">Form Data</h3>
+            <pre style="font-size:var(--text-xs);background:rgba(0,0,0,0.03);padding:var(--space-4);border-radius:var(--radius-md);overflow-x:auto;">{JSON.stringify(parsed, null, 2)}</pre>
+          {/if}
+        </div>
+      {/if}
     {/if}
 
     <button type="submit" class="btn btn--primary">Save Changes</button>

@@ -16,6 +16,28 @@
   );
 
   let editingUnitId = $state<string | null>(null);
+
+  // Floor plan upload state
+  let uploadingUnitId = $state<string | null>(null);
+  let uploadedPlans = $state<Record<string, string>>({}); // unitId → url
+
+  async function uploadFloorPlan(unitId: string, fileInput: HTMLInputElement) {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    uploadingUnitId = unitId;
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('unitId', unitId);
+      const res = await fetch('/api/upload-floor-plan', { method: 'POST', body: fd });
+      if (!res.ok) { const t = await res.text(); alert('Upload failed: ' + t); return; }
+      const { url } = await res.json();
+      uploadedPlans = { ...uploadedPlans, [unitId]: url };
+      await invalidateAll();
+    } finally {
+      uploadingUnitId = null;
+    }
+  }
 </script>
 
 <svelte:head>
@@ -61,7 +83,7 @@
       <table style="width:100%;border-collapse:collapse;">
         <thead>
           <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-            {#each ['Code','Type','Beds','Floor','Area m²','Price','Status',''] as col}
+            {#each ['Code','Type','Beds','Floor','Area m²','Price','Status','Plan',''] as col}
               <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--color-text-muted);">{col}</th>
             {/each}
           </tr>
@@ -126,6 +148,31 @@
                       <button type="button" onclick={() => editingUnitId = null} style="background:none;border:none;color:var(--color-text-muted);font-size:var(--text-sm);cursor:pointer;">Cancel</button>
                     </div>
                   </form>
+
+                  <!-- Floor plan upload (separate from main form) -->
+                  <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid rgba(0,0,0,0.06);">
+                    <span style="font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:var(--space-2);">Floor Plan Upload</span>
+                    <div style="display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;">
+                      {#if uploadedPlans[unit.id] ?? unit.floorPlanUrl}
+                        <a href={uploadedPlans[unit.id] ?? unit.floorPlanUrl} target="_blank"
+                          style="font-size:var(--text-xs);color:var(--color-accent);font-weight:600;text-decoration:none;padding:4px 10px;border:1px solid var(--color-accent);border-radius:4px;">
+                          View current plan ↗
+                        </a>
+                      {/if}
+                      <label style="cursor:pointer;display:flex;align-items:center;gap:var(--space-2);">
+                        <input
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png,.svg,.webp"
+                          style="display:none;"
+                          onchange={(e) => uploadFloorPlan(unit.id, e.currentTarget)}
+                        />
+                        <span class="btn btn--secondary" style="font-size:var(--text-xs);padding:4px 12px;pointer-events:none;">
+                          {uploadingUnitId === unit.id ? 'Uploading…' : (uploadedPlans[unit.id] ?? unit.floorPlanUrl) ? 'Replace plan' : '+ Upload plan'}
+                        </span>
+                      </label>
+                      <span style="font-size:10px;color:var(--color-text-muted);">PDF · JPG · PNG · SVG</span>
+                    </div>
+                  </div>
                 </td>
               </tr>
             {:else}
@@ -137,6 +184,16 @@
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.areaSqm}</td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.price != null ? formatCurrency(unit.price) : '—'}</td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">{unit.status}</td>
+                <td style="padding:var(--space-3) var(--space-4);">
+                  {#if uploadedPlans[unit.id] ?? unit.floorPlanUrl}
+                    <a href={uploadedPlans[unit.id] ?? unit.floorPlanUrl} target="_blank"
+                      style="font-size:var(--text-xs);color:var(--color-accent);font-weight:600;text-decoration:none;">
+                      ⬛ View
+                    </a>
+                  {:else}
+                    <span style="font-size:var(--text-xs);color:var(--color-text-muted);">—</span>
+                  {/if}
+                </td>
                 <td style="padding:var(--space-3) var(--space-4);">
                   <div style="display:flex;gap:var(--space-3);">
                     <button

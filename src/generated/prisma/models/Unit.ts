@@ -50,6 +50,9 @@ export type UnitMinAggregateOutputType = {
   areaSqm: number | null
   price: number | null
   status: string | null
+  tourImages: string | null
+  tourFloorPlan: string | null
+  floorPlanUrl: string | null
   buyerId: string | null
 }
 
@@ -63,6 +66,9 @@ export type UnitMaxAggregateOutputType = {
   areaSqm: number | null
   price: number | null
   status: string | null
+  tourImages: string | null
+  tourFloorPlan: string | null
+  floorPlanUrl: string | null
   buyerId: string | null
 }
 
@@ -76,6 +82,9 @@ export type UnitCountAggregateOutputType = {
   areaSqm: number
   price: number
   status: number
+  tourImages: number
+  tourFloorPlan: number
+  floorPlanUrl: number
   buyerId: number
   _all: number
 }
@@ -105,6 +114,9 @@ export type UnitMinAggregateInputType = {
   areaSqm?: true
   price?: true
   status?: true
+  tourImages?: true
+  tourFloorPlan?: true
+  floorPlanUrl?: true
   buyerId?: true
 }
 
@@ -118,6 +130,9 @@ export type UnitMaxAggregateInputType = {
   areaSqm?: true
   price?: true
   status?: true
+  tourImages?: true
+  tourFloorPlan?: true
+  floorPlanUrl?: true
   buyerId?: true
 }
 
@@ -131,6 +146,9 @@ export type UnitCountAggregateInputType = {
   areaSqm?: true
   price?: true
   status?: true
+  tourImages?: true
+  tourFloorPlan?: true
+  floorPlanUrl?: true
   buyerId?: true
   _all?: true
 }
@@ -231,6 +249,9 @@ export type UnitGroupByOutputType = {
   areaSqm: number
   price: number | null
   status: string
+  tourImages: string | null
+  tourFloorPlan: string | null
+  floorPlanUrl: string | null
   buyerId: string | null
   _count: UnitCountAggregateOutputType | null
   _avg: UnitAvgAggregateOutputType | null
@@ -267,6 +288,9 @@ export type UnitWhereInput = {
   areaSqm?: Prisma.FloatFilter<"Unit"> | number
   price?: Prisma.FloatNullableFilter<"Unit"> | number | null
   status?: Prisma.StringFilter<"Unit"> | string
+  tourImages?: Prisma.StringNullableFilter<"Unit"> | string | null
+  tourFloorPlan?: Prisma.StringNullableFilter<"Unit"> | string | null
+  floorPlanUrl?: Prisma.StringNullableFilter<"Unit"> | string | null
   buyerId?: Prisma.StringNullableFilter<"Unit"> | string | null
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   buyer?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -283,6 +307,9 @@ export type UnitOrderByWithRelationInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  tourImages?: Prisma.SortOrderInput | Prisma.SortOrder
+  tourFloorPlan?: Prisma.SortOrderInput | Prisma.SortOrder
+  floorPlanUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerId?: Prisma.SortOrderInput | Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   buyer?: Prisma.UserOrderByWithRelationInput
@@ -302,6 +329,9 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   areaSqm?: Prisma.FloatFilter<"Unit"> | number
   price?: Prisma.FloatNullableFilter<"Unit"> | number | null
   status?: Prisma.StringFilter<"Unit"> | string
+  tourImages?: Prisma.StringNullableFilter<"Unit"> | string | null
+  tourFloorPlan?: Prisma.StringNullableFilter<"Unit"> | string | null
+  floorPlanUrl?: Prisma.StringNullableFilter<"Unit"> | string | null
   buyerId?: Prisma.StringNullableFilter<"Unit"> | string | null
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   buyer?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -318,6 +348,9 @@ export type UnitOrderByWithAggregationInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  tourImages?: Prisma.SortOrderInput | Prisma.SortOrder
+  tourFloorPlan?: Prisma.SortOrderInput | Prisma.SortOrder
+  floorPlanUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UnitCountOrderByAggregateInput
   _avg?: Prisma.UnitAvgOrderByAggregateInput
@@ -339,6 +372,9 @@ export type UnitScalarWhereWithAggregatesInput = {
   areaSqm?: Prisma.FloatWithAggregatesFilter<"Unit"> | number
   price?: Prisma.FloatNullableWithAggregatesFilter<"Unit"> | number | null
   status?: Prisma.StringWithAggregatesFilter<"Unit"> | string
+  tourImages?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
+  tourFloorPlan?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
+  floorPlanUrl?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
   buyerId?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
 }
 
@@ -351,6 +387,9 @@ export type UnitCreateInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   project: Prisma.ProjectCreateNestedOneWithoutUnitsInput
   buyer?: Prisma.UserCreateNestedOneWithoutUnitsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUnitInput
@@ -366,6 +405,9 @@ export type UnitUncheckedCreateInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   buyerId?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -379,6 +421,9 @@ export type UnitUpdateInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   project?: Prisma.ProjectUpdateOneRequiredWithoutUnitsNestedInput
   buyer?: Prisma.UserUpdateOneWithoutUnitsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUnitNestedInput
@@ -394,6 +439,9 @@ export type UnitUncheckedUpdateInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUnitNestedInput
 }
@@ -408,6 +456,9 @@ export type UnitCreateManyInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   buyerId?: string | null
 }
 
@@ -420,6 +471,9 @@ export type UnitUpdateManyMutationInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitUncheckedUpdateManyInput = {
@@ -432,6 +486,9 @@ export type UnitUncheckedUpdateManyInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -455,6 +512,9 @@ export type UnitCountOrderByAggregateInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tourImages?: Prisma.SortOrder
+  tourFloorPlan?: Prisma.SortOrder
+  floorPlanUrl?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
 }
 
@@ -475,6 +535,9 @@ export type UnitMaxOrderByAggregateInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tourImages?: Prisma.SortOrder
+  tourFloorPlan?: Prisma.SortOrder
+  floorPlanUrl?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
 }
 
@@ -488,6 +551,9 @@ export type UnitMinOrderByAggregateInput = {
   areaSqm?: Prisma.SortOrder
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tourImages?: Prisma.SortOrder
+  tourFloorPlan?: Prisma.SortOrder
+  floorPlanUrl?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
 }
 
@@ -634,6 +700,9 @@ export type UnitCreateWithoutBuyerInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   project: Prisma.ProjectCreateNestedOneWithoutUnitsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUnitInput
 }
@@ -648,6 +717,9 @@ export type UnitUncheckedCreateWithoutBuyerInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUnitInput
 }
 
@@ -689,6 +761,9 @@ export type UnitScalarWhereInput = {
   areaSqm?: Prisma.FloatFilter<"Unit"> | number
   price?: Prisma.FloatNullableFilter<"Unit"> | number | null
   status?: Prisma.StringFilter<"Unit"> | string
+  tourImages?: Prisma.StringNullableFilter<"Unit"> | string | null
+  tourFloorPlan?: Prisma.StringNullableFilter<"Unit"> | string | null
+  floorPlanUrl?: Prisma.StringNullableFilter<"Unit"> | string | null
   buyerId?: Prisma.StringNullableFilter<"Unit"> | string | null
 }
 
@@ -701,6 +776,9 @@ export type UnitCreateWithoutProjectInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   buyer?: Prisma.UserCreateNestedOneWithoutUnitsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUnitInput
 }
@@ -714,6 +792,9 @@ export type UnitUncheckedCreateWithoutProjectInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   buyerId?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -752,6 +833,9 @@ export type UnitCreateWithoutPaymentsInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   project: Prisma.ProjectCreateNestedOneWithoutUnitsInput
   buyer?: Prisma.UserCreateNestedOneWithoutUnitsInput
 }
@@ -766,6 +850,9 @@ export type UnitUncheckedCreateWithoutPaymentsInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   buyerId?: string | null
 }
 
@@ -794,6 +881,9 @@ export type UnitUpdateWithoutPaymentsInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   project?: Prisma.ProjectUpdateOneRequiredWithoutUnitsNestedInput
   buyer?: Prisma.UserUpdateOneWithoutUnitsNestedInput
 }
@@ -808,6 +898,9 @@ export type UnitUncheckedUpdateWithoutPaymentsInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -821,6 +914,9 @@ export type UnitCreateManyBuyerInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
 }
 
 export type UnitUpdateWithoutBuyerInput = {
@@ -832,6 +928,9 @@ export type UnitUpdateWithoutBuyerInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   project?: Prisma.ProjectUpdateOneRequiredWithoutUnitsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUnitNestedInput
 }
@@ -846,6 +945,9 @@ export type UnitUncheckedUpdateWithoutBuyerInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUnitNestedInput
 }
 
@@ -859,6 +961,9 @@ export type UnitUncheckedUpdateManyWithoutBuyerInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitCreateManyProjectInput = {
@@ -870,6 +975,9 @@ export type UnitCreateManyProjectInput = {
   areaSqm: number
   price?: number | null
   status?: string
+  tourImages?: string | null
+  tourFloorPlan?: string | null
+  floorPlanUrl?: string | null
   buyerId?: string | null
 }
 
@@ -882,6 +990,9 @@ export type UnitUpdateWithoutProjectInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyer?: Prisma.UserUpdateOneWithoutUnitsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUnitNestedInput
 }
@@ -895,6 +1006,9 @@ export type UnitUncheckedUpdateWithoutProjectInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUnitNestedInput
 }
@@ -908,6 +1022,9 @@ export type UnitUncheckedUpdateManyWithoutProjectInput = {
   areaSqm?: Prisma.FloatFieldUpdateOperationsInput | number
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  tourImages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourFloorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floorPlanUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -952,6 +1069,9 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  tourImages?: boolean
+  tourFloorPlan?: boolean
+  floorPlanUrl?: boolean
   buyerId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
@@ -969,6 +1089,9 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  tourImages?: boolean
+  tourFloorPlan?: boolean
+  floorPlanUrl?: boolean
   buyerId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
@@ -984,6 +1107,9 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  tourImages?: boolean
+  tourFloorPlan?: boolean
+  floorPlanUrl?: boolean
   buyerId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
@@ -999,10 +1125,13 @@ export type UnitSelectScalar = {
   areaSqm?: boolean
   price?: boolean
   status?: boolean
+  tourImages?: boolean
+  tourFloorPlan?: boolean
+  floorPlanUrl?: boolean
   buyerId?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "code" | "type" | "bedrooms" | "floor" | "areaSqm" | "price" | "status" | "buyerId", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "code" | "type" | "bedrooms" | "floor" | "areaSqm" | "price" | "status" | "tourImages" | "tourFloorPlan" | "floorPlanUrl" | "buyerId", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.Unit$buyerArgs<ExtArgs>
@@ -1035,6 +1164,9 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     areaSqm: number
     price: number | null
     status: string
+    tourImages: string | null
+    tourFloorPlan: string | null
+    floorPlanUrl: string | null
     buyerId: string | null
   }, ExtArgs["result"]["unit"]>
   composites: {}
@@ -1471,6 +1603,9 @@ export interface UnitFieldRefs {
   readonly areaSqm: Prisma.FieldRef<"Unit", 'Float'>
   readonly price: Prisma.FieldRef<"Unit", 'Float'>
   readonly status: Prisma.FieldRef<"Unit", 'String'>
+  readonly tourImages: Prisma.FieldRef<"Unit", 'String'>
+  readonly tourFloorPlan: Prisma.FieldRef<"Unit", 'String'>
+  readonly floorPlanUrl: Prisma.FieldRef<"Unit", 'String'>
   readonly buyerId: Prisma.FieldRef<"Unit", 'String'>
 }
     

@@ -14,7 +14,11 @@
   ];
 
   const investorTabs = [
-    { label: 'Portfolio', href: '/investor' },
+    { label: 'Overview', href: '/investor' },
+    { label: 'Portfolio', href: '/investor/portfolio' },
+    { label: 'Cashflow', href: '/investor/cashflow' },
+    { label: 'Risk', href: '/investor/risk' },
+    { label: 'Construction', href: '/investor/construction' },
     { label: 'Pools', href: '/investor/pools' },
     { label: 'Documents', href: '/investor/documents' }
   ];

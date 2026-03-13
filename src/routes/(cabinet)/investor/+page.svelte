@@ -3,6 +3,49 @@
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
 
   let { data } = $props();
+
+  // AI Portfolio Insight
+  let insightLoading = $state(false);
+  let insight = $state<string | null>(null);
+  let insightError = $state(false);
+
+  async function loadInsight() {
+    if (insight || insightLoading || data.investments.length === 0) return;
+    insightLoading = true;
+    insightError = false;
+    try {
+      const res = await fetch('/api/invest/portfolio-insight', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          investorId: data.user?.id,
+          portfolioData: {
+            totalInvested: data.kpis.totalInvested,
+            activePools: data.kpis.activePools,
+            avgYield: data.kpis.avgYield,
+            poolCount: data.investments.length,
+            investments: data.investments.map(i => ({
+              amount: i.amount,
+              pool: {
+                name: i.pool.name,
+                status: i.pool.status,
+                targetYield: i.pool.targetYield,
+                raisedAmount: i.pool.raisedAmount,
+                goalAmount: i.pool.goalAmount,
+              },
+            })),
+          },
+        }),
+      });
+      if (!res.ok) throw new Error();
+      const d = await res.json();
+      insight = d.insight;
+    } catch {
+      insightError = true;
+    } finally {
+      insightLoading = false;
+    }
+  }
 </script>
 
 <svelte:head>
@@ -14,6 +57,29 @@
     <span class="investor-dash__label">PORTFOLIO</span>
     <h1 class="investor-dash__title">My Portfolio</h1>
   </div>
+
+  <!-- AI Portfolio Insight -->
+  {#if data.investments.length > 0}
+    <div class="insight-widget">
+      <div class="insight-widget__head">
+        <span class="insight-widget__icon">✦</span>
+        <span class="insight-widget__title">AI Portfolio Insight</span>
+        {#if !insight && !insightLoading}
+          <button class="insight-widget__btn" onclick={loadInsight}>Analyze my portfolio</button>
+        {/if}
+      </div>
+      {#if insightLoading}
+        <p class="insight-widget__loading">Analyzing your portfolio…</p>
+      {:else if insight}
+        <p class="insight-widget__text">{insight}</p>
+        <button class="insight-widget__refresh" onclick={() => { insight = null; loadInsight(); }}>Refresh →</button>
+      {:else if insightError}
+        <p class="insight-widget__error">AI analysis unavailable right now.</p>
+      {:else}
+        <p class="insight-widget__hint">Get a personalized AI summary of your portfolio performance, risks, and recommendations.</p>
+      {/if}
+    </div>
+  {/if}
 
   <div class="investor-dash__kpis">
     <div class="kpi-card">
@@ -296,6 +362,79 @@
   .empty-state__link:hover {
     text-decoration: underline;
   }
+
+  /* AI Portfolio Insight widget */
+  .insight-widget {
+    background: linear-gradient(135deg, #fffdf8, #fdf5e6);
+    border: 1px solid #f0e0b0;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .insight-widget__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .insight-widget__icon {
+    color: var(--color-accent);
+    font-size: var(--text-base);
+  }
+
+  .insight-widget__title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    flex: 1;
+  }
+
+  .insight-widget__btn {
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 4px 12px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+  }
+  .insight-widget__btn:hover { opacity: 0.85; }
+
+  .insight-widget__text {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .insight-widget__loading,
+  .insight-widget__hint,
+  .insight-widget__error {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    font-style: italic;
+  }
+  .insight-widget__error { color: #e5484d; }
+
+  .insight-widget__refresh {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+  }
+  .insight-widget__refresh:hover { text-decoration: underline; }
 
   @media (max-width: 768px) {
     .investor-dash__kpis {

@@ -1,0 +1,14 @@
+Generate an FAQ block for a Cyprus real estate article.
+
+Topic: {{topic}}
+Target audience: {{audience}}
+Missing questions from audit: {{missingQuestions}}
+
+Return ONLY valid JSON:
+{
+  "faqs": [
+    { "question": "", "answer": "" }
+  ]
+}
+
+Generate 4–6 questions. Answers 2–4 sentences. Locale: {{locale}}.

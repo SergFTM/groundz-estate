@@ -3,6 +3,13 @@
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
 
   let { data } = $props();
+  const { pools, commitMap } = data;
+
+  function fmt(n: number): string {
+    if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1000) return `€${(n / 1000).toLocaleString()}k`;
+    return `€${n}`;
+  }
 </script>
 
 <svelte:head>
@@ -15,16 +22,24 @@
     <h1 class="pools-page__title">Investment Pools</h1>
   </div>
 
-  {#if data.pools.length > 0}
+  {#if pools.length > 0}
     <div class="pools-grid">
-      {#each data.pools as pool}
+      {#each pools as pool}
+        {@const commit = commitMap[pool.id]}
         <div class="pool-card">
           <div class="pool-card__header">
             <div>
               <h2 class="pool-card__name">{pool.name}</h2>
               <p class="pool-card__location">{pool.projectName}</p>
             </div>
-            <StatusBadge status={pool.status} />
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-1);">
+              <StatusBadge status={pool.status} />
+              {#if commit}
+                <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:2px 7px;border-radius:99px;background:rgba(212,169,68,0.12);color:#d4a944;">
+                  {commit.status.replace('_', ' ')} · {fmt(commit.amount)}
+                </span>
+              {/if}
+            </div>
           </div>
 
           <div class="pool-card__body">
@@ -65,15 +80,18 @@
             </div>
           </div>
 
-          <div class="pool-card__footer">
+          <div class="pool-card__footer" style="display:flex;justify-content:space-between;align-items:center;">
             <a href="/investor/pools/{pool.id}" class="pool-card__link">View Details →</a>
+            {#if pool.status === 'active' && !commit}
+              <a href="/investment/{pool.slug}/commit" class="pool-card__link" style="background:var(--color-accent);color:#fff;padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-xs);">Commit →</a>
+            {/if}
           </div>
         </div>
       {/each}
     </div>
   {:else}
     <div class="empty-state-card">
-      <p class="empty-state">No investment pools available at this time.</p>
+      <p class="empty-state">No investment pools available at this time. <a href="/investment" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse pools →</a></p>
     </div>
   {/if}
 </div>

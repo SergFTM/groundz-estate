@@ -11,7 +11,8 @@ export const load: PageServerLoad = async ({ params }) => {
       investments: {
         include: { user: { select: { id: true, name: true, email: true } } },
         orderBy: { createdAt: 'desc' }
-      }
+      },
+      milestones: { orderBy: { plannedDate: 'asc' } }
     }
   });
   if (!pool) throw error(404, 'Investment pool not found');
@@ -32,15 +33,32 @@ export const actions: Actions = {
         where: { id: params.id },
         data: {
           name: data.name,
+          slug: data.slug || null,
           projectName: data.projectName,
+          country: data.country,
+          city: data.city || null,
+          dealType: data.dealType || null,
           goalAmount: data.goalAmount,
           raisedAmount: data.raisedAmount,
           targetYield: data.targetYield,
+          targetIrr: data.targetIrr ? Number(data.targetIrr) : null,
+          preferredReturn: data.preferredReturn ? Number(data.preferredReturn) : null,
           termMonths: data.termMonths,
           minTicket: data.minTicket,
+          maxTicket: data.maxTicket ? Number(data.maxTicket) : null,
+          exitType: data.exitType || null,
+          capitalType: data.capitalType || null,
+          spvName: data.spvName || null,
+          ltv: data.ltv ? Number(data.ltv) : null,
+          ltc: data.ltc ? Number(data.ltc) : null,
+          developerCoinvestPct: data.developerCoinvestPct ? Number(data.developerCoinvestPct) : null,
           status: data.status,
           imageUrl: data.imageUrl || null,
           description: data.description || null,
+          locationThesis: data.locationThesis || null,
+          demandThesis: data.demandThesis || null,
+          constructionThesis: data.constructionThesis || null,
+          exitThesis: data.exitThesis || null,
         },
       });
       return { success: true };

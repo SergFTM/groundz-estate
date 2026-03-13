@@ -15,7 +15,8 @@ function redirectForRole(role: string): string {
 }
 
 export const actions: Actions = {
-	login: async ({ request, cookies }) => {
+	login: async ({ request, cookies, url }) => {
+		const next = url.searchParams.get('next');
 		const formData = await request.formData();
 		const data = {
 			email: formData.get('email') as string,
@@ -60,10 +61,11 @@ export const actions: Actions = {
 			sameSite: 'lax'
 		});
 
-		throw redirect(302, redirectForRole(user.role));
+		throw redirect(302, next && next.startsWith('/') ? next : redirectForRole(user.role));
 	},
 
-	register: async ({ request, cookies }) => {
+	register: async ({ request, cookies, url }) => {
+		const next = url.searchParams.get('next');
 		const formData = await request.formData();
 		const data = {
 			name: formData.get('name') as string,
@@ -116,6 +118,12 @@ export const actions: Actions = {
 			sameSite: 'lax'
 		});
 
-		throw redirect(302, redirectForRole(user.role));
+		// New investors go to onboarding on first registration
+		const destination = next && next.startsWith('/')
+			? next
+			: user.role === 'investor'
+				? '/investor/onboarding'
+				: redirectForRole(user.role);
+		throw redirect(302, destination);
 	}
 };

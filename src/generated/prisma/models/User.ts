@@ -212,6 +212,7 @@ export type UserWhereInput = {
   payments?: Prisma.PaymentListRelationFilter
   units?: Prisma.UnitListRelationFilter
   investments?: Prisma.InvestorInvestmentListRelationFilter
+  commissions?: Prisma.CommissionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -229,6 +230,7 @@ export type UserOrderByWithRelationInput = {
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   units?: Prisma.UnitOrderByRelationAggregateInput
   investments?: Prisma.InvestorInvestmentOrderByRelationAggregateInput
+  commissions?: Prisma.CommissionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -249,6 +251,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   units?: Prisma.UnitListRelationFilter
   investments?: Prisma.InvestorInvestmentListRelationFilter
+  commissions?: Prisma.CommissionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -294,6 +297,7 @@ export type UserCreateInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -311,6 +315,7 @@ export type UserUncheckedCreateInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserUpdateInput = {
@@ -328,6 +333,7 @@ export type UserUpdateInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -345,6 +351,7 @@ export type UserUncheckedUpdateInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -479,6 +486,20 @@ export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDocumentsInput, Prisma.UserUpdateWithoutDocumentsInput>, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
 }
 
+export type UserCreateNestedOneWithoutCommissionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommissionsInput, Prisma.UserUncheckedCreateWithoutCommissionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommissionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommissionsInput, Prisma.UserUncheckedCreateWithoutCommissionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommissionsInput
+  upsert?: Prisma.UserUpsertWithoutCommissionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommissionsInput, Prisma.UserUpdateWithoutCommissionsInput>, Prisma.UserUncheckedUpdateWithoutCommissionsInput>
+}
+
 export type UserCreateNestedOneWithoutLeadsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutLeadsInput, Prisma.UserUncheckedCreateWithoutLeadsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutLeadsInput
@@ -539,6 +560,7 @@ export type UserCreateWithoutUnitsInput = {
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateWithoutUnitsInput = {
@@ -555,6 +577,7 @@ export type UserUncheckedCreateWithoutUnitsInput = {
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserCreateOrConnectWithoutUnitsInput = {
@@ -587,6 +610,7 @@ export type UserUpdateWithoutUnitsInput = {
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUnitsInput = {
@@ -603,6 +627,7 @@ export type UserUncheckedUpdateWithoutUnitsInput = {
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -619,6 +644,7 @@ export type UserCreateWithoutPaymentsInput = {
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -635,6 +661,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -667,6 +694,7 @@ export type UserUpdateWithoutPaymentsInput = {
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -683,6 +711,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
 }
 
 export type UserCreateWithoutDocumentsInput = {
@@ -699,6 +728,7 @@ export type UserCreateWithoutDocumentsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateWithoutDocumentsInput = {
@@ -715,6 +745,7 @@ export type UserUncheckedCreateWithoutDocumentsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserCreateOrConnectWithoutDocumentsInput = {
@@ -747,6 +778,7 @@ export type UserUpdateWithoutDocumentsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDocumentsInput = {
@@ -760,6 +792,91 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   agentLeads?: Prisma.LeadUncheckedUpdateManyWithoutAgentNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
+}
+
+export type UserCreateWithoutCommissionsInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommissionsInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommissionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommissionsInput, Prisma.UserUncheckedCreateWithoutCommissionsInput>
+}
+
+export type UserUpsertWithoutCommissionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommissionsInput, Prisma.UserUncheckedUpdateWithoutCommissionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommissionsInput, Prisma.UserUncheckedCreateWithoutCommissionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommissionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommissionsInput, Prisma.UserUncheckedUpdateWithoutCommissionsInput>
+}
+
+export type UserUpdateWithoutCommissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUncheckedUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
@@ -779,6 +896,7 @@ export type UserCreateWithoutLeadsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateWithoutLeadsInput = {
@@ -795,6 +913,7 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserCreateOrConnectWithoutLeadsInput = {
@@ -816,6 +935,7 @@ export type UserCreateWithoutAgentLeadsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateWithoutAgentLeadsInput = {
@@ -832,6 +952,7 @@ export type UserUncheckedCreateWithoutAgentLeadsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
   investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserCreateOrConnectWithoutAgentLeadsInput = {
@@ -864,6 +985,7 @@ export type UserUpdateWithoutLeadsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLeadsInput = {
@@ -880,6 +1002,7 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUpsertWithoutAgentLeadsInput = {
@@ -907,6 +1030,7 @@ export type UserUpdateWithoutAgentLeadsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAgentLeadsInput = {
@@ -923,6 +1047,7 @@ export type UserUncheckedUpdateWithoutAgentLeadsInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
   investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
 }
 
 export type UserCreateWithoutInvestmentsInput = {
@@ -939,6 +1064,7 @@ export type UserCreateWithoutInvestmentsInput = {
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
 }
 
 export type UserUncheckedCreateWithoutInvestmentsInput = {
@@ -955,6 +1081,7 @@ export type UserUncheckedCreateWithoutInvestmentsInput = {
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
 }
 
 export type UserCreateOrConnectWithoutInvestmentsInput = {
@@ -987,6 +1114,7 @@ export type UserUpdateWithoutInvestmentsInput = {
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInvestmentsInput = {
@@ -1003,6 +1131,7 @@ export type UserUncheckedUpdateWithoutInvestmentsInput = {
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
 }
 
 
@@ -1017,6 +1146,7 @@ export type UserCountOutputType = {
   payments: number
   units: number
   investments: number
+  commissions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1026,6 +1156,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   payments?: boolean | UserCountOutputTypeCountPaymentsArgs
   units?: boolean | UserCountOutputTypeCountUnitsArgs
   investments?: boolean | UserCountOutputTypeCountInvestmentsArgs
+  commissions?: boolean | UserCountOutputTypeCountCommissionsArgs
 }
 
 /**
@@ -1080,6 +1211,13 @@ export type UserCountOutputTypeCountInvestmentsArgs<ExtArgs extends runtime.Type
   where?: Prisma.InvestorInvestmentWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommissionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1096,6 +1234,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   units?: boolean | Prisma.User$unitsArgs<ExtArgs>
   investments?: boolean | Prisma.User$investmentsArgs<ExtArgs>
+  commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1140,6 +1279,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   units?: boolean | Prisma.User$unitsArgs<ExtArgs>
   investments?: boolean | Prisma.User$investmentsArgs<ExtArgs>
+  commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1154,6 +1294,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     units: Prisma.$UnitPayload<ExtArgs>[]
     investments: Prisma.$InvestorInvestmentPayload<ExtArgs>[]
+    commissions: Prisma.$CommissionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1564,6 +1705,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   units<T extends Prisma.User$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   investments<T extends Prisma.User$investmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestorInvestmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  commissions<T extends Prisma.User$commissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2128,6 +2270,30 @@ export type User$investmentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.InvestorInvestmentScalarFieldEnum | Prisma.InvestorInvestmentScalarFieldEnum[]
+}
+
+/**
+ * User.commissions
+ */
+export type User$commissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Commission
+   */
+  select?: Prisma.CommissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Commission
+   */
+  omit?: Prisma.CommissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommissionInclude<ExtArgs> | null
+  where?: Prisma.CommissionWhereInput
+  orderBy?: Prisma.CommissionOrderByWithRelationInput | Prisma.CommissionOrderByWithRelationInput[]
+  cursor?: Prisma.CommissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommissionScalarFieldEnum | Prisma.CommissionScalarFieldEnum[]
 }
 
 /**

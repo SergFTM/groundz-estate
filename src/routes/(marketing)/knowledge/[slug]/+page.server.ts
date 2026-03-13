@@ -19,7 +19,12 @@ export const load: PageServerLoad = async ({ params }) => {
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
 
+  const seoProfile = await db.seoPageProfile.findUnique({
+    where: { articleId: article.id },
+    select: { metaTitle: true, metaDescription: true },
+  });
+
   // article.content is admin/seed-authored HTML — trusted source.
   // If a WYSIWYG CMS editor is introduced, sanitize via isomorphic-dompurify before returning.
-  return { article, related };
+  return { article, related, seoProfile };
 };

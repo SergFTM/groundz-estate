@@ -2,13 +2,25 @@ import { error, fail } from '@sveltejs/kit';
 import db from '$lib/server/db';
 import type { PageServerLoad, Actions } from './$types';
 
-export const load: PageServerLoad = async ({ params }) => {
-  const pool = await db.investmentPool.findUnique({
-    where: { id: params.id },
-    include: { investments: { include: { user: { select: { name: true } } } } }
-  });
+export const load: PageServerLoad = async ({ params, parent }) => {
+  const { user } = await parent();
+
+  const [pool, myCommit] = await Promise.all([
+    db.investmentPool.findUnique({
+      where: { id: params.id },
+      include: {
+        investments: { include: { user: { select: { name: true } } } },
+        documents:   { orderBy: { uploadedAt: 'desc' } },
+        milestones:  { orderBy: { plannedDate: 'asc' } },
+      },
+    }),
+    db.investorInvestment.findFirst({
+      where: { poolId: params.id, userId: user.id },
+    }),
+  ]);
+
   if (!pool) throw error(404, 'Pool not found');
-  return { pool };
+  return { pool, myCommit };
 };
 
 export const actions: Actions = {
