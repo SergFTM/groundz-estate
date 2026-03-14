@@ -480,6 +480,11 @@ model OtcListing {
   investment InvestorInvestment? @relation("InvestmentOtcListings", fields: [investmentId], references: [id], onDelete: SetNull)
   unit       Unit?               @relation("UnitOtcListings", fields: [unitId], references: [id], onDelete: SetNull)
   offers     OtcOffer[]
+
+  @@index([sellerId])
+  @@index([status])
+  @@index([investmentId])
+  @@index([unitId])
 }
 
 model OtcOffer {
@@ -495,4 +500,7 @@ model OtcOffer {
 
   listing OtcListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   buyer   User       @relation("OtcBuyer", fields: [buyerId], references: [id])
+
+  @@index([listingId])
+  @@index([buyerId])
 }
