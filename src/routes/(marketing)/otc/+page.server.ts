@@ -3,8 +3,11 @@ import db from '$lib/server/db.js';
 import { buildAssetSummary, LISTING_ASSET_INCLUDE } from '$lib/server/otc/service.js';
 import type { PageServerLoad } from './$types';
 
+const VALID_ASSET_TYPES = ['investment_share', 'option_contract', 'apartment'];
+
 export const load: PageServerLoad = async ({ url, locals }) => {
-  const type = url.searchParams.get('type') ?? '';
+  const rawType = url.searchParams.get('type') ?? '';
+  const type = VALID_ASSET_TYPES.includes(rawType) ? rawType : '';
   const now = new Date();
 
   const listings = await db.otcListing.findMany({
