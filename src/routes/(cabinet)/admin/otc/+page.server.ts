@@ -43,7 +43,7 @@ export const actions: Actions = {
   },
 
   cancel: async ({ request, locals }) => {
-    if (locals.user?.role !== 'internal_team') return { error: 'Forbidden' };
+    if (!locals.user || locals.user.role !== 'internal_team') return { error: 'Forbidden' };
     const data = await request.formData();
     const id = data.get('id') as string;
     if (!id) return { error: 'id required' };
