@@ -26,6 +26,8 @@ model User {
   commissions        Commission[]
   articleComments    ArticleComment[]
   articleCommentLikes ArticleCommentLike[]
+  otcListings  OtcListing[] @relation("OtcSeller")
+  otcOffers    OtcOffer[]   @relation("OtcBuyer")
 }
 
 model Project {
@@ -60,6 +62,7 @@ model Unit {
   project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   buyer     User?     @relation("UnitBuyer", fields: [buyerId], references: [id])
   payments  Payment[]
+  otcListings  OtcListing[] @relation("UnitOtcListings")
 }
 
 model ConstructionPhase {
@@ -197,6 +200,7 @@ model InvestorInvestment {
 
   user      User           @relation(fields: [userId], references: [id])
   pool      InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  otcListings  OtcListing[] @relation("InvestmentOtcListings")
 }
 
 model Milestone {
@@ -451,4 +455,44 @@ model DailyPrice {
   index MarketIndex @relation(fields: [indexId], references: [id], onDelete: Cascade)
 
   @@unique([indexId, date])
+}
+
+// === MODULE: OTC SECONDARY MARKET ===
+
+model OtcListing {
+  id           String    @id @default(uuid())
+  sellerId     String
+  assetType    String    // investment_share | option_contract | apartment
+  investmentId String?   // → InvestorInvestment.id
+  unitId       String?   // → Unit.id
+  title        String
+  description  String?
+  askPrice     Float
+  currency     String    @default("EUR")
+  status       String    @default("pending")
+  // pending | active | sold | cancelled | rejected
+  adminNote    String?
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  seller     User                @relation("OtcSeller", fields: [sellerId], references: [id])
+  investment InvestorInvestment? @relation("InvestmentOtcListings", fields: [investmentId], references: [id], onDelete: SetNull)
+  unit       Unit?               @relation("UnitOtcListings", fields: [unitId], references: [id], onDelete: SetNull)
+  offers     OtcOffer[]
+}
+
+model OtcOffer {
+  id        String     @id @default(uuid())
+  listingId String
+  buyerId   String
+  amount    Float
+  message   String?
+  status    String     @default("pending")
+  // pending | accepted | declined
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+
+  listing OtcListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyer   User       @relation("OtcBuyer", fields: [buyerId], references: [id])
 }
