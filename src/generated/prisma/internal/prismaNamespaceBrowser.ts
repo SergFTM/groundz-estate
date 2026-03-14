@@ -69,13 +69,18 @@ export const ModelName = {
   JobApplication: 'JobApplication',
   PasswordReset: 'PasswordReset',
   Article: 'Article',
+  ArticleComment: 'ArticleComment',
+  ArticleCommentLike: 'ArticleCommentLike',
   AppSetting: 'AppSetting',
   FAQ: 'FAQ',
   SeoKeywordCluster: 'SeoKeywordCluster',
   SeoPageProfile: 'SeoPageProfile',
   SeoAudit: 'SeoAudit',
   InternalLinkSuggestion: 'InternalLinkSuggestion',
-  SeoContentRevision: 'SeoContentRevision'
+  SeoContentRevision: 'SeoContentRevision',
+  MarketIndex: 'MarketIndex',
+  IndexComponent: 'IndexComponent',
+  DailyPrice: 'DailyPrice'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -376,6 +381,26 @@ export const ArticleScalarFieldEnum = {
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
 
 
+export const ArticleCommentScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  userId: 'userId',
+  content: 'content',
+  parentId: 'parentId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleCommentScalarFieldEnum = (typeof ArticleCommentScalarFieldEnum)[keyof typeof ArticleCommentScalarFieldEnum]
+
+
+export const ArticleCommentLikeScalarFieldEnum = {
+  commentId: 'commentId',
+  userId: 'userId'
+} as const
+
+export type ArticleCommentLikeScalarFieldEnum = (typeof ArticleCommentLikeScalarFieldEnum)[keyof typeof ArticleCommentLikeScalarFieldEnum]
+
+
 export const AppSettingScalarFieldEnum = {
   key: 'key',
   value: 'value',
@@ -472,6 +497,47 @@ export const SeoContentRevisionScalarFieldEnum = {
 } as const
 
 export type SeoContentRevisionScalarFieldEnum = (typeof SeoContentRevisionScalarFieldEnum)[keyof typeof SeoContentRevisionScalarFieldEnum]
+
+
+export const MarketIndexScalarFieldEnum = {
+  id: 'id',
+  symbol: 'symbol',
+  name: 'name',
+  type: 'type',
+  market: 'market',
+  color: 'color',
+  active: 'active',
+  lastSyncAt: 'lastSyncAt',
+  createdAt: 'createdAt'
+} as const
+
+export type MarketIndexScalarFieldEnum = (typeof MarketIndexScalarFieldEnum)[keyof typeof MarketIndexScalarFieldEnum]
+
+
+export const IndexComponentScalarFieldEnum = {
+  id: 'id',
+  indexId: 'indexId',
+  symbol: 'symbol',
+  name: 'name',
+  weight: 'weight'
+} as const
+
+export type IndexComponentScalarFieldEnum = (typeof IndexComponentScalarFieldEnum)[keyof typeof IndexComponentScalarFieldEnum]
+
+
+export const DailyPriceScalarFieldEnum = {
+  id: 'id',
+  indexId: 'indexId',
+  date: 'date',
+  open: 'open',
+  high: 'high',
+  low: 'low',
+  close: 'close',
+  volume: 'volume',
+  changePct: 'changePct'
+} as const
+
+export type DailyPriceScalarFieldEnum = (typeof DailyPriceScalarFieldEnum)[keyof typeof DailyPriceScalarFieldEnum]
 
 
 export const SortOrder = {

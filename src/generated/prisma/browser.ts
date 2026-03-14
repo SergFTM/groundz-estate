@@ -108,6 +108,16 @@ export type PasswordReset = Prisma.PasswordResetModel
  */
 export type Article = Prisma.ArticleModel
 /**
+ * Model ArticleComment
+ * 
+ */
+export type ArticleComment = Prisma.ArticleCommentModel
+/**
+ * Model ArticleCommentLike
+ * 
+ */
+export type ArticleCommentLike = Prisma.ArticleCommentLikeModel
+/**
  * Model AppSetting
  * 
  */
@@ -142,3 +152,18 @@ export type InternalLinkSuggestion = Prisma.InternalLinkSuggestionModel
  * 
  */
 export type SeoContentRevision = Prisma.SeoContentRevisionModel
+/**
+ * Model MarketIndex
+ * 
+ */
+export type MarketIndex = Prisma.MarketIndexModel
+/**
+ * Model IndexComponent
+ * 
+ */
+export type IndexComponent = Prisma.IndexComponentModel
+/**
+ * Model DailyPrice
+ * 
+ */
+export type DailyPrice = Prisma.DailyPriceModel

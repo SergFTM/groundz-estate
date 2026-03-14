@@ -402,13 +402,18 @@ export const ModelName = {
   JobApplication: 'JobApplication',
   PasswordReset: 'PasswordReset',
   Article: 'Article',
+  ArticleComment: 'ArticleComment',
+  ArticleCommentLike: 'ArticleCommentLike',
   AppSetting: 'AppSetting',
   FAQ: 'FAQ',
   SeoKeywordCluster: 'SeoKeywordCluster',
   SeoPageProfile: 'SeoPageProfile',
   SeoAudit: 'SeoAudit',
   InternalLinkSuggestion: 'InternalLinkSuggestion',
-  SeoContentRevision: 'SeoContentRevision'
+  SeoContentRevision: 'SeoContentRevision',
+  MarketIndex: 'MarketIndex',
+  IndexComponent: 'IndexComponent',
+  DailyPrice: 'DailyPrice'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -424,7 +429,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "commission" | "lead" | "investmentPool" | "investorInvestment" | "milestone" | "constructionReport" | "aiResponseCache" | "jobPosition" | "jobApplication" | "passwordReset" | "article" | "appSetting" | "fAQ" | "seoKeywordCluster" | "seoPageProfile" | "seoAudit" | "internalLinkSuggestion" | "seoContentRevision"
+    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "commission" | "lead" | "investmentPool" | "investorInvestment" | "milestone" | "constructionReport" | "aiResponseCache" | "jobPosition" | "jobApplication" | "passwordReset" | "article" | "articleComment" | "articleCommentLike" | "appSetting" | "fAQ" | "seoKeywordCluster" | "seoPageProfile" | "seoAudit" | "internalLinkSuggestion" | "seoContentRevision" | "marketIndex" | "indexComponent" | "dailyPrice"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1760,6 +1765,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ArticleComment: {
+      payload: Prisma.$ArticleCommentPayload<ExtArgs>
+      fields: Prisma.ArticleCommentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArticleCommentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArticleCommentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>
+        }
+        findFirst: {
+          args: Prisma.ArticleCommentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArticleCommentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>
+        }
+        findMany: {
+          args: Prisma.ArticleCommentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>[]
+        }
+        create: {
+          args: Prisma.ArticleCommentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>
+        }
+        createMany: {
+          args: Prisma.ArticleCommentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArticleCommentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>[]
+        }
+        delete: {
+          args: Prisma.ArticleCommentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>
+        }
+        update: {
+          args: Prisma.ArticleCommentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ArticleCommentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArticleCommentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArticleCommentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ArticleCommentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentPayload>
+        }
+        aggregate: {
+          args: Prisma.ArticleCommentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArticleComment>
+        }
+        groupBy: {
+          args: Prisma.ArticleCommentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleCommentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArticleCommentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleCommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    ArticleCommentLike: {
+      payload: Prisma.$ArticleCommentLikePayload<ExtArgs>
+      fields: Prisma.ArticleCommentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArticleCommentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArticleCommentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.ArticleCommentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArticleCommentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>
+        }
+        findMany: {
+          args: Prisma.ArticleCommentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>[]
+        }
+        create: {
+          args: Prisma.ArticleCommentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>
+        }
+        createMany: {
+          args: Prisma.ArticleCommentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArticleCommentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.ArticleCommentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>
+        }
+        update: {
+          args: Prisma.ArticleCommentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.ArticleCommentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArticleCommentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArticleCommentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.ArticleCommentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleCommentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.ArticleCommentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArticleCommentLike>
+        }
+        groupBy: {
+          args: Prisma.ArticleCommentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleCommentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArticleCommentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleCommentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
     AppSetting: {
       payload: Prisma.$AppSettingPayload<ExtArgs>
       fields: Prisma.AppSettingFieldRefs
@@ -2278,6 +2431,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MarketIndex: {
+      payload: Prisma.$MarketIndexPayload<ExtArgs>
+      fields: Prisma.MarketIndexFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MarketIndexFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MarketIndexFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>
+        }
+        findFirst: {
+          args: Prisma.MarketIndexFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MarketIndexFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>
+        }
+        findMany: {
+          args: Prisma.MarketIndexFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>[]
+        }
+        create: {
+          args: Prisma.MarketIndexCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>
+        }
+        createMany: {
+          args: Prisma.MarketIndexCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MarketIndexCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>[]
+        }
+        delete: {
+          args: Prisma.MarketIndexDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>
+        }
+        update: {
+          args: Prisma.MarketIndexUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>
+        }
+        deleteMany: {
+          args: Prisma.MarketIndexDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MarketIndexUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MarketIndexUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>[]
+        }
+        upsert: {
+          args: Prisma.MarketIndexUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketIndexPayload>
+        }
+        aggregate: {
+          args: Prisma.MarketIndexAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMarketIndex>
+        }
+        groupBy: {
+          args: Prisma.MarketIndexGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketIndexGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MarketIndexCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketIndexCountAggregateOutputType> | number
+        }
+      }
+    }
+    IndexComponent: {
+      payload: Prisma.$IndexComponentPayload<ExtArgs>
+      fields: Prisma.IndexComponentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.IndexComponentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.IndexComponentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>
+        }
+        findFirst: {
+          args: Prisma.IndexComponentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.IndexComponentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>
+        }
+        findMany: {
+          args: Prisma.IndexComponentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>[]
+        }
+        create: {
+          args: Prisma.IndexComponentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>
+        }
+        createMany: {
+          args: Prisma.IndexComponentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.IndexComponentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>[]
+        }
+        delete: {
+          args: Prisma.IndexComponentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>
+        }
+        update: {
+          args: Prisma.IndexComponentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>
+        }
+        deleteMany: {
+          args: Prisma.IndexComponentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.IndexComponentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.IndexComponentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>[]
+        }
+        upsert: {
+          args: Prisma.IndexComponentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IndexComponentPayload>
+        }
+        aggregate: {
+          args: Prisma.IndexComponentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateIndexComponent>
+        }
+        groupBy: {
+          args: Prisma.IndexComponentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IndexComponentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.IndexComponentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IndexComponentCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyPrice: {
+      payload: Prisma.$DailyPricePayload<ExtArgs>
+      fields: Prisma.DailyPriceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyPriceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyPriceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>
+        }
+        findFirst: {
+          args: Prisma.DailyPriceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyPriceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>
+        }
+        findMany: {
+          args: Prisma.DailyPriceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>[]
+        }
+        create: {
+          args: Prisma.DailyPriceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>
+        }
+        createMany: {
+          args: Prisma.DailyPriceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyPriceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>[]
+        }
+        delete: {
+          args: Prisma.DailyPriceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>
+        }
+        update: {
+          args: Prisma.DailyPriceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyPriceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyPriceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyPriceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyPriceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyPricePayload>
+        }
+        aggregate: {
+          args: Prisma.DailyPriceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyPrice>
+        }
+        groupBy: {
+          args: Prisma.DailyPriceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyPriceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyPriceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyPriceCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2599,6 +2974,26 @@ export const ArticleScalarFieldEnum = {
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
 
 
+export const ArticleCommentScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  userId: 'userId',
+  content: 'content',
+  parentId: 'parentId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleCommentScalarFieldEnum = (typeof ArticleCommentScalarFieldEnum)[keyof typeof ArticleCommentScalarFieldEnum]
+
+
+export const ArticleCommentLikeScalarFieldEnum = {
+  commentId: 'commentId',
+  userId: 'userId'
+} as const
+
+export type ArticleCommentLikeScalarFieldEnum = (typeof ArticleCommentLikeScalarFieldEnum)[keyof typeof ArticleCommentLikeScalarFieldEnum]
+
+
 export const AppSettingScalarFieldEnum = {
   key: 'key',
   value: 'value',
@@ -2695,6 +3090,47 @@ export const SeoContentRevisionScalarFieldEnum = {
 } as const
 
 export type SeoContentRevisionScalarFieldEnum = (typeof SeoContentRevisionScalarFieldEnum)[keyof typeof SeoContentRevisionScalarFieldEnum]
+
+
+export const MarketIndexScalarFieldEnum = {
+  id: 'id',
+  symbol: 'symbol',
+  name: 'name',
+  type: 'type',
+  market: 'market',
+  color: 'color',
+  active: 'active',
+  lastSyncAt: 'lastSyncAt',
+  createdAt: 'createdAt'
+} as const
+
+export type MarketIndexScalarFieldEnum = (typeof MarketIndexScalarFieldEnum)[keyof typeof MarketIndexScalarFieldEnum]
+
+
+export const IndexComponentScalarFieldEnum = {
+  id: 'id',
+  indexId: 'indexId',
+  symbol: 'symbol',
+  name: 'name',
+  weight: 'weight'
+} as const
+
+export type IndexComponentScalarFieldEnum = (typeof IndexComponentScalarFieldEnum)[keyof typeof IndexComponentScalarFieldEnum]
+
+
+export const DailyPriceScalarFieldEnum = {
+  id: 'id',
+  indexId: 'indexId',
+  date: 'date',
+  open: 'open',
+  high: 'high',
+  low: 'low',
+  close: 'close',
+  volume: 'volume',
+  changePct: 'changePct'
+} as const
+
+export type DailyPriceScalarFieldEnum = (typeof DailyPriceScalarFieldEnum)[keyof typeof DailyPriceScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2866,6 +3302,8 @@ export type GlobalOmitConfig = {
   jobApplication?: Prisma.JobApplicationOmit
   passwordReset?: Prisma.PasswordResetOmit
   article?: Prisma.ArticleOmit
+  articleComment?: Prisma.ArticleCommentOmit
+  articleCommentLike?: Prisma.ArticleCommentLikeOmit
   appSetting?: Prisma.AppSettingOmit
   fAQ?: Prisma.FAQOmit
   seoKeywordCluster?: Prisma.SeoKeywordClusterOmit
@@ -2873,6 +3311,9 @@ export type GlobalOmitConfig = {
   seoAudit?: Prisma.SeoAuditOmit
   internalLinkSuggestion?: Prisma.InternalLinkSuggestionOmit
   seoContentRevision?: Prisma.SeoContentRevisionOmit
+  marketIndex?: Prisma.MarketIndexOmit
+  indexComponent?: Prisma.IndexComponentOmit
+  dailyPrice?: Prisma.DailyPriceOmit
 }
 
 /* Types for Logging */

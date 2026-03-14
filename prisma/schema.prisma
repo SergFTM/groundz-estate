@@ -17,13 +17,15 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  leads       Lead[]               @relation("LeadUser")
-  agentLeads  Lead[]               @relation("LeadAgent")
-  documents   Document[]
-  payments    Payment[]
-  units       Unit[]               @relation("UnitBuyer")
-  investments InvestorInvestment[]
-  commissions Commission[]
+  leads              Lead[]               @relation("LeadUser")
+  agentLeads         Lead[]               @relation("LeadAgent")
+  documents          Document[]
+  payments           Payment[]
+  units              Unit[]               @relation("UnitBuyer")
+  investments        InvestorInvestment[]
+  commissions        Commission[]
+  articleComments    ArticleComment[]
+  articleCommentLikes ArticleCommentLike[]
 }
 
 model Project {
@@ -283,6 +285,33 @@ model Article {
   content     String
   imageUrl    String?
   publishedAt DateTime @default(now())
+
+  comments    ArticleComment[]
+}
+
+model ArticleComment {
+  id        String   @id @default(uuid())
+  articleId String
+  userId    String
+  content   String
+  parentId  String?
+  createdAt DateTime @default(now())
+
+  article  Article          @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent   ArticleComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies  ArticleComment[] @relation("CommentReplies")
+  likes    ArticleCommentLike[]
+}
+
+model ArticleCommentLike {
+  commentId String
+  userId    String
+
+  comment ArticleComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([commentId, userId])
 }
 
 model AppSetting {
@@ -379,4 +408,47 @@ model SeoContentRevision {
   createdAt        DateTime @default(now())
 
   pageProfile SeoPageProfile @relation(fields: [seoPageProfileId], references: [id], onDelete: Cascade)
+}
+
+model MarketIndex {
+  id         String    @id @default(uuid())
+  symbol     String    @unique
+  name       String
+  type       String    // "etf" | "custom"
+  market     String    // "global" | "europe" | "cyprus" | "georgia" | "dubai" | "turkey"
+  color      String    @default("#7a8c6e")
+  active     Boolean   @default(true)
+  lastSyncAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  components IndexComponent[]
+  prices     DailyPrice[]
+}
+
+model IndexComponent {
+  id      String @id @default(uuid())
+  indexId String
+  symbol  String
+  name    String
+  weight  Float  // 0.0 – 1.0, sum per index must equal 1.0
+
+  index MarketIndex @relation(fields: [indexId], references: [id], onDelete: Cascade)
+
+  @@unique([indexId, symbol])
+}
+
+model DailyPrice {
+  id        String   @id @default(uuid())
+  indexId   String
+  date      DateTime
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    Float?
+  changePct Float?
+
+  index MarketIndex @relation(fields: [indexId], references: [id], onDelete: Cascade)
+
+  @@unique([indexId, date])
 }
