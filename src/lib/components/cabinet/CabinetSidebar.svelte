@@ -38,6 +38,8 @@
       label: 'Content',
       items: [
         { label: 'Articles', href: '/admin/articles' },
+        { label: 'Comments', href: '/admin/comments' },
+        { label: 'Market Indices', href: '/admin/market-indices' },
         { label: 'FAQ', href: '/admin/faq' },
         { label: 'Jobs', href: '/admin/jobs' }
       ]
