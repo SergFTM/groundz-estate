@@ -2,6 +2,7 @@
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
   import MetricTooltip from '$lib/components/invest/MetricTooltip.svelte';
+  import MarketChart from '$lib/components/market/MarketChart.svelte';
 
   let { data } = $props();
 
@@ -15,6 +16,127 @@
     return goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
   }
 
+  // ── Market Indices Widget ──────────────────────────────────────────────
+  const MARKET_TABS = [
+    { value: 'global',  label: 'Global' },
+    { value: 'europe',  label: 'Europe' },
+    { value: 'cyprus',  label: 'Cyprus' },
+    { value: 'georgia', label: 'Georgia' },
+    { value: 'dubai',   label: 'Dubai' },
+    { value: 'turkey',  label: 'Turkey' },
+  ];
+
+  // Map market → first active index
+  const indexByMarket = $derived(
+    Object.fromEntries(
+      MARKET_TABS.map(t => [
+        t.value,
+        data.indices.find(i => i.market === t.value) ?? null,
+      ])
+    )
+  );
+
+  // Only show tabs that have an active index
+  const visibleTabs = $derived(MARKET_TABS.filter(t => indexByMarket[t.value] !== null));
+
+  let activeMarket = $state(visibleTabs[0]?.value ?? 'global');
+  const activeIndex = $derived(indexByMarket[activeMarket] ?? null);
+
+  // Period selector
+  type Period = '1Y' | '5Y' | '10Y' | 'MAX';
+  let selectedPeriod = $state<Period>('1Y');
+
+  // Prices for chart: server data for 1Y, fetched client-side for longer periods
+  let extendedPrices = $state<{ date: string; close: number }[] | null>(null);
+  let loadingPrices = $state(false);
+
+  const chartPrices = $derived.by(() => {
+    if (selectedPeriod === '1Y') {
+      return (activeIndex?.prices ?? []).map(p => ({
+        date: new Date(p.date).toISOString().slice(0, 10),
+        close: p.close,
+      }));
+    }
+    return extendedPrices ?? [];
+  });
+
+  async function loadPrices(period: Period) {
+    if (!activeIndex) return;
+    if (period === '1Y') { extendedPrices = null; return; }
+    loadingPrices = true;
+    try {
+      const res = await fetch(`/api/market/prices?indexId=${activeIndex.id}&period=${period}`);
+      const json = await res.json();
+      extendedPrices = json.prices ?? [];
+    } catch { extendedPrices = []; }
+    finally { loadingPrices = false; }
+  }
+
+  $effect(() => {
+    // reset extended prices when switching index
+    extendedPrices = null;
+    selectedPeriod = '1Y';
+  });
+
+  async function selectPeriod(p: Period) {
+    selectedPeriod = p;
+    await loadPrices(p);
+  }
+
+  // Current price info
+  const currentPrice = $derived.by(() => {
+    const prices = activeIndex?.prices ?? [];
+    return prices.length > 0 ? prices[prices.length - 1] : null;
+  });
+
+  const changePct = $derived.by(() => {
+    if (!currentPrice) return null;
+    if (currentPrice.changePct != null) return currentPrice.changePct;
+    const prices = activeIndex?.prices ?? [];
+    if (prices.length < 2) return null;
+    const prev = prices[prices.length - 2].close;
+    return prev > 0 ? ((currentPrice.close - prev) / prev) * 100 : null;
+  });
+
+  const currencySymbol = $derived(activeMarket === 'europe' ? '€' : '$');
+
+  // AI insight state
+  let aiInsight = $state<{ what: string; context: string; comparison: string } | null>(null);
+  let aiLoading = $state(false);
+  let aiError = $state<string | null>(null);
+  let aiOpen = $state(false);
+
+  // Reset AI state when switching index
+  $effect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    activeIndex?.id;
+    aiInsight = null;
+    aiError = null;
+    aiOpen = false;
+  });
+
+  async function loadAiInsight() {
+    if (!activeIndex || aiInsight || aiLoading) return;
+    aiLoading = true;
+    aiError = null;
+    aiOpen = true;
+    try {
+      const res = await fetch('/api/market/ai-insight', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ indexId: activeIndex.id }),
+      });
+      const json = await res.json();
+      if (json.error) { aiError = json.error; return; }
+      aiInsight = { what: json.what, context: json.context, comparison: json.comparison };
+    } catch (e) {
+      aiError = 'Failed to load analysis.';
+    } finally {
+      aiLoading = false;
+    }
+  }
+
+  // ── Pools filters ──────────────────────────────────────────────────────
   const DEAL_TYPES = [
     { value: '', label: 'All' },
     { value: 'equity', label: 'Equity Pools' },
@@ -89,6 +211,122 @@
     </div>
   </div>
 </section>
+
+<!-- Market Indices Widget -->
+{#if visibleTabs.length > 0}
+<section class="indices-section">
+  <div class="container">
+    <div class="indices-header">
+      <h2 class="indices-title">Real Estate Market Indices</h2>
+      <p class="indices-sub">Track global real estate markets and understand how direct investment compares</p>
+    </div>
+
+    <!-- Market tabs -->
+    <div class="indices-tabs">
+      {#each visibleTabs as tab}
+        <button
+          class="indices-tab"
+          class:indices-tab--active={activeMarket === tab.value}
+          onclick={() => { activeMarket = tab.value; }}
+        >{tab.label}</button>
+      {/each}
+    </div>
+
+    {#if activeIndex}
+      <div class="index-card">
+        <!-- Card header -->
+        <div class="index-card__header">
+          <div class="index-card__title-row">
+            <span class="index-card__symbol">{activeIndex.symbol}</span>
+            <span class="index-card__name">{activeIndex.name}</span>
+          </div>
+          <div class="index-card__price-row">
+            {#if currentPrice}
+              <span class="index-card__price">
+                {currencySymbol}{currentPrice.close.toFixed(2)}
+              </span>
+              {#if changePct != null}
+                <span class="index-card__change" class:index-card__change--up={changePct >= 0} class:index-card__change--down={changePct < 0}>
+                  {changePct >= 0 ? '+' : ''}{changePct.toFixed(2)}%
+                </span>
+              {/if}
+            {:else}
+              <span class="index-card__no-data">No data — sync required</span>
+            {/if}
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="index-card__chart">
+          {#if loadingPrices}
+            <div class="index-card__chart-loading">Loading data…</div>
+          {:else if chartPrices.length > 0}
+            <MarketChart
+              prices={chartPrices}
+              color={activeIndex.color}
+              showCrisisBand={true}
+            />
+          {:else}
+            <div class="index-card__chart-empty">No price data yet — run initial sync from admin panel</div>
+          {/if}
+        </div>
+
+        <!-- Period selector -->
+        <div class="index-card__periods">
+          {#each (['1Y', '5Y', '10Y', 'MAX'] as Period[]) as p}
+            <button
+              class="period-btn"
+              class:period-btn--active={selectedPeriod === p}
+              onclick={() => selectPeriod(p)}
+            >{p}</button>
+          {/each}
+        </div>
+
+        <!-- AI Analysis panel -->
+        <div class="index-card__ai">
+          {#if !aiOpen}
+            <button class="ai-trigger" onclick={loadAiInsight}>
+              ✦ AI Analysis
+            </button>
+          {:else}
+            <div class="ai-panel">
+              {#if aiLoading}
+                <div class="ai-panel__loading">
+                  <span class="ai-spinner"></span>
+                  Generating analysis…
+                </div>
+              {:else if aiError}
+                <p class="ai-panel__error">{aiError}</p>
+              {:else if aiInsight}
+                <div class="ai-panel__content" class:ai-panel__content--blurred={!data.isLoggedIn}>
+                  <div class="ai-section">
+                    <span class="ai-section__label">What is this?</span>
+                    <p class="ai-section__text">{aiInsight.what}</p>
+                  </div>
+                  <div class="ai-section">
+                    <span class="ai-section__label">Market context</span>
+                    <p class="ai-section__text">{aiInsight.context}</p>
+                  </div>
+                  <div class="ai-section">
+                    <span class="ai-section__label">vs. Direct investment via Develta</span>
+                    <p class="ai-section__text">{aiInsight.comparison}</p>
+                  </div>
+                </div>
+                {#if !data.isLoggedIn}
+                  <div class="ai-panel__gate">
+                    <p class="ai-panel__gate-text">Want this analysis for your portfolio?</p>
+                    <a href="/register" class="ai-panel__gate-cta">Register free to read full analysis →</a>
+                  </div>
+                {/if}
+              {/if}
+            </div>
+          {/if}
+        </div>
+      </div>
+    {/if}
+  </div>
+</section>
+{/if}
 
 <!-- Filters & Pools -->
 <section class="pools-section" id="pools">
@@ -390,4 +628,179 @@
     .trust-bar__grid { grid-template-columns: repeat(2, 1fr); }
     .pool-card__metrics { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ── Market Indices Widget ─────────────────────────────────────────── */
+  .indices-section {
+    padding: var(--space-16) 0;
+    background: #faf8f5;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .indices-header { margin-bottom: var(--space-8); }
+  .indices-title {
+    font-family: 'IvyoraDisplay', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300; font-style: italic;
+    color: var(--color-text); margin: 0 0 var(--space-2);
+  }
+  .indices-sub {
+    font-size: var(--text-sm); color: var(--color-text-muted);
+    margin: 0; line-height: 1.5;
+  }
+
+  .indices-tabs {
+    display: flex; gap: 4px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-6); overflow-x: auto;
+  }
+  .indices-tab {
+    background: none; border: none;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm); font-weight: 600;
+    color: var(--color-text-muted); cursor: pointer;
+    white-space: nowrap; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: color var(--transition-fast);
+  }
+  .indices-tab--active { color: var(--color-text); border-bottom-color: var(--color-accent); }
+  .indices-tab:hover:not(.indices-tab--active) { color: var(--color-text); }
+
+  .index-card {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .index-card__header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; flex-wrap: wrap;
+    gap: var(--space-4); margin-bottom: var(--space-5);
+  }
+  .index-card__title-row { display: flex; align-items: center; gap: var(--space-3); }
+  .index-card__symbol {
+    font-size: var(--text-xs); font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--color-accent); color: #fff;
+    border-radius: 4px; padding: 3px 8px;
+  }
+  .index-card__name {
+    font-size: var(--text-base); font-weight: 600;
+    color: var(--color-text);
+  }
+  .index-card__price-row { display: flex; align-items: center; gap: var(--space-3); }
+  .index-card__price {
+    font-size: var(--text-xl); font-weight: 800;
+    font-family: 'IvyoraDisplay', serif;
+    color: var(--color-text);
+  }
+  .index-card__change {
+    font-size: var(--text-sm); font-weight: 700;
+    padding: 3px 8px; border-radius: 20px;
+  }
+  .index-card__change--up { background: rgba(34,197,94,0.12); color: #15803d; }
+  .index-card__change--down { background: rgba(239,68,68,0.1); color: #dc2626; }
+  .index-card__no-data { font-size: var(--text-sm); color: var(--color-text-muted); font-style: italic; }
+
+  .index-card__chart {
+    width: 100%; margin-bottom: var(--space-4);
+    min-height: 120px; display: flex; align-items: center;
+  }
+  .index-card__chart > :global(div) { width: 100%; }
+  .index-card__chart-loading,
+  .index-card__chart-empty {
+    width: 100%; text-align: center;
+    font-size: var(--text-sm); color: var(--color-text-muted);
+    padding: var(--space-10) 0; font-style: italic;
+  }
+
+  .index-card__periods {
+    display: flex; gap: 4px;
+    margin-bottom: var(--space-5);
+  }
+  .period-btn {
+    background: none; border: 1px solid var(--color-border);
+    border-radius: 4px; padding: 4px 12px;
+    font-size: var(--text-xs); font-weight: 700;
+    color: var(--color-text-muted); cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  .period-btn--active {
+    background: var(--color-accent); border-color: var(--color-accent);
+    color: #fff;
+  }
+  .period-btn:hover:not(.period-btn--active) {
+    border-color: var(--color-accent); color: var(--color-accent);
+  }
+
+  /* AI panel */
+  .ai-trigger {
+    background: none; border: 1px solid var(--color-border);
+    border-radius: var(--radius-base); padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm); font-weight: 600;
+    color: var(--color-accent); cursor: pointer;
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    transition: all var(--transition-fast);
+  }
+  .ai-trigger:hover { background: rgba(180,140,90,0.06); border-color: var(--color-accent); }
+
+  .ai-panel {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-5);
+    margin-top: var(--space-2);
+  }
+  .ai-panel__loading {
+    display: flex; align-items: center; gap: var(--space-3);
+    font-size: var(--text-sm); color: var(--color-text-muted);
+  }
+  .ai-spinner {
+    width: 16px; height: 16px;
+    border: 2px solid var(--color-border);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .ai-panel__error { font-size: var(--text-sm); color: #dc2626; }
+
+  .ai-panel__content {
+    display: flex; flex-direction: column; gap: var(--space-4);
+    position: relative;
+  }
+  .ai-panel__content--blurred {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+  }
+  .ai-section { display: flex; flex-direction: column; gap: 4px; }
+  .ai-section__label {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--color-accent);
+  }
+  .ai-section__text {
+    font-size: var(--text-sm); color: var(--color-text);
+    line-height: 1.65; margin: 0;
+  }
+
+  .ai-panel__gate {
+    display: flex; flex-direction: column; align-items: center;
+    gap: var(--space-3); padding: var(--space-4);
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    margin-top: var(--space-4); text-align: center;
+  }
+  .ai-panel__gate-text {
+    font-size: var(--text-sm); color: var(--color-text); margin: 0; font-weight: 600;
+  }
+  .ai-panel__gate-cta {
+    font-size: var(--text-sm); font-weight: 700;
+    color: #fff; background: var(--color-accent);
+    padding: var(--space-2) var(--space-5); border-radius: var(--radius-base);
+    text-decoration: none; transition: opacity var(--transition-fast);
+  }
+  .ai-panel__gate-cta:hover { opacity: 0.85; }
 </style>

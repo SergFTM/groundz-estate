@@ -1,7 +1,7 @@
 import db from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ url, locals }) => {
   const dealType = url.searchParams.get('dealType') ?? '';
   const country = url.searchParams.get('country') ?? '';
   const status = url.searchParams.get('status') ?? '';
@@ -44,5 +44,22 @@ export const load: PageServerLoad = async ({ url }) => {
     minTicket: minTicketAll,
   };
 
-  return { pools, trustBar, filters: { dealType, country, status } };
+  const indices = await db.marketIndex.findMany({
+    where: { active: true },
+    include: {
+      prices: {
+        where: { date: { gte: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000) } },
+        orderBy: { date: 'asc' },
+        select: { date: true, close: true, open: true, changePct: true },
+      },
+    },
+  });
+
+  return {
+    pools,
+    trustBar,
+    filters: { dealType, country, status },
+    indices,
+    isLoggedIn: !!locals.user,
+  };
 };
