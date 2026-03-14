@@ -10,7 +10,8 @@
     { label: 'My Property', href: '/buyer/property' },
     { label: 'Construction', href: '/buyer/construction' },
     { label: 'Payments', href: '/buyer/payments' },
-    { label: 'Documents', href: '/buyer/documents' }
+    { label: 'Documents', href: '/buyer/documents' },
+    { label: 'Secondary Market', href: '/buyer/otc' }
   ];
 
   const investorTabs = [
@@ -20,7 +21,8 @@
     { label: 'Risk', href: '/investor/risk' },
     { label: 'Construction', href: '/investor/construction' },
     { label: 'Pools', href: '/investor/pools' },
-    { label: 'Documents', href: '/investor/documents' }
+    { label: 'Documents', href: '/investor/documents' },
+    { label: 'Secondary Market', href: '/investor/otc' }
   ];
 
   const agentTabs = [

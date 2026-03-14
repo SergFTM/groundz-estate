@@ -40,6 +40,7 @@
         { label: 'Articles', href: '/admin/articles' },
         { label: 'Comments', href: '/admin/comments' },
         { label: 'Market Indices', href: '/admin/market-indices' },
+        { label: 'OTC Market', href: '/admin/otc' },
         { label: 'FAQ', href: '/admin/faq' },
         { label: 'Jobs', href: '/admin/jobs' }
       ]
