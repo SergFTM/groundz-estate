@@ -28,12 +28,10 @@
 
 	let totalDots = $derived(Math.max(1, projects.length - 2));
 
-	function getStartingPrice(project: Project): string {
-		if (project.units.length === 0) {
-			return project.status === 'coming_soon' ? 'Coming Soon' : 'Sold Out';
-		}
+	function getStartingPrice(project: Project): string | null {
+		if (project.units.length === 0) return null;
 		const unit = project.units[0];
-		return unit.price ? `From ${formatCurrency(unit.price)}` : 'Coming Soon';
+		return unit.price ? formatCurrency(unit.price) : null;
 	}
 
 	function getStatusLabel(status: string): string {
@@ -70,35 +68,42 @@
 <div class="carousel">
 	<div class="carousel__track" bind:this={scrollContainer} onscroll={handleScroll}>
 		{#each projects as project}
-			<article class="carousel__card">
-				<div class="carousel__image">
-					{#if project.imageUrl}
-						<img src={project.imageUrl} alt={project.name} />
-					{:else}
-						<div class="carousel__placeholder">
-							<svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-								<rect x="4" y="10" width="24" height="18" rx="1" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none"/>
-								<path d="M4 22l7-6 6 5 5-3 6 4" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none"/>
-							</svg>
-							<span>{project.name}</span>
-						</div>
-					{/if}
-					<span class="carousel__status carousel__status--{project.status}">
-						{getStatusLabel(project.status)}
-					</span>
-				</div>
+			<a href="/projects/{project.slug}" class="carousel__card">
+				<!-- Full-bleed image -->
+				{#if project.imageUrl}
+					<img class="carousel__img" src={project.imageUrl} alt={project.name} />
+				{:else}
+					<div class="carousel__placeholder"></div>
+				{/if}
+
+				<!-- Gradient overlay -->
+				<div class="carousel__gradient"></div>
+
+				<!-- Status badge -->
+				<span class="carousel__status carousel__status--{project.status}">
+					{getStatusLabel(project.status)}
+				</span>
+
+				<!-- Bottom content -->
 				<div class="carousel__body">
-					<span class="carousel__location">{project.location}</span>
+					<div class="carousel__location">{project.location}</div>
 					<h3 class="carousel__name">{project.name}</h3>
-					<span class="carousel__price">{getStartingPrice(project)}</span>
-					<a href="/projects/{project.slug}" class="carousel__link">
-						View Details
-						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-							<path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-						</svg>
-					</a>
+					<div class="carousel__divider"></div>
+					<div class="carousel__footer">
+						{#if getStartingPrice(project)}
+							<div class="carousel__price-wrap">
+								<span class="carousel__price-label">From</span>
+								<span class="carousel__price">{getStartingPrice(project)}</span>
+							</div>
+						{:else}
+							<span class="carousel__price carousel__price--na">
+								{project.status === 'coming_soon' ? 'Coming Soon' : '–'}
+							</span>
+						{/if}
+						<span class="carousel__cta" aria-hidden="true">→</span>
+					</div>
 				</div>
-			</article>
+			</a>
 		{/each}
 	</div>
 
@@ -117,6 +122,7 @@
 </div>
 
 <style>
+	/* ── Track ── */
 	.carousel__track {
 		display: flex;
 		gap: var(--space-6);
@@ -131,131 +137,176 @@
 		display: none;
 	}
 
+	/* ── Card ── */
 	.carousel__card {
+		position: relative;
 		flex: 0 0 calc((100% - var(--space-6) * 2) / 3);
 		scroll-snap-align: start;
-		border: 1px solid rgba(0, 0, 0, 0.06);
-		border-radius: var(--radius-md);
+		aspect-ratio: 3 / 4;
+		border-radius: 16px;
 		overflow: hidden;
-		background: rgba(255, 255, 255, 0.6);
-		-webkit-backdrop-filter: blur(12px);
-		backdrop-filter: blur(12px);
-		transition: all var(--transition-base);
-		display: flex;
-		flex-direction: column;
-		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+		background: #1a1917;
+		text-decoration: none;
+		color: inherit;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+		transition: transform 0.35s ease, box-shadow 0.35s ease;
+		display: block;
 	}
 
 	.carousel__card:hover {
-		box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
-		transform: translateY(-4px);
+		transform: translateY(-6px);
+		box-shadow: 0 32px 80px rgba(0, 0, 0, 0.34);
 	}
 
-	.carousel__image {
-		position: relative;
-		width: 100%;
-		aspect-ratio: 16 / 10;
-		overflow: hidden;
-	}
-
-	.carousel__image img {
+	/* ── Image ── */
+	.carousel__img {
+		position: absolute;
+		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.6s ease;
+		opacity: 0.85;
+		transition: opacity 0.4s ease, transform 0.55s ease;
 	}
 
-	.carousel__card:hover .carousel__image img {
-		transform: scale(1.03);
+	.carousel__card:hover .carousel__img {
+		opacity: 0.72;
+		transform: scale(1.04);
 	}
 
 	.carousel__placeholder {
-		width: 100%;
-		height: 100%;
+		position: absolute;
+		inset: 0;
 		background: linear-gradient(135deg, #2a2a28 0%, #3a3a36 50%, #2e2e2a 100%);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: var(--space-3);
-		color: rgba(255, 255, 255, 0.25);
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-base);
 	}
 
+	/* ── Gradient overlay ── */
+	.carousel__gradient {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			transparent 28%,
+			rgba(20, 18, 16, 0.28) 52%,
+			rgba(20, 18, 16, 0.92) 100%
+		);
+		pointer-events: none;
+	}
+
+	/* ── Status badge ── */
 	.carousel__status {
 		position: absolute;
-		top: var(--space-3);
-		left: var(--space-3);
-		padding: var(--space-1) var(--space-3);
-		font-size: 10px;
+		top: 18px;
+		left: 18px;
+		font-size: 0.6rem;
 		font-weight: 700;
+		letter-spacing: 0.15em;
 		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		border-radius: var(--radius-sm);
-	}
-
-	.carousel__status--active {
-		background: rgba(34, 197, 94, 0.9);
 		color: #fff;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		padding: 5px 10px;
+		border-radius: 4px;
+		z-index: 1;
 	}
 
-	.carousel__status--coming_soon {
-		background: rgba(245, 158, 11, 0.9);
-		color: #fff;
-	}
+	.carousel__status--active    { background: rgba(122, 140, 110, 0.88); }
+	.carousel__status--coming_soon { background: rgba(180, 130, 60, 0.85); }
+	.carousel__status--completed { background: rgba(80, 80, 78, 0.85); }
 
-	.carousel__status--completed {
-		background: rgba(120, 120, 120, 0.9);
-		color: #fff;
-	}
-
+	/* ── Body ── */
 	.carousel__body {
-		padding: var(--space-5) var(--space-6);
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-1);
-		flex: 1;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 24px 22px 22px;
+		z-index: 1;
 	}
 
 	.carousel__location {
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.1em;
+		font-size: 0.6rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: var(--color-text-muted);
+		color: rgba(255, 255, 255, 0.48);
+		margin-bottom: 6px;
 	}
 
 	.carousel__name {
-		font-size: var(--text-lg);
-		font-weight: 700;
+		font-family: 'Ivyora Display', Georgia, 'Times New Roman', serif;
+		font-weight: 300;
+		font-style: italic;
+		font-size: clamp(1.25rem, 2vw, 1.65rem);
+		color: #fff;
+		line-height: 1.15;
+		margin: 0 0 12px;
+	}
+
+	.carousel__divider {
+		width: 28px;
+		height: 1px;
+		background: rgba(122, 140, 110, 0.65);
+		margin-bottom: 12px;
+	}
+
+	/* ── Footer ── */
+	.carousel__footer {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+	}
+
+	.carousel__price-wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.carousel__price-label {
+		font-size: 0.56rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.35);
 	}
 
 	.carousel__price {
-		font-weight: 600;
-		color: var(--color-accent);
-		font-size: var(--text-base);
-		margin-bottom: var(--space-2);
+		font-family: 'Ivyora Display', Georgia, 'Times New Roman', serif;
+		font-weight: 300;
+		font-style: italic;
+		font-size: 1.2rem;
+		color: #fff;
+		line-height: 1;
 	}
 
-	.carousel__link {
-		display: inline-flex;
+	.carousel__price--na {
+		font-family: inherit;
+		font-style: normal;
+		font-size: 0.8rem;
+		color: rgba(255, 255, 255, 0.4);
+	}
+
+	/* ── Arrow circle ── */
+	.carousel__cta {
+		width: 34px;
+		height: 34px;
+		border-radius: 50%;
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		display: flex;
 		align-items: center;
-		gap: var(--space-2);
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--color-text);
-		text-decoration: none;
-		transition: color var(--transition-fast);
-		margin-top: auto;
+		justify-content: center;
+		color: #fff;
+		font-size: 0.95rem;
+		flex-shrink: 0;
+		transition: background 0.2s, border-color 0.2s;
 	}
 
-	.carousel__link:hover {
-		color: var(--color-accent);
+	.carousel__card:hover .carousel__cta {
+		background: rgba(122, 140, 110, 0.6);
+		border-color: transparent;
 	}
 
+	/* ── Dots ── */
 	.carousel__dots {
 		display: flex;
 		justify-content: center;
@@ -280,6 +331,7 @@
 		border-radius: var(--radius-full);
 	}
 
+	/* ── Responsive ── */
 	@media (max-width: 1024px) {
 		.carousel__card {
 			flex: 0 0 calc((100% - var(--space-6)) / 2);
@@ -288,7 +340,7 @@
 
 	@media (max-width: 768px) {
 		.carousel__card {
-			flex: 0 0 85%;
+			flex: 0 0 80%;
 		}
 	}
 </style>
