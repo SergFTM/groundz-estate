@@ -95,7 +95,8 @@
 
 > **Сделано (dependency-free, без новой зависимости):** [`$lib/i18n.ts`](../../src/lib/i18n.ts) (словари en/ru + `t(locale,key)`), [`$lib/stores/locale.ts`](../../src/lib/stores/locale.ts) (store + `setLocale` через cookie + reload для корректного SSR), локаль резолвится в [`+layout.server.ts`](../../src/routes/+layout.server.ts) из cookie `locale`, проставляется `<html lang>`. Рабочий **переключатель EN/RU** в навигации; ссылки nav + Invest/Cabinet/Login переведены.
 > **Сделано (добор):** hero лендинга, `/pricing`, и листинг `/pools` (hero, trust-бар ×6, фильтр «Страна»/«Все», compare-ссылка, empty-state, метки метрик карточки) переведены через `t()`; цифры на `.num`. Словарь: `nav.*`, `home.*`, `pricing.*`, `pools.*`, `common.*`.
-> **Осталось:** market-indices/AI-секция и deal-type табы на `/pools`, детальная `[slug]`, кабинет, формы, прочие секции лендинга. Прототип содержит обе локали — брать тексты оттуда.
+> **Сделано (добор):** детальная `/pools/[slug]` — back-ссылка, KPI-метки (+токены), заголовки секций (Why This Pool / Yield Scenarios / Construction Milestones), тезисы, сайдбар (Funding/Capital/Exit/Investors), CTA (Commit/Login to Invest), talk-to-team. Неймспейс `pool.*`.
+> **Осталось:** market-indices/AI-секция и deal-type табы на `/pools`, кабинет, формы, прочие секции лендинга. Прототип содержит обе локали — брать тексты оттуда.
 
 ## 8. Definition of Done
 

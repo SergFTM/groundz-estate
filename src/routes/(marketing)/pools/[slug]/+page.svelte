@@ -2,6 +2,8 @@
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
   import MetricTooltip from '$lib/components/invest/MetricTooltip.svelte';
+  import { locale } from '$lib/stores/locale';
+  import { t } from '$lib/i18n';
 
   let { data } = $props();
   const { pool, user, myCommit } = data;
@@ -113,7 +115,7 @@
   class:pool-hero--no-image={!pool.imageUrl}
 >
   <div class="container">
-    <a href="/pools" class="pool-hero__back">← All Pools</a>
+    <a href="/pools" class="pool-hero__back">← {t($locale, 'pool.allPools')}</a>
     <div class="pool-hero__meta">
       <StatusBadge status={pool.status} />
       {#if pool.dealType}
@@ -137,7 +139,7 @@
           <span class="kpi__val kpi__val--accent">{irr}%</span>
           <MetricTooltip metric="targetIrr" value="{irr}%" poolContext={pool} />
         </div>
-        <span class="kpi__label">Target IRR</span>
+        <span class="kpi__label">{t($locale, 'pools.metricIrr')}</span>
       </div>
       {#if pool.preferredReturn}
         <div class="kpi">
@@ -145,19 +147,19 @@
             <span class="kpi__val">{pool.preferredReturn}%</span>
             <MetricTooltip metric="preferredReturn" value="{pool.preferredReturn}%" poolContext={pool} />
           </div>
-          <span class="kpi__label">Pref. Return</span>
+          <span class="kpi__label">{t($locale, 'pools.metricPref')}</span>
         </div>
       {/if}
       <div class="kpi">
         <span class="kpi__val">{pool.termMonths}m</span>
-        <span class="kpi__label">Term</span>
+        <span class="kpi__label">{t($locale, 'pools.metricTerm')}</span>
       </div>
       <div class="kpi">
         <div class="kpi__val-row">
           <span class="kpi__val">{fmt(pool.minTicket)}</span>
           <MetricTooltip metric="minTicket" value={fmt(pool.minTicket)} poolContext={pool} />
         </div>
-        <span class="kpi__label">Min. Ticket</span>
+        <span class="kpi__label">{t($locale, 'pools.metricTicket')}</span>
       </div>
       {#if pool.ltv}
         <div class="kpi">
@@ -174,23 +176,23 @@
             <span class="kpi__val">{pool.developerCoinvestPct}%</span>
             <MetricTooltip metric="developerCoinvestPct" value="{pool.developerCoinvestPct}%" poolContext={pool} />
           </div>
-          <span class="kpi__label">Dev. Co-Invest</span>
+          <span class="kpi__label">{t($locale, 'pool.kpiDev')}</span>
         </div>
       {/if}
       <div class="kpi">
         <span class="kpi__val">{pool._count.investments}</span>
-        <span class="kpi__label">Investors</span>
+        <span class="kpi__label">{t($locale, 'pool.kpiInvestors')}</span>
       </div>
       {#if pool.totalTokens}
         <div class="kpi">
           <span class="kpi__val kpi__val--accent">{(pool.tokensSold ?? 0).toLocaleString('en-US')}/{pool.totalTokens.toLocaleString('en-US')}</span>
-          <span class="kpi__label">Tokens {pool.tokenSymbol ? `(${pool.tokenSymbol})` : ''}</span>
+          <span class="kpi__label">{t($locale, 'pool.kpiTokens')} {pool.tokenSymbol ? `(${pool.tokenSymbol})` : ''}</span>
         </div>
       {/if}
       {#if pool.pricePerToken}
         <div class="kpi">
           <span class="kpi__val">{fmt(pool.pricePerToken)}</span>
-          <span class="kpi__label">Price / Token</span>
+          <span class="kpi__label">{t($locale, 'pool.kpiPrice')}</span>
         </div>
       {/if}
     </div>
@@ -225,33 +227,33 @@
         <!-- Investment Thesis -->
         {#if pool.locationThesis || pool.demandThesis || pool.exitThesis}
           <div class="section-block">
-            <h2 class="section-block__title">Why This Pool</h2>
+            <h2 class="section-block__title">{t($locale, 'pool.whyTitle')}</h2>
             <div class="thesis-grid">
               {#if pool.locationThesis}
                 <div class="thesis-card">
                   <span class="thesis-card__icon">📍</span>
-                  <h3 class="thesis-card__title">Location Thesis</h3>
+                  <h3 class="thesis-card__title">{t($locale, 'pool.thesisLocation')}</h3>
                   <p>{pool.locationThesis}</p>
                 </div>
               {/if}
               {#if pool.demandThesis}
                 <div class="thesis-card">
                   <span class="thesis-card__icon">📈</span>
-                  <h3 class="thesis-card__title">Demand Thesis</h3>
+                  <h3 class="thesis-card__title">{t($locale, 'pool.thesisDemand')}</h3>
                   <p>{pool.demandThesis}</p>
                 </div>
               {/if}
               {#if pool.constructionThesis}
                 <div class="thesis-card">
                   <span class="thesis-card__icon">🏗️</span>
-                  <h3 class="thesis-card__title">Construction</h3>
+                  <h3 class="thesis-card__title">{t($locale, 'pool.thesisConstruction')}</h3>
                   <p>{pool.constructionThesis}</p>
                 </div>
               {/if}
               {#if pool.exitThesis}
                 <div class="thesis-card">
                   <span class="thesis-card__icon">🚪</span>
-                  <h3 class="thesis-card__title">Exit Strategy</h3>
+                  <h3 class="thesis-card__title">{t($locale, 'pool.thesisExit')}</h3>
                   <p>{pool.exitThesis}</p>
                 </div>
               {/if}
@@ -261,7 +263,7 @@
 
         <!-- Yield Scenarios -->
         <div class="section-block">
-          <h2 class="section-block__title">Yield Scenarios</h2>
+          <h2 class="section-block__title">{t($locale, 'pool.scenariosTitle')}</h2>
           <div class="scenarios">
             {#each scenarios as s}
               <div class="scenario">
@@ -276,13 +278,13 @@
               </div>
             {/each}
           </div>
-          <p class="scenarios__note">Yield scenarios are projections only. Past performance does not guarantee future results.</p>
+          <p class="scenarios__note">{t($locale, 'pool.scenariosNote')}</p>
         </div>
 
         <!-- Construction Milestones -->
         {#if pool.milestones.length > 0}
           <div class="section-block">
-            <h2 class="section-block__title">Construction Milestones</h2>
+            <h2 class="section-block__title">{t($locale, 'pool.milestonesTitle')}</h2>
             {#if latestReport}
               <div class="progress-overview">
                 <div class="progress-overview__pct">{latestReport.overallPct}%</div>
@@ -321,7 +323,7 @@
         <!-- Funding progress -->
         <div class="sidebar-card">
           <div class="sidebar-card__head">
-            <span class="sidebar-card__label">Funding Progress</span>
+            <span class="sidebar-card__label">{t($locale, 'pool.fundingProgress')}</span>
             <span class="sidebar-card__pct">{progress}%</span>
           </div>
           <ProgressBar value={progress} showPercent={false} />
@@ -339,11 +341,11 @@
         <!-- Quick stats -->
         <div class="sidebar-card sidebar-card--stats">
           <div class="stat-row">
-            <span class="stat-row__label">Capital Type</span>
+            <span class="stat-row__label">{t($locale, 'pool.capitalType')}</span>
             <span class="stat-row__val">{pool.capitalType?.replace('_', ' ') ?? '—'}</span>
           </div>
           <div class="stat-row">
-            <span class="stat-row__label">Exit Type</span>
+            <span class="stat-row__label">{t($locale, 'pool.exitType')}</span>
             <span class="stat-row__val">{pool.exitType ?? '—'}</span>
           </div>
           {#if pool.ltc}
@@ -359,7 +361,7 @@
             </div>
           {/if}
           <div class="stat-row">
-            <span class="stat-row__label">Investors</span>
+            <span class="stat-row__label">{t($locale, 'pool.kpiInvestors')}</span>
             <span class="stat-row__val">{pool._count.investments}</span>
           </div>
         </div>
@@ -378,17 +380,17 @@
           </p>
         {:else if user}
           <a href="/pools/{pool.slug}/commit" class="commit-cta">
-            Commit Capital →
+            {t($locale, 'pool.commit')}
           </a>
           <p class="commit-cta__note">Min. ticket {fmt(pool.minTicket)}{pool.maxTicket ? ` · Max ${fmt(pool.maxTicket)}` : ''}.</p>
         {:else}
           <a href="/auth/login?next=/pools/{pool.slug}/commit" class="commit-cta">
-            Login to Invest →
+            {t($locale, 'pool.loginInvest')}
           </a>
-          <p class="commit-cta__note">Register or login to commit capital. Min. {fmt(pool.minTicket)}.</p>
+          <p class="commit-cta__note">{t($locale, 'pool.commitNote')} {fmt(pool.minTicket)}.</p>
         {/if}
 
-        <a href="/contact" class="sidebar-link">Have questions? Talk to our team →</a>
+        <a href="/contact" class="sidebar-link">{t($locale, 'pool.talkTeam')}</a>
       </aside>
     </div>
 
