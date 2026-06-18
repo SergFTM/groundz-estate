@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { locale, setLocale } from '$lib/stores/locale';
+	import { t } from '$lib/i18n';
+
 	interface User {
 		id: string;
 		email: string;
@@ -24,23 +27,23 @@
 	let mobileOpen = $state(false);
 	let scrolled = $state(false);
 
-	const navLinks = [
-		{ label: 'Home', href: '/' },
-		{ label: 'Projects', href: '/projects' },
-		{ label: 'Knowledge Base', href: '/knowledge' },
-		{ label: 'About', href: '/about' },
-		{ label: 'Contact', href: '/contact' }
-	];
+	const navLinks = $derived([
+		{ label: t($locale, 'nav.home'), href: '/' },
+		{ label: t($locale, 'nav.projects'), href: '/projects' },
+		{ label: t($locale, 'nav.knowledge'), href: '/knowledge' },
+		{ label: t($locale, 'nav.about'), href: '/about' },
+		{ label: t($locale, 'nav.contact'), href: '/contact' }
+	]);
 
-	const investLinks = [
-		{ label: 'Investment Pools', href: '/pools', desc: 'Browse active pools' },
-		{ label: 'Membership & Pricing', href: '/pricing', desc: 'Tiers, ticket limits, perks' },
-		{ label: 'How It Works', href: '/invest/how-it-works', desc: 'SPV structure, returns' },
-		{ label: 'Investor Protections', href: '/invest/protections', desc: 'Security & guarantees' },
-		{ label: 'Apply as Investor', href: '/invest/apply', desc: 'Submit your application' },
-	];
+	const investLinks = $derived([
+		{ label: t($locale, 'nav.pools'), href: '/pools', desc: 'Browse active pools' },
+		{ label: t($locale, 'nav.pricing'), href: '/pricing', desc: 'Tiers, ticket limits, perks' },
+		{ label: t($locale, 'nav.howItWorks'), href: '/invest/how-it-works', desc: 'SPV structure, returns' },
+		{ label: t($locale, 'nav.protections'), href: '/invest/protections', desc: 'Security & guarantees' },
+		{ label: t($locale, 'nav.apply'), href: '/invest/apply', desc: 'Submit your application' },
+	]);
 
-	const mobileInvestLinks = investLinks.map(l => ({ label: l.label, href: l.href }));
+	const mobileInvestLinks = $derived(investLinks.map(l => ({ label: l.label, href: l.href })));
 
 	function toggleMobile() {
 		mobileOpen = !mobileOpen;
@@ -72,7 +75,7 @@
 			<!-- Invest dropdown -->
 			<div class="nav__dropdown">
 				<button class="nav__link nav__dropdown-trigger" type="button">
-					Invest <span class="nav__dropdown-caret">▾</span>
+					{t($locale, 'nav.invest')} <span class="nav__dropdown-caret">▾</span>
 				</button>
 				<div class="nav__dropdown-panel">
 					{#each investLinks as item}
@@ -85,9 +88,13 @@
 			</div>
 
 			{#if user && cabinetHref}
-				<a href={cabinetHref} class="nav__link nav__link--cabinet">Cabinet</a>
+				<a href={cabinetHref} class="nav__link nav__link--cabinet">{t($locale, 'nav.cabinet')}</a>
 			{/if}
-			<span class="nav__lang">EN</span>
+			<div class="nav__lang" role="group" aria-label="Language">
+				<button type="button" class="nav__lang-btn" class:nav__lang-btn--active={$locale === 'en'} onclick={() => setLocale('en')}>EN</button>
+				<span class="nav__lang-sep">/</span>
+				<button type="button" class="nav__lang-btn" class:nav__lang-btn--active={$locale === 'ru'} onclick={() => setLocale('ru')}>RU</button>
+			</div>
 			{#if user}
 				<div class="nav__user">
 					<span class="nav__user-name">{user.name || user.email}</span>
@@ -97,7 +104,7 @@
 					</form>
 				</div>
 			{:else}
-				<a href="/auth/login" class="btn btn--sm btn--primary">Login</a>
+				<a href="/auth/login" class="btn btn--sm btn--primary">{t($locale, 'nav.login')}</a>
 			{/if}
 		</nav>
 
@@ -307,15 +314,41 @@
 	}
 
 	.nav__lang {
+		display: inline-flex;
+		align-items: center;
+		gap: 2px;
 		font-size: 10px;
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		color: var(--color-text-muted);
 		text-transform: uppercase;
-		padding: var(--space-1) var(--space-3);
+		padding: var(--space-1) var(--space-2);
 		border: 1.5px solid var(--color-border);
 		border-radius: var(--radius-sm);
 		transition: all var(--transition-fast);
+	}
+
+	.nav__lang-btn {
+		background: none;
+		border: none;
+		padding: 0 2px;
+		font: inherit;
+		letter-spacing: inherit;
+		color: var(--color-text-muted);
+		cursor: pointer;
+		transition: color var(--transition-fast);
+	}
+
+	.nav__lang-btn--active {
+		color: var(--color-primary);
+	}
+
+	.nav__lang-btn:hover {
+		color: var(--color-primary);
+	}
+
+	.nav__lang-sep {
+		opacity: 0.4;
 	}
 
 	.nav__user {

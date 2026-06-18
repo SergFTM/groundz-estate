@@ -88,13 +88,12 @@
 
 Все AI-вызовы идут через `orchestrator.ask()` — **никаких ad-hoc system prompts в route-коде** (Hard rule #11). Существующие эндпоинты: `/api/invest/*` (pool-chat, pool-compare, portfolio-insight, risk-narrative, metric-explain, cashflow-forecast …), `/api/ai/chat`, `/api/market/ai-insight`.
 
-**TODO:** какие AI-фичи фронта новые/меняются под GROUNDZ, какие компоненты их дергают, какие capability-роуты (`llama3.2:3b` vs `qwen2.5:14b`). Подтвердить, что новые вызовы не нарушают [08-ai-orchestrator.md](08-ai-orchestrator.md).
+**Аудит R5:** `/api/invest/*` компилируются под `Pool`/`Holding` (свип `db.pool`/`db.holding`), бренд в промптах = «Groundz», `Transaction` пока не используется ни одним AI-эндпоинтом. AI-вызовы идут через `callAI`/`localChat` (gateway по `capability`). ⚠️ **пред-существующий долг:** инвест-эндпоинты держат ad-hoc `systemPrompt` в route-коде (формально расходится с Hard rule #11), но инвест-оркестратор бриф просил **не трогать** — выносить в `orchestrator.ask()` это отдельная архитектурная задача, не часть ребренда.
 
-## 7. i18n (RU + EN)
+## 7. i18n (RU + EN) — 🟡 ФУНДАМЕНТ (R6)
 
-Двуязычие RU + EN. Прототип уже содержит обе локали.
-
-**TODO:** механизм i18n (lib/словари/маршрутизация локали), ключи для новых строк ребренда, дефолтная локаль, переключатель. Сверить с тем, что есть в проекте.
+> **Сделано (dependency-free, без новой зависимости):** [`$lib/i18n.ts`](../../src/lib/i18n.ts) (словари en/ru + `t(locale,key)`), [`$lib/stores/locale.ts`](../../src/lib/stores/locale.ts) (store + `setLocale` через cookie + reload для корректного SSR), локаль резолвится в [`+layout.server.ts`](../../src/routes/+layout.server.ts) из cookie `locale`, проставляется `<html lang>`. Рабочий **переключатель EN/RU** в навигации; ссылки nav + Invest/Cabinet/Login переведены.
+> **Осталось:** извлечь строки постранично (лендинг, пулы, кабинет, формы) в словарь и заменить на `t()`. Прототип содержит обе локали — брать тексты оттуда.
 
 ## 8. Definition of Done
 
