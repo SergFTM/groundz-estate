@@ -54,7 +54,8 @@
 
 <style>
 	.main-content {
-		padding-top: var(--header-height);
+		/* Nav is sticky/in-flow (occupies its own space) — no offset needed */
+		padding-top: 0;
 		min-height: 100vh;
 	}
 

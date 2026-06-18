@@ -76,6 +76,14 @@
 	--color-positive: #4f8a5b;
 	--color-mint: #9fc0a3;
 
+	/* Prototype aliases (GROUNDZ ESTATE design system — see prototype) */
+	--ink: #104e49;        /* dark green surfaces + data */
+	--ink-deep: #0c3a35;   /* footer, deep panels */
+	--acc: #7a8c6e;        /* sage — ACTION/CTA color */
+	--acc-dk: #5f7257;     /* sage dark — eyebrows, metrics */
+	--acc-light: rgba(122, 140, 110, 0.12);
+	--mint: #9fc0a3;       /* gains on dark */
+
 	/* Colors — Muted Sage & Stone palette (secondary accent) */
 	--color-accent: #7a8c6e;           /* prototype --acc */
 	--color-accent-hover: #5f7257;     /* prototype --acc-dk */
