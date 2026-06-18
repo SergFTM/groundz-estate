@@ -37,6 +37,7 @@
     {
       label: 'Content',
       items: [
+        { label: 'Membership', href: '/admin/membership' },
         { label: 'Articles', href: '/admin/articles' },
         { label: 'Comments', href: '/admin/comments' },
         { label: 'Market Indices', href: '/admin/market-indices' },
