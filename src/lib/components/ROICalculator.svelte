@@ -183,8 +183,8 @@
 		appearance: none;
 		background: linear-gradient(
 			to right,
-			var(--color-accent) 0%,
-			var(--color-accent) var(--progress, 50%),
+			var(--color-primary) 0%,
+			var(--color-primary) var(--progress, 50%),
 			var(--color-border) var(--progress, 50%),
 			var(--color-border) 100%
 		);
@@ -197,7 +197,7 @@
 		appearance: none;
 		width: 20px;
 		height: 20px;
-		background: var(--color-accent);
+		background: var(--color-primary);
 		border: 3px solid #fff;
 		border-radius: 50%;
 		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -207,7 +207,7 @@
 	.roi__slider::-moz-range-thumb {
 		width: 20px;
 		height: 20px;
-		background: var(--color-accent);
+		background: var(--color-primary);
 		border: 3px solid #fff;
 		border-radius: 50%;
 		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -241,9 +241,9 @@
 	}
 
 	.roi__vat-btn--active {
-		border-color: var(--color-accent);
-		background: var(--color-accent-light);
-		color: var(--color-accent);
+		border-color: var(--color-primary);
+		background: var(--color-primary-light);
+		color: var(--color-primary);
 	}
 
 	.roi__pr-badge {
@@ -301,6 +301,13 @@
 		justify-content: space-between;
 		font-size: var(--text-sm);
 		color: rgba(255, 255, 255, 0.55);
+	}
+
+	/* Tabular figures — mono + aligned digits */
+	.roi__row span:last-child,
+	.roi__highlight {
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.roi__row--total {
