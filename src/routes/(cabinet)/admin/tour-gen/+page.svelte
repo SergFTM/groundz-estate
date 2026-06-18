@@ -3,41 +3,17 @@
   import FloorPlanDiagram from '$lib/components/FloorPlanDiagram.svelte';
   import { fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-
-  interface TourImage {
-    url: string;
-    label: string;
-    roomIndex?: number;
-    angle?: 'left' | 'front' | 'right';
-  }
-
-  interface UnitRow {
-    id: string;
-    code: string;
-    type: string;
-    bedrooms: number;
-    floor: number;
-    areaSqm: number;
-    hasTour: boolean;
-    tourImages: string | null;
-    tourFloorPlan: string | null;
-    floorPlanUrl: string | null;
-    projectName: string;
-    projectSlug: string;
-  }
+  import {
+    type TourImage, type UnitRow, type GenStatus,
+    ANGLE_ICON, ANGLE_LABEL, parseImages, estimateCost, typeLabel, isPdf,
+  } from './tour-gen.helpers';
 
   let { data } = $props();
 
   let selected = $state<UnitRow | null>(null);
-  type GenStatus = 'idle' | 'generating' | 'done' | 'error';
   let statuses = $state<Record<string, GenStatus>>({});
   let previewImages = $state<Record<string, TourImage[]>>({});
   let genErrors = $state<Record<string, string>>({});
-
-  function parseImages(unit: UnitRow): TourImage[] {
-    if (!unit.tourImages) return [];
-    try { return JSON.parse(unit.tourImages); } catch { return []; }
-  }
 
   function select(unit: UnitRow) {
     selected = unit;
@@ -98,16 +74,6 @@
     return Math.max(0, total - existingKeys.size);
   });
 
-  // Price per image by model/quality (USD, verified from billing)
-  const PRICE_PER_IMAGE: Record<string, number> = {
-    'gpt-image-1':        0.222,  // high, 1536×1024 (verified: $4/18imgs)
-    'gpt-image-1-medium': 0.042,  // medium, 1024×1024
-    'gpt-image-1-low':    0.011,  // low, 1024×1024
-    'dall-e-3':           0.080,
-    'dall-e-3-hd':        0.120,
-    'dall-e-2':           0.020,
-  };
-
   // Live model config — refreshed from DB when a unit is selected
   let liveImageModel   = $state<string>(data.imageModel);
   let liveImageQuality = $state<'low' | 'medium' | 'high'>('high');
@@ -124,19 +90,7 @@
     }
   });
 
-  function priceKey(): string {
-    if (liveImageModel === 'gpt-image-1' && liveImageQuality !== 'high') {
-      return `gpt-image-1-${liveImageQuality}`;
-    }
-    return liveImageModel;
-  }
-
-  function estimateCost(count: number): string {
-    const price = PRICE_PER_IMAGE[priceKey()] ?? 0.080;
-    const total = count * price;
-    const totalStr = total < 0.01 ? '<$0.01' : `~$${total.toFixed(2)}`;
-    return `${totalStr} · ${count} imgs · $${price.toFixed(3)}/img`;
-  }
+  const cost = (count: number) => estimateCost(count, liveImageModel, liveImageQuality);
 
   // ── Tour viewer ──────────────────────────────────────────
   let viewIndex = $state(0);
@@ -169,9 +123,6 @@
     if (e.key === 'ArrowRight') { e.preventDefault(); nextSlide(); }
     if (e.key === 'ArrowLeft')  { e.preventDefault(); prevSlide(); }
   }
-
-  const ANGLE_ICON: Record<string, string> = { left: '◂', front: '●', right: '▸' };
-  const ANGLE_LABEL: Record<string, string> = { left: 'Left', front: 'Front', right: 'Right' };
 
   // ── Per-image controls ──────────────────────────────────
   let regenIndex = $state<Record<string, number | null>>({});
@@ -291,13 +242,6 @@
     }
   }
 
-  function isPdf(url: string) { return url.toLowerCase().endsWith('.pdf'); }
-
-  function typeLabel(type: string, beds: number): string {
-    if (type === 'studio') return 'Studio';
-    if (type === 'penthouse') return 'Penthouse';
-    return `${beds}-Bedroom`;
-  }
 </script>
 
 <svelte:window on:keydown={onKeydown} />
@@ -462,7 +406,7 @@
                   {/each}
                 </div>
               {/if}
-              <span class="tg__cost-hint">{estimateCost(1)} · {liveImageModel}</span>
+              <span class="tg__cost-hint">{cost(1)} · {liveImageModel}</span>
             </div>
           {/if}
 
@@ -515,7 +459,7 @@
                   {/each}
                 </div>
               {/if}
-              <span class="tg__cost-hint">{estimateCost(missingCount)} · {liveImageModel}</span>
+              <span class="tg__cost-hint">{cost(missingCount)} · {liveImageModel}</span>
             {:else if currentImages.length > 0}
               <!-- Complete tour -->
               <button
@@ -536,7 +480,7 @@
                   {/each}
                 </div>
               {/if}
-              <span class="tg__cost-hint">{estimateCost(rooms.length * 3)} · {liveImageModel}</span>
+              <span class="tg__cost-hint">{cost(rooms.length * 3)} · {liveImageModel}</span>
             {:else}
               <!-- No tour yet -->
               <button
@@ -557,7 +501,7 @@
                   {/each}
                 </div>
               {/if}
-              <span class="tg__cost-hint">{estimateCost(rooms.length * 3)} · {liveImageModel}</span>
+              <span class="tg__cost-hint">{cost(rooms.length * 3)} · {liveImageModel}</span>
             {/if}
             {#if genErrors[selected.id]}
               <p class="tg__gen-error">{genErrors[selected.id]}</p>
