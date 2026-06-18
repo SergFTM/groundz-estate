@@ -30,7 +30,7 @@
   <div style="width:100%;max-width:560px;">
 
     <!-- Back link -->
-    <a href="/pools/{pool.slug}" style="font-size:var(--text-sm);color:var(--color-accent);font-weight:600;text-decoration:none;display:inline-block;margin-bottom:var(--space-6);">← {pool.name}</a>
+    <a href="/pools/{pool.slug}" style="font-size:var(--text-sm);color:var(--color-primary);font-weight:600;text-decoration:none;display:inline-block;margin-bottom:var(--space-6);">← {pool.name}</a>
 
     {#if success}
       <!-- Success state -->
@@ -41,8 +41,8 @@
           Thank you, {user.name}. Our IR team will reach out within 1–2 business days with next steps including KYC verification and subscription documents.
         </p>
         <div style="display:flex;flex-direction:column;gap:var(--space-3);">
-          <a href="/pools/{pool.slug}" style="display:block;background:var(--color-accent);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;text-align:center;">Back to {pool.name}</a>
-          <a href="/pools" style="display:block;color:var(--color-accent);font-size:var(--text-sm);font-weight:600;text-decoration:none;text-align:center;">Browse Other Pools</a>
+          <a href="/pools/{pool.slug}" style="display:block;background:var(--color-primary);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;text-align:center;">Back to {pool.name}</a>
+          <a href="/pools" style="display:block;color:var(--color-primary);font-size:var(--text-sm);font-weight:600;text-decoration:none;text-align:center;">Browse Other Pools</a>
         </div>
       </div>
 
@@ -54,8 +54,8 @@
         <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-1);">
           You have a <strong>{existing.status.replace('_', ' ')}</strong> commitment of <strong>{fmt(existing.amount)}</strong> in this pool.
         </p>
-        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-6);">Our team will be in touch. Questions? <a href="/contact" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Contact us.</a></p>
-        <a href="/pools/{pool.slug}" style="display:inline-block;background:var(--color-accent);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;">← Back to Pool</a>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-6);">Our team will be in touch. Questions? <a href="/contact" style="color:var(--color-primary);font-weight:600;text-decoration:none;">Contact us.</a></p>
+        <a href="/pools/{pool.slug}" style="display:inline-block;background:var(--color-primary);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;">← Back to Pool</a>
       </div>
 
     {:else}
@@ -130,7 +130,7 @@
 
             <!-- Disclosure checkbox -->
             <div style="display:flex;gap:var(--space-3);align-items:flex-start;margin-bottom:var(--space-6);">
-              <input type="checkbox" id="agree" name="agree" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--color-accent);" required />
+              <input type="checkbox" id="agree" name="agree" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--color-primary);" required />
               <label for="agree" style="font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.5;cursor:pointer;">
                 I understand this is a <strong>soft commitment</strong> (expression of interest) and does not constitute a legally binding obligation. Capital will only be drawn after KYC verification and execution of subscription documents. Past performance does not guarantee future returns.
               </label>
@@ -146,7 +146,7 @@
           </form>
 
           <p style="font-size:11px;color:var(--color-text-muted);text-align:center;margin-top:var(--space-4);line-height:1.5;">
-            Our IR team will contact you within 1–2 business days. <a href="/contact" style="color:var(--color-accent);text-decoration:none;">Questions?</a>
+            Our IR team will contact you within 1–2 business days. <a href="/contact" style="color:var(--color-primary);text-decoration:none;">Questions?</a>
           </p>
         </div>
       </div>

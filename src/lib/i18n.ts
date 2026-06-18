@@ -35,6 +35,15 @@ const en: Dict = {
   'pricing.popular': 'Most popular',
   'pricing.ticket': 'Ticket',
   'pricing.cta': 'Get started',
+  'home.heroTag': 'Premium Real Estate — Limassol, Cyprus',
+  'home.heroHeading': 'Transparency in every brick we lay.',
+  'home.heroSubtitle': 'A digital platform for mindful real estate investment. From first inquiry to key handover — we guide every step.',
+  'home.ctaProjects': 'View Projects',
+  'home.ctaRoi': 'Calculate ROI',
+  'home.statYield': 'Avg. Annual Yield',
+  'home.statProjects': 'Completed Projects',
+  'home.statClients': 'Clients Served',
+  'home.statThreshold': 'PR Investment Threshold',
 };
 
 const ru: Dict = {
@@ -58,6 +67,15 @@ const ru: Dict = {
   'pricing.popular': 'Популярный',
   'pricing.ticket': 'Тикет',
   'pricing.cta': 'Начать',
+  'home.heroTag': 'Премиальная недвижимость — Лимассол, Кипр',
+  'home.heroHeading': 'Прозрачность в каждом кирпиче.',
+  'home.heroSubtitle': 'Цифровая платформа для осознанных инвестиций в недвижимость. От первой заявки до передачи ключей — сопровождаем на каждом шаге.',
+  'home.ctaProjects': 'Смотреть проекты',
+  'home.ctaRoi': 'Рассчитать доходность',
+  'home.statYield': 'Средняя годовая доходность',
+  'home.statProjects': 'Завершённых проектов',
+  'home.statClients': 'Клиентов обслужено',
+  'home.statThreshold': 'Порог для ВНЖ',
 };
 
 const dict: Record<Locale, Dict> = { en, ru };

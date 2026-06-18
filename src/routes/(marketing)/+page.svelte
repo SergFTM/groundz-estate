@@ -4,6 +4,8 @@
 	import ROICalculator from '$lib/components/ROICalculator.svelte';
 	import ProjectCarousel from '$lib/components/ProjectCarousel.svelte';
 	import LeadQuizWidget from '$lib/components/LeadQuizWidget.svelte';
+	import { locale } from '$lib/stores/locale';
+	import { t } from '$lib/i18n';
 
 	let { data } = $props();
 
@@ -127,20 +129,19 @@
 
 	<!-- Layer 2: text content (fastest parallax — moves up most) -->
 	<div class="hero__content container" style="opacity: {heroOpacity}; transform: translateY({heroTextShift}px)">
-		<span class="hero__tag">Premium Real Estate — Limassol, Cyprus</span>
+		<span class="hero__tag">{t($locale, 'home.heroTag')}</span>
 
 		<h1 class="hero__heading">
-			Transparency in every<br/>brick we lay.
+			{t($locale, 'home.heroHeading')}
 		</h1>
 
 		<p class="hero__subtitle">
-			A digital platform for mindful real estate investment.<br/>
-			From first inquiry to key handover — we guide every step.
+			{t($locale, 'home.heroSubtitle')}
 		</p>
 
 		<div class="hero__cta">
-			<a href="/projects" class="btn btn--primary btn--lg">View Projects</a>
-			<a href="#roi-calculator" class="btn btn--hero-outline btn--lg">Calculate ROI</a>
+			<a href="/projects" class="btn btn--primary btn--lg">{t($locale, 'home.ctaProjects')}</a>
+			<a href="#roi-calculator" class="btn btn--hero-outline btn--lg">{t($locale, 'home.ctaRoi')}</a>
 		</div>
 	</div>
 
@@ -148,23 +149,23 @@
 	<div class="hero__bottom">
 		<div class="hero__bottom-inner container">
 			<div class="hero__stat">
-				<span class="hero__stat-num">7%</span>
-				<span class="hero__stat-label">Avg. Annual Yield</span>
+				<span class="hero__stat-num num">7%</span>
+				<span class="hero__stat-label">{t($locale, 'home.statYield')}</span>
 			</div>
 			<div class="hero__stat-divider"></div>
 			<div class="hero__stat">
-				<span class="hero__stat-num">15+</span>
-				<span class="hero__stat-label">Completed Projects</span>
+				<span class="hero__stat-num num">15+</span>
+				<span class="hero__stat-label">{t($locale, 'home.statProjects')}</span>
 			</div>
 			<div class="hero__stat-divider"></div>
 			<div class="hero__stat">
-				<span class="hero__stat-num">300+</span>
-				<span class="hero__stat-label">Clients Served</span>
+				<span class="hero__stat-num num">300+</span>
+				<span class="hero__stat-label">{t($locale, 'home.statClients')}</span>
 			</div>
 			<div class="hero__stat-divider"></div>
 			<div class="hero__stat">
-				<span class="hero__stat-num">€300k</span>
-				<span class="hero__stat-label">PR Investment Threshold</span>
+				<span class="hero__stat-num num">€300k</span>
+				<span class="hero__stat-label">{t($locale, 'home.statThreshold')}</span>
 			</div>
 		</div>
 	</div>
