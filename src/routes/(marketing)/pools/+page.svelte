@@ -1,8 +1,7 @@
 <script lang="ts">
-  import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
-  import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
   import MetricTooltip from '$lib/components/invest/MetricTooltip.svelte';
   import MarketChart from '$lib/components/market/MarketChart.svelte';
+  import PoolCard from '$lib/components/PoolCard.svelte';
   import { locale } from '$lib/stores/locale';
   import { t } from '$lib/i18n';
 
@@ -12,10 +11,6 @@
     if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(1)}M`;
     if (n >= 1000) return `€${Math.round(n / 1000)}k`;
     return `€${n}`;
-  }
-
-  function pct(raised: number, goal: number): number {
-    return goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
   }
 
   // ── Market Indices Widget ──────────────────────────────────────────────
@@ -376,91 +371,7 @@
     {:else}
       <div class="pools-grid">
         {#each data.pools as pool}
-          {@const progress = pct(pool.raisedAmount, pool.goalAmount)}
-          {@const irr = pool.targetIrr ?? pool.targetYield}
-          <a
-            href={pool.slug ? `/pools/${pool.slug}` : '/contact'}
-            class="pool-card"
-          >
-            <div
-              class="pool-card__image"
-              class:pool-card__image--placeholder={!pool.imageUrl}
-              style={pool.imageUrl ? `background-image:url('${pool.imageUrl}')` : ''}
-            >
-              <StatusBadge status={pool.status} />
-            </div>
-
-            <div class="pool-card__body">
-              <div class="pool-card__head">
-                <h3 class="pool-card__name">{pool.name}</h3>
-                <p class="pool-card__location">
-                  {pool.city ? `${pool.city}, ` : ''}{pool.country}
-                </p>
-              </div>
-
-              <div class="pool-card__metrics">
-                <div class="metric">
-                  <div class="metric__value-row">
-                    <span class="metric__value metric__value--accent">{irr}%</span>
-                    <MetricTooltip metric="targetIrr" value="{irr}%" poolContext={pool} small={true} />
-                  </div>
-                  <span class="metric__label">{t($locale, 'pools.metricIrr')}</span>
-                </div>
-                {#if pool.preferredReturn}
-                  <div class="metric">
-                    <div class="metric__value-row">
-                      <span class="metric__value">{pool.preferredReturn}%</span>
-                      <MetricTooltip metric="preferredReturn" value="{pool.preferredReturn}%" poolContext={pool} small={true} />
-                    </div>
-                    <span class="metric__label">{t($locale, 'pools.metricPref')}</span>
-                  </div>
-                {/if}
-                <div class="metric">
-                  <span class="metric__value">{pool.termMonths}m</span>
-                  <span class="metric__label">{t($locale, 'pools.metricTerm')}</span>
-                </div>
-                <div class="metric">
-                  <div class="metric__value-row">
-                    <span class="metric__value">{fmt(pool.minTicket)}</span>
-                    <MetricTooltip metric="minTicket" value={fmt(pool.minTicket)} poolContext={pool} small={true} />
-                  </div>
-                  <span class="metric__label">{t($locale, 'pools.metricTicket')}</span>
-                </div>
-              </div>
-
-              {#if pool.capitalType || pool.exitType || pool.developerCoinvestPct}
-                <div class="pool-card__tags">
-                  {#if pool.capitalType}
-                    <span class="tag">{pool.capitalType.replace('_', ' ')}</span>
-                  {/if}
-                  {#if pool.exitType}
-                    <span class="tag">Exit: {pool.exitType}</span>
-                  {/if}
-                  {#if pool.developerCoinvestPct}
-                    <span class="tag tag--highlight">Dev. {pool.developerCoinvestPct}% co-invest</span>
-                  {/if}
-                </div>
-              {/if}
-
-              <div class="pool-card__progress">
-                <ProgressBar value={progress} showPercent={false} />
-                <div class="pool-card__progress-row">
-                  <span><span class="num">{fmt(pool.raisedAmount)}</span> raised</span>
-                  <div class="pool-card__progress-right">
-                    <span class="pool-card__investors"><span class="num">{pool._count.investments}</span> investors</span>
-                    <span>of <span class="num">{fmt(pool.goalAmount)}</span></span>
-                  </div>
-                </div>
-              </div>
-
-              {#if pool.totalTokens}
-                <div class="pool-card__tokens">
-                  <span class="num">{(pool.tokensSold ?? 0).toLocaleString('en-US')}</span> / <span class="num">{pool.totalTokens.toLocaleString('en-US')}</span> tokens
-                  {#if pool.pricePerToken}<span class="pool-card__token-price">· <span class="num">{fmt(pool.pricePerToken)}</span>/token</span>{/if}
-                </div>
-              {/if}
-            </div>
-          </a>
+          <PoolCard {pool} />
         {/each}
       </div>
     {/if}
@@ -571,73 +482,10 @@
     color: var(--color-text-muted);
   }
 
-  /* Pool card */
-  .pool-card {
-    background: rgba(255,255,255,0.55);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: var(--radius-lg); overflow: hidden;
-    text-decoration: none; color: inherit;
-    display: flex; flex-direction: column;
-    transition: box-shadow var(--transition-base), transform var(--transition-base);
-  }
-  .pool-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.12); transform: translateY(-2px); }
-
-  .pool-card__image {
-    height: 160px; background-size: cover; background-position: center;
-    background-color: #e8e2d9;
-    display: flex; align-items: flex-start; justify-content: flex-end;
-    padding: var(--space-3);
-  }
-  .pool-card__image--placeholder {
-    background: linear-gradient(135deg, #e8e2d9, #d4c9b8);
-  }
-
-  .pool-card__body {
-    padding: var(--space-5); display: flex;
-    flex-direction: column; gap: var(--space-4); flex: 1;
-  }
-  .pool-card__name {
-    font-size: var(--text-base); font-weight: 700;
-    color: var(--color-text); margin: 0 0 2px;
-  }
-  .pool-card__location { font-size: var(--text-xs); color: var(--color-text-muted); margin: 0; }
-
-  .pool-card__metrics {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3);
-  }
-  .metric { display: flex; flex-direction: column; gap: 2px; }
-  .metric__value-row { display: flex; align-items: center; gap: 3px; }
-  .metric__value { font-size: var(--text-base); font-weight: 800; color: var(--color-text); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  .metric__value--accent { color: var(--color-primary); }
-  .pool-card__tokens { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--color-text-muted); }
-  .pool-card__token-price { color: var(--color-primary); font-weight: 700; }
-  .metric__label {
-    font-size: 9px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--color-text-muted);
-  }
-
-  .pool-card__tags { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag {
-    font-size: 10px; font-weight: 600; text-transform: capitalize;
-    background: #f0ece6; border: 1px solid #e0d9ce;
-    border-radius: 4px; padding: 2px 8px; color: var(--color-text-muted);
-  }
-  .tag--highlight { background: #fff8ed; border-color: #fad59a; color: #b45309; }
-
-  .pool-card__progress { display: flex; flex-direction: column; gap: var(--space-2); margin-top: auto; }
-  .pool-card__progress-row {
-    display: flex; justify-content: space-between;
-    font-size: var(--text-xs); color: var(--color-text-muted);
-  }
-  .pool-card__progress-right { display: flex; gap: var(--space-3); }
-  .pool-card__investors { color: var(--color-text); font-weight: 600; }
-
   @media (max-width: 900px) { .trust-bar__grid { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 700px) {
     .pools-grid { grid-template-columns: 1fr; }
     .trust-bar__grid { grid-template-columns: repeat(2, 1fr); }
-    .pool-card__metrics { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* ── Market Indices Widget ─────────────────────────────────────────── */
