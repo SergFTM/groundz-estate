@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { locale } from '$lib/stores/locale';
+  import { t } from '$lib/i18n';
+
   let { data } = $props();
 
   function fmt(n: number): string {
@@ -14,30 +17,30 @@
 <section class="pricing">
   <div class="container">
     <header class="pricing__head">
-      <h1>Membership tiers</h1>
-      <p class="body-lg">Choose the access level that matches your investment ambition. Tokenized pools, transparent terms.</p>
+      <h1>{t($locale, 'pricing.title')}</h1>
+      <p class="body-lg">{t($locale, 'pricing.subtitle')}</p>
     </header>
 
     {#if data.tiers.length === 0}
       <div class="pricing__empty">
-        <p>Membership tiers are being finalized. <a href="/pools">Browse pools →</a></p>
+        <p>{t($locale, 'pricing.empty')} <a href="/pools">{t($locale, 'common.browsePools')} →</a></p>
       </div>
     {:else}
       <div class="pricing__grid">
         {#each data.tiers as tier, i (tier.id)}
           <article class="tier" class:tier--featured={i === 1}>
-            {#if i === 1}<span class="tier__badge">Most popular</span>{/if}
+            {#if i === 1}<span class="tier__badge">{t($locale, 'pricing.popular')}</span>{/if}
             <h2 class="tier__name">{tier.name}</h2>
             <div class="tier__price"><span class="num">{fmt(tier.price)}</span></div>
             <p class="tier__ticket">
-              Ticket <span class="num">{fmt(tier.minTicket)}</span>{#if tier.maxTicket} – <span class="num">{fmt(tier.maxTicket)}</span>{:else}+{/if}
+              {t($locale, 'pricing.ticket')} <span class="num">{fmt(tier.minTicket)}</span>{#if tier.maxTicket} – <span class="num">{fmt(tier.maxTicket)}</span>{:else}+{/if}
             </p>
             {#if tier.perks.length}
               <ul class="tier__perks">
                 {#each tier.perks as perk}<li>{perk}</li>{/each}
               </ul>
             {/if}
-            <a href="/pools" class="tier__cta" class:tier__cta--featured={i === 1}>Get started</a>
+            <a href="/pools" class="tier__cta" class:tier__cta--featured={i === 1}>{t($locale, 'pricing.cta')}</a>
           </article>
         {/each}
       </div>

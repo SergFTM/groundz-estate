@@ -29,6 +29,12 @@ const en: Dict = {
   'nav.cabinet': 'Cabinet',
   'nav.login': 'Login',
   'common.browsePools': 'Browse pools',
+  'pricing.title': 'Membership tiers',
+  'pricing.subtitle': 'Choose the access level that matches your investment ambition. Tokenized pools, transparent terms.',
+  'pricing.empty': 'Membership tiers are being finalized.',
+  'pricing.popular': 'Most popular',
+  'pricing.ticket': 'Ticket',
+  'pricing.cta': 'Get started',
 };
 
 const ru: Dict = {
@@ -46,6 +52,12 @@ const ru: Dict = {
   'nav.cabinet': 'Кабинет',
   'nav.login': 'Войти',
   'common.browsePools': 'Смотреть пулы',
+  'pricing.title': 'Уровни участия',
+  'pricing.subtitle': 'Выберите уровень доступа под ваши инвест-амбиции. Токенизированные пулы, прозрачные условия.',
+  'pricing.empty': 'Тарифы в процессе финализации.',
+  'pricing.popular': 'Популярный',
+  'pricing.ticket': 'Тикет',
+  'pricing.cta': 'Начать',
 };
 
 const dict: Record<Locale, Dict> = { en, ru };

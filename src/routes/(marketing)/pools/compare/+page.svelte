@@ -331,7 +331,7 @@
     display: block; font-size: var(--text-base); font-weight: 700;
     color: var(--color-text); text-decoration: none; margin-bottom: var(--space-1);
   }
-  .compare-table__pool-name:hover { color: var(--color-accent); }
+  .compare-table__pool-name:hover { color: var(--color-primary); }
   .compare-table__status {
     display: block; font-size: 10px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -367,7 +367,7 @@
   }
   .compare-table__cta {
     display: inline-block; padding: var(--space-2) var(--space-5);
-    background: var(--color-accent); color: #fff; font-size: var(--text-xs); font-weight: 700;
+    background: var(--color-primary); color: #fff; font-size: var(--text-xs); font-weight: 700;
     border-radius: var(--radius-md); text-decoration: none; transition: opacity var(--transition-fast);
   }
   .compare-table__cta:hover { opacity: 0.85; }
