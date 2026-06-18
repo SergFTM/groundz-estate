@@ -33,7 +33,8 @@
 	];
 
 	const investLinks = [
-		{ label: 'Investment Pools', href: '/investment', desc: 'Browse active pools' },
+		{ label: 'Investment Pools', href: '/pools', desc: 'Browse active pools' },
+		{ label: 'Membership & Pricing', href: '/pricing', desc: 'Tiers, ticket limits, perks' },
 		{ label: 'How It Works', href: '/invest/how-it-works', desc: 'SPV structure, returns' },
 		{ label: 'Investor Protections', href: '/invest/protections', desc: 'Security & guarantees' },
 		{ label: 'Apply as Investor', href: '/invest/apply', desc: 'Submit your application' },
@@ -61,7 +62,7 @@
 
 <header class="nav" class:nav--transparent={transparent && !scrolled} class:nav--scrolled={scrolled}>
 	<div class="nav__inner container">
-		<a href="/" class="nav__logo">DEVELTA</a>
+		<a href="/" class="nav__logo">GROUNDZ</a>
 
 		<nav class="nav__desktop" aria-label="Main navigation">
 			{#each navLinks as link}
@@ -117,7 +118,7 @@
 {/if}
 <aside class="sidebar" class:sidebar--open={mobileOpen}>
 	<div class="sidebar__header">
-		<span class="nav__logo">DEVELTA</span>
+		<span class="nav__logo">GROUNDZ</span>
 		<button class="sidebar__close" onclick={closeMobile} aria-label="Close menu">
 			&#10005;
 		</button>
@@ -257,7 +258,7 @@
 
 	.nav__dropdown-panel {
 		position: absolute;
-		top: calc(100% + 12px);
+		top: 100%;
 		left: 50%;
 		transform: translateX(-50%);
 		min-width: 220px;
@@ -266,6 +267,7 @@
 		border-radius: var(--radius-lg);
 		box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 		padding: var(--space-2);
+		padding-top: 14px;
 		opacity: 0;
 		pointer-events: none;
 		transform: translateX(-50%) translateY(-4px);

@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
   // All pools for the selector dropdown
-  const allPools = await db.investmentPool.findMany({
+  const allPools = await db.pool.findMany({
     select: { id: true, slug: true, name: true, country: true, status: true },
     orderBy: { name: 'asc' },
   });
@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ url }) => {
     return { allPools, selected: [] };
   }
 
-  const rows = await db.investmentPool.findMany({
+  const rows = await db.pool.findMany({
     where: { slug: { in: slugs } },
     include: {
       _count: { select: { investments: true } },

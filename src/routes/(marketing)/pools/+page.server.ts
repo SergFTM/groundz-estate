@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
   const country = url.searchParams.get('country') ?? '';
   const status = url.searchParams.get('status') ?? '';
 
-  const pools = await db.investmentPool.findMany({
+  const pools = await db.pool.findMany({
     where: {
       ...(dealType ? { dealType } : {}),
       ...(country ? { country } : {}),
@@ -19,11 +19,11 @@ export const load: PageServerLoad = async ({ url, locals }) => {
   });
 
   // Trust bar aggregates
-  const allPools = await db.investmentPool.findMany({
+  const allPools = await db.pool.findMany({
     where: { status: { not: 'draft' } },
     select: { goalAmount: true, raisedAmount: true, targetIrr: true, targetYield: true, termMonths: true, minTicket: true, developerCoinvestPct: true },
   });
-  const investorCount = await db.investorInvestment.count();
+  const investorCount = await db.holding.count();
 
   const totalAum = allPools.reduce((s, p) => s + p.goalAmount, 0);
   const totalRaised = allPools.reduce((s, p) => s + p.raisedAmount, 0);

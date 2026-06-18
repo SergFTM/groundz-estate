@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { slug: params.slug },
     include: {
       _count: { select: { investments: true } },
@@ -16,7 +16,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
   // Check if current user already has a commitment for this pool
   const myCommit = locals.user
-    ? await db.investorInvestment.findFirst({
+    ? await db.holding.findFirst({
         where: { userId: locals.user.id, poolId: pool.id },
         orderBy: { createdAt: 'desc' },
       })

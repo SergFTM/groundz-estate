@@ -4,9 +4,9 @@ import { z, ZodError } from 'zod';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-  if (!locals.user) throw redirect(302, `/auth/login?next=/investment/${params.slug}/commit`);
+  if (!locals.user) throw redirect(302, `/auth/login?next=/pools/${params.slug}/commit`);
 
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { slug: params.slug },
     select: {
       id: true, name: true, slug: true, country: true, city: true,
@@ -17,10 +17,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   });
 
   if (!pool) throw error(404, 'Investment pool not found');
-  if (pool.status !== 'active') throw redirect(303, `/investment/${params.slug}`);
+  if (pool.status !== 'active') throw redirect(303, `/pools/${params.slug}`);
 
   // Check for existing commitment
-  const existing = await db.investorInvestment.findFirst({
+  const existing = await db.holding.findFirst({
     where: { userId: locals.user.id, poolId: pool.id },
     orderBy: { createdAt: 'desc' },
   });
@@ -30,9 +30,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
 export const actions: Actions = {
   commit: async ({ request, params, locals }) => {
-    if (!locals.user) throw redirect(302, `/auth/login?next=/investment/${params.slug}/commit`);
+    if (!locals.user) throw redirect(302, `/auth/login?next=/pools/${params.slug}/commit`);
 
-    const pool = await db.investmentPool.findUnique({
+    const pool = await db.pool.findUnique({
       where: { slug: params.slug },
       select: { id: true, minTicket: true, maxTicket: true, status: true },
     });
@@ -57,7 +57,7 @@ export const actions: Actions = {
         return { errors: { amount: `Maximum ticket is €${pool.maxTicket.toLocaleString()}` } };
       }
 
-      await db.investorInvestment.create({
+      await db.holding.create({
         data: {
           userId: locals.user.id,
           poolId: pool.id,
@@ -67,7 +67,7 @@ export const actions: Actions = {
         },
       });
 
-      throw redirect(303, `/investment/${params.slug}/commit?success=1`);
+      throw redirect(303, `/pools/${params.slug}/commit?success=1`);
     } catch (err) {
       if (err instanceof ZodError) {
         const errors: Record<string, string> = {};

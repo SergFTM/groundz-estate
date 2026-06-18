@@ -16,7 +16,8 @@
 
 	const company = [
 		{ label: 'Knowledge Base', href: '/knowledge' },
-		{ label: 'Investment Pools', href: '/investment' },
+		{ label: 'Investment Pools', href: '/pools' },
+		{ label: 'Membership & Pricing', href: '/pricing' },
 		{ label: 'How It Works', href: '/invest/how-it-works' },
 		{ label: 'Investor Protections', href: '/invest/protections' },
 		{ label: 'Apply as Investor', href: '/invest/apply' },
@@ -150,12 +151,12 @@
 		<div class="container">
 			<div class="footer__grid">
 				<div class="footer__col footer__col--brand">
-					<span class="footer__logo">DEVELTA</span>
+					<span class="footer__logo">GROUNDZ</span>
 					<address class="footer__address">
 						<p>Arch. Makariou III, 198<br/>Marinos Court, Office 4-5<br/>3030 Limassol, Cyprus</p>
 						<p><a href="tel:+35794098889">+357 94 098 889</a></p>
 						<p><a href="tel:+35725335100">+357 25 335 100</a></p>
-						<p><a href="mailto:sales@develta.cy">sales@develta.cy</a></p>
+						<p><a href="mailto:sales@groundz.estate">sales@groundz.estate</a></p>
 					</address>
 				</div>
 
@@ -189,7 +190,7 @@
 
 			<div class="footer__bottom">
 				<span class="footer__copyright">
-					&copy; 2026 Develta Group. All rights reserved. License HE 450620
+					&copy; 2026 Groundz Group. All rights reserved. License HE 450620
 				</span>
 				<span class="footer__legal">
 					<a href="/privacy">Privacy Policy</a>

@@ -160,7 +160,7 @@
 </script>
 
 <svelte:head>
-  <title>Investment Opportunities — Develta</title>
+  <title>Investment Opportunities — Groundz</title>
   <meta name="description" content="Access curated development pools in Cyprus with structured yields, milestone tracking and transparent governance." />
 </svelte:head>
 
@@ -308,7 +308,7 @@
                     <p class="ai-section__text">{aiInsight.context}</p>
                   </div>
                   <div class="ai-section">
-                    <span class="ai-section__label">vs. Direct investment via Develta</span>
+                    <span class="ai-section__label">vs. Direct investment via Groundz</span>
                     <p class="ai-section__text">{aiInsight.comparison}</p>
                   </div>
                 </div>
@@ -360,7 +360,7 @@
 
     <!-- Compare link -->
     <div style="text-align:right;margin-bottom:var(--space-2);">
-      <a href="/investment/compare" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);text-decoration:none;opacity:0.8;">
+      <a href="/pools/compare" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);text-decoration:none;opacity:0.8;">
         ⇄ Compare pools side-by-side
       </a>
     </div>
@@ -369,7 +369,7 @@
     {#if data.pools.length === 0}
       <div class="pools-empty">
         <p>No pools match the selected filters.</p>
-        <a href="/investment" class="btn-outline">Reset filters</a>
+        <a href="/pools" class="btn-outline">Reset filters</a>
       </div>
     {:else}
       <div class="pools-grid">
@@ -377,7 +377,7 @@
           {@const progress = pct(pool.raisedAmount, pool.goalAmount)}
           {@const irr = pool.targetIrr ?? pool.targetYield}
           <a
-            href={pool.slug ? `/investment/${pool.slug}` : '/contact'}
+            href={pool.slug ? `/pools/${pool.slug}` : '/contact'}
             class="pool-card"
           >
             <div
@@ -443,13 +443,20 @@
               <div class="pool-card__progress">
                 <ProgressBar value={progress} showPercent={false} />
                 <div class="pool-card__progress-row">
-                  <span>{fmt(pool.raisedAmount)} raised</span>
+                  <span><span class="num">{fmt(pool.raisedAmount)}</span> raised</span>
                   <div class="pool-card__progress-right">
-                    <span class="pool-card__investors">{pool._count.investments} investors</span>
-                    <span>of {fmt(pool.goalAmount)}</span>
+                    <span class="pool-card__investors"><span class="num">{pool._count.investments}</span> investors</span>
+                    <span>of <span class="num">{fmt(pool.goalAmount)}</span></span>
                   </div>
                 </div>
               </div>
+
+              {#if pool.totalTokens}
+                <div class="pool-card__tokens">
+                  <span class="num">{(pool.tokensSold ?? 0).toLocaleString('en-US')}</span> / <span class="num">{pool.totalTokens.toLocaleString('en-US')}</span> tokens
+                  {#if pool.pricePerToken}<span class="pool-card__token-price">· <span class="num">{fmt(pool.pricePerToken)}</span>/token</span>{/if}
+                </div>
+              {/if}
             </div>
           </a>
         {/each}
@@ -533,7 +540,7 @@
     white-space: nowrap; border-bottom: 2px solid transparent;
     margin-bottom: -1px; transition: color var(--transition-fast);
   }
-  .deal-tab--active { color: var(--color-text); border-bottom-color: var(--color-accent); }
+  .deal-tab--active { color: var(--color-text); border-bottom-color: var(--color-primary); }
   .deal-tab:hover:not(.deal-tab--active) { color: var(--color-text); }
 
   .filters-row {
@@ -552,8 +559,8 @@
     color: var(--color-text-muted); cursor: pointer;
     transition: all var(--transition-fast);
   }
-  .filter-chip--active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
-  .filter-chip:hover:not(.filter-chip--active) { border-color: var(--color-accent); color: var(--color-accent); }
+  .filter-chip--active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+  .filter-chip:hover:not(.filter-chip--active) { border-color: var(--color-primary); color: var(--color-primary); }
 
   .pools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
   .pools-empty {
@@ -599,8 +606,10 @@
   }
   .metric { display: flex; flex-direction: column; gap: 2px; }
   .metric__value-row { display: flex; align-items: center; gap: 3px; }
-  .metric__value { font-size: var(--text-base); font-weight: 800; color: var(--color-text); }
-  .metric__value--accent { color: var(--color-accent); }
+  .metric__value { font-size: var(--text-base); font-weight: 800; color: var(--color-text); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .metric__value--accent { color: var(--color-primary); }
+  .pool-card__tokens { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--color-text-muted); }
+  .pool-card__token-price { color: var(--color-primary); font-weight: 700; }
   .metric__label {
     font-size: 9px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.06em; color: var(--color-text-muted);

@@ -14,13 +14,13 @@
   function addPool(slug: string) {
     if (selectedSlugs.includes(slug) || selectedSlugs.length >= 3) return;
     const next = [...selectedSlugs, slug];
-    goto(`/investment/compare?pools=${next.join(',')}`, { replaceState: false });
+    goto(`/pools/compare?pools=${next.join(',')}`, { replaceState: false });
   }
 
   function removePool(slug: string) {
     const next = selectedSlugs.filter(s => s !== slug);
-    if (next.length === 0) goto('/investment/compare', { replaceState: false });
-    else goto(`/investment/compare?pools=${next.join(',')}`, { replaceState: false });
+    if (next.length === 0) goto('/pools/compare', { replaceState: false });
+    else goto(`/pools/compare?pools=${next.join(',')}`, { replaceState: false });
   }
 
   // Available pools not yet selected
@@ -139,14 +139,14 @@
 </script>
 
 <svelte:head>
-  <title>Compare Investment Pools — Develta</title>
-  <meta name="description" content="Compare Develta investment pools side-by-side — IRR, terms, deal structure, funding progress, and AI analysis." />
+  <title>Compare Investment Pools — Groundz</title>
+  <meta name="description" content="Compare Groundz investment pools side-by-side — IRR, terms, deal structure, funding progress, and AI analysis." />
 </svelte:head>
 
 <div class="compare-page">
   <!-- Header -->
   <div class="compare-header">
-    <a href="/investment" class="compare-back">← All Pools</a>
+    <a href="/pools" class="compare-back">← All Pools</a>
     <h1 class="compare-title">Compare Investment Pools</h1>
     <p class="compare-sub">Select up to 3 pools to compare side-by-side.</p>
   </div>
@@ -190,7 +190,7 @@
             <th class="compare-table__row-label"></th>
             {#each data.selected as pool}
               <th class="compare-table__pool-head">
-                <a href="/investment/{pool.slug}" class="compare-table__pool-name">{pool.name}</a>
+                <a href="/pools/{pool.slug}" class="compare-table__pool-name">{pool.name}</a>
                 <span class="compare-table__status" style="color:{STATUS_COLOR[pool.status] ?? '#9ca3af'}">
                   {pool.status}
                 </span>
@@ -222,9 +222,9 @@
             {#each data.selected as pool}
               <td class="compare-table__cta-cell">
                 {#if pool.status === 'active'}
-                  <a href="/investment/{pool.slug}/commit" class="compare-table__cta">Commit →</a>
+                  <a href="/pools/{pool.slug}/commit" class="compare-table__cta">Commit →</a>
                 {:else}
-                  <a href="/investment/{pool.slug}" class="compare-table__cta compare-table__cta--view">View →</a>
+                  <a href="/pools/{pool.slug}" class="compare-table__cta compare-table__cta--view">View →</a>
                 {/if}
               </td>
             {/each}

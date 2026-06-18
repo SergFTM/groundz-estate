@@ -102,7 +102,7 @@
 </script>
 
 <svelte:head>
-  <title>{pool.name} — Investment Pool — Develta</title>
+  <title>{pool.name} — Investment Pool — Groundz</title>
   <meta name="description" content="{pool.description ?? `Invest in ${pool.name} — ${irr}% target IRR, ${pool.termMonths} months term, min ticket ${fmt(pool.minTicket)}.`}" />
 </svelte:head>
 
@@ -113,7 +113,7 @@
   class:pool-hero--no-image={!pool.imageUrl}
 >
   <div class="container">
-    <a href="/investment" class="pool-hero__back">← All Pools</a>
+    <a href="/pools" class="pool-hero__back">← All Pools</a>
     <div class="pool-hero__meta">
       <StatusBadge status={pool.status} />
       {#if pool.dealType}
@@ -181,6 +181,18 @@
         <span class="kpi__val">{pool._count.investments}</span>
         <span class="kpi__label">Investors</span>
       </div>
+      {#if pool.totalTokens}
+        <div class="kpi">
+          <span class="kpi__val kpi__val--accent">{(pool.tokensSold ?? 0).toLocaleString('en-US')}/{pool.totalTokens.toLocaleString('en-US')}</span>
+          <span class="kpi__label">Tokens {pool.tokenSymbol ? `(${pool.tokenSymbol})` : ''}</span>
+        </div>
+      {/if}
+      {#if pool.pricePerToken}
+        <div class="kpi">
+          <span class="kpi__val">{fmt(pool.pricePerToken)}</span>
+          <span class="kpi__label">Price / Token</span>
+        </div>
+      {/if}
     </div>
   </div>
 </section>
@@ -314,8 +326,8 @@
           </div>
           <ProgressBar value={progress} showPercent={false} />
           <div class="sidebar-card__amounts">
-            <span>{fmt(pool.raisedAmount)} raised</span>
-            <span>of {fmt(pool.goalAmount)}</span>
+            <span><span class="num">{fmt(pool.raisedAmount)}</span> raised</span>
+            <span>of <span class="num">{fmt(pool.goalAmount)}</span></span>
           </div>
           {#if pool.raiseEnd}
             <p class="sidebar-card__deadline">
@@ -365,12 +377,12 @@
             Status: <strong>{myCommit.status.replace('_', ' ')}</strong> · Our team will contact you.
           </p>
         {:else if user}
-          <a href="/investment/{pool.slug}/commit" class="commit-cta">
+          <a href="/pools/{pool.slug}/commit" class="commit-cta">
             Commit Capital →
           </a>
           <p class="commit-cta__note">Min. ticket {fmt(pool.minTicket)}{pool.maxTicket ? ` · Max ${fmt(pool.maxTicket)}` : ''}.</p>
         {:else}
-          <a href="/auth/login?next=/investment/{pool.slug}/commit" class="commit-cta">
+          <a href="/auth/login?next=/pools/{pool.slug}/commit" class="commit-cta">
             Login to Invest →
           </a>
           <p class="commit-cta__note">Register or login to commit capital. Min. {fmt(pool.minTicket)}.</p>
@@ -478,8 +490,8 @@
   .metrics-strip__grid { display: flex; gap: var(--space-10); flex-wrap: wrap; }
   .kpi { display: flex; flex-direction: column; gap: 2px; }
   .kpi__val-row { display: flex; align-items: center; gap: 4px; }
-  .kpi__val { font-size: var(--text-xl); font-weight: 800; color: var(--color-text); }
-  .kpi__val--accent { color: var(--color-accent); }
+  .kpi__val { font-size: var(--text-xl); font-weight: 800; color: var(--color-text); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .kpi__val--accent { color: var(--color-primary); }
   .kpi__label {
     font-size: 10px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.08em; color: var(--color-text-muted);
@@ -623,7 +635,7 @@
 
   .commit-cta {
     display: block; text-align: center;
-    background: var(--color-accent); color: #fff;
+    background: var(--color-primary); color: #fff;
     padding: var(--space-4); border-radius: var(--radius-md);
     font-size: var(--text-sm); font-weight: 700; text-decoration: none;
     transition: opacity var(--transition-fast);

@@ -23,14 +23,14 @@
 </script>
 
 <svelte:head>
-  <title>Commit to {pool.name} — Develta</title>
+  <title>Commit to {pool.name} — Groundz</title>
 </svelte:head>
 
 <div style="min-height:80vh;display:flex;align-items:flex-start;justify-content:center;padding:var(--space-12) var(--space-4);">
   <div style="width:100%;max-width:560px;">
 
     <!-- Back link -->
-    <a href="/investment/{pool.slug}" style="font-size:var(--text-sm);color:var(--color-accent);font-weight:600;text-decoration:none;display:inline-block;margin-bottom:var(--space-6);">← {pool.name}</a>
+    <a href="/pools/{pool.slug}" style="font-size:var(--text-sm);color:var(--color-accent);font-weight:600;text-decoration:none;display:inline-block;margin-bottom:var(--space-6);">← {pool.name}</a>
 
     {#if success}
       <!-- Success state -->
@@ -41,8 +41,8 @@
           Thank you, {user.name}. Our IR team will reach out within 1–2 business days with next steps including KYC verification and subscription documents.
         </p>
         <div style="display:flex;flex-direction:column;gap:var(--space-3);">
-          <a href="/investment/{pool.slug}" style="display:block;background:var(--color-accent);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;text-align:center;">Back to {pool.name}</a>
-          <a href="/investment" style="display:block;color:var(--color-accent);font-size:var(--text-sm);font-weight:600;text-decoration:none;text-align:center;">Browse Other Pools</a>
+          <a href="/pools/{pool.slug}" style="display:block;background:var(--color-accent);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;text-align:center;">Back to {pool.name}</a>
+          <a href="/pools" style="display:block;color:var(--color-accent);font-size:var(--text-sm);font-weight:600;text-decoration:none;text-align:center;">Browse Other Pools</a>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
           You have a <strong>{existing.status.replace('_', ' ')}</strong> commitment of <strong>{fmt(existing.amount)}</strong> in this pool.
         </p>
         <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-6);">Our team will be in touch. Questions? <a href="/contact" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Contact us.</a></p>
-        <a href="/investment/{pool.slug}" style="display:inline-block;background:var(--color-accent);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;">← Back to Pool</a>
+        <a href="/pools/{pool.slug}" style="display:inline-block;background:var(--color-accent);color:#fff;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-weight:700;text-decoration:none;">← Back to Pool</a>
       </div>
 
     {:else}
