@@ -51,7 +51,7 @@ GROUNDZ ESTATE brand: **deep green `#104e49` = primary** (brand/CTA/links/focus)
 <span class="num">{formatPct(pool.targetYield)}</span>
 ```
 
-> ⚠️ `IBM Plex Mono` .woff2 not yet in `static/fonts/` — `@font-face` is wired with a system-mono fallback. Drop `IBMPlexMono-Regular.woff2` + `-Medium.woff2` (OFL) to finish. Ivyora + Helvetica Now are already present.
+All three families are self-hosted in `static/fonts/`: Ivyora Display (`.woff/.woff2`), Helvetica Now Text (`.otf`), IBM Plex Mono (`.woff2`, latin 400 + 500, OFL).
 
 ## Tenant-driven brand
 

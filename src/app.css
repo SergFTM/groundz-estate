@@ -31,8 +31,7 @@
 }
 
 /* IBM Plex Mono — numeric/metric typography (yield, IRR, amounts, tickers).
-   OFL-licensed. TODO: drop IBMPlexMono-Regular/Medium .woff2 into static/fonts/.
-   System monospace fallback keeps figures legible until then. */
+   OFL-licensed, self-hosted .woff2 in static/fonts/ (latin 400 + 500). */
 @font-face {
 	font-family: 'IBM Plex Mono';
 	src: url('/fonts/IBMPlexMono-Regular.woff2') format('woff2');
