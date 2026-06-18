@@ -145,6 +145,21 @@ const en: Dict = {
   'auth.confirmPassword': 'Confirm Password',
   'auth.repeatPassword': 'Repeat password',
   'auth.resetPasswordBtn': 'Reset Password',
+  'contact.label': 'CONTACT',
+  'contact.title': 'Get In Touch',
+  'contact.success': 'Message sent! Our team will reply within 24 hours.',
+  'contact.fullName': 'Full Name *',
+  'contact.namePh': 'Your name',
+  'contact.email': 'Email Address *',
+  'contact.phone': 'Phone Number (optional)',
+  'contact.message': 'Message *',
+  'contact.messagePh': 'How can we help you?',
+  'contact.send': 'Send Message →',
+  'contact.office': 'Our Office',
+  'contact.address': 'Address',
+  'contact.phoneLabel': 'Phone',
+  'contact.hours': 'Hours',
+  'contact.hoursVal': 'Mon–Fri 9:00–18:00',
 };
 
 const ru: Dict = {
@@ -278,6 +293,21 @@ const ru: Dict = {
   'auth.confirmPassword': 'Подтвердите пароль',
   'auth.repeatPassword': 'Повторите пароль',
   'auth.resetPasswordBtn': 'Сбросить пароль',
+  'contact.label': 'КОНТАКТ',
+  'contact.title': 'Свяжитесь с нами',
+  'contact.success': 'Сообщение отправлено! Команда ответит в течение 24 часов.',
+  'contact.fullName': 'Полное имя *',
+  'contact.namePh': 'Ваше имя',
+  'contact.email': 'Email *',
+  'contact.phone': 'Телефон (необязательно)',
+  'contact.message': 'Сообщение *',
+  'contact.messagePh': 'Чем мы можем помочь?',
+  'contact.send': 'Отправить →',
+  'contact.office': 'Наш офис',
+  'contact.address': 'Адрес',
+  'contact.phoneLabel': 'Телефон',
+  'contact.hours': 'Часы работы',
+  'contact.hoursVal': 'Пн–Пт 9:00–18:00',
 };
 
 const dict: Record<Locale, Dict> = { en, ru };

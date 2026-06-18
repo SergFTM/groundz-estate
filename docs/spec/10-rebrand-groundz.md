@@ -97,8 +97,11 @@
 > **Сделано (добор):** hero лендинга, `/pricing`, и листинг `/pools` (hero, trust-бар ×6, фильтр «Страна»/«Все», compare-ссылка, empty-state, метки метрик карточки) переведены через `t()`; цифры на `.num`. Словарь: `nav.*`, `home.*`, `pricing.*`, `pools.*`, `common.*`.
 > **Сделано (добор):** детальная `/pools/[slug]` — back-ссылка, KPI-метки (+токены), заголовки секций (Why This Pool / Yield Scenarios / Construction Milestones), тезисы, сайдбар (Funding/Capital/Exit/Investors), CTA (Commit/Login to Invest), talk-to-team. Неймспейс `pool.*`.
 > **Сделано (добор):** кабинет инвестора `(cabinet)/investor/portfolio` — заголовки, сводка (Commitments/Total/tokens), empty-states, заголовки таблиц (holdings + транзакции), заголовки графиков, типы транзакций (Buy/Sell/Distribution/Fee). Неймспейс `cab.*`.
-> **Сделано (добор):** deal-type табы `/pools` (`deal.*` неймспейс, DEAL_TYPES на ключах + `t()`).
-> **Осталось:** market-indices/AI-секция на `/pools`, enum-метки статусов/стратегий в графиках портфеля (`LABEL_MAP`) и `StatusBadge` (общий, в т.ч. админка — решить, локализовать ли), формы (login/apply), прочие секции лендинга. Прототип содержит обе локали — брать тексты оттуда.
+> **Сделано (добор):** deal-type табы `/pools` (`deal.*`); **StatusBadge** + portfolio enum через общий `tStatus()` (en/ru словарь статусов/стратегий, fallback на humanize); **формы авторизации** (login/forgot/reset, `auth.*`); **contact-форма** (`contact.*`).
+>
+> **Архитектурное замечание по остатку:** покрыт весь интерактивный **chrome** (навигация, формы, кнопки, метки, заголовки, enum-бейджи) по customer-facing пути. Остаток — это **long-form контент** (маркетинговая проза about/faq/invest-лендинг, юридический текст privacy/terms) — его НЕ кладём в плоский UI-словарь: это контент-задача, тексты брать из прототипа (обе локали) и грузить как локализованный контент. Внутренние кабинеты admin/buyer/agent оставлены на EN осознанно (внутренний инструментарий).
+>
+> Неймспейсы словаря: `nav · home · pools · pool · pricing · cab · auth · contact · deal · common` + `tStatus`.
 
 ## 8. Definition of Done
 

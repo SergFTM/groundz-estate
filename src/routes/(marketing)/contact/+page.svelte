@@ -1,5 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
+  import { locale } from '$lib/stores/locale';
+  import { t } from '$lib/i18n';
 
   let { form } = $props();
   let formErrors = $derived((form as { errors?: Record<string, string>; success?: boolean } | null)?.errors ?? {});
@@ -13,8 +15,8 @@
 <section class="contact-section">
   <div class="container">
     <div class="section-header">
-      <span class="section-label">CONTACT</span>
-      <h2 class="section-title">Get In Touch</h2>
+      <span class="section-label">{t($locale, 'contact.label')}</span>
+      <h2 class="section-title">{t($locale, 'contact.title')}</h2>
     </div>
 
     <div class="contact-grid">
@@ -22,7 +24,7 @@
       <div class="contact-form-wrap">
         {#if form?.success}
           <div class="success-banner">
-            Message sent! Our team will reply within 24 hours.
+            {t($locale, 'contact.success')}
           </div>
         {:else}
           <form method="POST" action="?/sendMessage" use:enhance class="contact-form">
@@ -31,30 +33,30 @@
             {/if}
 
             <div class="form-field">
-              <label for="name">Full Name *</label>
-              <input id="name" name="name" type="text" placeholder="Your name" required />
+              <label for="name">{t($locale, 'contact.fullName')}</label>
+              <input id="name" name="name" type="text" placeholder={t($locale, 'contact.namePh')} required />
               {#if formErrors.name}<span class="field-error">{formErrors.name}</span>{/if}
             </div>
 
             <div class="form-field">
-              <label for="email">Email Address *</label>
+              <label for="email">{t($locale, 'contact.email')}</label>
               <input id="email" name="email" type="email" placeholder="you@example.com" required />
               {#if formErrors.email}<span class="field-error">{formErrors.email}</span>{/if}
             </div>
 
             <div class="form-field">
-              <label for="phone">Phone Number (optional)</label>
+              <label for="phone">{t($locale, 'contact.phone')}</label>
               <input id="phone" name="phone" type="tel" placeholder="+357 99 000000" />
               {#if formErrors.phone}<span class="field-error">{formErrors.phone}</span>{/if}
             </div>
 
             <div class="form-field">
-              <label for="message">Message *</label>
-              <textarea id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+              <label for="message">{t($locale, 'contact.message')}</label>
+              <textarea id="message" name="message" rows="5" placeholder={t($locale, 'contact.messagePh')} required></textarea>
               {#if formErrors.message}<span class="field-error">{formErrors.message}</span>{/if}
             </div>
 
-            <button type="submit" class="btn-primary">Send Message →</button>
+            <button type="submit" class="btn-primary">{t($locale, 'contact.send')}</button>
           </form>
         {/if}
       </div>
@@ -62,14 +64,14 @@
       <!-- Office info + map -->
       <div class="contact-info">
         <div class="office-card">
-          <h3 class="office-title">Our Office</h3>
+          <h3 class="office-title">{t($locale, 'contact.office')}</h3>
           <div class="office-details">
             <div class="office-item">
-              <span class="office-label">Address</span>
+              <span class="office-label">{t($locale, 'contact.address')}</span>
               <span>Arch. Makariou III, 198<br/>Marinos Court, Flat/Office 4-5<br/>3030 Limassol, Cyprus</span>
             </div>
             <div class="office-item">
-              <span class="office-label">Phone</span>
+              <span class="office-label">{t($locale, 'contact.phoneLabel')}</span>
               <span>
                 <a href="tel:+35794098889">+357 94 098 889</a><br/>
                 <a href="tel:+35725335100">+357 25 335 100</a>
@@ -80,8 +82,8 @@
               <a href="mailto:sales@groundz.estate">sales@groundz.estate</a>
             </div>
             <div class="office-item">
-              <span class="office-label">Hours</span>
-              <span>Mon–Fri 9:00–18:00</span>
+              <span class="office-label">{t($locale, 'contact.hours')}</span>
+              <span>{t($locale, 'contact.hoursVal')}</span>
             </div>
           </div>
         </div>
