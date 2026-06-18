@@ -140,11 +140,11 @@
 
   // ── Pools filters ──────────────────────────────────────────────────────
   const DEAL_TYPES = [
-    { value: '', label: 'All' },
-    { value: 'equity', label: 'Equity Pools' },
-    { value: 'debt_note', label: 'Debt Notes' },
-    { value: 'rental', label: 'Rental Income' },
-    { value: 'club_deal', label: 'Club Deals' },
+    { value: '', labelKey: 'pools.all' },
+    { value: 'equity', labelKey: 'deal.equityPools' },
+    { value: 'debt_note', labelKey: 'deal.debtNotes' },
+    { value: 'rental', labelKey: 'deal.rentalIncome' },
+    { value: 'club_deal', labelKey: 'deal.clubDeals' },
   ];
 
   const COUNTRIES = ['', 'Cyprus', 'Georgia', 'Greece', 'Spain'];
@@ -341,7 +341,7 @@
           class:deal-tab--active={activeDealType === dt.value}
           onclick={() => { activeDealType = dt.value; applyFilters(); }}
         >
-          {dt.label}
+          {t($locale, dt.labelKey)}
         </button>
       {/each}
     </div>
