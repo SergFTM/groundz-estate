@@ -1,7 +1,11 @@
 <script lang="ts">
   // Landing styled to the GROUNDZ ESTATE prototype, driven by REAL data (db pools + metrics)
   // and an interactive yield calculator. Design tokens (--ink/--acc/--acc-dk/--mint) in app.css.
+  import ProjectCarousel from '$lib/components/ProjectCarousel.svelte';
+  import LeadQuizWidget from '$lib/components/LeadQuizWidget.svelte';
+
   let { data } = $props();
+  const projects = $derived(data.projects ?? []);
 
   // ── formatting ──────────────────────────────────────────────
   function eur(n: number): string {
@@ -192,6 +196,17 @@
   </div>
 </section>
 
+<!-- PROJECTS (carousel) -->
+{#if projects.length}
+  <section class="g-sec g-sec--warm">
+    <div class="g-wrap">
+      <div class="g-eyebrow">Проекты застройщика</div>
+      <h2 class="g-h2" style="margin-bottom:36px">Объекты в основе пулов.</h2>
+    </div>
+    <ProjectCarousel {projects} />
+  </section>
+{/if}
+
 <!-- ROI CALC (interactive) -->
 <section class="g-sec g-calc" id="calc">
   <div class="g-calc__grid">
@@ -272,6 +287,19 @@
         <div class="g-role"><div class="g-role__tag num">{r.tag}</div><h3 class="g-role__t">{r.t}</h3><p class="g-role__d">{r.d}</p></div>
       {/each}
     </div>
+  </div>
+</section>
+
+<!-- LEAD QUIZ (lead generator) -->
+<section class="g-sec g-sec--alt">
+  <div class="g-wrap g-quiz">
+    <div class="g-quiz__copy">
+      <div class="g-eyebrow">Подбор</div>
+      <h2 class="g-h2">Не знаете, с чего начать?</h2>
+      <p class="g-lead">Ответьте на пять вопросов — подберём объекты и пулы под вашу цель, бюджет и горизонт.</p>
+      <a href="/lead-quiz" class="g-btn g-btn--acc">Пройти подбор</a>
+    </div>
+    <div class="g-quiz__widget"><LeadQuizWidget /></div>
   </div>
 </section>
 
@@ -396,6 +424,10 @@
   .g-role__tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--acc); margin-bottom: 18px; }
   .g-role__t { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 28px; color: #1c1c1a; margin-bottom: 12px; }
   .g-role__d { font-size: 14.5px; color: #5c5c5c; line-height: 1.6; }
+
+  .g-quiz { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .g-quiz .g-lead { margin-bottom: 28px; }
+  @media (max-width: 960px) { .g-quiz { grid-template-columns: 1fr; gap: 28px; } }
 
   .g-cta { background: var(--ink); color: #fff; padding: 96px 40px; text-align: center; }
   .g-cta__inner { max-width: 720px; margin: 0 auto; }
