@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ parent }) => {
   const { user } = await parent();
 
-  const investments = await db.investorInvestment.findMany({
+  const investments = await db.holding.findMany({
     where: { userId: user.id },
     include: {
       pool: {
@@ -19,6 +19,14 @@ export const load: PageServerLoad = async ({ parent }) => {
   });
 
   const totalCommitted = investments.reduce((s, i) => s + i.amount, 0);
+  const totalTokens = investments.reduce((s, i) => s + (i.tokens ?? 0), 0);
+
+  const transactions = await db.transaction.findMany({
+    where: { userId: user.id },
+    include: { pool: { select: { name: true, slug: true } } },
+    orderBy: { createdAt: 'desc' },
+    take: 20,
+  });
 
   // Geography allocation
   const byCountry: Record<string, number> = {};
@@ -56,6 +64,8 @@ export const load: PageServerLoad = async ({ parent }) => {
   return {
     investments,
     totalCommitted,
+    totalTokens,
+    transactions,
     charts: { byCountry, byStrategy, byStatus, byMaturity }
   };
 };

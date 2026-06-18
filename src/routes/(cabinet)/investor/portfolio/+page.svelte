@@ -2,7 +2,19 @@
   import { formatCurrency, formatDate } from '$lib/utils/formatters';
 
   let { data } = $props();
-  const { investments, totalCommitted, charts } = data;
+  const { investments, totalCommitted, totalTokens, transactions, charts } = data;
+
+  function fmtTokens(n: number): string { return n.toLocaleString('en-US'); }
+
+  const TX_LABEL: Record<string, string> = {
+    buy: 'Buy', sell: 'Sell', distribution: 'Distribution', fee: 'Fee'
+  };
+  function txColor(type: string): string {
+    return type === 'buy' ? 'var(--color-primary)'
+      : type === 'distribution' ? '#22c55e'
+      : type === 'sell' ? '#ca8a04'
+      : 'var(--color-text-muted)';
+  }
 
   // AI diversification analysis
   let aiLoading = $state(false);
@@ -67,7 +79,7 @@
 </script>
 
 <svelte:head>
-  <title>My Portfolio — Develta</title>
+  <title>My Portfolio — Groundz</title>
 </svelte:head>
 
 <div style="max-width:1100px;">
@@ -79,7 +91,7 @@
   {#if investments.length === 0}
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-12);text-align:center;">
       <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">No investments yet.</p>
-      <a href="/investment" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
+      <a href="/pools" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
     </div>
 
   {:else}
@@ -87,13 +99,15 @@
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-6);">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-5) var(--space-6);border-bottom:1px solid rgba(0,0,0,0.06);">
         <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">Commitments ({investments.length})</p>
-        <p style="font-size:var(--text-sm);font-weight:700;color:var(--color-text);">Total {formatCurrency(totalCommitted)}</p>
+        <p style="font-size:var(--text-sm);font-weight:700;color:var(--color-text);">
+          {#if totalTokens > 0}<span class="num" style="color:var(--color-primary);">{fmtTokens(totalTokens)}</span> tokens · {/if}Total <span class="num">{formatCurrency(totalCommitted)}</span>
+        </p>
       </div>
       <div style="overflow-x:auto;">
         <table style="width:100%;border-collapse:collapse;min-width:700px;">
           <thead>
             <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              {#each ['Pool','Country','Strategy','Amount','Status','Yield','Term Left','Date'] as col}
+              {#each ['Pool','Country','Strategy','Amount','Tokens','Status','Yield','Term Left','Date'] as col}
                 <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);">{col}</th>
               {/each}
             </tr>
@@ -102,11 +116,12 @@
             {#each investments as inv}
               <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
                 <td style="padding:var(--space-3) var(--space-4);">
-                  <a href="/investment/{inv.pool.slug}" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);text-decoration:none;">{inv.pool.name}</a>
+                  <a href="/pools/{inv.pool.slug}" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);text-decoration:none;">{inv.pool.name}</a>
                 </td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);">{inv.pool.country}</td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-xs);color:var(--color-text-muted);">{lbl(inv.pool.dealType ?? 'unspecified')}</td>
-                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:var(--color-text);">{formatCurrency(inv.amount)}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:var(--color-text);" class="num">{formatCurrency(inv.amount)}</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);" class="num">{inv.tokens ? fmtTokens(inv.tokens) : '—'}</td>
                 <td style="padding:var(--space-3) var(--space-4);">
                   <span style="font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 7px;border-radius:99px;
                     background:{inv.status === 'funded' ? 'rgba(34,197,94,0.12)' : inv.status === 'pending' ? 'rgba(234,179,8,0.12)' : 'rgba(212,169,68,0.1)'};
@@ -114,7 +129,7 @@
                     {lbl(inv.status)}
                   </span>
                 </td>
-                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:600;color:var(--color-accent);">{(inv.pool.targetIrr ?? inv.pool.targetYield).toFixed(1)}%</td>
+                <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:600;color:var(--color-primary);" class="num">{(inv.pool.targetIrr ?? inv.pool.targetYield).toFixed(1)}%</td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);">{monthsLeft(inv)}m</td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);">{formatDate(inv.createdAt)}</td>
               </tr>
@@ -199,6 +214,42 @@
           {/each}
         </div>
       </div>
+    </div>
+
+    <!-- Transaction feed -->
+    <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-6);">
+      <div style="padding:var(--space-5) var(--space-6);border-bottom:1px solid rgba(0,0,0,0.06);">
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">Recent transactions</p>
+      </div>
+      {#if transactions.length === 0}
+        <p style="padding:var(--space-6);font-size:var(--text-sm);color:var(--color-text-muted);text-align:center;">No transactions yet. Token buys, distributions and fees will appear here.</p>
+      {:else}
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;min-width:560px;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+                {#each ['Date','Type','Pool','Tokens','Amount','Status'] as col}
+                  <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);">{col}</th>
+                {/each}
+              </tr>
+            </thead>
+            <tbody>
+              {#each transactions as tx}
+                <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);" class="num">{formatDate(tx.createdAt)}</td>
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:{txColor(tx.type)};">{TX_LABEL[tx.type] ?? tx.type}</td>
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">
+                    {#if tx.pool?.slug}<a href="/pools/{tx.pool.slug}" style="color:var(--color-text);text-decoration:none;font-weight:600;">{tx.pool.name}</a>{:else}<span style="color:var(--color-text-muted);">—</span>{/if}
+                  </td>
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);" class="num">{tx.tokens ? fmtTokens(tx.tokens) : '—'}</td>
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:var(--color-text);" class="num">{formatCurrency(tx.amount)}</td>
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;">{tx.status}</td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
+      {/if}
     </div>
 
     <!-- AI Diversification Analysis -->
