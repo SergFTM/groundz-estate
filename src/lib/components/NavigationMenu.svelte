@@ -42,7 +42,14 @@
       <button type="button" class="gn__lang-btn" class:gn__lang-btn--active={$locale === 'ru'} onclick={() => setLocale('ru')}>RU</button>
       <button type="button" class="gn__lang-btn" class:gn__lang-btn--active={$locale === 'en'} onclick={() => setLocale('en')}>EN</button>
     </div>
-    <a href={user ? cabinetHref : '/auth/login'} class="gn__cta">{user ? t($locale, 'nav.cabinet') : t($locale, 'nav.becomeInvestor')}</a>
+    {#if user}
+      <a href={cabinetHref} class="gn__cta">{t($locale, 'nav.cabinet')}</a>
+      <form method="POST" action="/auth/logout" class="gn__logout-form">
+        <button type="submit" class="gn__logout" title={user.email}>{t($locale, 'nav.logout')}</button>
+      </form>
+    {:else}
+      <a href="/auth/login" class="gn__cta">{t($locale, 'nav.becomeInvestor')}</a>
+    {/if}
     <button class="gn__burger" aria-label="Menu" onclick={() => (mobileOpen = !mobileOpen)}>
       <span></span><span></span><span></span>
     </button>
@@ -54,7 +61,12 @@
     {#each links as l}
       <a href={l.href} onclick={() => (mobileOpen = false)}>{l.label}</a>
     {/each}
-    <a href={user ? cabinetHref : '/auth/login'} class="gn__mobile-cta" onclick={() => (mobileOpen = false)}>{user ? t($locale, 'nav.cabinet') : t($locale, 'nav.becomeInvestor')}</a>
+    {#if user}
+      <a href={cabinetHref} class="gn__mobile-cta" onclick={() => (mobileOpen = false)}>{t($locale, 'nav.cabinet')}</a>
+      <form method="POST" action="/auth/logout"><button type="submit" class="gn__mobile-logout">{t($locale, 'nav.logout')} · {user.email}</button></form>
+    {:else}
+      <a href="/auth/login" class="gn__mobile-cta" onclick={() => (mobileOpen = false)}>{t($locale, 'nav.becomeInvestor')}</a>
+    {/if}
   </div>
 {/if}
 
@@ -81,6 +93,10 @@
   .gn__lang-btn--active { background: var(--ink, #104e49); color: #fff; }
   .gn__cta { background: var(--acc, #7a8c6e); color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; padding: 11px 22px; border-radius: 999px; white-space: nowrap; text-decoration: none; transition: background .2s; }
   .gn__cta:hover { background: var(--acc-dk, #5f7257); }
+  .gn__logout-form { margin: 0; }
+  .gn__logout { background: none; border: 1px solid #ddd8d0; color: #5c5c5c; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 999px; transition: border-color .2s, color .2s; }
+  .gn__logout:hover { border-color: var(--ink, #104e49); color: var(--ink, #104e49); }
+  .gn__mobile-logout { width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 14px; color: #9a948c; padding: 12px 0 0; }
 
   .gn__burger { display: none; flex-direction: column; gap: 4px; background: none; border: none; cursor: pointer; padding: 6px; }
   .gn__burger span { width: 22px; height: 2px; background: var(--ink, #104e49); border-radius: 2px; }
