@@ -3,6 +3,8 @@
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
   import MetricTooltip from '$lib/components/invest/MetricTooltip.svelte';
   import MarketChart from '$lib/components/market/MarketChart.svelte';
+  import { locale } from '$lib/stores/locale';
+  import { t } from '$lib/i18n';
 
   let { data } = $props();
 
@@ -160,7 +162,7 @@
 </script>
 
 <svelte:head>
-  <title>Investment Opportunities — Groundz</title>
+  <title>{t($locale, 'pools.title')} — Groundz</title>
   <meta name="description" content="Access curated development pools in Cyprus with structured yields, milestone tracking and transparent governance." />
 </svelte:head>
 
@@ -168,11 +170,11 @@
 <section class="invest-hero">
   <div class="container">
     <span class="invest-hero__label">INVESTMENT</span>
-    <h1 class="invest-hero__title">Access Curated<br><em>Development Pools</em></h1>
-    <p class="invest-hero__sub">Structured yields, milestone tracking, and transparent governance — co-invest in premium developments across Cyprus and beyond.</p>
+    <h1 class="invest-hero__title">{t($locale, 'pools.heroTitlePre')}<br><em>{t($locale, 'pools.heroTitleEm')}</em></h1>
+    <p class="invest-hero__sub">{t($locale, 'pools.heroSub')}</p>
     <div class="invest-hero__ctas">
-      <a href="#pools" class="btn-primary">Explore Pools</a>
-      <a href="/contact" class="btn-outline">Talk to Our Team</a>
+      <a href="#pools" class="btn-primary">{t($locale, 'pools.ctaExplore')}</a>
+      <a href="/contact" class="btn-outline">{t($locale, 'pools.ctaTeam')}</a>
     </div>
   </div>
 </section>
@@ -183,30 +185,30 @@
     <div class="trust-bar__grid">
       <div class="trust-item">
         <span class="trust-item__value">{fmt(data.trustBar.totalAum)}</span>
-        <span class="trust-item__label">Total AUM</span>
+        <span class="trust-item__label">{t($locale, 'pools.trustAum')}</span>
       </div>
       <div class="trust-item">
         <span class="trust-item__value">{fmt(data.trustBar.totalRaised)}</span>
-        <span class="trust-item__label">Capital Raised</span>
+        <span class="trust-item__label">{t($locale, 'pools.trustRaised')}</span>
       </div>
       <div class="trust-item">
         <span class="trust-item__value">{data.trustBar.activeInvestors}</span>
-        <span class="trust-item__label">Active Investors</span>
+        <span class="trust-item__label">{t($locale, 'pools.trustInvestors')}</span>
       </div>
       <div class="trust-item">
         <div class="trust-item__value-row">
           <span class="trust-item__value">{data.trustBar.avgIrr}%</span>
           <MetricTooltip metric="targetIrr" value="{data.trustBar.avgIrr}% avg" poolContext={null} />
         </div>
-        <span class="trust-item__label">Avg. Target IRR</span>
+        <span class="trust-item__label">{t($locale, 'pools.trustIrr')}</span>
       </div>
       <div class="trust-item">
         <span class="trust-item__value">{data.trustBar.avgTermMonths}m</span>
-        <span class="trust-item__label">Avg. Term</span>
+        <span class="trust-item__label">{t($locale, 'pools.trustTerm')}</span>
       </div>
       <div class="trust-item">
         <span class="trust-item__value">{fmt(data.trustBar.minTicket)}</span>
-        <span class="trust-item__label">Min. Ticket</span>
+        <span class="trust-item__label">{t($locale, 'pools.trustTicket')}</span>
       </div>
     </div>
   </div>
@@ -346,30 +348,30 @@
 
     <!-- Country filter -->
     <div class="filters-row">
-      <span class="filters-row__label">Country:</span>
+      <span class="filters-row__label">{t($locale, 'pools.filterCountry')}</span>
       {#each COUNTRIES as c}
         <button
           class="filter-chip"
           class:filter-chip--active={activeCountry === c}
           onclick={() => { activeCountry = c; applyFilters(); }}
         >
-          {c || 'All'}
+          {c || t($locale, 'pools.all')}
         </button>
       {/each}
     </div>
 
     <!-- Compare link -->
     <div style="text-align:right;margin-bottom:var(--space-2);">
-      <a href="/pools/compare" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);text-decoration:none;opacity:0.8;">
-        ⇄ Compare pools side-by-side
+      <a href="/pools/compare" style="font-size:var(--text-xs);font-weight:700;color:var(--color-primary);text-decoration:none;opacity:0.8;">
+        {t($locale, 'pools.compare')}
       </a>
     </div>
 
     <!-- Pool grid -->
     {#if data.pools.length === 0}
       <div class="pools-empty">
-        <p>No pools match the selected filters.</p>
-        <a href="/pools" class="btn-outline">Reset filters</a>
+        <p>{t($locale, 'pools.empty')}</p>
+        <a href="/pools" class="btn-outline">{t($locale, 'pools.reset')}</a>
       </div>
     {:else}
       <div class="pools-grid">
@@ -402,7 +404,7 @@
                     <span class="metric__value metric__value--accent">{irr}%</span>
                     <MetricTooltip metric="targetIrr" value="{irr}%" poolContext={pool} small={true} />
                   </div>
-                  <span class="metric__label">Target IRR</span>
+                  <span class="metric__label">{t($locale, 'pools.metricIrr')}</span>
                 </div>
                 {#if pool.preferredReturn}
                   <div class="metric">
@@ -410,19 +412,19 @@
                       <span class="metric__value">{pool.preferredReturn}%</span>
                       <MetricTooltip metric="preferredReturn" value="{pool.preferredReturn}%" poolContext={pool} small={true} />
                     </div>
-                    <span class="metric__label">Pref. Return</span>
+                    <span class="metric__label">{t($locale, 'pools.metricPref')}</span>
                   </div>
                 {/if}
                 <div class="metric">
                   <span class="metric__value">{pool.termMonths}m</span>
-                  <span class="metric__label">Term</span>
+                  <span class="metric__label">{t($locale, 'pools.metricTerm')}</span>
                 </div>
                 <div class="metric">
                   <div class="metric__value-row">
                     <span class="metric__value">{fmt(pool.minTicket)}</span>
                     <MetricTooltip metric="minTicket" value={fmt(pool.minTicket)} poolContext={pool} small={true} />
                   </div>
-                  <span class="metric__label">Min. Ticket</span>
+                  <span class="metric__label">{t($locale, 'pools.metricTicket')}</span>
                 </div>
               </div>
 
