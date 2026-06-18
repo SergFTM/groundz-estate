@@ -264,7 +264,7 @@ export type MilestoneWhereInput = {
   notes?: Prisma.StringNullableFilter<"Milestone"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Milestone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Milestone"> | Date | string
-  pool?: Prisma.XOR<Prisma.InvestmentPoolScalarRelationFilter, Prisma.InvestmentPoolWhereInput>
+  pool?: Prisma.XOR<Prisma.PoolScalarRelationFilter, Prisma.PoolWhereInput>
 }
 
 export type MilestoneOrderByWithRelationInput = {
@@ -279,7 +279,7 @@ export type MilestoneOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  pool?: Prisma.InvestmentPoolOrderByWithRelationInput
+  pool?: Prisma.PoolOrderByWithRelationInput
 }
 
 export type MilestoneWhereUniqueInput = Prisma.AtLeast<{
@@ -297,7 +297,7 @@ export type MilestoneWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"Milestone"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Milestone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Milestone"> | Date | string
-  pool?: Prisma.XOR<Prisma.InvestmentPoolScalarRelationFilter, Prisma.InvestmentPoolWhereInput>
+  pool?: Prisma.XOR<Prisma.PoolScalarRelationFilter, Prisma.PoolWhereInput>
 }, "id">
 
 export type MilestoneOrderByWithAggregationInput = {
@@ -347,7 +347,7 @@ export type MilestoneCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  pool: Prisma.InvestmentPoolCreateNestedOneWithoutMilestonesInput
+  pool: Prisma.PoolCreateNestedOneWithoutMilestonesInput
 }
 
 export type MilestoneUncheckedCreateInput = {
@@ -375,7 +375,7 @@ export type MilestoneUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pool?: Prisma.InvestmentPoolUpdateOneRequiredWithoutMilestonesNestedInput
+  pool?: Prisma.PoolUpdateOneRequiredWithoutMilestonesNestedInput
 }
 
 export type MilestoneUncheckedUpdateInput = {
@@ -669,7 +669,7 @@ export type MilestoneSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["milestone"]>
 
 export type MilestoneSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -684,7 +684,7 @@ export type MilestoneSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["milestone"]>
 
 export type MilestoneSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -699,7 +699,7 @@ export type MilestoneSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["milestone"]>
 
 export type MilestoneSelectScalar = {
@@ -718,19 +718,19 @@ export type MilestoneSelectScalar = {
 
 export type MilestoneOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "poolId" | "name" | "description" | "plannedDate" | "actualDate" | "completionPct" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["milestone"]>
 export type MilestoneInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }
 export type MilestoneIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }
 export type MilestoneIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }
 
 export type $MilestonePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Milestone"
   objects: {
-    pool: Prisma.$InvestmentPoolPayload<ExtArgs>
+    pool: Prisma.$PoolPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1138,7 +1138,7 @@ readonly fields: MilestoneFieldRefs;
  */
 export interface Prisma__MilestoneClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  pool<T extends Prisma.InvestmentPoolDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvestmentPoolDefaultArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  pool<T extends Prisma.PoolDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PoolDefaultArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

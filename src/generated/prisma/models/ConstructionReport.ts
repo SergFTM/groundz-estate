@@ -268,7 +268,7 @@ export type ConstructionReportWhereInput = {
   notes?: Prisma.StringNullableFilter<"ConstructionReport"> | string | null
   aiAnalysis?: Prisma.StringNullableFilter<"ConstructionReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ConstructionReport"> | Date | string
-  pool?: Prisma.XOR<Prisma.InvestmentPoolScalarRelationFilter, Prisma.InvestmentPoolWhereInput>
+  pool?: Prisma.XOR<Prisma.PoolScalarRelationFilter, Prisma.PoolWhereInput>
 }
 
 export type ConstructionReportOrderByWithRelationInput = {
@@ -282,7 +282,7 @@ export type ConstructionReportOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   aiAnalysis?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  pool?: Prisma.InvestmentPoolOrderByWithRelationInput
+  pool?: Prisma.PoolOrderByWithRelationInput
 }
 
 export type ConstructionReportWhereUniqueInput = Prisma.AtLeast<{
@@ -299,7 +299,7 @@ export type ConstructionReportWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"ConstructionReport"> | string | null
   aiAnalysis?: Prisma.StringNullableFilter<"ConstructionReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ConstructionReport"> | Date | string
-  pool?: Prisma.XOR<Prisma.InvestmentPoolScalarRelationFilter, Prisma.InvestmentPoolWhereInput>
+  pool?: Prisma.XOR<Prisma.PoolScalarRelationFilter, Prisma.PoolWhereInput>
 }, "id">
 
 export type ConstructionReportOrderByWithAggregationInput = {
@@ -346,7 +346,7 @@ export type ConstructionReportCreateInput = {
   notes?: string | null
   aiAnalysis?: string | null
   createdAt?: Date | string
-  pool: Prisma.InvestmentPoolCreateNestedOneWithoutConstructionReportsInput
+  pool: Prisma.PoolCreateNestedOneWithoutConstructionReportsInput
 }
 
 export type ConstructionReportUncheckedCreateInput = {
@@ -372,7 +372,7 @@ export type ConstructionReportUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalysis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pool?: Prisma.InvestmentPoolUpdateOneRequiredWithoutConstructionReportsNestedInput
+  pool?: Prisma.PoolUpdateOneRequiredWithoutConstructionReportsNestedInput
 }
 
 export type ConstructionReportUncheckedUpdateInput = {
@@ -657,7 +657,7 @@ export type ConstructionReportSelect<ExtArgs extends runtime.Types.Extensions.In
   notes?: boolean
   aiAnalysis?: boolean
   createdAt?: boolean
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["constructionReport"]>
 
 export type ConstructionReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -671,7 +671,7 @@ export type ConstructionReportSelectCreateManyAndReturn<ExtArgs extends runtime.
   notes?: boolean
   aiAnalysis?: boolean
   createdAt?: boolean
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["constructionReport"]>
 
 export type ConstructionReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -685,7 +685,7 @@ export type ConstructionReportSelectUpdateManyAndReturn<ExtArgs extends runtime.
   notes?: boolean
   aiAnalysis?: boolean
   createdAt?: boolean
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["constructionReport"]>
 
 export type ConstructionReportSelectScalar = {
@@ -703,19 +703,19 @@ export type ConstructionReportSelectScalar = {
 
 export type ConstructionReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "poolId" | "reportDate" | "overallPct" | "budgetTotal" | "budgetSpent" | "budgetVariance" | "notes" | "aiAnalysis" | "createdAt", ExtArgs["result"]["constructionReport"]>
 export type ConstructionReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }
 export type ConstructionReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }
 export type ConstructionReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pool?: boolean | Prisma.InvestmentPoolDefaultArgs<ExtArgs>
+  pool?: boolean | Prisma.PoolDefaultArgs<ExtArgs>
 }
 
 export type $ConstructionReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ConstructionReport"
   objects: {
-    pool: Prisma.$InvestmentPoolPayload<ExtArgs>
+    pool: Prisma.$PoolPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1122,7 +1122,7 @@ readonly fields: ConstructionReportFieldRefs;
  */
 export interface Prisma__ConstructionReportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  pool<T extends Prisma.InvestmentPoolDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvestmentPoolDefaultArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  pool<T extends Prisma.PoolDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PoolDefaultArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -22,7 +22,8 @@ model User {
   documents          Document[]
   payments           Payment[]
   units              Unit[]               @relation("UnitBuyer")
-  investments        InvestorInvestment[]
+  investments        Holding[]
+  transactions       Transaction[]
   commissions        Commission[]
   articleComments    ArticleComment[]
   articleCommentLikes ArticleCommentLike[]
@@ -116,7 +117,7 @@ model Document {
   uploadedAt DateTime @default(now())
 
   user       User            @relation(fields: [userId], references: [id])
-  pool       InvestmentPool? @relation(fields: [poolId], references: [id], onDelete: SetNull)
+  pool       Pool? @relation(fields: [poolId], references: [id], onDelete: SetNull)
 }
 
 model Commission {
@@ -147,7 +148,7 @@ model Lead {
   agent     User?    @relation("LeadAgent", fields: [agentId], references: [id])
 }
 
-model InvestmentPool {
+model Pool {
   id                   String   @id @default(uuid())
   slug                 String?  @unique
   name                 String
@@ -179,28 +180,77 @@ model InvestmentPool {
   constructionThesis   String?
   exitThesis           String?
   summary              String?
+
+  // Tokenization
+  tokenSymbol          String?
+  totalTokens          Int?
+  pricePerToken        Float?
+  tokensSold           Int      @default(0)
+
   createdAt            DateTime @default(now())
   updatedAt            DateTime @default(now()) @updatedAt
 
-  investments         InvestorInvestment[]
+  investments         Holding[]
   milestones          Milestone[]
   constructionReports ConstructionReport[]
   documents           Document[]
+  transactions        Transaction[]
+
+  @@map("InvestmentPool")
 }
 
-model InvestorInvestment {
+model Holding {
   id        String   @id @default(uuid())
   userId    String
   poolId    String
   amount    Float
+  tokens    Float?
   status    String   @default("soft_commit") // soft_commit | pending | funded | cancelled
   notes     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   user      User           @relation(fields: [userId], references: [id])
-  pool      InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  pool      Pool           @relation(fields: [poolId], references: [id], onDelete: Cascade)
   otcListings  OtcListing[] @relation("InvestmentOtcListings")
+  transactions Transaction[]
+
+  @@map("InvestorInvestment")
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  userId    String
+  poolId    String?
+  holdingId String?
+  type      String   // buy | sell | distribution | fee
+  tokens    Float?
+  amount    Float
+  status    String   @default("completed") // pending | completed | failed
+  note      String?
+  createdAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id])
+  pool    Pool?    @relation(fields: [poolId], references: [id], onDelete: SetNull)
+  holding Holding? @relation(fields: [holdingId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([poolId])
+  @@index([holdingId])
+}
+
+model MembershipTier {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  name      String
+  price     Float
+  minTicket Float
+  maxTicket Float?
+  perks     String?  // JSON array of perk strings
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Milestone {
@@ -216,7 +266,7 @@ model Milestone {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
-  pool InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  pool Pool @relation(fields: [poolId], references: [id], onDelete: Cascade)
 }
 
 model ConstructionReport {
@@ -231,7 +281,7 @@ model ConstructionReport {
   aiAnalysis     String?
   createdAt      DateTime       @default(now())
 
-  pool InvestmentPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  pool Pool @relation(fields: [poolId], references: [id], onDelete: Cascade)
 }
 
 model AiResponseCache {
@@ -463,7 +513,7 @@ model OtcListing {
   id           String    @id @default(uuid())
   sellerId     String
   assetType    String    // investment_share | option_contract | apartment
-  investmentId String?   // → InvestorInvestment.id
+  investmentId String?   // → Holding.id
   unitId       String?   // → Unit.id
   title        String
   description  String?
@@ -477,7 +527,7 @@ model OtcListing {
   updatedAt    DateTime  @default(now()) @updatedAt
 
   seller     User                @relation("OtcSeller", fields: [sellerId], references: [id])
-  investment InvestorInvestment? @relation("InvestmentOtcListings", fields: [investmentId], references: [id], onDelete: SetNull)
+  investment Holding? @relation("InvestmentOtcListings", fields: [investmentId], references: [id], onDelete: SetNull)
   unit       Unit?               @relation("UnitOtcListings", fields: [unitId], references: [id], onDelete: SetNull)
   offers     OtcOffer[]
 

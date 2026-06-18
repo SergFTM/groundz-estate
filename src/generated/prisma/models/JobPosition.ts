@@ -405,10 +405,6 @@ export type JobPositionScalarRelationFilter = {
   isNot?: Prisma.JobPositionWhereInput
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type JobPositionCreateNestedOneWithoutApplicationsInput = {
   create?: Prisma.XOR<Prisma.JobPositionCreateWithoutApplicationsInput, Prisma.JobPositionUncheckedCreateWithoutApplicationsInput>
   connectOrCreate?: Prisma.JobPositionCreateOrConnectWithoutApplicationsInput

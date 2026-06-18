@@ -4,7 +4,7 @@
 // biome-ignore-all lint: generated file
 // @ts-nocheck 
 /*
- * This file exports the `InvestmentPool` model and its related types.
+ * This file exports the `Pool` model and its related types.
  *
  * 🟢 You can import this file directly.
  */
@@ -13,20 +13,20 @@ import type * as $Enums from "../enums.ts"
 import type * as Prisma from "../internal/prismaNamespace.ts"
 
 /**
- * Model InvestmentPool
+ * Model Pool
  * 
  */
-export type InvestmentPoolModel = runtime.Types.Result.DefaultSelection<Prisma.$InvestmentPoolPayload>
+export type PoolModel = runtime.Types.Result.DefaultSelection<Prisma.$PoolPayload>
 
-export type AggregateInvestmentPool = {
-  _count: InvestmentPoolCountAggregateOutputType | null
-  _avg: InvestmentPoolAvgAggregateOutputType | null
-  _sum: InvestmentPoolSumAggregateOutputType | null
-  _min: InvestmentPoolMinAggregateOutputType | null
-  _max: InvestmentPoolMaxAggregateOutputType | null
+export type AggregatePool = {
+  _count: PoolCountAggregateOutputType | null
+  _avg: PoolAvgAggregateOutputType | null
+  _sum: PoolSumAggregateOutputType | null
+  _min: PoolMinAggregateOutputType | null
+  _max: PoolMaxAggregateOutputType | null
 }
 
-export type InvestmentPoolAvgAggregateOutputType = {
+export type PoolAvgAggregateOutputType = {
   goalAmount: number | null
   raisedAmount: number | null
   targetYield: number | null
@@ -39,9 +39,12 @@ export type InvestmentPoolAvgAggregateOutputType = {
   ltv: number | null
   ltc: number | null
   developerCoinvestPct: number | null
+  totalTokens: number | null
+  pricePerToken: number | null
+  tokensSold: number | null
 }
 
-export type InvestmentPoolSumAggregateOutputType = {
+export type PoolSumAggregateOutputType = {
   goalAmount: number | null
   raisedAmount: number | null
   targetYield: number | null
@@ -54,9 +57,12 @@ export type InvestmentPoolSumAggregateOutputType = {
   ltv: number | null
   ltc: number | null
   developerCoinvestPct: number | null
+  totalTokens: number | null
+  pricePerToken: number | null
+  tokensSold: number | null
 }
 
-export type InvestmentPoolMinAggregateOutputType = {
+export type PoolMinAggregateOutputType = {
   id: string | null
   slug: string | null
   name: string | null
@@ -88,11 +94,15 @@ export type InvestmentPoolMinAggregateOutputType = {
   constructionThesis: string | null
   exitThesis: string | null
   summary: string | null
+  tokenSymbol: string | null
+  totalTokens: number | null
+  pricePerToken: number | null
+  tokensSold: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
-export type InvestmentPoolMaxAggregateOutputType = {
+export type PoolMaxAggregateOutputType = {
   id: string | null
   slug: string | null
   name: string | null
@@ -124,11 +134,15 @@ export type InvestmentPoolMaxAggregateOutputType = {
   constructionThesis: string | null
   exitThesis: string | null
   summary: string | null
+  tokenSymbol: string | null
+  totalTokens: number | null
+  pricePerToken: number | null
+  tokensSold: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
-export type InvestmentPoolCountAggregateOutputType = {
+export type PoolCountAggregateOutputType = {
   id: number
   slug: number
   name: number
@@ -160,13 +174,17 @@ export type InvestmentPoolCountAggregateOutputType = {
   constructionThesis: number
   exitThesis: number
   summary: number
+  tokenSymbol: number
+  totalTokens: number
+  pricePerToken: number
+  tokensSold: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
-export type InvestmentPoolAvgAggregateInputType = {
+export type PoolAvgAggregateInputType = {
   goalAmount?: true
   raisedAmount?: true
   targetYield?: true
@@ -179,9 +197,12 @@ export type InvestmentPoolAvgAggregateInputType = {
   ltv?: true
   ltc?: true
   developerCoinvestPct?: true
+  totalTokens?: true
+  pricePerToken?: true
+  tokensSold?: true
 }
 
-export type InvestmentPoolSumAggregateInputType = {
+export type PoolSumAggregateInputType = {
   goalAmount?: true
   raisedAmount?: true
   targetYield?: true
@@ -194,9 +215,12 @@ export type InvestmentPoolSumAggregateInputType = {
   ltv?: true
   ltc?: true
   developerCoinvestPct?: true
+  totalTokens?: true
+  pricePerToken?: true
+  tokensSold?: true
 }
 
-export type InvestmentPoolMinAggregateInputType = {
+export type PoolMinAggregateInputType = {
   id?: true
   slug?: true
   name?: true
@@ -228,11 +252,15 @@ export type InvestmentPoolMinAggregateInputType = {
   constructionThesis?: true
   exitThesis?: true
   summary?: true
+  tokenSymbol?: true
+  totalTokens?: true
+  pricePerToken?: true
+  tokensSold?: true
   createdAt?: true
   updatedAt?: true
 }
 
-export type InvestmentPoolMaxAggregateInputType = {
+export type PoolMaxAggregateInputType = {
   id?: true
   slug?: true
   name?: true
@@ -264,11 +292,15 @@ export type InvestmentPoolMaxAggregateInputType = {
   constructionThesis?: true
   exitThesis?: true
   summary?: true
+  tokenSymbol?: true
+  totalTokens?: true
+  pricePerToken?: true
+  tokensSold?: true
   createdAt?: true
   updatedAt?: true
 }
 
-export type InvestmentPoolCountAggregateInputType = {
+export type PoolCountAggregateInputType = {
   id?: true
   slug?: true
   name?: true
@@ -300,98 +332,102 @@ export type InvestmentPoolCountAggregateInputType = {
   constructionThesis?: true
   exitThesis?: true
   summary?: true
+  tokenSymbol?: true
+  totalTokens?: true
+  pricePerToken?: true
+  tokensSold?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
 }
 
-export type InvestmentPoolAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Filter which InvestmentPool to aggregate.
+   * Filter which Pool to aggregate.
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of InvestmentPools to fetch.
+   * Determine the order of Pools to fetch.
    */
-  orderBy?: Prisma.InvestmentPoolOrderByWithRelationInput | Prisma.InvestmentPoolOrderByWithRelationInput[]
+  orderBy?: Prisma.PoolOrderByWithRelationInput | Prisma.PoolOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
    * Sets the start position
    */
-  cursor?: Prisma.InvestmentPoolWhereUniqueInput
+  cursor?: Prisma.PoolWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` InvestmentPools from the position of the cursor.
+   * Take `±n` Pools from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` InvestmentPools.
+   * Skip the first `n` Pools.
    */
   skip?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Count returned InvestmentPools
+   * Count returned Pools
   **/
-  _count?: true | InvestmentPoolCountAggregateInputType
+  _count?: true | PoolCountAggregateInputType
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
    * Select which fields to average
   **/
-  _avg?: InvestmentPoolAvgAggregateInputType
+  _avg?: PoolAvgAggregateInputType
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
    * Select which fields to sum
   **/
-  _sum?: InvestmentPoolSumAggregateInputType
+  _sum?: PoolSumAggregateInputType
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
    * Select which fields to find the minimum value
   **/
-  _min?: InvestmentPoolMinAggregateInputType
+  _min?: PoolMinAggregateInputType
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
    * Select which fields to find the maximum value
   **/
-  _max?: InvestmentPoolMaxAggregateInputType
+  _max?: PoolMaxAggregateInputType
 }
 
-export type GetInvestmentPoolAggregateType<T extends InvestmentPoolAggregateArgs> = {
-      [P in keyof T & keyof AggregateInvestmentPool]: P extends '_count' | 'count'
+export type GetPoolAggregateType<T extends PoolAggregateArgs> = {
+      [P in keyof T & keyof AggregatePool]: P extends '_count' | 'count'
     ? T[P] extends true
       ? number
-      : Prisma.GetScalarType<T[P], AggregateInvestmentPool[P]>
-    : Prisma.GetScalarType<T[P], AggregateInvestmentPool[P]>
+      : Prisma.GetScalarType<T[P], AggregatePool[P]>
+    : Prisma.GetScalarType<T[P], AggregatePool[P]>
 }
 
 
 
 
-export type InvestmentPoolGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InvestmentPoolWhereInput
-  orderBy?: Prisma.InvestmentPoolOrderByWithAggregationInput | Prisma.InvestmentPoolOrderByWithAggregationInput[]
-  by: Prisma.InvestmentPoolScalarFieldEnum[] | Prisma.InvestmentPoolScalarFieldEnum
-  having?: Prisma.InvestmentPoolScalarWhereWithAggregatesInput
+export type PoolGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PoolWhereInput
+  orderBy?: Prisma.PoolOrderByWithAggregationInput | Prisma.PoolOrderByWithAggregationInput[]
+  by: Prisma.PoolScalarFieldEnum[] | Prisma.PoolScalarFieldEnum
+  having?: Prisma.PoolScalarWhereWithAggregatesInput
   take?: number
   skip?: number
-  _count?: InvestmentPoolCountAggregateInputType | true
-  _avg?: InvestmentPoolAvgAggregateInputType
-  _sum?: InvestmentPoolSumAggregateInputType
-  _min?: InvestmentPoolMinAggregateInputType
-  _max?: InvestmentPoolMaxAggregateInputType
+  _count?: PoolCountAggregateInputType | true
+  _avg?: PoolAvgAggregateInputType
+  _sum?: PoolSumAggregateInputType
+  _min?: PoolMinAggregateInputType
+  _max?: PoolMaxAggregateInputType
 }
 
-export type InvestmentPoolGroupByOutputType = {
+export type PoolGroupByOutputType = {
   id: string
   slug: string | null
   name: string
@@ -423,74 +459,83 @@ export type InvestmentPoolGroupByOutputType = {
   constructionThesis: string | null
   exitThesis: string | null
   summary: string | null
+  tokenSymbol: string | null
+  totalTokens: number | null
+  pricePerToken: number | null
+  tokensSold: number
   createdAt: Date
   updatedAt: Date
-  _count: InvestmentPoolCountAggregateOutputType | null
-  _avg: InvestmentPoolAvgAggregateOutputType | null
-  _sum: InvestmentPoolSumAggregateOutputType | null
-  _min: InvestmentPoolMinAggregateOutputType | null
-  _max: InvestmentPoolMaxAggregateOutputType | null
+  _count: PoolCountAggregateOutputType | null
+  _avg: PoolAvgAggregateOutputType | null
+  _sum: PoolSumAggregateOutputType | null
+  _min: PoolMinAggregateOutputType | null
+  _max: PoolMaxAggregateOutputType | null
 }
 
-type GetInvestmentPoolGroupByPayload<T extends InvestmentPoolGroupByArgs> = Prisma.PrismaPromise<
+type GetPoolGroupByPayload<T extends PoolGroupByArgs> = Prisma.PrismaPromise<
   Array<
-    Prisma.PickEnumerable<InvestmentPoolGroupByOutputType, T['by']> &
+    Prisma.PickEnumerable<PoolGroupByOutputType, T['by']> &
       {
-        [P in ((keyof T) & (keyof InvestmentPoolGroupByOutputType))]: P extends '_count'
+        [P in ((keyof T) & (keyof PoolGroupByOutputType))]: P extends '_count'
           ? T[P] extends boolean
             ? number
-            : Prisma.GetScalarType<T[P], InvestmentPoolGroupByOutputType[P]>
-          : Prisma.GetScalarType<T[P], InvestmentPoolGroupByOutputType[P]>
+            : Prisma.GetScalarType<T[P], PoolGroupByOutputType[P]>
+          : Prisma.GetScalarType<T[P], PoolGroupByOutputType[P]>
       }
     >
   >
 
 
 
-export type InvestmentPoolWhereInput = {
-  AND?: Prisma.InvestmentPoolWhereInput | Prisma.InvestmentPoolWhereInput[]
-  OR?: Prisma.InvestmentPoolWhereInput[]
-  NOT?: Prisma.InvestmentPoolWhereInput | Prisma.InvestmentPoolWhereInput[]
-  id?: Prisma.StringFilter<"InvestmentPool"> | string
-  slug?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  name?: Prisma.StringFilter<"InvestmentPool"> | string
-  projectName?: Prisma.StringFilter<"InvestmentPool"> | string
-  country?: Prisma.StringFilter<"InvestmentPool"> | string
-  city?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  dealType?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  goalAmount?: Prisma.FloatFilter<"InvestmentPool"> | number
-  raisedAmount?: Prisma.FloatFilter<"InvestmentPool"> | number
-  targetYield?: Prisma.FloatFilter<"InvestmentPool"> | number
-  targetIrr?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  preferredReturn?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  hurdleRate?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  termMonths?: Prisma.IntFilter<"InvestmentPool"> | number
-  minTicket?: Prisma.FloatFilter<"InvestmentPool"> | number
-  maxTicket?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  exitType?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  capitalType?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  spvName?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  ltv?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  ltc?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  developerCoinvestPct?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  raiseEnd?: Prisma.DateTimeNullableFilter<"InvestmentPool"> | Date | string | null
-  status?: Prisma.StringFilter<"InvestmentPool"> | string
-  imageUrl?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  description?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  locationThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  demandThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  constructionThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  exitThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  summary?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"InvestmentPool"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InvestmentPool"> | Date | string
-  investments?: Prisma.InvestorInvestmentListRelationFilter
+export type PoolWhereInput = {
+  AND?: Prisma.PoolWhereInput | Prisma.PoolWhereInput[]
+  OR?: Prisma.PoolWhereInput[]
+  NOT?: Prisma.PoolWhereInput | Prisma.PoolWhereInput[]
+  id?: Prisma.StringFilter<"Pool"> | string
+  slug?: Prisma.StringNullableFilter<"Pool"> | string | null
+  name?: Prisma.StringFilter<"Pool"> | string
+  projectName?: Prisma.StringFilter<"Pool"> | string
+  country?: Prisma.StringFilter<"Pool"> | string
+  city?: Prisma.StringNullableFilter<"Pool"> | string | null
+  dealType?: Prisma.StringNullableFilter<"Pool"> | string | null
+  goalAmount?: Prisma.FloatFilter<"Pool"> | number
+  raisedAmount?: Prisma.FloatFilter<"Pool"> | number
+  targetYield?: Prisma.FloatFilter<"Pool"> | number
+  targetIrr?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  preferredReturn?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  hurdleRate?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  termMonths?: Prisma.IntFilter<"Pool"> | number
+  minTicket?: Prisma.FloatFilter<"Pool"> | number
+  maxTicket?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  exitType?: Prisma.StringNullableFilter<"Pool"> | string | null
+  capitalType?: Prisma.StringNullableFilter<"Pool"> | string | null
+  spvName?: Prisma.StringNullableFilter<"Pool"> | string | null
+  ltv?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  ltc?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  developerCoinvestPct?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  raiseEnd?: Prisma.DateTimeNullableFilter<"Pool"> | Date | string | null
+  status?: Prisma.StringFilter<"Pool"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Pool"> | string | null
+  description?: Prisma.StringNullableFilter<"Pool"> | string | null
+  locationThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  demandThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  constructionThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  exitThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  summary?: Prisma.StringNullableFilter<"Pool"> | string | null
+  tokenSymbol?: Prisma.StringNullableFilter<"Pool"> | string | null
+  totalTokens?: Prisma.IntNullableFilter<"Pool"> | number | null
+  pricePerToken?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  tokensSold?: Prisma.IntFilter<"Pool"> | number
+  createdAt?: Prisma.DateTimeFilter<"Pool"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Pool"> | Date | string
+  investments?: Prisma.HoldingListRelationFilter
   milestones?: Prisma.MilestoneListRelationFilter
   constructionReports?: Prisma.ConstructionReportListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
 }
 
-export type InvestmentPoolOrderByWithRelationInput = {
+export type PoolOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -522,58 +567,68 @@ export type InvestmentPoolOrderByWithRelationInput = {
   constructionThesis?: Prisma.SortOrderInput | Prisma.SortOrder
   exitThesis?: Prisma.SortOrderInput | Prisma.SortOrder
   summary?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokenSymbol?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalTokens?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  investments?: Prisma.InvestorInvestmentOrderByRelationAggregateInput
+  investments?: Prisma.HoldingOrderByRelationAggregateInput
   milestones?: Prisma.MilestoneOrderByRelationAggregateInput
   constructionReports?: Prisma.ConstructionReportOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
 }
 
-export type InvestmentPoolWhereUniqueInput = Prisma.AtLeast<{
+export type PoolWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   slug?: string
-  AND?: Prisma.InvestmentPoolWhereInput | Prisma.InvestmentPoolWhereInput[]
-  OR?: Prisma.InvestmentPoolWhereInput[]
-  NOT?: Prisma.InvestmentPoolWhereInput | Prisma.InvestmentPoolWhereInput[]
-  name?: Prisma.StringFilter<"InvestmentPool"> | string
-  projectName?: Prisma.StringFilter<"InvestmentPool"> | string
-  country?: Prisma.StringFilter<"InvestmentPool"> | string
-  city?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  dealType?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  goalAmount?: Prisma.FloatFilter<"InvestmentPool"> | number
-  raisedAmount?: Prisma.FloatFilter<"InvestmentPool"> | number
-  targetYield?: Prisma.FloatFilter<"InvestmentPool"> | number
-  targetIrr?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  preferredReturn?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  hurdleRate?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  termMonths?: Prisma.IntFilter<"InvestmentPool"> | number
-  minTicket?: Prisma.FloatFilter<"InvestmentPool"> | number
-  maxTicket?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  exitType?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  capitalType?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  spvName?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  ltv?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  ltc?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  developerCoinvestPct?: Prisma.FloatNullableFilter<"InvestmentPool"> | number | null
-  raiseEnd?: Prisma.DateTimeNullableFilter<"InvestmentPool"> | Date | string | null
-  status?: Prisma.StringFilter<"InvestmentPool"> | string
-  imageUrl?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  description?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  locationThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  demandThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  constructionThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  exitThesis?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  summary?: Prisma.StringNullableFilter<"InvestmentPool"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"InvestmentPool"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InvestmentPool"> | Date | string
-  investments?: Prisma.InvestorInvestmentListRelationFilter
+  AND?: Prisma.PoolWhereInput | Prisma.PoolWhereInput[]
+  OR?: Prisma.PoolWhereInput[]
+  NOT?: Prisma.PoolWhereInput | Prisma.PoolWhereInput[]
+  name?: Prisma.StringFilter<"Pool"> | string
+  projectName?: Prisma.StringFilter<"Pool"> | string
+  country?: Prisma.StringFilter<"Pool"> | string
+  city?: Prisma.StringNullableFilter<"Pool"> | string | null
+  dealType?: Prisma.StringNullableFilter<"Pool"> | string | null
+  goalAmount?: Prisma.FloatFilter<"Pool"> | number
+  raisedAmount?: Prisma.FloatFilter<"Pool"> | number
+  targetYield?: Prisma.FloatFilter<"Pool"> | number
+  targetIrr?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  preferredReturn?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  hurdleRate?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  termMonths?: Prisma.IntFilter<"Pool"> | number
+  minTicket?: Prisma.FloatFilter<"Pool"> | number
+  maxTicket?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  exitType?: Prisma.StringNullableFilter<"Pool"> | string | null
+  capitalType?: Prisma.StringNullableFilter<"Pool"> | string | null
+  spvName?: Prisma.StringNullableFilter<"Pool"> | string | null
+  ltv?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  ltc?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  developerCoinvestPct?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  raiseEnd?: Prisma.DateTimeNullableFilter<"Pool"> | Date | string | null
+  status?: Prisma.StringFilter<"Pool"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Pool"> | string | null
+  description?: Prisma.StringNullableFilter<"Pool"> | string | null
+  locationThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  demandThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  constructionThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  exitThesis?: Prisma.StringNullableFilter<"Pool"> | string | null
+  summary?: Prisma.StringNullableFilter<"Pool"> | string | null
+  tokenSymbol?: Prisma.StringNullableFilter<"Pool"> | string | null
+  totalTokens?: Prisma.IntNullableFilter<"Pool"> | number | null
+  pricePerToken?: Prisma.FloatNullableFilter<"Pool"> | number | null
+  tokensSold?: Prisma.IntFilter<"Pool"> | number
+  createdAt?: Prisma.DateTimeFilter<"Pool"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Pool"> | Date | string
+  investments?: Prisma.HoldingListRelationFilter
   milestones?: Prisma.MilestoneListRelationFilter
   constructionReports?: Prisma.ConstructionReportListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
 }, "id" | "slug">
 
-export type InvestmentPoolOrderByWithAggregationInput = {
+export type PoolOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -605,55 +660,63 @@ export type InvestmentPoolOrderByWithAggregationInput = {
   constructionThesis?: Prisma.SortOrderInput | Prisma.SortOrder
   exitThesis?: Prisma.SortOrderInput | Prisma.SortOrder
   summary?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokenSymbol?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalTokens?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  _count?: Prisma.InvestmentPoolCountOrderByAggregateInput
-  _avg?: Prisma.InvestmentPoolAvgOrderByAggregateInput
-  _max?: Prisma.InvestmentPoolMaxOrderByAggregateInput
-  _min?: Prisma.InvestmentPoolMinOrderByAggregateInput
-  _sum?: Prisma.InvestmentPoolSumOrderByAggregateInput
+  _count?: Prisma.PoolCountOrderByAggregateInput
+  _avg?: Prisma.PoolAvgOrderByAggregateInput
+  _max?: Prisma.PoolMaxOrderByAggregateInput
+  _min?: Prisma.PoolMinOrderByAggregateInput
+  _sum?: Prisma.PoolSumOrderByAggregateInput
 }
 
-export type InvestmentPoolScalarWhereWithAggregatesInput = {
-  AND?: Prisma.InvestmentPoolScalarWhereWithAggregatesInput | Prisma.InvestmentPoolScalarWhereWithAggregatesInput[]
-  OR?: Prisma.InvestmentPoolScalarWhereWithAggregatesInput[]
-  NOT?: Prisma.InvestmentPoolScalarWhereWithAggregatesInput | Prisma.InvestmentPoolScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"InvestmentPool"> | string
-  slug?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  name?: Prisma.StringWithAggregatesFilter<"InvestmentPool"> | string
-  projectName?: Prisma.StringWithAggregatesFilter<"InvestmentPool"> | string
-  country?: Prisma.StringWithAggregatesFilter<"InvestmentPool"> | string
-  city?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  dealType?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  goalAmount?: Prisma.FloatWithAggregatesFilter<"InvestmentPool"> | number
-  raisedAmount?: Prisma.FloatWithAggregatesFilter<"InvestmentPool"> | number
-  targetYield?: Prisma.FloatWithAggregatesFilter<"InvestmentPool"> | number
-  targetIrr?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  preferredReturn?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  hurdleRate?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  termMonths?: Prisma.IntWithAggregatesFilter<"InvestmentPool"> | number
-  minTicket?: Prisma.FloatWithAggregatesFilter<"InvestmentPool"> | number
-  maxTicket?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  exitType?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  capitalType?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  spvName?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  ltv?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  ltc?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  developerCoinvestPct?: Prisma.FloatNullableWithAggregatesFilter<"InvestmentPool"> | number | null
-  raiseEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"InvestmentPool"> | Date | string | null
-  status?: Prisma.StringWithAggregatesFilter<"InvestmentPool"> | string
-  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  description?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  locationThesis?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  demandThesis?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  constructionThesis?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  exitThesis?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  summary?: Prisma.StringNullableWithAggregatesFilter<"InvestmentPool"> | string | null
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"InvestmentPool"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InvestmentPool"> | Date | string
+export type PoolScalarWhereWithAggregatesInput = {
+  AND?: Prisma.PoolScalarWhereWithAggregatesInput | Prisma.PoolScalarWhereWithAggregatesInput[]
+  OR?: Prisma.PoolScalarWhereWithAggregatesInput[]
+  NOT?: Prisma.PoolScalarWhereWithAggregatesInput | Prisma.PoolScalarWhereWithAggregatesInput[]
+  id?: Prisma.StringWithAggregatesFilter<"Pool"> | string
+  slug?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  name?: Prisma.StringWithAggregatesFilter<"Pool"> | string
+  projectName?: Prisma.StringWithAggregatesFilter<"Pool"> | string
+  country?: Prisma.StringWithAggregatesFilter<"Pool"> | string
+  city?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  dealType?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  goalAmount?: Prisma.FloatWithAggregatesFilter<"Pool"> | number
+  raisedAmount?: Prisma.FloatWithAggregatesFilter<"Pool"> | number
+  targetYield?: Prisma.FloatWithAggregatesFilter<"Pool"> | number
+  targetIrr?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  preferredReturn?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  hurdleRate?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  termMonths?: Prisma.IntWithAggregatesFilter<"Pool"> | number
+  minTicket?: Prisma.FloatWithAggregatesFilter<"Pool"> | number
+  maxTicket?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  exitType?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  capitalType?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  spvName?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  ltv?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  ltc?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  developerCoinvestPct?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  raiseEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"Pool"> | Date | string | null
+  status?: Prisma.StringWithAggregatesFilter<"Pool"> | string
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  description?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  locationThesis?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  demandThesis?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  constructionThesis?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  exitThesis?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  summary?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  tokenSymbol?: Prisma.StringNullableWithAggregatesFilter<"Pool"> | string | null
+  totalTokens?: Prisma.IntNullableWithAggregatesFilter<"Pool"> | number | null
+  pricePerToken?: Prisma.FloatNullableWithAggregatesFilter<"Pool"> | number | null
+  tokensSold?: Prisma.IntWithAggregatesFilter<"Pool"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Pool"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Pool"> | Date | string
 }
 
-export type InvestmentPoolCreateInput = {
+export type PoolCreateInput = {
   id?: string
   slug?: string | null
   name: string
@@ -685,15 +748,20 @@ export type InvestmentPoolCreateInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolUncheckedCreateInput = {
+export type PoolUncheckedCreateInput = {
   id?: string
   slug?: string | null
   name: string
@@ -725,15 +793,20 @@ export type InvestmentPoolUncheckedCreateInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolUpdateInput = {
+export type PoolUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -765,15 +838,20 @@ export type InvestmentPoolUpdateInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolUncheckedUpdateInput = {
+export type PoolUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -805,15 +883,20 @@ export type InvestmentPoolUncheckedUpdateInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolCreateManyInput = {
+export type PoolCreateManyInput = {
   id?: string
   slug?: string | null
   name: string
@@ -845,11 +928,15 @@ export type InvestmentPoolCreateManyInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type InvestmentPoolUpdateManyMutationInput = {
+export type PoolUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -881,11 +968,15 @@ export type InvestmentPoolUpdateManyMutationInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type InvestmentPoolUncheckedUpdateManyInput = {
+export type PoolUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -917,16 +1008,20 @@ export type InvestmentPoolUncheckedUpdateManyInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type InvestmentPoolNullableScalarRelationFilter = {
-  is?: Prisma.InvestmentPoolWhereInput | null
-  isNot?: Prisma.InvestmentPoolWhereInput | null
+export type PoolNullableScalarRelationFilter = {
+  is?: Prisma.PoolWhereInput | null
+  isNot?: Prisma.PoolWhereInput | null
 }
 
-export type InvestmentPoolCountOrderByAggregateInput = {
+export type PoolCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -958,11 +1053,15 @@ export type InvestmentPoolCountOrderByAggregateInput = {
   constructionThesis?: Prisma.SortOrder
   exitThesis?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  tokenSymbol?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type InvestmentPoolAvgOrderByAggregateInput = {
+export type PoolAvgOrderByAggregateInput = {
   goalAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   targetYield?: Prisma.SortOrder
@@ -975,9 +1074,12 @@ export type InvestmentPoolAvgOrderByAggregateInput = {
   ltv?: Prisma.SortOrder
   ltc?: Prisma.SortOrder
   developerCoinvestPct?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
 }
 
-export type InvestmentPoolMaxOrderByAggregateInput = {
+export type PoolMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -1009,11 +1111,15 @@ export type InvestmentPoolMaxOrderByAggregateInput = {
   constructionThesis?: Prisma.SortOrder
   exitThesis?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  tokenSymbol?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type InvestmentPoolMinOrderByAggregateInput = {
+export type PoolMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -1045,11 +1151,15 @@ export type InvestmentPoolMinOrderByAggregateInput = {
   constructionThesis?: Prisma.SortOrder
   exitThesis?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  tokenSymbol?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type InvestmentPoolSumOrderByAggregateInput = {
+export type PoolSumOrderByAggregateInput = {
   goalAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   targetYield?: Prisma.SortOrder
@@ -1062,72 +1172,99 @@ export type InvestmentPoolSumOrderByAggregateInput = {
   ltv?: Prisma.SortOrder
   ltc?: Prisma.SortOrder
   developerCoinvestPct?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  pricePerToken?: Prisma.SortOrder
+  tokensSold?: Prisma.SortOrder
 }
 
-export type InvestmentPoolScalarRelationFilter = {
-  is?: Prisma.InvestmentPoolWhereInput
-  isNot?: Prisma.InvestmentPoolWhereInput
+export type PoolScalarRelationFilter = {
+  is?: Prisma.PoolWhereInput
+  isNot?: Prisma.PoolWhereInput
 }
 
-export type InvestmentPoolCreateNestedOneWithoutDocumentsInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutDocumentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutDocumentsInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutDocumentsInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
+export type PoolCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutDocumentsInput, Prisma.PoolUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.PoolWhereUniqueInput
 }
 
-export type InvestmentPoolUpdateOneWithoutDocumentsNestedInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutDocumentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutDocumentsInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutDocumentsInput
-  upsert?: Prisma.InvestmentPoolUpsertWithoutDocumentsInput
-  disconnect?: Prisma.InvestmentPoolWhereInput | boolean
-  delete?: Prisma.InvestmentPoolWhereInput | boolean
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.InvestmentPoolUpdateToOneWithWhereWithoutDocumentsInput, Prisma.InvestmentPoolUpdateWithoutDocumentsInput>, Prisma.InvestmentPoolUncheckedUpdateWithoutDocumentsInput>
+export type PoolUpdateOneWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutDocumentsInput, Prisma.PoolUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.PoolUpsertWithoutDocumentsInput
+  disconnect?: Prisma.PoolWhereInput | boolean
+  delete?: Prisma.PoolWhereInput | boolean
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutDocumentsInput, Prisma.PoolUpdateWithoutDocumentsInput>, Prisma.PoolUncheckedUpdateWithoutDocumentsInput>
 }
 
-export type InvestmentPoolCreateNestedOneWithoutInvestmentsInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutInvestmentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutInvestmentsInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutInvestmentsInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
-export type InvestmentPoolUpdateOneRequiredWithoutInvestmentsNestedInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutInvestmentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutInvestmentsInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutInvestmentsInput
-  upsert?: Prisma.InvestmentPoolUpsertWithoutInvestmentsInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.InvestmentPoolUpdateToOneWithWhereWithoutInvestmentsInput, Prisma.InvestmentPoolUpdateWithoutInvestmentsInput>, Prisma.InvestmentPoolUncheckedUpdateWithoutInvestmentsInput>
+export type PoolCreateNestedOneWithoutInvestmentsInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutInvestmentsInput, Prisma.PoolUncheckedCreateWithoutInvestmentsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutInvestmentsInput
+  connect?: Prisma.PoolWhereUniqueInput
 }
 
-export type InvestmentPoolCreateNestedOneWithoutMilestonesInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutMilestonesInput, Prisma.InvestmentPoolUncheckedCreateWithoutMilestonesInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutMilestonesInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
+export type PoolUpdateOneRequiredWithoutInvestmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutInvestmentsInput, Prisma.PoolUncheckedCreateWithoutInvestmentsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutInvestmentsInput
+  upsert?: Prisma.PoolUpsertWithoutInvestmentsInput
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutInvestmentsInput, Prisma.PoolUpdateWithoutInvestmentsInput>, Prisma.PoolUncheckedUpdateWithoutInvestmentsInput>
 }
 
-export type InvestmentPoolUpdateOneRequiredWithoutMilestonesNestedInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutMilestonesInput, Prisma.InvestmentPoolUncheckedCreateWithoutMilestonesInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutMilestonesInput
-  upsert?: Prisma.InvestmentPoolUpsertWithoutMilestonesInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.InvestmentPoolUpdateToOneWithWhereWithoutMilestonesInput, Prisma.InvestmentPoolUpdateWithoutMilestonesInput>, Prisma.InvestmentPoolUncheckedUpdateWithoutMilestonesInput>
+export type PoolCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutTransactionsInput, Prisma.PoolUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutTransactionsInput
+  connect?: Prisma.PoolWhereUniqueInput
 }
 
-export type InvestmentPoolCreateNestedOneWithoutConstructionReportsInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutConstructionReportsInput, Prisma.InvestmentPoolUncheckedCreateWithoutConstructionReportsInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutConstructionReportsInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
+export type PoolUpdateOneWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutTransactionsInput, Prisma.PoolUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.PoolUpsertWithoutTransactionsInput
+  disconnect?: Prisma.PoolWhereInput | boolean
+  delete?: Prisma.PoolWhereInput | boolean
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutTransactionsInput, Prisma.PoolUpdateWithoutTransactionsInput>, Prisma.PoolUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type InvestmentPoolUpdateOneRequiredWithoutConstructionReportsNestedInput = {
-  create?: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutConstructionReportsInput, Prisma.InvestmentPoolUncheckedCreateWithoutConstructionReportsInput>
-  connectOrCreate?: Prisma.InvestmentPoolCreateOrConnectWithoutConstructionReportsInput
-  upsert?: Prisma.InvestmentPoolUpsertWithoutConstructionReportsInput
-  connect?: Prisma.InvestmentPoolWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.InvestmentPoolUpdateToOneWithWhereWithoutConstructionReportsInput, Prisma.InvestmentPoolUpdateWithoutConstructionReportsInput>, Prisma.InvestmentPoolUncheckedUpdateWithoutConstructionReportsInput>
+export type PoolCreateNestedOneWithoutMilestonesInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutMilestonesInput, Prisma.PoolUncheckedCreateWithoutMilestonesInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutMilestonesInput
+  connect?: Prisma.PoolWhereUniqueInput
 }
 
-export type InvestmentPoolCreateWithoutDocumentsInput = {
+export type PoolUpdateOneRequiredWithoutMilestonesNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutMilestonesInput, Prisma.PoolUncheckedCreateWithoutMilestonesInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutMilestonesInput
+  upsert?: Prisma.PoolUpsertWithoutMilestonesInput
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutMilestonesInput, Prisma.PoolUpdateWithoutMilestonesInput>, Prisma.PoolUncheckedUpdateWithoutMilestonesInput>
+}
+
+export type PoolCreateNestedOneWithoutConstructionReportsInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutConstructionReportsInput, Prisma.PoolUncheckedCreateWithoutConstructionReportsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutConstructionReportsInput
+  connect?: Prisma.PoolWhereUniqueInput
+}
+
+export type PoolUpdateOneRequiredWithoutConstructionReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutConstructionReportsInput, Prisma.PoolUncheckedCreateWithoutConstructionReportsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutConstructionReportsInput
+  upsert?: Prisma.PoolUpsertWithoutConstructionReportsInput
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutConstructionReportsInput, Prisma.PoolUpdateWithoutConstructionReportsInput>, Prisma.PoolUncheckedUpdateWithoutConstructionReportsInput>
+}
+
+export type PoolCreateWithoutDocumentsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1159,14 +1296,19 @@ export type InvestmentPoolCreateWithoutDocumentsInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolUncheckedCreateWithoutDocumentsInput = {
+export type PoolUncheckedCreateWithoutDocumentsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1198,30 +1340,35 @@ export type InvestmentPoolUncheckedCreateWithoutDocumentsInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolCreateOrConnectWithoutDocumentsInput = {
-  where: Prisma.InvestmentPoolWhereUniqueInput
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutDocumentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutDocumentsInput>
+export type PoolCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutDocumentsInput, Prisma.PoolUncheckedCreateWithoutDocumentsInput>
 }
 
-export type InvestmentPoolUpsertWithoutDocumentsInput = {
-  update: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutDocumentsInput, Prisma.InvestmentPoolUncheckedUpdateWithoutDocumentsInput>
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutDocumentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutDocumentsInput>
-  where?: Prisma.InvestmentPoolWhereInput
+export type PoolUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutDocumentsInput, Prisma.PoolUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutDocumentsInput, Prisma.PoolUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.PoolWhereInput
 }
 
-export type InvestmentPoolUpdateToOneWithWhereWithoutDocumentsInput = {
-  where?: Prisma.InvestmentPoolWhereInput
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutDocumentsInput, Prisma.InvestmentPoolUncheckedUpdateWithoutDocumentsInput>
+export type PoolUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutDocumentsInput, Prisma.PoolUncheckedUpdateWithoutDocumentsInput>
 }
 
-export type InvestmentPoolUpdateWithoutDocumentsInput = {
+export type PoolUpdateWithoutDocumentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1253,14 +1400,19 @@ export type InvestmentPoolUpdateWithoutDocumentsInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolUncheckedUpdateWithoutDocumentsInput = {
+export type PoolUncheckedUpdateWithoutDocumentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1292,14 +1444,19 @@ export type InvestmentPoolUncheckedUpdateWithoutDocumentsInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolCreateWithoutInvestmentsInput = {
+export type PoolCreateWithoutInvestmentsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1331,14 +1488,19 @@ export type InvestmentPoolCreateWithoutInvestmentsInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolUncheckedCreateWithoutInvestmentsInput = {
+export type PoolUncheckedCreateWithoutInvestmentsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1370,30 +1532,35 @@ export type InvestmentPoolUncheckedCreateWithoutInvestmentsInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolCreateOrConnectWithoutInvestmentsInput = {
-  where: Prisma.InvestmentPoolWhereUniqueInput
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutInvestmentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutInvestmentsInput>
+export type PoolCreateOrConnectWithoutInvestmentsInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutInvestmentsInput, Prisma.PoolUncheckedCreateWithoutInvestmentsInput>
 }
 
-export type InvestmentPoolUpsertWithoutInvestmentsInput = {
-  update: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutInvestmentsInput, Prisma.InvestmentPoolUncheckedUpdateWithoutInvestmentsInput>
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutInvestmentsInput, Prisma.InvestmentPoolUncheckedCreateWithoutInvestmentsInput>
-  where?: Prisma.InvestmentPoolWhereInput
+export type PoolUpsertWithoutInvestmentsInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutInvestmentsInput, Prisma.PoolUncheckedUpdateWithoutInvestmentsInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutInvestmentsInput, Prisma.PoolUncheckedCreateWithoutInvestmentsInput>
+  where?: Prisma.PoolWhereInput
 }
 
-export type InvestmentPoolUpdateToOneWithWhereWithoutInvestmentsInput = {
-  where?: Prisma.InvestmentPoolWhereInput
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutInvestmentsInput, Prisma.InvestmentPoolUncheckedUpdateWithoutInvestmentsInput>
+export type PoolUpdateToOneWithWhereWithoutInvestmentsInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutInvestmentsInput, Prisma.PoolUncheckedUpdateWithoutInvestmentsInput>
 }
 
-export type InvestmentPoolUpdateWithoutInvestmentsInput = {
+export type PoolUpdateWithoutInvestmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1425,14 +1592,19 @@ export type InvestmentPoolUpdateWithoutInvestmentsInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolUncheckedUpdateWithoutInvestmentsInput = {
+export type PoolUncheckedUpdateWithoutInvestmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1464,14 +1636,19 @@ export type InvestmentPoolUncheckedUpdateWithoutInvestmentsInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolCreateWithoutMilestonesInput = {
+export type PoolCreateWithoutTransactionsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1503,14 +1680,19 @@ export type InvestmentPoolCreateWithoutMilestonesInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolUncheckedCreateWithoutMilestonesInput = {
+export type PoolUncheckedCreateWithoutTransactionsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1542,30 +1724,35 @@ export type InvestmentPoolUncheckedCreateWithoutMilestonesInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolCreateOrConnectWithoutMilestonesInput = {
-  where: Prisma.InvestmentPoolWhereUniqueInput
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutMilestonesInput, Prisma.InvestmentPoolUncheckedCreateWithoutMilestonesInput>
+export type PoolCreateOrConnectWithoutTransactionsInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutTransactionsInput, Prisma.PoolUncheckedCreateWithoutTransactionsInput>
 }
 
-export type InvestmentPoolUpsertWithoutMilestonesInput = {
-  update: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutMilestonesInput, Prisma.InvestmentPoolUncheckedUpdateWithoutMilestonesInput>
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutMilestonesInput, Prisma.InvestmentPoolUncheckedCreateWithoutMilestonesInput>
-  where?: Prisma.InvestmentPoolWhereInput
+export type PoolUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutTransactionsInput, Prisma.PoolUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutTransactionsInput, Prisma.PoolUncheckedCreateWithoutTransactionsInput>
+  where?: Prisma.PoolWhereInput
 }
 
-export type InvestmentPoolUpdateToOneWithWhereWithoutMilestonesInput = {
-  where?: Prisma.InvestmentPoolWhereInput
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutMilestonesInput, Prisma.InvestmentPoolUncheckedUpdateWithoutMilestonesInput>
+export type PoolUpdateToOneWithWhereWithoutTransactionsInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutTransactionsInput, Prisma.PoolUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type InvestmentPoolUpdateWithoutMilestonesInput = {
+export type PoolUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1597,14 +1784,19 @@ export type InvestmentPoolUpdateWithoutMilestonesInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolUncheckedUpdateWithoutMilestonesInput = {
+export type PoolUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1636,14 +1828,19 @@ export type InvestmentPoolUncheckedUpdateWithoutMilestonesInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolCreateWithoutConstructionReportsInput = {
+export type PoolCreateWithoutMilestonesInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1675,14 +1872,211 @@ export type InvestmentPoolCreateWithoutConstructionReportsInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
+  constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+}
+
+export type PoolUncheckedCreateWithoutMilestonesInput = {
+  id?: string
+  slug?: string | null
+  name: string
+  projectName: string
+  country?: string
+  city?: string | null
+  dealType?: string | null
+  goalAmount: number
+  raisedAmount?: number
+  targetYield: number
+  targetIrr?: number | null
+  preferredReturn?: number | null
+  hurdleRate?: number | null
+  termMonths: number
+  minTicket: number
+  maxTicket?: number | null
+  exitType?: string | null
+  capitalType?: string | null
+  spvName?: string | null
+  ltv?: number | null
+  ltc?: number | null
+  developerCoinvestPct?: number | null
+  raiseEnd?: Date | string | null
+  status?: string
+  imageUrl?: string | null
+  description?: string | null
+  locationThesis?: string | null
+  demandThesis?: string | null
+  constructionThesis?: string | null
+  exitThesis?: string | null
+  summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
+  constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+}
+
+export type PoolCreateOrConnectWithoutMilestonesInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutMilestonesInput, Prisma.PoolUncheckedCreateWithoutMilestonesInput>
+}
+
+export type PoolUpsertWithoutMilestonesInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutMilestonesInput, Prisma.PoolUncheckedUpdateWithoutMilestonesInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutMilestonesInput, Prisma.PoolUncheckedCreateWithoutMilestonesInput>
+  where?: Prisma.PoolWhereInput
+}
+
+export type PoolUpdateToOneWithWhereWithoutMilestonesInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutMilestonesInput, Prisma.PoolUncheckedUpdateWithoutMilestonesInput>
+}
+
+export type PoolUpdateWithoutMilestonesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  raisedAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetYield?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetIrr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  preferredReturn?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hurdleRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  termMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxTicket?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capitalType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  spvName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltv?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltc?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  developerCoinvestPct?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  raiseEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  demandThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
+  constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+}
+
+export type PoolUncheckedUpdateWithoutMilestonesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  raisedAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetYield?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetIrr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  preferredReturn?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hurdleRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  termMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxTicket?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capitalType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  spvName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltv?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltc?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  developerCoinvestPct?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  raiseEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  demandThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
+  constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+}
+
+export type PoolCreateWithoutConstructionReportsInput = {
+  id?: string
+  slug?: string | null
+  name: string
+  projectName: string
+  country?: string
+  city?: string | null
+  dealType?: string | null
+  goalAmount: number
+  raisedAmount?: number
+  targetYield: number
+  targetIrr?: number | null
+  preferredReturn?: number | null
+  hurdleRate?: number | null
+  termMonths: number
+  minTicket: number
+  maxTicket?: number | null
+  exitType?: string | null
+  capitalType?: string | null
+  spvName?: string | null
+  ltv?: number | null
+  ltc?: number | null
+  developerCoinvestPct?: number | null
+  raiseEnd?: Date | string | null
+  status?: string
+  imageUrl?: string | null
+  description?: string | null
+  locationThesis?: string | null
+  demandThesis?: string | null
+  constructionThesis?: string | null
+  exitThesis?: string | null
+  summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolUncheckedCreateWithoutConstructionReportsInput = {
+export type PoolUncheckedCreateWithoutConstructionReportsInput = {
   id?: string
   slug?: string | null
   name: string
@@ -1714,30 +2108,35 @@ export type InvestmentPoolUncheckedCreateWithoutConstructionReportsInput = {
   constructionThesis?: string | null
   exitThesis?: string | null
   summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedCreateNestedManyWithoutPoolInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
 }
 
-export type InvestmentPoolCreateOrConnectWithoutConstructionReportsInput = {
-  where: Prisma.InvestmentPoolWhereUniqueInput
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutConstructionReportsInput, Prisma.InvestmentPoolUncheckedCreateWithoutConstructionReportsInput>
+export type PoolCreateOrConnectWithoutConstructionReportsInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutConstructionReportsInput, Prisma.PoolUncheckedCreateWithoutConstructionReportsInput>
 }
 
-export type InvestmentPoolUpsertWithoutConstructionReportsInput = {
-  update: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutConstructionReportsInput, Prisma.InvestmentPoolUncheckedUpdateWithoutConstructionReportsInput>
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateWithoutConstructionReportsInput, Prisma.InvestmentPoolUncheckedCreateWithoutConstructionReportsInput>
-  where?: Prisma.InvestmentPoolWhereInput
+export type PoolUpsertWithoutConstructionReportsInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutConstructionReportsInput, Prisma.PoolUncheckedUpdateWithoutConstructionReportsInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutConstructionReportsInput, Prisma.PoolUncheckedCreateWithoutConstructionReportsInput>
+  where?: Prisma.PoolWhereInput
 }
 
-export type InvestmentPoolUpdateToOneWithWhereWithoutConstructionReportsInput = {
-  where?: Prisma.InvestmentPoolWhereInput
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateWithoutConstructionReportsInput, Prisma.InvestmentPoolUncheckedUpdateWithoutConstructionReportsInput>
+export type PoolUpdateToOneWithWhereWithoutConstructionReportsInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutConstructionReportsInput, Prisma.PoolUncheckedUpdateWithoutConstructionReportsInput>
 }
 
-export type InvestmentPoolUpdateWithoutConstructionReportsInput = {
+export type PoolUpdateWithoutConstructionReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1769,14 +2168,19 @@ export type InvestmentPoolUpdateWithoutConstructionReportsInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
 }
 
-export type InvestmentPoolUncheckedUpdateWithoutConstructionReportsInput = {
+export type PoolUncheckedUpdateWithoutConstructionReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1808,72 +2212,86 @@ export type InvestmentPoolUncheckedUpdateWithoutConstructionReportsInput = {
   constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  investments?: Prisma.InvestorInvestmentUncheckedUpdateManyWithoutPoolNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 
 /**
- * Count Type InvestmentPoolCountOutputType
+ * Count Type PoolCountOutputType
  */
 
-export type InvestmentPoolCountOutputType = {
+export type PoolCountOutputType = {
   investments: number
   milestones: number
   constructionReports: number
   documents: number
+  transactions: number
 }
 
-export type InvestmentPoolCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  investments?: boolean | InvestmentPoolCountOutputTypeCountInvestmentsArgs
-  milestones?: boolean | InvestmentPoolCountOutputTypeCountMilestonesArgs
-  constructionReports?: boolean | InvestmentPoolCountOutputTypeCountConstructionReportsArgs
-  documents?: boolean | InvestmentPoolCountOutputTypeCountDocumentsArgs
+export type PoolCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  investments?: boolean | PoolCountOutputTypeCountInvestmentsArgs
+  milestones?: boolean | PoolCountOutputTypeCountMilestonesArgs
+  constructionReports?: boolean | PoolCountOutputTypeCountConstructionReportsArgs
+  documents?: boolean | PoolCountOutputTypeCountDocumentsArgs
+  transactions?: boolean | PoolCountOutputTypeCountTransactionsArgs
 }
 
 /**
- * InvestmentPoolCountOutputType without action
+ * PoolCountOutputType without action
  */
-export type InvestmentPoolCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPoolCountOutputType
+   * Select specific fields to fetch from the PoolCountOutputType
    */
-  select?: Prisma.InvestmentPoolCountOutputTypeSelect<ExtArgs> | null
+  select?: Prisma.PoolCountOutputTypeSelect<ExtArgs> | null
 }
 
 /**
- * InvestmentPoolCountOutputType without action
+ * PoolCountOutputType without action
  */
-export type InvestmentPoolCountOutputTypeCountInvestmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InvestorInvestmentWhereInput
+export type PoolCountOutputTypeCountInvestmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HoldingWhereInput
 }
 
 /**
- * InvestmentPoolCountOutputType without action
+ * PoolCountOutputType without action
  */
-export type InvestmentPoolCountOutputTypeCountMilestonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCountOutputTypeCountMilestonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MilestoneWhereInput
 }
 
 /**
- * InvestmentPoolCountOutputType without action
+ * PoolCountOutputType without action
  */
-export type InvestmentPoolCountOutputTypeCountConstructionReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCountOutputTypeCountConstructionReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ConstructionReportWhereInput
 }
 
 /**
- * InvestmentPoolCountOutputType without action
+ * PoolCountOutputType without action
  */
-export type InvestmentPoolCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DocumentWhereInput
 }
 
+/**
+ * PoolCountOutputType without action
+ */
+export type PoolCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
 
-export type InvestmentPoolSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+
+export type PoolSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   slug?: boolean
   name?: boolean
@@ -1905,16 +2323,21 @@ export type InvestmentPoolSelect<ExtArgs extends runtime.Types.Extensions.Intern
   constructionThesis?: boolean
   exitThesis?: boolean
   summary?: boolean
+  tokenSymbol?: boolean
+  totalTokens?: boolean
+  pricePerToken?: boolean
+  tokensSold?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  investments?: boolean | Prisma.InvestmentPool$investmentsArgs<ExtArgs>
-  milestones?: boolean | Prisma.InvestmentPool$milestonesArgs<ExtArgs>
-  constructionReports?: boolean | Prisma.InvestmentPool$constructionReportsArgs<ExtArgs>
-  documents?: boolean | Prisma.InvestmentPool$documentsArgs<ExtArgs>
-  _count?: boolean | Prisma.InvestmentPoolCountOutputTypeDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["investmentPool"]>
+  investments?: boolean | Prisma.Pool$investmentsArgs<ExtArgs>
+  milestones?: boolean | Prisma.Pool$milestonesArgs<ExtArgs>
+  constructionReports?: boolean | Prisma.Pool$constructionReportsArgs<ExtArgs>
+  documents?: boolean | Prisma.Pool$documentsArgs<ExtArgs>
+  transactions?: boolean | Prisma.Pool$transactionsArgs<ExtArgs>
+  _count?: boolean | Prisma.PoolCountOutputTypeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["pool"]>
 
-export type InvestmentPoolSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+export type PoolSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   slug?: boolean
   name?: boolean
@@ -1946,11 +2369,15 @@ export type InvestmentPoolSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   constructionThesis?: boolean
   exitThesis?: boolean
   summary?: boolean
+  tokenSymbol?: boolean
+  totalTokens?: boolean
+  pricePerToken?: boolean
+  tokensSold?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-}, ExtArgs["result"]["investmentPool"]>
+}, ExtArgs["result"]["pool"]>
 
-export type InvestmentPoolSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+export type PoolSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   slug?: boolean
   name?: boolean
@@ -1982,11 +2409,15 @@ export type InvestmentPoolSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   constructionThesis?: boolean
   exitThesis?: boolean
   summary?: boolean
+  tokenSymbol?: boolean
+  totalTokens?: boolean
+  pricePerToken?: boolean
+  tokensSold?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-}, ExtArgs["result"]["investmentPool"]>
+}, ExtArgs["result"]["pool"]>
 
-export type InvestmentPoolSelectScalar = {
+export type PoolSelectScalar = {
   id?: boolean
   slug?: boolean
   name?: boolean
@@ -2018,28 +2449,34 @@ export type InvestmentPoolSelectScalar = {
   constructionThesis?: boolean
   exitThesis?: boolean
   summary?: boolean
+  tokenSymbol?: boolean
+  totalTokens?: boolean
+  pricePerToken?: boolean
+  tokensSold?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type InvestmentPoolOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "projectName" | "country" | "city" | "dealType" | "goalAmount" | "raisedAmount" | "targetYield" | "targetIrr" | "preferredReturn" | "hurdleRate" | "termMonths" | "minTicket" | "maxTicket" | "exitType" | "capitalType" | "spvName" | "ltv" | "ltc" | "developerCoinvestPct" | "raiseEnd" | "status" | "imageUrl" | "description" | "locationThesis" | "demandThesis" | "constructionThesis" | "exitThesis" | "summary" | "createdAt" | "updatedAt", ExtArgs["result"]["investmentPool"]>
-export type InvestmentPoolInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  investments?: boolean | Prisma.InvestmentPool$investmentsArgs<ExtArgs>
-  milestones?: boolean | Prisma.InvestmentPool$milestonesArgs<ExtArgs>
-  constructionReports?: boolean | Prisma.InvestmentPool$constructionReportsArgs<ExtArgs>
-  documents?: boolean | Prisma.InvestmentPool$documentsArgs<ExtArgs>
-  _count?: boolean | Prisma.InvestmentPoolCountOutputTypeDefaultArgs<ExtArgs>
+export type PoolOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "projectName" | "country" | "city" | "dealType" | "goalAmount" | "raisedAmount" | "targetYield" | "targetIrr" | "preferredReturn" | "hurdleRate" | "termMonths" | "minTicket" | "maxTicket" | "exitType" | "capitalType" | "spvName" | "ltv" | "ltc" | "developerCoinvestPct" | "raiseEnd" | "status" | "imageUrl" | "description" | "locationThesis" | "demandThesis" | "constructionThesis" | "exitThesis" | "summary" | "tokenSymbol" | "totalTokens" | "pricePerToken" | "tokensSold" | "createdAt" | "updatedAt", ExtArgs["result"]["pool"]>
+export type PoolInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  investments?: boolean | Prisma.Pool$investmentsArgs<ExtArgs>
+  milestones?: boolean | Prisma.Pool$milestonesArgs<ExtArgs>
+  constructionReports?: boolean | Prisma.Pool$constructionReportsArgs<ExtArgs>
+  documents?: boolean | Prisma.Pool$documentsArgs<ExtArgs>
+  transactions?: boolean | Prisma.Pool$transactionsArgs<ExtArgs>
+  _count?: boolean | Prisma.PoolCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type InvestmentPoolIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type InvestmentPoolIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PoolIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PoolIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
-export type $InvestmentPoolPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  name: "InvestmentPool"
+export type $PoolPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  name: "Pool"
   objects: {
-    investments: Prisma.$InvestorInvestmentPayload<ExtArgs>[]
+    investments: Prisma.$HoldingPayload<ExtArgs>[]
     milestones: Prisma.$MilestonePayload<ExtArgs>[]
     constructionReports: Prisma.$ConstructionReportPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2073,138 +2510,142 @@ export type $InvestmentPoolPayload<ExtArgs extends runtime.Types.Extensions.Inte
     constructionThesis: string | null
     exitThesis: string | null
     summary: string | null
+    tokenSymbol: string | null
+    totalTokens: number | null
+    pricePerToken: number | null
+    tokensSold: number
     createdAt: Date
     updatedAt: Date
-  }, ExtArgs["result"]["investmentPool"]>
+  }, ExtArgs["result"]["pool"]>
   composites: {}
 }
 
-export type InvestmentPoolGetPayload<S extends boolean | null | undefined | InvestmentPoolDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload, S>
+export type PoolGetPayload<S extends boolean | null | undefined | PoolDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$PoolPayload, S>
 
-export type InvestmentPoolCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<InvestmentPoolFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-    select?: InvestmentPoolCountAggregateInputType | true
+export type PoolCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
+  Omit<PoolFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: PoolCountAggregateInputType | true
   }
 
-export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvestmentPool'], meta: { name: 'InvestmentPool' } }
+export interface PoolDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Pool'], meta: { name: 'Pool' } }
   /**
-   * Find zero or one InvestmentPool that matches the filter.
-   * @param {InvestmentPoolFindUniqueArgs} args - Arguments to find a InvestmentPool
+   * Find zero or one Pool that matches the filter.
+   * @param {PoolFindUniqueArgs} args - Arguments to find a Pool
    * @example
-   * // Get one InvestmentPool
-   * const investmentPool = await prisma.investmentPool.findUnique({
+   * // Get one Pool
+   * const pool = await prisma.pool.findUnique({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findUnique<T extends InvestmentPoolFindUniqueArgs>(args: Prisma.SelectSubset<T, InvestmentPoolFindUniqueArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  findUnique<T extends PoolFindUniqueArgs>(args: Prisma.SelectSubset<T, PoolFindUniqueArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find one InvestmentPool that matches the filter or throw an error with `error.code='P2025'`
+   * Find one Pool that matches the filter or throw an error with `error.code='P2025'`
    * if no matches were found.
-   * @param {InvestmentPoolFindUniqueOrThrowArgs} args - Arguments to find a InvestmentPool
+   * @param {PoolFindUniqueOrThrowArgs} args - Arguments to find a Pool
    * @example
-   * // Get one InvestmentPool
-   * const investmentPool = await prisma.investmentPool.findUniqueOrThrow({
+   * // Get one Pool
+   * const pool = await prisma.pool.findUniqueOrThrow({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findUniqueOrThrow<T extends InvestmentPoolFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, InvestmentPoolFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  findUniqueOrThrow<T extends PoolFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, PoolFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find the first InvestmentPool that matches the filter.
+   * Find the first Pool that matches the filter.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolFindFirstArgs} args - Arguments to find a InvestmentPool
+   * @param {PoolFindFirstArgs} args - Arguments to find a Pool
    * @example
-   * // Get one InvestmentPool
-   * const investmentPool = await prisma.investmentPool.findFirst({
+   * // Get one Pool
+   * const pool = await prisma.pool.findFirst({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findFirst<T extends InvestmentPoolFindFirstArgs>(args?: Prisma.SelectSubset<T, InvestmentPoolFindFirstArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  findFirst<T extends PoolFindFirstArgs>(args?: Prisma.SelectSubset<T, PoolFindFirstArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find the first InvestmentPool that matches the filter or
+   * Find the first Pool that matches the filter or
    * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolFindFirstOrThrowArgs} args - Arguments to find a InvestmentPool
+   * @param {PoolFindFirstOrThrowArgs} args - Arguments to find a Pool
    * @example
-   * // Get one InvestmentPool
-   * const investmentPool = await prisma.investmentPool.findFirstOrThrow({
+   * // Get one Pool
+   * const pool = await prisma.pool.findFirstOrThrow({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findFirstOrThrow<T extends InvestmentPoolFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, InvestmentPoolFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  findFirstOrThrow<T extends PoolFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, PoolFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find zero or more InvestmentPools that matches the filter.
+   * Find zero or more Pools that matches the filter.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolFindManyArgs} args - Arguments to filter and select certain fields only.
+   * @param {PoolFindManyArgs} args - Arguments to filter and select certain fields only.
    * @example
-   * // Get all InvestmentPools
-   * const investmentPools = await prisma.investmentPool.findMany()
+   * // Get all Pools
+   * const pools = await prisma.pool.findMany()
    * 
-   * // Get first 10 InvestmentPools
-   * const investmentPools = await prisma.investmentPool.findMany({ take: 10 })
+   * // Get first 10 Pools
+   * const pools = await prisma.pool.findMany({ take: 10 })
    * 
    * // Only select the `id`
-   * const investmentPoolWithIdOnly = await prisma.investmentPool.findMany({ select: { id: true } })
+   * const poolWithIdOnly = await prisma.pool.findMany({ select: { id: true } })
    * 
    */
-  findMany<T extends InvestmentPoolFindManyArgs>(args?: Prisma.SelectSubset<T, InvestmentPoolFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+  findMany<T extends PoolFindManyArgs>(args?: Prisma.SelectSubset<T, PoolFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
   /**
-   * Create a InvestmentPool.
-   * @param {InvestmentPoolCreateArgs} args - Arguments to create a InvestmentPool.
+   * Create a Pool.
+   * @param {PoolCreateArgs} args - Arguments to create a Pool.
    * @example
-   * // Create one InvestmentPool
-   * const InvestmentPool = await prisma.investmentPool.create({
+   * // Create one Pool
+   * const Pool = await prisma.pool.create({
    *   data: {
-   *     // ... data to create a InvestmentPool
+   *     // ... data to create a Pool
    *   }
    * })
    * 
    */
-  create<T extends InvestmentPoolCreateArgs>(args: Prisma.SelectSubset<T, InvestmentPoolCreateArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  create<T extends PoolCreateArgs>(args: Prisma.SelectSubset<T, PoolCreateArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Create many InvestmentPools.
-   * @param {InvestmentPoolCreateManyArgs} args - Arguments to create many InvestmentPools.
+   * Create many Pools.
+   * @param {PoolCreateManyArgs} args - Arguments to create many Pools.
    * @example
-   * // Create many InvestmentPools
-   * const investmentPool = await prisma.investmentPool.createMany({
+   * // Create many Pools
+   * const pool = await prisma.pool.createMany({
    *   data: [
    *     // ... provide data here
    *   ]
    * })
    *     
    */
-  createMany<T extends InvestmentPoolCreateManyArgs>(args?: Prisma.SelectSubset<T, InvestmentPoolCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+  createMany<T extends PoolCreateManyArgs>(args?: Prisma.SelectSubset<T, PoolCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many InvestmentPools and returns the data saved in the database.
-   * @param {InvestmentPoolCreateManyAndReturnArgs} args - Arguments to create many InvestmentPools.
+   * Create many Pools and returns the data saved in the database.
+   * @param {PoolCreateManyAndReturnArgs} args - Arguments to create many Pools.
    * @example
-   * // Create many InvestmentPools
-   * const investmentPool = await prisma.investmentPool.createManyAndReturn({
+   * // Create many Pools
+   * const pool = await prisma.pool.createManyAndReturn({
    *   data: [
    *     // ... provide data here
    *   ]
    * })
    * 
-   * // Create many InvestmentPools and only return the `id`
-   * const investmentPoolWithIdOnly = await prisma.investmentPool.createManyAndReturn({
+   * // Create many Pools and only return the `id`
+   * const poolWithIdOnly = await prisma.pool.createManyAndReturn({
    *   select: { id: true },
    *   data: [
    *     // ... provide data here
@@ -2214,28 +2655,28 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    * Read more here: https://pris.ly/d/null-undefined
    * 
    */
-  createManyAndReturn<T extends InvestmentPoolCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, InvestmentPoolCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+  createManyAndReturn<T extends PoolCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PoolCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
   /**
-   * Delete a InvestmentPool.
-   * @param {InvestmentPoolDeleteArgs} args - Arguments to delete one InvestmentPool.
+   * Delete a Pool.
+   * @param {PoolDeleteArgs} args - Arguments to delete one Pool.
    * @example
-   * // Delete one InvestmentPool
-   * const InvestmentPool = await prisma.investmentPool.delete({
+   * // Delete one Pool
+   * const Pool = await prisma.pool.delete({
    *   where: {
-   *     // ... filter to delete one InvestmentPool
+   *     // ... filter to delete one Pool
    *   }
    * })
    * 
    */
-  delete<T extends InvestmentPoolDeleteArgs>(args: Prisma.SelectSubset<T, InvestmentPoolDeleteArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  delete<T extends PoolDeleteArgs>(args: Prisma.SelectSubset<T, PoolDeleteArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Update one InvestmentPool.
-   * @param {InvestmentPoolUpdateArgs} args - Arguments to update one InvestmentPool.
+   * Update one Pool.
+   * @param {PoolUpdateArgs} args - Arguments to update one Pool.
    * @example
-   * // Update one InvestmentPool
-   * const investmentPool = await prisma.investmentPool.update({
+   * // Update one Pool
+   * const pool = await prisma.pool.update({
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2245,30 +2686,30 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    * })
    * 
    */
-  update<T extends InvestmentPoolUpdateArgs>(args: Prisma.SelectSubset<T, InvestmentPoolUpdateArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  update<T extends PoolUpdateArgs>(args: Prisma.SelectSubset<T, PoolUpdateArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Delete zero or more InvestmentPools.
-   * @param {InvestmentPoolDeleteManyArgs} args - Arguments to filter InvestmentPools to delete.
+   * Delete zero or more Pools.
+   * @param {PoolDeleteManyArgs} args - Arguments to filter Pools to delete.
    * @example
-   * // Delete a few InvestmentPools
-   * const { count } = await prisma.investmentPool.deleteMany({
+   * // Delete a few Pools
+   * const { count } = await prisma.pool.deleteMany({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    * 
    */
-  deleteMany<T extends InvestmentPoolDeleteManyArgs>(args?: Prisma.SelectSubset<T, InvestmentPoolDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+  deleteMany<T extends PoolDeleteManyArgs>(args?: Prisma.SelectSubset<T, PoolDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Update zero or more InvestmentPools.
+   * Update zero or more Pools.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolUpdateManyArgs} args - Arguments to update one or more rows.
+   * @param {PoolUpdateManyArgs} args - Arguments to update one or more rows.
    * @example
-   * // Update many InvestmentPools
-   * const investmentPool = await prisma.investmentPool.updateMany({
+   * // Update many Pools
+   * const pool = await prisma.pool.updateMany({
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2278,14 +2719,14 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    * })
    * 
    */
-  updateMany<T extends InvestmentPoolUpdateManyArgs>(args: Prisma.SelectSubset<T, InvestmentPoolUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+  updateMany<T extends PoolUpdateManyArgs>(args: Prisma.SelectSubset<T, PoolUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Update zero or more InvestmentPools and returns the data updated in the database.
-   * @param {InvestmentPoolUpdateManyAndReturnArgs} args - Arguments to update many InvestmentPools.
+   * Update zero or more Pools and returns the data updated in the database.
+   * @param {PoolUpdateManyAndReturnArgs} args - Arguments to update many Pools.
    * @example
-   * // Update many InvestmentPools
-   * const investmentPool = await prisma.investmentPool.updateManyAndReturn({
+   * // Update many Pools
+   * const pool = await prisma.pool.updateManyAndReturn({
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2294,8 +2735,8 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Update zero or more InvestmentPools and only return the `id`
-   * const investmentPoolWithIdOnly = await prisma.investmentPool.updateManyAndReturn({
+   * // Update zero or more Pools and only return the `id`
+   * const poolWithIdOnly = await prisma.pool.updateManyAndReturn({
    *   select: { id: true },
    *   where: {
    *     // ... provide filter here
@@ -2308,56 +2749,56 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    * Read more here: https://pris.ly/d/null-undefined
    * 
    */
-  updateManyAndReturn<T extends InvestmentPoolUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, InvestmentPoolUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+  updateManyAndReturn<T extends PoolUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PoolUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
-   * Create or update one InvestmentPool.
-   * @param {InvestmentPoolUpsertArgs} args - Arguments to update or create a InvestmentPool.
+   * Create or update one Pool.
+   * @param {PoolUpsertArgs} args - Arguments to update or create a Pool.
    * @example
-   * // Update or create a InvestmentPool
-   * const investmentPool = await prisma.investmentPool.upsert({
+   * // Update or create a Pool
+   * const pool = await prisma.pool.upsert({
    *   create: {
-   *     // ... data to create a InvestmentPool
+   *     // ... data to create a Pool
    *   },
    *   update: {
    *     // ... in case it already exists, update
    *   },
    *   where: {
-   *     // ... the filter for the InvestmentPool we want to update
+   *     // ... the filter for the Pool we want to update
    *   }
    * })
    */
-  upsert<T extends InvestmentPoolUpsertArgs>(args: Prisma.SelectSubset<T, InvestmentPoolUpsertArgs<ExtArgs>>): Prisma.Prisma__InvestmentPoolClient<runtime.Types.Result.GetResult<Prisma.$InvestmentPoolPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  upsert<T extends PoolUpsertArgs>(args: Prisma.SelectSubset<T, PoolUpsertArgs<ExtArgs>>): Prisma.Prisma__PoolClient<runtime.Types.Result.GetResult<Prisma.$PoolPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
   /**
-   * Count the number of InvestmentPools.
+   * Count the number of Pools.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolCountArgs} args - Arguments to filter InvestmentPools to count.
+   * @param {PoolCountArgs} args - Arguments to filter Pools to count.
    * @example
-   * // Count the number of InvestmentPools
-   * const count = await prisma.investmentPool.count({
+   * // Count the number of Pools
+   * const count = await prisma.pool.count({
    *   where: {
-   *     // ... the filter for the InvestmentPools we want to count
+   *     // ... the filter for the Pools we want to count
    *   }
    * })
   **/
-  count<T extends InvestmentPoolCountArgs>(
-    args?: Prisma.Subset<T, InvestmentPoolCountArgs>,
+  count<T extends PoolCountArgs>(
+    args?: Prisma.Subset<T, PoolCountArgs>,
   ): Prisma.PrismaPromise<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
         ? number
-        : Prisma.GetScalarType<T['select'], InvestmentPoolCountAggregateOutputType>
+        : Prisma.GetScalarType<T['select'], PoolCountAggregateOutputType>
       : number
   >
 
   /**
-   * Allows you to perform aggregations operations on a InvestmentPool.
+   * Allows you to perform aggregations operations on a Pool.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+   * @param {PoolAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
    * @example
    * // Ordered by age ascending
    * // Where email contains prisma.io
@@ -2377,13 +2818,13 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    *   take: 10,
    * })
   **/
-  aggregate<T extends InvestmentPoolAggregateArgs>(args: Prisma.Subset<T, InvestmentPoolAggregateArgs>): Prisma.PrismaPromise<GetInvestmentPoolAggregateType<T>>
+  aggregate<T extends PoolAggregateArgs>(args: Prisma.Subset<T, PoolAggregateArgs>): Prisma.PrismaPromise<GetPoolAggregateType<T>>
 
   /**
-   * Group by InvestmentPool.
+   * Group by Pool.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {InvestmentPoolGroupByArgs} args - Group by arguments.
+   * @param {PoolGroupByArgs} args - Group by arguments.
    * @example
    * // Group by city, order by createdAt, get count
    * const result = await prisma.user.groupBy({
@@ -2398,14 +2839,14 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
    * 
   **/
   groupBy<
-    T extends InvestmentPoolGroupByArgs,
+    T extends PoolGroupByArgs,
     HasSelectOrTake extends Prisma.Or<
       Prisma.Extends<'skip', Prisma.Keys<T>>,
       Prisma.Extends<'take', Prisma.Keys<T>>
     >,
     OrderByArg extends Prisma.True extends HasSelectOrTake
-      ? { orderBy: InvestmentPoolGroupByArgs['orderBy'] }
-      : { orderBy?: InvestmentPoolGroupByArgs['orderBy'] },
+      ? { orderBy: PoolGroupByArgs['orderBy'] }
+      : { orderBy?: PoolGroupByArgs['orderBy'] },
     OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>,
     ByFields extends Prisma.MaybeTupleToUnion<T['by']>,
     ByValid extends Prisma.Has<ByFields, OrderFields>,
@@ -2454,25 +2895,26 @@ export interface InvestmentPoolDelegate<ExtArgs extends runtime.Types.Extensions
           ? never
           : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
       }[OrderFields]
-  >(args: Prisma.SubsetIntersection<T, InvestmentPoolGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvestmentPoolGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  >(args: Prisma.SubsetIntersection<T, PoolGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPoolGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 /**
- * Fields of the InvestmentPool model
+ * Fields of the Pool model
  */
-readonly fields: InvestmentPoolFieldRefs;
+readonly fields: PoolFieldRefs;
 }
 
 /**
- * The delegate class that acts as a "Promise-like" for InvestmentPool.
+ * The delegate class that acts as a "Promise-like" for Pool.
  * Why is this prefixed with `Prisma__`?
  * Because we want to prevent naming conflicts as mentioned in
  * https://github.com/prisma/prisma-client-js/issues/707
  */
-export interface Prisma__InvestmentPoolClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+export interface Prisma__PoolClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  investments<T extends Prisma.InvestmentPool$investmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvestmentPool$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestorInvestmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  milestones<T extends Prisma.InvestmentPool$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvestmentPool$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  constructionReports<T extends Prisma.InvestmentPool$constructionReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvestmentPool$constructionReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConstructionReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  documents<T extends Prisma.InvestmentPool$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvestmentPool$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  investments<T extends Prisma.Pool$investmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HoldingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  milestones<T extends Prisma.Pool$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  constructionReports<T extends Prisma.Pool$constructionReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$constructionReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConstructionReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documents<T extends Prisma.Pool$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactions<T extends Prisma.Pool$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2499,455 +2941,459 @@ export interface Prisma__InvestmentPoolClient<T, Null = never, ExtArgs extends r
 
 
 /**
- * Fields of the InvestmentPool model
+ * Fields of the Pool model
  */
-export interface InvestmentPoolFieldRefs {
-  readonly id: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly slug: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly name: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly projectName: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly country: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly city: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly dealType: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly goalAmount: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly raisedAmount: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly targetYield: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly targetIrr: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly preferredReturn: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly hurdleRate: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly termMonths: Prisma.FieldRef<"InvestmentPool", 'Int'>
-  readonly minTicket: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly maxTicket: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly exitType: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly capitalType: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly spvName: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly ltv: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly ltc: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly developerCoinvestPct: Prisma.FieldRef<"InvestmentPool", 'Float'>
-  readonly raiseEnd: Prisma.FieldRef<"InvestmentPool", 'DateTime'>
-  readonly status: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly imageUrl: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly description: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly locationThesis: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly demandThesis: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly constructionThesis: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly exitThesis: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly summary: Prisma.FieldRef<"InvestmentPool", 'String'>
-  readonly createdAt: Prisma.FieldRef<"InvestmentPool", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"InvestmentPool", 'DateTime'>
+export interface PoolFieldRefs {
+  readonly id: Prisma.FieldRef<"Pool", 'String'>
+  readonly slug: Prisma.FieldRef<"Pool", 'String'>
+  readonly name: Prisma.FieldRef<"Pool", 'String'>
+  readonly projectName: Prisma.FieldRef<"Pool", 'String'>
+  readonly country: Prisma.FieldRef<"Pool", 'String'>
+  readonly city: Prisma.FieldRef<"Pool", 'String'>
+  readonly dealType: Prisma.FieldRef<"Pool", 'String'>
+  readonly goalAmount: Prisma.FieldRef<"Pool", 'Float'>
+  readonly raisedAmount: Prisma.FieldRef<"Pool", 'Float'>
+  readonly targetYield: Prisma.FieldRef<"Pool", 'Float'>
+  readonly targetIrr: Prisma.FieldRef<"Pool", 'Float'>
+  readonly preferredReturn: Prisma.FieldRef<"Pool", 'Float'>
+  readonly hurdleRate: Prisma.FieldRef<"Pool", 'Float'>
+  readonly termMonths: Prisma.FieldRef<"Pool", 'Int'>
+  readonly minTicket: Prisma.FieldRef<"Pool", 'Float'>
+  readonly maxTicket: Prisma.FieldRef<"Pool", 'Float'>
+  readonly exitType: Prisma.FieldRef<"Pool", 'String'>
+  readonly capitalType: Prisma.FieldRef<"Pool", 'String'>
+  readonly spvName: Prisma.FieldRef<"Pool", 'String'>
+  readonly ltv: Prisma.FieldRef<"Pool", 'Float'>
+  readonly ltc: Prisma.FieldRef<"Pool", 'Float'>
+  readonly developerCoinvestPct: Prisma.FieldRef<"Pool", 'Float'>
+  readonly raiseEnd: Prisma.FieldRef<"Pool", 'DateTime'>
+  readonly status: Prisma.FieldRef<"Pool", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Pool", 'String'>
+  readonly description: Prisma.FieldRef<"Pool", 'String'>
+  readonly locationThesis: Prisma.FieldRef<"Pool", 'String'>
+  readonly demandThesis: Prisma.FieldRef<"Pool", 'String'>
+  readonly constructionThesis: Prisma.FieldRef<"Pool", 'String'>
+  readonly exitThesis: Prisma.FieldRef<"Pool", 'String'>
+  readonly summary: Prisma.FieldRef<"Pool", 'String'>
+  readonly tokenSymbol: Prisma.FieldRef<"Pool", 'String'>
+  readonly totalTokens: Prisma.FieldRef<"Pool", 'Int'>
+  readonly pricePerToken: Prisma.FieldRef<"Pool", 'Float'>
+  readonly tokensSold: Prisma.FieldRef<"Pool", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Pool", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Pool", 'DateTime'>
 }
     
 
 // Custom InputTypes
 /**
- * InvestmentPool findUnique
+ * Pool findUnique
  */
-export type InvestmentPoolFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * Filter, which InvestmentPool to fetch.
+   * Filter, which Pool to fetch.
    */
-  where: Prisma.InvestmentPoolWhereUniqueInput
+  where: Prisma.PoolWhereUniqueInput
 }
 
 /**
- * InvestmentPool findUniqueOrThrow
+ * Pool findUniqueOrThrow
  */
-export type InvestmentPoolFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * Filter, which InvestmentPool to fetch.
+   * Filter, which Pool to fetch.
    */
-  where: Prisma.InvestmentPoolWhereUniqueInput
+  where: Prisma.PoolWhereUniqueInput
 }
 
 /**
- * InvestmentPool findFirst
+ * Pool findFirst
  */
-export type InvestmentPoolFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * Filter, which InvestmentPool to fetch.
+   * Filter, which Pool to fetch.
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of InvestmentPools to fetch.
+   * Determine the order of Pools to fetch.
    */
-  orderBy?: Prisma.InvestmentPoolOrderByWithRelationInput | Prisma.InvestmentPoolOrderByWithRelationInput[]
+  orderBy?: Prisma.PoolOrderByWithRelationInput | Prisma.PoolOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
-   * Sets the position for searching for InvestmentPools.
+   * Sets the position for searching for Pools.
    */
-  cursor?: Prisma.InvestmentPoolWhereUniqueInput
+  cursor?: Prisma.PoolWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` InvestmentPools from the position of the cursor.
+   * Take `±n` Pools from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` InvestmentPools.
+   * Skip the first `n` Pools.
    */
   skip?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
    * 
-   * Filter by unique combinations of InvestmentPools.
+   * Filter by unique combinations of Pools.
    */
-  distinct?: Prisma.InvestmentPoolScalarFieldEnum | Prisma.InvestmentPoolScalarFieldEnum[]
+  distinct?: Prisma.PoolScalarFieldEnum | Prisma.PoolScalarFieldEnum[]
 }
 
 /**
- * InvestmentPool findFirstOrThrow
+ * Pool findFirstOrThrow
  */
-export type InvestmentPoolFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * Filter, which InvestmentPool to fetch.
+   * Filter, which Pool to fetch.
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of InvestmentPools to fetch.
+   * Determine the order of Pools to fetch.
    */
-  orderBy?: Prisma.InvestmentPoolOrderByWithRelationInput | Prisma.InvestmentPoolOrderByWithRelationInput[]
+  orderBy?: Prisma.PoolOrderByWithRelationInput | Prisma.PoolOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
-   * Sets the position for searching for InvestmentPools.
+   * Sets the position for searching for Pools.
    */
-  cursor?: Prisma.InvestmentPoolWhereUniqueInput
+  cursor?: Prisma.PoolWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` InvestmentPools from the position of the cursor.
+   * Take `±n` Pools from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` InvestmentPools.
+   * Skip the first `n` Pools.
    */
   skip?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
    * 
-   * Filter by unique combinations of InvestmentPools.
+   * Filter by unique combinations of Pools.
    */
-  distinct?: Prisma.InvestmentPoolScalarFieldEnum | Prisma.InvestmentPoolScalarFieldEnum[]
+  distinct?: Prisma.PoolScalarFieldEnum | Prisma.PoolScalarFieldEnum[]
 }
 
 /**
- * InvestmentPool findMany
+ * Pool findMany
  */
-export type InvestmentPoolFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * Filter, which InvestmentPools to fetch.
+   * Filter, which Pools to fetch.
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of InvestmentPools to fetch.
+   * Determine the order of Pools to fetch.
    */
-  orderBy?: Prisma.InvestmentPoolOrderByWithRelationInput | Prisma.InvestmentPoolOrderByWithRelationInput[]
+  orderBy?: Prisma.PoolOrderByWithRelationInput | Prisma.PoolOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
-   * Sets the position for listing InvestmentPools.
+   * Sets the position for listing Pools.
    */
-  cursor?: Prisma.InvestmentPoolWhereUniqueInput
+  cursor?: Prisma.PoolWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` InvestmentPools from the position of the cursor.
+   * Take `±n` Pools from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` InvestmentPools.
+   * Skip the first `n` Pools.
    */
   skip?: number
-  distinct?: Prisma.InvestmentPoolScalarFieldEnum | Prisma.InvestmentPoolScalarFieldEnum[]
+  distinct?: Prisma.PoolScalarFieldEnum | Prisma.PoolScalarFieldEnum[]
 }
 
 /**
- * InvestmentPool create
+ * Pool create
  */
-export type InvestmentPoolCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * The data needed to create a InvestmentPool.
+   * The data needed to create a Pool.
    */
-  data: Prisma.XOR<Prisma.InvestmentPoolCreateInput, Prisma.InvestmentPoolUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.PoolCreateInput, Prisma.PoolUncheckedCreateInput>
 }
 
 /**
- * InvestmentPool createMany
+ * Pool createMany
  */
-export type InvestmentPoolCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * The data used to create many InvestmentPools.
+   * The data used to create many Pools.
    */
-  data: Prisma.InvestmentPoolCreateManyInput | Prisma.InvestmentPoolCreateManyInput[]
+  data: Prisma.PoolCreateManyInput | Prisma.PoolCreateManyInput[]
 }
 
 /**
- * InvestmentPool createManyAndReturn
+ * Pool createManyAndReturn
  */
-export type InvestmentPoolCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelectCreateManyAndReturn<ExtArgs> | null
+  select?: Prisma.PoolSelectCreateManyAndReturn<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
-   * The data used to create many InvestmentPools.
+   * The data used to create many Pools.
    */
-  data: Prisma.InvestmentPoolCreateManyInput | Prisma.InvestmentPoolCreateManyInput[]
+  data: Prisma.PoolCreateManyInput | Prisma.PoolCreateManyInput[]
 }
 
 /**
- * InvestmentPool update
+ * Pool update
  */
-export type InvestmentPoolUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * The data needed to update a InvestmentPool.
+   * The data needed to update a Pool.
    */
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateInput, Prisma.InvestmentPoolUncheckedUpdateInput>
+  data: Prisma.XOR<Prisma.PoolUpdateInput, Prisma.PoolUncheckedUpdateInput>
   /**
-   * Choose, which InvestmentPool to update.
+   * Choose, which Pool to update.
    */
-  where: Prisma.InvestmentPoolWhereUniqueInput
+  where: Prisma.PoolWhereUniqueInput
 }
 
 /**
- * InvestmentPool updateMany
+ * Pool updateMany
  */
-export type InvestmentPoolUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * The data used to update InvestmentPools.
+   * The data used to update Pools.
    */
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateManyMutationInput, Prisma.InvestmentPoolUncheckedUpdateManyInput>
+  data: Prisma.XOR<Prisma.PoolUpdateManyMutationInput, Prisma.PoolUncheckedUpdateManyInput>
   /**
-   * Filter which InvestmentPools to update
+   * Filter which Pools to update
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
-   * Limit how many InvestmentPools to update.
+   * Limit how many Pools to update.
    */
   limit?: number
 }
 
 /**
- * InvestmentPool updateManyAndReturn
+ * Pool updateManyAndReturn
  */
-export type InvestmentPoolUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelectUpdateManyAndReturn<ExtArgs> | null
+  select?: Prisma.PoolSelectUpdateManyAndReturn<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
-   * The data used to update InvestmentPools.
+   * The data used to update Pools.
    */
-  data: Prisma.XOR<Prisma.InvestmentPoolUpdateManyMutationInput, Prisma.InvestmentPoolUncheckedUpdateManyInput>
+  data: Prisma.XOR<Prisma.PoolUpdateManyMutationInput, Prisma.PoolUncheckedUpdateManyInput>
   /**
-   * Filter which InvestmentPools to update
+   * Filter which Pools to update
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
-   * Limit how many InvestmentPools to update.
+   * Limit how many Pools to update.
    */
   limit?: number
 }
 
 /**
- * InvestmentPool upsert
+ * Pool upsert
  */
-export type InvestmentPoolUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * The filter to search for the InvestmentPool to update in case it exists.
+   * The filter to search for the Pool to update in case it exists.
    */
-  where: Prisma.InvestmentPoolWhereUniqueInput
+  where: Prisma.PoolWhereUniqueInput
   /**
-   * In case the InvestmentPool found by the `where` argument doesn't exist, create a new InvestmentPool with this data.
+   * In case the Pool found by the `where` argument doesn't exist, create a new Pool with this data.
    */
-  create: Prisma.XOR<Prisma.InvestmentPoolCreateInput, Prisma.InvestmentPoolUncheckedCreateInput>
+  create: Prisma.XOR<Prisma.PoolCreateInput, Prisma.PoolUncheckedCreateInput>
   /**
-   * In case the InvestmentPool was found with the provided `where` argument, update it with this data.
+   * In case the Pool was found with the provided `where` argument, update it with this data.
    */
-  update: Prisma.XOR<Prisma.InvestmentPoolUpdateInput, Prisma.InvestmentPoolUncheckedUpdateInput>
+  update: Prisma.XOR<Prisma.PoolUpdateInput, Prisma.PoolUncheckedUpdateInput>
 }
 
 /**
- * InvestmentPool delete
+ * Pool delete
  */
-export type InvestmentPoolDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Pool
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.PoolSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Pool
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.PoolOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.PoolInclude<ExtArgs> | null
   /**
-   * Filter which InvestmentPool to delete.
+   * Filter which Pool to delete.
    */
-  where: Prisma.InvestmentPoolWhereUniqueInput
+  where: Prisma.PoolWhereUniqueInput
 }
 
 /**
- * InvestmentPool deleteMany
+ * Pool deleteMany
  */
-export type InvestmentPoolDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PoolDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Filter which InvestmentPools to delete
+   * Filter which Pools to delete
    */
-  where?: Prisma.InvestmentPoolWhereInput
+  where?: Prisma.PoolWhereInput
   /**
-   * Limit how many InvestmentPools to delete.
+   * Limit how many Pools to delete.
    */
   limit?: number
 }
 
 /**
- * InvestmentPool.investments
+ * Pool.investments
  */
-export type InvestmentPool$investmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Pool$investmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestorInvestment
+   * Select specific fields to fetch from the Holding
    */
-  select?: Prisma.InvestorInvestmentSelect<ExtArgs> | null
+  select?: Prisma.HoldingSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestorInvestment
+   * Omit specific fields from the Holding
    */
-  omit?: Prisma.InvestorInvestmentOmit<ExtArgs> | null
+  omit?: Prisma.HoldingOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestorInvestmentInclude<ExtArgs> | null
-  where?: Prisma.InvestorInvestmentWhereInput
-  orderBy?: Prisma.InvestorInvestmentOrderByWithRelationInput | Prisma.InvestorInvestmentOrderByWithRelationInput[]
-  cursor?: Prisma.InvestorInvestmentWhereUniqueInput
+  include?: Prisma.HoldingInclude<ExtArgs> | null
+  where?: Prisma.HoldingWhereInput
+  orderBy?: Prisma.HoldingOrderByWithRelationInput | Prisma.HoldingOrderByWithRelationInput[]
+  cursor?: Prisma.HoldingWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.InvestorInvestmentScalarFieldEnum | Prisma.InvestorInvestmentScalarFieldEnum[]
+  distinct?: Prisma.HoldingScalarFieldEnum | Prisma.HoldingScalarFieldEnum[]
 }
 
 /**
- * InvestmentPool.milestones
+ * Pool.milestones
  */
-export type InvestmentPool$milestonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Pool$milestonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Milestone
    */
@@ -2969,9 +3415,9 @@ export type InvestmentPool$milestonesArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * InvestmentPool.constructionReports
+ * Pool.constructionReports
  */
-export type InvestmentPool$constructionReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Pool$constructionReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the ConstructionReport
    */
@@ -2993,9 +3439,9 @@ export type InvestmentPool$constructionReportsArgs<ExtArgs extends runtime.Types
 }
 
 /**
- * InvestmentPool.documents
+ * Pool.documents
  */
-export type InvestmentPool$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Pool$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Document
    */
@@ -3017,19 +3463,43 @@ export type InvestmentPool$documentsArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * InvestmentPool without action
+ * Pool.transactions
  */
-export type InvestmentPoolDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Pool$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InvestmentPool
+   * Select specific fields to fetch from the Transaction
    */
-  select?: Prisma.InvestmentPoolSelect<ExtArgs> | null
+  select?: Prisma.TransactionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InvestmentPool
+   * Omit specific fields from the Transaction
    */
-  omit?: Prisma.InvestmentPoolOmit<ExtArgs> | null
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InvestmentPoolInclude<ExtArgs> | null
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * Pool without action
+ */
+export type PoolDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Pool
+   */
+  select?: Prisma.PoolSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Pool
+   */
+  omit?: Prisma.PoolOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PoolInclude<ExtArgs> | null
 }
