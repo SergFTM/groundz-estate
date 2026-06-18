@@ -803,11 +803,11 @@ export const load: PageServerLoad = async ({ url, locals }) => {
   }
 </script>
 
-<svelte:head><title>OTC Secondary Market — Develta</title></svelte:head>
+<svelte:head><title>OTC Secondary Market — Groundz</title></svelte:head>
 
 <section class="otc-hero">
   <h1 class="otc-hero__title">OTC Secondary Market</h1>
-  <p class="otc-hero__subtitle">Early-exit liquidity for Develta investors and buyers</p>
+  <p class="otc-hero__subtitle">Early-exit liquidity for Groundz investors and buyers</p>
 </section>
 
 <div class="otc-layout">

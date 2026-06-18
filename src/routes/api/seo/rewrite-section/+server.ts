@@ -4,12 +4,14 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { callAI, AiClientError } from '$lib/server/seo/ai-client.js';
 import prisma from '$lib/server/db.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const PROMPT_PATH = resolve('src/lib/server/seo/prompts/rewrite-suggest.txt');
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'text_ai' });
+  const body = await event.request.json().catch(() => null);
   if (!body) throw error(400, 'Invalid JSON');
 
   const { pageId, sectionType, originalText, targetIntent, targetKeywords } = body;
@@ -23,7 +25,7 @@ export const POST: RequestHandler = async ({ request }) => {
     .replace('{{originalText}}', originalText);
 
   try {
-    const { content: raw } = await callAI({ prompt });
+    const { content: raw } = await callAI({ prompt, capability: 'seo.rewrite-section' });
     const match = raw.match(/\{[\s\S]*\}/);
     if (!match) throw new Error('Invalid AI response');
     const parsed = JSON.parse(match[0]);

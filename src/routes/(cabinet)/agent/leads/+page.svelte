@@ -78,7 +78,7 @@
 </script>
 
 <svelte:head>
-  <title>All Leads — Develta</title>
+  <title>All Leads — Groundz</title>
 </svelte:head>
 
 <div class="leads-page">

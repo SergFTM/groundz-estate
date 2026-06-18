@@ -63,7 +63,7 @@
 </script>
 
 <svelte:head>
-  <title>{project.name} — Develta</title>
+  <title>{project.name} — Groundz</title>
   <meta name="description" content={project.description ?? `${project.name} — premium residential development in ${project.location}`} />
 </svelte:head>
 

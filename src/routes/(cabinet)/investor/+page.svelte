@@ -49,7 +49,7 @@
 </script>
 
 <svelte:head>
-  <title>My Portfolio — Develta</title>
+  <title>My Portfolio — Groundz</title>
 </svelte:head>
 
 <div class="investor-dash">

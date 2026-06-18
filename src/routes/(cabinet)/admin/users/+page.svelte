@@ -18,7 +18,7 @@
 </script>
 
 <svelte:head>
-  <title>Users — Admin — Develta</title>
+  <title>Users — Admin — Groundz</title>
 </svelte:head>
 
 <div>

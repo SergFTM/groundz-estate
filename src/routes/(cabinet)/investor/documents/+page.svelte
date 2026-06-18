@@ -62,7 +62,7 @@
 </script>
 
 <svelte:head>
-  <title>Documents — Develta</title>
+  <title>Documents — Groundz</title>
 </svelte:head>
 
 <div style="max-width:1000px;display:flex;flex-direction:column;gap:var(--space-6);">

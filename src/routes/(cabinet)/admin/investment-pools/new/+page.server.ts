@@ -15,7 +15,7 @@ export const actions: Actions = {
 
     try {
       const data = createPoolSchema.parse(raw);
-      const pool = await db.investmentPool.create({
+      const pool = await db.pool.create({
         data: {
           name: data.name,
           slug: data.slug || null,

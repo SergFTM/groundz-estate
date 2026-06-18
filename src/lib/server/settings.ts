@@ -28,8 +28,8 @@ function decrypt(ciphertext: string): string {
   return decipher.update(encrypted) + decipher.final('utf8');
 }
 
-// Encrypted settings — only for sensitive keys
-const ENCRYPTED_KEYS = new Set(['openai_api_key']);
+// Encrypted settings — only for sensitive keys (no remote AI keys; local stack uses env).
+const ENCRYPTED_KEYS = new Set<string>([]);
 
 export async function getSetting(key: string): Promise<string | null> {
   const row = await db.appSetting.findUnique({ where: { key } });

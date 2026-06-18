@@ -90,7 +90,7 @@
 </script>
 
 <svelte:head>
-	<title>Подбор недвижимости — Develta</title>
+	<title>Подбор недвижимости — Groundz</title>
 </svelte:head>
 
 {#if submitted}

@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>{data.lead.name || 'Lead'} — Admin — Develta</title>
+  <title>{data.lead.name || 'Lead'} — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/leads" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Leads</a>

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>My Clients — Develta</title>
+  <title>My Clients — Groundz</title>
 </svelte:head>
 
 <div class="clients-page">

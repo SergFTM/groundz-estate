@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Investment Projection — Develta</title>
+	<title>Investment Projection — Groundz</title>
 	<meta name="description" content="Calculate your potential return on investment for Cyprus real estate. Explore rental yields, capital appreciation, and net profit projections with our interactive ROI calculator." />
 </svelte:head>
 

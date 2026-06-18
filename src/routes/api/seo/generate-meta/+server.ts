@@ -5,12 +5,14 @@ import { resolve } from 'path';
 import { callAI, AiClientError } from '$lib/server/seo/ai-client.js';
 import { getCache, setCache, buildCacheKey, contentHash } from '$lib/server/seo/ai-cache.js';
 import prisma from '$lib/server/db.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const PROMPT_PATH = resolve('src/lib/server/seo/prompts/meta-generate.txt');
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'text_ai' });
+  const body = await event.request.json().catch(() => null);
   if (!body) throw error(400, 'Invalid JSON');
 
   const { pageId, title, content, targetKeywords, locale } = body;
@@ -30,7 +32,7 @@ export const POST: RequestHandler = async ({ request }) => {
     .replace('{{excerpt}}', content.slice(0, 1500));
 
   try {
-    const { content: raw } = await callAI({ prompt });
+    const { content: raw } = await callAI({ prompt, capability: 'seo.generate-meta' });
     const match = raw.match(/\{[\s\S]*\}/);
     if (!match) throw new Error('Invalid AI response');
     const parsed = JSON.parse(match[0]);

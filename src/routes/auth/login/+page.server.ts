@@ -1,8 +1,10 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 import type { Actions } from './$types';
 import { loginSchema, registerSchema } from '$lib/utils/validators';
 import { hashPassword, verifyPassword, signToken } from '$lib/server/auth';
 import prisma from '$lib/server/db';
+import { rateLimit } from '$lib/server/rate-limit';
 
 function redirectForRole(role: string): string {
 	switch (role) {
@@ -15,7 +17,9 @@ function redirectForRole(role: string): string {
 }
 
 export const actions: Actions = {
-	login: async ({ request, cookies, url }) => {
+	login: async (event) => {
+		rateLimit(event, 'public');
+		const { request, cookies, url } = event;
 		const next = url.searchParams.get('next');
 		const formData = await request.formData();
 		const data = {
@@ -57,14 +61,16 @@ export const actions: Actions = {
 			path: '/',
 			maxAge: 3600,
 			httpOnly: true,
-			secure: false,
+			secure: !dev,
 			sameSite: 'lax'
 		});
 
 		throw redirect(302, next && next.startsWith('/') ? next : redirectForRole(user.role));
 	},
 
-	register: async ({ request, cookies, url }) => {
+	register: async (event) => {
+		rateLimit(event, 'public');
+		const { request, cookies, url } = event;
 		const next = url.searchParams.get('next');
 		const formData = await request.formData();
 		const data = {
@@ -114,7 +120,7 @@ export const actions: Actions = {
 			path: '/',
 			maxAge: 3600,
 			httpOnly: true,
-			secure: false,
+			secure: !dev,
 			sameSite: 'lax'
 		});
 

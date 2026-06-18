@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Reset Password — Develta</title>
+	<title>Reset Password — Groundz</title>
 </svelte:head>
 
 <div class="auth-page">

@@ -1,6 +1,6 @@
 # Image Map — Scraped Screenshots
 
-> Screenshots taken from develta.cy in March 2026.
+> Screenshots taken from groundz.estate in March 2026.
 > These are temporary stand-ins. Replace with high-quality renders/photos when available.
 
 ---

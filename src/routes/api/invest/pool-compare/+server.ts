@@ -3,11 +3,14 @@
 import { json } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: 'any', bucket: 'text_ai' });
+  const { request } = event;
   const body = await request.json().catch(() => null);
   if (!body?.pools || !Array.isArray(body.pools) || body.pools.length < 2) {
     return json({ error: 'At least 2 pools required' }, { status: 400 });
@@ -33,7 +36,7 @@ export const POST: RequestHandler = async ({ request }) => {
   - Funding: ${p.progress}% raised | ${p.investors} investor${p.investors !== 1 ? 's' : ''}`
   ).join('\n\n');
 
-  const prompt = `You are a real estate investment analyst comparing ${pools.length} investment pools on the Develta platform.
+  const prompt = `You are a real estate investment analyst comparing ${pools.length} investment pools on the Groundz platform.
 
 ${poolLines}
 
@@ -48,6 +51,7 @@ Be specific with numbers. Never guarantee returns. Write in English.`;
     const result = await callAI({
       systemPrompt: 'You are a concise, honest real estate investment analyst.',
       prompt,
+      capability: 'invest.pool-compare',
     });
 
     await db.aiResponseCache.upsert({

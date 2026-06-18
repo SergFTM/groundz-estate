@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-  <title>Edit {data.article.title} — Admin — Develta</title>
+  <title>Edit {data.article.title} — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/articles" class="back-link">← Back to Articles</a>

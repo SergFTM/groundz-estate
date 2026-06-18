@@ -2,10 +2,13 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { chat } from '$lib/server/ai';
 import type { ChatRole, Message } from '$lib/server/ai';
+import { rateLimit } from '$lib/server/rate-limit';
 
 const VALID_ROLES: ChatRole[] = ['public', 'buyer', 'investor', 'agent', 'internal_team'];
 
-export const POST: RequestHandler = async ({ request, locals }) => {
+export const POST: RequestHandler = async (event) => {
+  rateLimit(event, 'chat');
+  const { request, locals } = event;
   let body: unknown;
   try {
     body = await request.json();

@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
   const { user } = await parent();
 
   const [pool, myCommit] = await Promise.all([
-    db.investmentPool.findUnique({
+    db.pool.findUnique({
       where: { id: params.id },
       include: {
         investments: { include: { user: { select: { name: true } } } },
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
         milestones:  { orderBy: { plannedDate: 'asc' } },
       },
     }),
-    db.investorInvestment.findFirst({
+    db.holding.findFirst({
       where: { poolId: params.id, userId: user.id },
     }),
   ]);
@@ -27,7 +27,7 @@ export const actions: Actions = {
   invest: async ({ request, params, locals }) => {
     if (!locals.user) return fail(401, { error: 'Not authenticated' });
 
-    const pool = await db.investmentPool.findUnique({ where: { id: params.id } });
+    const pool = await db.pool.findUnique({ where: { id: params.id } });
     if (!pool) throw error(404, 'Pool not found');
 
     if (pool.status !== 'active') {
@@ -51,7 +51,7 @@ export const actions: Actions = {
       return fail(400, { error: `Maximum available investment is €${remaining.toLocaleString()}` });
     }
 
-    await db.investorInvestment.create({
+    await db.holding.create({
       data: {
         userId: locals.user.id,
         poolId: params.id,
@@ -59,7 +59,7 @@ export const actions: Actions = {
       }
     });
 
-    await db.investmentPool.update({
+    await db.pool.update({
       where: { id: params.id },
       data: { raisedAmount: { increment: amount } }
     });

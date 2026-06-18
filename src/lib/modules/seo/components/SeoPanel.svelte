@@ -153,7 +153,7 @@
     return `<!DOCTYPE html><html><head>
       <title>${escHtml(title)}</title>
       <meta name="description" content="">
-      <link rel="canonical" href="https://develta.cy/knowledge/${escHtml(slug)}">
+      <link rel="canonical" href="https://groundz.estate/knowledge/${escHtml(slug)}">
     </head><body>
       <h1>${escHtml(title)}</h1>
       ${content}
@@ -296,7 +296,7 @@
           {metaLoading ? '…' : 'Generate'}
         </button>
       </div>
-      <SeoMetaPreview title={metaTitle} description={metaDesc} url="develta.cy/knowledge/{slug}" />
+      <SeoMetaPreview title={metaTitle} description={metaDesc} url="groundz.estate/knowledge/{slug}" />
       {#if metaTitle || metaDesc}
         <div class="seo-meta-fields">
           {#if metaTitle}

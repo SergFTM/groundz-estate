@@ -1,12 +1,14 @@
 // POST /api/seo/audit-page
 import { json, error } from '@sveltejs/kit';
 import { runSeoAudit } from '$lib/server/seo/orchestrator.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'text_ai' });
   let body: unknown;
   try {
-    body = await request.json();
+    body = await event.request.json();
   } catch {
     throw error(400, 'Invalid JSON body');
   }

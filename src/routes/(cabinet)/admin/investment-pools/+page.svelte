@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>Investment Pools — Admin — Develta</title>
+  <title>Investment Pools — Admin — Groundz</title>
 </svelte:head>
 
 <div>

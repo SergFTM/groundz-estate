@@ -24,7 +24,7 @@
 <svelte:window bind:scrollY />
 
 <svelte:head>
-  <title>Our Projects — Develta</title>
+  <title>Our Projects — Groundz</title>
   <meta name="description" content="Explore premium residential developments in Limassol, Cyprus." />
 </svelte:head>
 

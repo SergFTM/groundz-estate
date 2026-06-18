@@ -20,7 +20,7 @@ export const load: PageServerLoad = async (event) => {
       orderBy: { createdAt: 'desc' },
     }),
     // Funded investments NOT already having a pending/active listing
-    db.investorInvestment.findMany({
+    db.holding.findMany({
       where: {
         userId: user.id,
         status: 'funded',

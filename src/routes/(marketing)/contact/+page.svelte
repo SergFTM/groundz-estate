@@ -6,8 +6,8 @@
 </script>
 
 <svelte:head>
-  <title>Contact — Develta</title>
-  <meta name="description" content="Get in touch with the Develta team. We're based in Limassol, Cyprus." />
+  <title>Contact — Groundz</title>
+  <meta name="description" content="Get in touch with the Groundz team. We're based in Limassol, Cyprus." />
 </svelte:head>
 
 <section class="contact-section">
@@ -77,7 +77,7 @@
             </div>
             <div class="office-item">
               <span class="office-label">Email</span>
-              <a href="mailto:sales@develta.cy">sales@develta.cy</a>
+              <a href="mailto:sales@groundz.estate">sales@groundz.estate</a>
             </div>
             <div class="office-item">
               <span class="office-label">Hours</span>
@@ -95,7 +95,7 @@
             allowfullscreen
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            title="Develta office location — Limassol, Cyprus"
+            title="Groundz office location — Limassol, Cyprus"
           ></iframe>
         </div>
       </div>

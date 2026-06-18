@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-  <title>FAQ — Develta</title>
+  <title>FAQ — Groundz</title>
   <meta name="description" content="Frequently asked questions about buying and investing in Cyprus real estate." />
 </svelte:head>
 

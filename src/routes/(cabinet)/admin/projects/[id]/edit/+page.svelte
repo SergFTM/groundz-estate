@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>Edit {data.project.name} — Admin — Develta</title>
+  <title>Edit {data.project.name} — Admin — Groundz</title>
 </svelte:head>
 
 <a

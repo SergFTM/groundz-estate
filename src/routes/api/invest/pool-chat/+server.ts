@@ -1,22 +1,17 @@
-// POST /api/invest/pool-chat
-// Contextual AI chat for a specific investment pool
+// POST /api/invest/pool-chat — contextual AI chat for a specific investment pool.
 import { json } from '@sveltejs/kit';
-import OpenAI from 'openai';
 import db from '$lib/server/db.js';
-import { getSetting } from '$lib/server/settings.js';
-import { OPENAI_API_KEY } from '$env/static/private';
+import { localChat } from '$lib/server/local-llm.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const MAX_HISTORY = 8;
 const MAX_MSG_LEN = 600;
 
-async function getOpenAI(): Promise<OpenAI> {
-  const dbKey = await getSetting('openai_api_key');
-  return new OpenAI({ apiKey: dbKey || OPENAI_API_KEY });
-}
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: 'any', bucket: 'chat' });
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+  const body = await event.request.json().catch(() => null);
   if (!body?.poolId || !body?.message) {
     return json({ error: 'poolId and message required' }, { status: 400 });
   }
@@ -30,15 +25,13 @@ export const POST: RequestHandler = async ({ request }) => {
   const msg = String(message).slice(0, MAX_MSG_LEN).trim();
   if (!msg) return json({ error: 'Empty message' }, { status: 400 });
 
-  // Load pool with full context
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { id: poolId },
     include: {
       milestones: { orderBy: { plannedDate: 'asc' } },
       constructionReports: { orderBy: { reportDate: 'desc' }, take: 1 },
     },
   });
-
   if (!pool) return json({ error: 'Pool not found' }, { status: 404 });
 
   const latestReport = pool.constructionReports[0] ?? null;
@@ -63,7 +56,19 @@ export const POST: RequestHandler = async ({ request }) => {
     totalMs > 0 ? `Construction: ${completedMs}/${totalMs} milestones done${latestReport ? `, overall ${latestReport.overallPct}% complete` : ''}` : null,
   ].filter(Boolean).join('\n');
 
-  const systemPrompt = `You are an expert investment advisor for the Develta platform, answering questions about a specific real estate investment pool.
+  const safeHistory = Array.isArray(history)
+    ? history
+        .filter(m => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+        .slice(-MAX_HISTORY)
+    : [];
+
+  const conversation = safeHistory
+    .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
+    .join('\n');
+
+  const prompt = `${conversation ? conversation + '\n' : ''}User: ${msg}\nAssistant:`;
+
+  const systemPrompt = `You are an expert investment advisor for the Groundz platform, answering questions about a specific real estate investment pool.
 
 POOL DATA:
 ${poolContext}
@@ -76,26 +81,13 @@ RULES:
 - If asked something outside your knowledge, say so honestly
 - Answer in the same language the user writes in (English or Russian)`;
 
-  // Sanitise history
-  const safeHistory: OpenAI.Chat.ChatCompletionMessageParam[] = Array.isArray(history)
-    ? history
-        .filter(m => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
-        .slice(-MAX_HISTORY)
-        .map(m => ({ role: m.role, content: m.content }))
-    : [];
-
   try {
-    const openai = await getOpenAI();
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...safeHistory,
-        { role: 'user', content: msg },
-      ],
+    const result = await localChat({
+      systemPrompt, prompt,
+      temperature: 0.4, maxTokens: 600,
+      capability: 'invest.pool-chat',
     });
-
-    return json({ reply: response.choices[0].message.content ?? '' });
+    return json({ reply: result.content });
   } catch {
     return json({ error: 'AI unavailable' }, { status: 503 });
   }

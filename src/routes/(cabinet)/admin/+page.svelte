@@ -2,7 +2,6 @@
   import { formatCurrency } from '$lib/utils/formatters';
   import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
-  import AIChatWidget from '$lib/components/AIChatWidget.svelte';
 
   let { data } = $props();
 
@@ -10,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>Admin Dashboard — Develta</title>
+  <title>Admin Dashboard — Groundz</title>
 </svelte:head>
 
 <div class="admin-dash">
@@ -233,9 +232,6 @@
     </div>
   </div>
 
-  <div class="admin-dash__ai">
-    <AIChatWidget role="internal_team" userId={adminUser.user?.id} />
-  </div>
 </div>
 
 <style>

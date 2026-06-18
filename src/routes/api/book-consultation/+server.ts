@@ -2,11 +2,13 @@ import { json } from '@sveltejs/kit';
 import db from '$lib/server/db';
 import { sendLeadNotification } from '$lib/server/email';
 import { callBookingSchema } from '$lib/utils/validators';
+import { rateLimit } from '$lib/server/rate-limit';
 import { ZodError } from 'zod';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ request }) => {
-  const { name, phone, timeSlot, projectSlug } = await request.json() as {
+export const POST: RequestHandler = async (event) => {
+  rateLimit(event, 'public');
+  const { name, phone, timeSlot, projectSlug } = await event.request.json() as {
     name: string;
     phone: string;
     timeSlot: string;

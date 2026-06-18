@@ -1,3 +1,9 @@
 {
-	"recommendations": ["svelte.svelte-vscode"]
+	"recommendations": [
+		"svelte.svelte-vscode",
+		"prisma.prisma",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"yoavbls.pretty-ts-errors"
+	]
 }

@@ -58,11 +58,11 @@ async function main() {
   await prisma.user.deleteMany();
 
   // ── Users (6) ────────────────────────────────────────────
-  const hashedPassword = await bcrypt.hash("develta123", 12);
+  const hashedPassword = await bcrypt.hash("groundz123", 12);
 
   const admin = await prisma.user.create({
     data: {
-      email: "admin@develta.cy",
+      email: "admin@groundz.estate",
       password: hashedPassword,
       role: "internal_team",
       name: "Sarah Admin",
@@ -72,7 +72,7 @@ async function main() {
 
   const buyer = await prisma.user.create({
     data: {
-      email: "buyer@develta.cy",
+      email: "buyer@groundz.estate",
       password: hashedPassword,
       role: "buyer",
       name: "Maria Petrova",
@@ -82,7 +82,7 @@ async function main() {
 
   const buyer2 = await prisma.user.create({
     data: {
-      email: "buyer2@develta.cy",
+      email: "buyer2@groundz.estate",
       password: hashedPassword,
       role: "buyer",
       name: "Andreas Christodoulou",
@@ -92,7 +92,7 @@ async function main() {
 
   const investor = await prisma.user.create({
     data: {
-      email: "investor@develta.cy",
+      email: "investor@groundz.estate",
       password: hashedPassword,
       role: "investor",
       name: "Alexander Chen",
@@ -102,7 +102,7 @@ async function main() {
 
   const agent = await prisma.user.create({
     data: {
-      email: "agent@develta.cy",
+      email: "agent@groundz.estate",
       password: hashedPassword,
       role: "agent",
       name: "Nikos Papadopoulos",
@@ -112,15 +112,15 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: "team@develta.cy",
+      email: "team@groundz.estate",
       password: hashedPassword,
       role: "internal_team",
-      name: "Develta Team",
+      name: "Groundz Team",
       phone: "+357 96 567890",
     },
   });
 
-  console.log("  Created 6 users (password: develta123)");
+  console.log("  Created 6 users (password: groundz123)");
 
   // ── Projects (5) ─────────────────────────────────────────
   const sungardo = await prisma.project.create({
@@ -317,7 +317,7 @@ async function main() {
   await prisma.lead.create({ data: { source: "newsletter", status: "new", email: "john.smith@example.com", tag: "warm" } });
   const lead3 = await prisma.lead.create({ data: { source: "brochure", status: "contacted", name: "Ahmed Al-Hassan", email: "ahmed@example.com", phone: "+971 50 1234567", tag: "warm", agentId: agent.id } });
   await prisma.lead.create({ data: { source: "call_booking", status: "new", name: "Li Wei", email: "li.wei@example.com", phone: "+86 138 0000 1234", data: '{"preferredDate":"2026-03-15","project":"sungardo"}', tag: "hot" } });
-  await prisma.lead.create({ data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@develta.cy", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id } });
+  await prisma.lead.create({ data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@groundz.estate", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id } });
   await prisma.lead.create({ data: { source: "quiz", status: "contacted", name: "Dmitry Volkov", email: "dmitry@example.com", phone: "+357 99 123456", tag: "hot", agentId: agent.id, data: JSON.stringify({ timing: "1-3 months", budget: "€500k+" }) } });
   await prisma.lead.create({ data: { source: "quiz", status: "new", name: "Sophie Laurent", email: "sophie@example.com", tag: "warm" } });
   await prisma.lead.create({ data: { source: "newsletter", status: "lost", name: "Robert Mueller", email: "r.mueller@example.com", tag: "cold" } });
@@ -426,13 +426,13 @@ async function main() {
   console.log("  Created 3 articles");
 
   console.log("\n✓ Seeding complete!");
-  console.log("  Test accounts (password: develta123):");
-  console.log("    admin@develta.cy   — internal_team");
-  console.log("    buyer@develta.cy   — buyer (unit SYM-202)");
-  console.log("    buyer2@develta.cy  — buyer (unit AC-201)");
-  console.log("    investor@develta.cy — investor");
-  console.log("    agent@develta.cy   — agent");
-  console.log("    team@develta.cy    — internal_team");
+  console.log("  Test accounts (password: groundz123):");
+  console.log("    admin@groundz.estate   — internal_team");
+  console.log("    buyer@groundz.estate   — buyer (unit SYM-202)");
+  console.log("    buyer2@groundz.estate  — buyer (unit AC-201)");
+  console.log("    investor@groundz.estate — investor");
+  console.log("    agent@groundz.estate   — agent");
+  console.log("    team@groundz.estate    — internal_team");
 }
 
 main()
@@ -448,14 +448,14 @@ main()
 - [ ] **Step 1.2: Run the seed and verify output**
 
 ```bash
-cd develta-svelte
+cd groundz-svelte
 npx prisma db seed
 ```
 
 Expected output:
 ```
 Seeding database...
-  Created 6 users (password: develta123)
+  Created 6 users (password: groundz123)
   Created 5 projects
   Created 22 units (8 sold, 3 reserved, 11 available)
   Created 4 construction phases with media
@@ -587,7 +587,7 @@ export const load: PageServerLoad = async () => {
 - [ ] **Step 2.2: Run type-check to catch any TypeScript errors**
 
 ```bash
-cd develta-svelte
+cd groundz-svelte
 npx svelte-kit sync && npx tsc --noEmit
 ```
 
@@ -717,7 +717,7 @@ npm run dev
 ```
 
 1. Open `http://localhost:5173/auth/login`
-2. Login as `admin@develta.cy` / `develta123`
+2. Login as `admin@groundz.estate` / `groundz123`
 3. You should see on `/admin`:
    - **Row 1 (existing):** Total Leads = 12, Hot Leads = 4, Active Units = 11, Overdue Payments = 2
    - **Row 2 (existing):** Total Users = 6, Investment Raised = €150,000, Active Pools = 2, Pending Documents = 1
@@ -738,12 +738,12 @@ git commit -m "feat: add conversion rate, sales KPIs, and breakdown panels to ad
 
 Both chunks complete. The admin dashboard now shows full analytics and the seed provides realistic test data for all user roles.
 
-**Quick test logins** (password: `develta123`):
+**Quick test logins** (password: `groundz123`):
 
 | URL | Email | Role |
 |-----|-------|------|
-| /admin | admin@develta.cy | Admin |
-| /buyer | buyer@develta.cy | Buyer (SYM-202) |
-| /buyer | buyer2@develta.cy | Buyer (AC-201) |
-| /investor | investor@develta.cy | Investor |
-| /agent | agent@develta.cy | Agent |
+| /admin | admin@groundz.estate | Admin |
+| /buyer | buyer@groundz.estate | Buyer (SYM-202) |
+| /buyer | buyer2@groundz.estate | Buyer (AC-201) |
+| /investor | investor@groundz.estate | Investor |
+| /agent | agent@groundz.estate | Agent |

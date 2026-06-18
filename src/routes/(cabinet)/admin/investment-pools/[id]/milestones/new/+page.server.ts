@@ -15,7 +15,7 @@ const milestoneSchema = z.object({
 });
 
 export const load: PageServerLoad = async ({ params }) => {
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { id: params.id },
     select: { id: true, name: true }
   });
@@ -25,7 +25,7 @@ export const load: PageServerLoad = async ({ params }) => {
 
 export const actions: Actions = {
   create: async ({ request, params }) => {
-    const pool = await db.investmentPool.findUnique({ where: { id: params.id }, select: { id: true } });
+    const pool = await db.pool.findUnique({ where: { id: params.id }, select: { id: true } });
     if (!pool) throw error(404, 'Investment pool not found');
 
     const formData = await request.formData();

@@ -60,7 +60,7 @@
 </script>
 
 <svelte:head>
-  <title>Construction Monitoring — Develta</title>
+  <title>Construction Monitoring — Groundz</title>
 </svelte:head>
 
 <div style="max-width:900px;">
@@ -72,7 +72,7 @@
   {#if pools.length === 0}
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-12);text-align:center;">
       <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">No investments to monitor yet.</p>
-      <a href="/investment" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
+      <a href="/pools" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
     </div>
 
   {:else}
@@ -83,7 +83,7 @@
         <!-- Pool header -->
         <div style="padding:var(--space-5) var(--space-6);border-bottom:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3);">
           <div>
-            <a href="/investment/{pool.slug}" style="font-size:var(--text-base);font-weight:700;color:var(--color-text);text-decoration:none;">{pool.name}</a>
+            <a href="/pools/{pool.slug}" style="font-size:var(--text-base);font-weight:700;color:var(--color-text);text-decoration:none;">{pool.name}</a>
             {#if delayed.length > 0}
               <span style="margin-left:var(--space-2);font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:rgba(239,68,68,0.1);color:#ef4444;">
                 {delayed.length} delayed

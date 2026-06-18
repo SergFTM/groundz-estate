@@ -1,77 +1,68 @@
-import OpenAI from 'openai';
+// Tour & floor-plan image generation via local Stable Diffusion (Automatic1111 WebUI).
 import * as fs from 'fs';
 import * as path from 'path';
 import { getRooms } from '$lib/tour-rooms';
+import { generateLocalImage } from './local-image';
 
 const STYLE_SUFFIX = [
-  'Architectural interior render, photorealistic, daytime Mediterranean light,',
+  'architectural interior render, photorealistic, daytime mediterranean light,',
   'white walls, light oak floors, minimalist luxury furniture, no people,',
-  'wide-angle lens 24mm, sharp focus, high resolution.',
-  'Style: contemporary Cyprus residential, clean lines, warm neutral palette.',
+  'wide-angle lens 24mm, sharp focus, high resolution,',
+  'contemporary cyprus residential, clean lines, warm neutral palette',
 ].join(' ');
 
 const ANGLES = [
   {
     key: 'left' as const,
     tag: 'l',
-    hint: 'Camera positioned at the left side of the room, rotated approximately 30 degrees rightward, wide-angle shot showing the left wall and far corner.',
+    hint: 'camera positioned at the left side of the room, rotated approximately 30 degrees rightward, wide-angle shot showing the left wall and far corner',
   },
   {
     key: 'front' as const,
     tag: 'f',
-    hint: 'Camera centered, facing straight ahead, symmetrical composition of the main feature wall.',
+    hint: 'camera centered, facing straight ahead, symmetrical composition of the main feature wall',
   },
   {
     key: 'right' as const,
     tag: 'r',
-    hint: 'Camera positioned at the right side of the room, rotated approximately 30 degrees leftward, wide-angle shot showing the right wall and far corner.',
+    hint: 'camera positioned at the right side of the room, rotated approximately 30 degrees leftward, wide-angle shot showing the right wall and far corner',
   },
 ];
 
-function buildParams(model: string, prompt: string, quality = 'high'): Parameters<OpenAI['images']['generate']>[0] {
-  const base = model === 'dall-e-3-hd' ? 'dall-e-3' : model;
-  if (base === 'gpt-image-1') {
-    // high → 1536×1024 for better room detail; low/medium → 1024×1024 (cheaper)
-    const size = quality === 'high' ? '1536x1024' : '1024x1024';
-    return { model: base, prompt, n: 1, size, quality: quality as 'low' | 'medium' | 'high' };
-  }
-  if (base === 'dall-e-2') {
-    return { model: base, prompt, n: 1, size: '1024x1024', response_format: 'b64_json' };
-  }
-  return {
-    model: base, prompt, n: 1, size: '1792x1024', response_format: 'b64_json',
-    quality: model === 'dall-e-3-hd' ? 'hd' : 'standard',
-  };
+function dimsForQuality(quality: string): { width: number; height: number; steps: number } {
+  if (quality === 'low')    return { width: 768,  height: 512,  steps: 20 };
+  if (quality === 'medium') return { width: 1024, height: 768,  steps: 24 };
+  return { width: 1280, height: 832, steps: 32 };
 }
 
+/**
+ * Generates a top-down isometric floor plan via local SD.
+ * `apiKey` and `imageModel` are accepted for API back-compat but ignored —
+ * the local SD model is configured via env (LOCAL_IMAGE_MODEL).
+ */
 export async function generateFloorPlanImage(
-  apiKey: string,
+  _apiKey: string,
   unit: { id: string; code: string; type: string },
   staticDir: string,
-  imageModel = 'gpt-image-1',
+  _imageModel = 'sdxl',
   imageQuality = 'high',
 ): Promise<string> {
-  const client = new OpenAI({ apiKey });
   const rooms = getRooms(unit.type);
-
   const roomList = rooms
     .map((r, i) => `${i + 1}. ${r.label}${r.dims ? ` (${r.dims})` : ''}`)
     .join(', ');
 
   const prompt = [
-    `Isometric 3D architectural floor plan of a ${unit.type} apartment, bird's-eye view at 45-degree angle.`,
-    `Rooms: ${roomList}.`,
-    'White cream walls with clear dark outlines, light oak parquet floors, rooms proportionally sized.',
-    'Each room labeled with a small white circular badge showing its number (1, 2, 3...).',
-    'Mediterranean Cyprus residential style, soft daylight from above-left.',
-    'Professional clean render, no people, light gray background, all rooms visible from above.',
+    `isometric 3D architectural floor plan of a ${unit.type} apartment, bird's-eye view at 45-degree angle.`,
+    `rooms: ${roomList}.`,
+    'white cream walls with clear dark outlines, light oak parquet floors, rooms proportionally sized.',
+    'each room labeled with a small white circular badge showing its number.',
+    'mediterranean cyprus residential style, soft daylight from above-left.',
+    'professional clean render, no people, light gray background, all rooms visible from above',
   ].join(' ');
 
-  const params = buildParams(imageModel, prompt, imageQuality);
-  const response = await client.images.generate(params) as { data: Array<{ b64_json?: string | null }> };
-
-  const b64 = response.data?.[0]?.b64_json;
-  if (!b64) throw new Error('No image data returned for floor plan');
+  const { width, height, steps } = dimsForQuality(imageQuality);
+  const b64 = await generateLocalImage({ prompt, width, height, steps });
 
   const outputDir = path.join(staticDir, 'images', 'tours', unit.code.toLowerCase());
   fs.mkdirSync(outputDir, { recursive: true });
@@ -95,17 +86,15 @@ export interface GenerateResult {
 }
 
 export async function generateTourImages(
-  apiKey: string,
+  _apiKey: string,
   unit: { id: string; code: string; type: string },
   staticDir: string,
-  imageModel = 'dall-e-3',
+  _imageModel = 'sdxl',
   fillFrom: TourImageMeta[] = [],
   imageQuality = 'high',
 ): Promise<GenerateResult> {
-  const client = new OpenAI({ apiKey });
   const rooms = getRooms(unit.type);
 
-  // Build lookup of existing images by "roomIndex-angle" key
   const existing = new Map(
     fillFrom
       .filter(img => img.roomIndex != null && img.angle)
@@ -115,6 +104,7 @@ export async function generateTourImages(
   const outputDir = path.join(staticDir, 'images', 'tours', unit.code.toLowerCase());
   fs.mkdirSync(outputDir, { recursive: true });
 
+  const { width, height, steps } = dimsForQuality(imageQuality);
   const images: TourImageMeta[] = [];
 
   for (let i = 0; i < rooms.length; i++) {
@@ -124,18 +114,18 @@ export async function generateTourImages(
     for (const angle of ANGLES) {
       const key = `${i}-${angle.key}`;
 
-      // Reuse existing image — no API call needed
       if (existing.has(key)) {
         images.push(existing.get(key)!);
         continue;
       }
 
-      const prompt = `${room.fragment}. ${angle.hint} ${STYLE_SUFFIX}`;
-      const params = buildParams(imageModel, prompt, imageQuality);
-      const response = await client.images.generate(params) as { data: Array<{ b64_json?: string | null }> };
-
-      const b64 = response.data?.[0]?.b64_json;
-      if (!b64) continue;
+      const prompt = `${room.fragment}. ${angle.hint}. ${STYLE_SUFFIX}`;
+      let b64: string;
+      try {
+        b64 = await generateLocalImage({ prompt, width, height, steps });
+      } catch {
+        continue;
+      }
 
       const filename = `${String(i + 1).padStart(2, '0')}-${roomSlug}-${angle.tag}.jpg`;
       fs.writeFileSync(path.join(outputDir, filename), Buffer.from(b64, 'base64'));

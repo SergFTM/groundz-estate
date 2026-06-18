@@ -1,5 +1,4 @@
 <script lang="ts">
-  import StatusBadge from '$lib/components/cabinet/StatusBadge.svelte';
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
 
   interface Props {
@@ -20,104 +19,166 @@
     if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(1)}M`;
     return `€${Math.round(n / 1000)}k`;
   }
+
+  const statusLabel: Record<string, string> = {
+    active: 'Active',
+    coming_soon: 'Coming Soon',
+    closed: 'Closed',
+    on_hold: 'On Hold',
+  };
 </script>
 
-<div class="investment-card">
-  <div class="investment-card__header">
+<div class="inv-card">
+  <!-- Header -->
+  <div class="inv-card__header">
     <div>
-      <h3 class="investment-card__name">{name}</h3>
-      <div class="investment-card__project">{projectName}</div>
+      <h3 class="inv-card__name">{name}</h3>
+      <div class="inv-card__project">{projectName}</div>
     </div>
-    <StatusBadge {status} />
+    <span class="inv-card__status">{statusLabel[status] ?? status}</span>
   </div>
 
-  <div class="investment-card__yield">
-    <span class="investment-card__yield-value">{targetYield}% p.a.</span>
-    <span class="investment-card__yield-label">target yield</span>
+  <!-- Yield -->
+  <div class="inv-card__yield">
+    <span class="inv-card__yield-value">{targetYield}%</span>
+    <span class="inv-card__yield-suffix">p.a.</span>
+    <span class="inv-card__yield-label">target yield</span>
   </div>
 
-  <div class="investment-card__progress">
+  <!-- Progress -->
+  <div class="inv-card__progress">
     <ProgressBar value={progressPercent} showPercent={false} />
-    <div class="investment-card__progress-label">
+    <div class="inv-card__progress-row">
       <span>{formatAmount(raisedAmount)} raised</span>
-      <span>of {formatAmount(goalAmount)} goal</span>
+      <span>{progressPercent}% · of {formatAmount(goalAmount)}</span>
     </div>
   </div>
 
   {#if description}
-    <p class="investment-card__desc">{description}</p>
+    <p class="inv-card__desc">{description}</p>
   {/if}
 
-  <a href="/contact" class="investment-card__link">Learn More →</a>
+  <!-- CTA -->
+  <a href="/contact" class="inv-card__cta">Learn More →</a>
 </div>
 
 <style>
-  .investment-card {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
+  .inv-card {
+    background: linear-gradient(
+      to bottom,
+      #2a2825 0%,
+      #33302c 60%,
+      #3d3830 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 24px 24px 22px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
-    transition: box-shadow var(--transition-base);
+    gap: 18px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .investment-card:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  .inv-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
   }
 
-  .investment-card__header {
+  /* ── Header ── */
+  .inv-card__header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: var(--space-3);
+    gap: 12px;
   }
 
-  .investment-card__name {
-    font-size: var(--text-lg);
+  .inv-card__name {
+    font-family: 'Ivyora Display', Georgia, 'Times New Roman', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.35rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 4px;
+    line-height: 1.2;
+  }
+
+  .inv-card__project {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .inv-card__status {
+    font-size: 0.58rem;
     font-weight: 700;
-    color: var(--color-text);
-    margin: 0 0 var(--space-1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background: rgba(122, 140, 110, 0.12);
+    border: 1px solid rgba(122, 140, 110, 0.25);
+    padding: 4px 9px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
-  .investment-card__project {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-
-  .investment-card__yield {
+  /* ── Yield ── */
+  .inv-card__yield {
     display: flex;
     align-items: baseline;
-    gap: var(--space-2);
+    gap: 4px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   }
 
-  .investment-card__yield-value {
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    color: var(--color-accent);
-    font-family: 'IvyoraDisplay', serif;
+  .inv-card__yield-value {
+    font-family: 'Ivyora Display', Georgia, 'Times New Roman', serif;
+    font-weight: 300;
     font-style: italic;
+    font-size: 2.4rem;
+    color: #fff;
+    line-height: 1;
   }
 
-  .investment-card__yield-label {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
+  .inv-card__yield-suffix {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2px;
   }
 
-  .investment-card__progress-label {
+  .inv-card__yield-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-left: 6px;
+    margin-bottom: 2px;
+  }
+
+  /* ── Progress ── */
+  .inv-card__progress {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .inv-card__progress-row {
     display: flex;
     justify-content: space-between;
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    margin-top: var(--space-1);
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.02em;
   }
 
-  .investment-card__desc {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
+  /* ── Description ── */
+  .inv-card__desc {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
     line-height: 1.6;
     margin: 0;
     display: -webkit-box;
@@ -126,15 +187,19 @@
     overflow: hidden;
   }
 
-  .investment-card__link {
-    font-size: var(--text-sm);
+  /* ── CTA ── */
+  .inv-card__cta {
+    font-size: 0.68rem;
     font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--color-accent);
     text-decoration: none;
     margin-top: auto;
+    transition: letter-spacing 0.2s;
   }
 
-  .investment-card__link:hover {
-    text-decoration: underline;
+  .inv-card:hover .inv-card__cta {
+    letter-spacing: 0.15em;
   }
 </style>

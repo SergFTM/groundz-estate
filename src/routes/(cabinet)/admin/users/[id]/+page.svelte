@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>{data.targetUser.name || data.targetUser.email} — Users — Admin — Develta</title>
+  <title>{data.targetUser.name || data.targetUser.email} — Users — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/users" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Users</a>

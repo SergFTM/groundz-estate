@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-  <title>Commissions — Develta</title>
+  <title>Commissions — Groundz</title>
 </svelte:head>
 
 <div class="commissions-page">

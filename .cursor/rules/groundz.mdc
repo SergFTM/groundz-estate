@@ -1,0 +1,66 @@
+---
+description: Groundz Platform — global rules for any code edit
+alwaysApply: true
+---
+
+# Groundz Platform — Cursor Rules
+
+You are working on a multi-tenant generator for premium real estate sites.
+
+## Read these BEFORE editing
+
+- Project orientation: `README.md`
+- Full specification: `docs/spec/README.md` (8 files)
+- Per-area skills: `docs/skills/README.md` (11 files)
+
+## Hard locks (never violate)
+
+- **AI is NOT a source of truth — AI orchestrates sources of truth.** LLM never "remembers" facts; always: Adapter → data → LLM formulates with citations. Read `docs/spec/08-ai-orchestrator.md` and `docs/skills/12-ai-orchestrator.skill.md` before touching `src/lib/server/ai-core/`.
+- **11-factor QueryContext** resolved by Identity Engine before any engine call.
+- **Policy Engine** pre-check + post-check on every AI response.
+- **Audit Engine** append-only, non-bypassable. Failed audit = no response.
+- **Adapter contract** for all 15 sources of truth (accounting/CRM/documents/regulations/IAM/audit/microservices/knowledge/event_log/financial_rules/compliance_rules + ...).
+- **AI:** local only (Ollama + Auto1111). No `OPENAI_API_KEY`/`ANTHROPIC_API_KEY` in code.
+- **LLM:** two-tier — `llama3.2:3b` (small) + `qwen2.5:14b` (large). Route via `capability` param in `localChat()`.
+- **Gateway:** all LLM calls go through `llm-gateway` (fair queue, per-tenant limits).
+- **DB:** Postgres 16, Prisma 7. Per-tenant DB after Phase 0.
+- **Vector store:** Qdrant per-tenant container.
+- **Multi-tenancy:** Docker-per-tenant, isolated networks, shared `ai-net`.
+- **Capability-Frame:** 10 fixed capabilities. AI only extends Skin (brand, customFields, voice, sources).
+- **UI:** SvelteKit + Svelte 5 runes. Custom CSS + CSS Custom Properties. NO Tailwind/MUI/Bootstrap.
+- **Env:** `$env/static/private` or `$env/dynamic/private`. Never `process.env`.
+- **DB access:** `event.locals.tenant.prisma`, not global singleton.
+- **Endpoints calling AI** go through `orchestrator.ask()` — no ad-hoc system prompts in route code.
+
+## Per-skill triggers
+
+| Touching... | Read first |
+|---|---|
+| **`src/lib/server/ai-core/**` (any engine, adapter, orchestrator)** | **`docs/skills/12-ai-orchestrator.skill.md` (MANDATORY)** |
+| `*.svelte` | `docs/skills/02-svelte5-patterns.skill.md` |
+| `+server.ts` / `+page.server.ts` | `docs/skills/03-sveltekit-server.skill.md` |
+| `prisma/schema.prisma` / DB queries | `docs/skills/04-prisma-tenant.skill.md` |
+| `local-llm.ts` / AI calls | `docs/skills/05-local-ai.skill.md` |
+| Knowledge ingest (RAG only) | `docs/skills/06-rag-pipeline.skill.md` |
+| `capabilities/**` | `docs/skills/07-capability-development.skill.md` |
+| `*.compose.yml`, `dockerode` | `docs/skills/08-docker-multitenancy.skill.md` |
+| `auth/`, `*-guard*`, secrets | `docs/skills/09-security-checklist.skill.md` |
+| CSS / styles | `docs/skills/10-design-system.skill.md` |
+
+## DoD
+
+```
+npm run check    # 0 errors
+npm run build    # success
+```
+
+## Communication
+
+- User-facing chat: Russian.
+- Code, comments, commits: English.
+- Concise. State decisions, not deliberation.
+
+## After completing a task
+
+If you found a new pattern worth keeping → update the matching `docs/skills/*.skill.md`.
+If you changed architecture → update `docs/spec/` and bump date in `00-vision.md`.

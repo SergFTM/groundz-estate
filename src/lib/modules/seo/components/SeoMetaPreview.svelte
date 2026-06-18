@@ -4,7 +4,7 @@
     description: string | null;
     url?: string;
   }
-  let { title, description, url = 'develta.cy' }: Props = $props();
+  let { title, description, url = 'groundz.estate' }: Props = $props();
 
   const MAX_TITLE = 65;
   const MAX_DESC = 160;

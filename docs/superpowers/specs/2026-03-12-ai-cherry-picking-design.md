@@ -8,7 +8,7 @@
 
 ## Goal
 
-Add an AI assistant to the Develta platform that answers questions about properties, investments, leads, and platform data. The AI uses a "cherry-picking" approach: instead of dumping all data into the prompt, it assembles context from exactly 3 layers — only what is relevant to the question — minimising token usage while maximising accuracy.
+Add an AI assistant to the Groundz platform that answers questions about properties, investments, leads, and platform data. The AI uses a "cherry-picking" approach: instead of dumping all data into the prompt, it assembles context from exactly 3 layers — only what is relevant to the question — minimising token usage while maximising accuracy.
 
 ---
 

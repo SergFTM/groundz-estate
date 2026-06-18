@@ -24,7 +24,7 @@
 - [ ] **Step 1: Install the openai SDK**
 
 ```bash
-cd develta-svelte
+cd groundz-svelte
 npm install openai
 ```
 
@@ -86,8 +86,8 @@ import db from '$lib/server/db';
 
 export type ChatRole = 'public' | 'buyer' | 'investor' | 'agent' | 'internal_team';
 
-const PUBLIC_CONTEXT = `You are an AI assistant for Develta, a premium real estate developer in Limassol, Cyprus. You help prospective buyers and investors learn about projects and investment opportunities.
-Develta develops luxury residential properties in prime Limassol locations.
+const PUBLIC_CONTEXT = `You are an AI assistant for Groundz, a premium real estate developer in Limassol, Cyprus. You help prospective buyers and investors learn about projects and investment opportunities.
+Groundz develops luxury residential properties in prime Limassol locations.
 Current projects: Sungardo, Antigone Court, Symphony Residence, Cascada Residence, Ptolemy Studios.
 Be professional, helpful, and accurate. If you don't know something, say so. Answer in the same language the user writes in.`;
 
@@ -99,13 +99,13 @@ You can look up their specific unit, payment schedule, and documents.`;
 
 const INVESTOR_CONTEXT = `${PUBLIC_CONTEXT}
 
-You are speaking with a registered investor in Develta investment pools.
+You are speaking with a registered investor in Groundz investment pools.
 Investment pools offer fixed yields (typically 8–12% annually) with terms of 12–36 months and minimum tickets from €10,000.
 You can look up their pool allocations and investment history.`;
 
 const AGENT_CONTEXT = `${PUBLIC_CONTEXT}
 
-You are speaking with a Develta sales agent.
+You are speaking with a Groundz sales agent.
 CRM lead statuses: new → contacted → converted | lost.
 Lead tags: hot (high intent), warm (interested), cold (low priority).
 Lead sources: website, referral, social, portal, direct.
@@ -113,7 +113,7 @@ You can look up leads and filter by status or tag.`;
 
 const INTERNAL_TEAM_CONTEXT = `${PUBLIC_CONTEXT}
 
-You are speaking with an internal Develta team member with full platform access.
+You are speaking with an internal Groundz team member with full platform access.
 Key models and their status enums:
 - User: roles buyer | investor | agent | internal_team
 - Project: status active | coming_soon | completed
@@ -257,7 +257,7 @@ const SEARCH_PROJECTS: OpenAI.Chat.ChatCompletionTool = {
   type: 'function',
   function: {
     name: 'searchProjects',
-    description: 'Search Develta real estate projects by status or location keyword',
+    description: 'Search Groundz real estate projects by status or location keyword',
     parameters: {
       type: 'object',
       properties: {
@@ -770,11 +770,11 @@ Test public role with curl:
 ```bash
 curl -s -X POST http://localhost:5173/api/ai/chat \
   -H "Content-Type: application/json" \
-  -d '{"message":"What projects does Develta have?","role":"public","history":[]}' \
+  -d '{"message":"What projects does Groundz have?","role":"public","history":[]}' \
   | head -c 500
 ```
 
-Expected: JSON with `reply` field containing text about Develta projects (GPT-4o response)
+Expected: JSON with `reply` field containing text about Groundz projects (GPT-4o response)
 
 - [ ] **Step 4: Test auth guard — unauthenticated cabinet role**
 
@@ -1321,10 +1321,10 @@ Then use `{userId}` in the widget.
 
 1. Navigate to `http://localhost:5173/` (marketing page) — should see floating chat button bottom-right
 2. Click the button — 380×500 panel opens
-3. Type "What projects does Develta have?" and press Enter — response appears
-4. Navigate to `http://localhost:5173/auth/login`, log in as `buyer@develta.cy` / `develta123`
+3. Type "What projects does Groundz have?" and press Enter — response appears
+4. Navigate to `http://localhost:5173/auth/login`, log in as `buyer@groundz.estate` / `groundz123`
 5. Should see floating chat button in cabinet — click it, ask "What are my payments?" — response appears
-6. Log in as `team@develta.cy` / `develta123` — navigate to `/admin` — should see inline AI panel at the bottom of the dashboard
+6. Log in as `team@groundz.estate` / `groundz123` — navigate to `/admin` — should see inline AI panel at the bottom of the dashboard
 
 - [ ] **Step 6: Commit**
 

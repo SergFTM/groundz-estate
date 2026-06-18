@@ -4,7 +4,7 @@ import { z } from 'zod';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async () => {
-  const commits = await db.investorInvestment.findMany({
+  const commits = await db.holding.findMany({
     include: {
       user: { select: { id: true, name: true, email: true } },
       pool: { select: { id: true, name: true, slug: true, status: true } },
@@ -32,7 +32,7 @@ export const actions: Actions = {
       return fail(400, { error: parsed.error.issues[0]?.message ?? 'Invalid input' });
     }
 
-    await db.investorInvestment.update({
+    await db.holding.update({
       where: { id: parsed.data.id },
       data: {
         status: parsed.data.status,

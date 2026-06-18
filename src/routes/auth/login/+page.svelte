@@ -15,14 +15,14 @@
 </script>
 
 <svelte:head>
-	<title>Login — Develta</title>
+	<title>Login — Groundz</title>
 </svelte:head>
 
 <div class="auth-page">
 	<div class="auth-card">
 		<div class="auth-header">
 			<h1 class="auth-title">Welcome</h1>
-			<p class="auth-subtitle">Sign in to your Develta account</p>
+			<p class="auth-subtitle">Sign in to your Groundz account</p>
 		</div>
 
 		<div class="auth-tabs">

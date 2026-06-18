@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groundz – Premium Card Concepts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,300;1,400&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    background: #f0ede7;
+    color: #2a2825;
+    padding: 40px 32px 80px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2.2rem;
+    color: #2a2825;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    font-size: 0.875rem;
+    color: #8a857e;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── CONCEPTS GRID ─────────────────────────────── */
+  .concepts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .concept {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    cursor: pointer;
+  }
+
+  .concept-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a857e;
+    text-align: center;
+  }
+
+  .concept-name {
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2a2825;
+    margin-top: -12px;
+  }
+
+  .concept-desc {
+    font-size: 0.78rem;
+    color: #8a857e;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: -12px;
+  }
+
+  .concept.selected .card-wrap {
+    outline: 3px solid #7a8c6e;
+    outline-offset: 6px;
+    border-radius: 20px;
+  }
+
+  .concept.selected .concept-name {
+    color: #7a8c6e;
+  }
+
+  /* ══════════════════════════════════════════════════
+     CARD A — Full Bleed Overlay (luxury hotel / Sotheby's feel)
+  ══════════════════════════════════════════════════ */
+  .card-a {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: #1a1917;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card-a:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  }
+  .card-a__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: opacity 0.4s ease, transform 0.5s ease;
+  }
+  .card-a:hover .card-a__img {
+    opacity: 0.75;
+    transform: scale(1.04);
+  }
+  .card-a__gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 30%,
+      rgba(20, 18, 16, 0.3) 55%,
+      rgba(20, 18, 16, 0.92) 100%
+    );
+  }
+  .card-a__status {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(122, 140, 110, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  .card-a__body {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    padding: 28px 24px 24px;
+  }
+  .card-a__location {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 6px;
+  }
+  .card-a__name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.65rem;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .card-a__divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(122, 140, 110, 0.7);
+    margin-bottom: 14px;
+  }
+  .card-a__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .card-a__price-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 2px;
+  }
+  .card-a__price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: #fff;
+  }
+  .card-a__cta {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .card-a:hover .card-a__cta {
+    background: rgba(122,140,110,0.6);
+    border-color: transparent;
+  }
+
+  /* ══════════════════════════════════════════════════
+     CARD B — Editorial (magazine / high-end brochure)
+  ══════════════════════════════════════════════════ */
+  .card-b {
+    background: #fff;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 3px solid #7a8c6e;
+  }
+  .card-b:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 56px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .card-b__image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #e8e4dc;
+  }
+  .card-b__image img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .card-b:hover .card-b__image img {
+    transform: scale(1.05);
+  }
+  .card-b__badge {
+    position: absolute;
+    top: 0; left: 0;
+    background: #7a8c6e;
+    color: #fff;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+  }
+  .card-b__body {
+    padding: 22px 24px 20px;
+  }
+  .card-b__location {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #7a8c6e;
+    margin-bottom: 8px;
+  }
+  .card-b__name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #2a2825;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .card-b__rule {
+    width: 100%;
+    height: 1px;
+    background: #e8e3db;
+    margin-bottom: 16px;
+  }
+  .card-b__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-b__price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: #2a2825;
+  }
+  .card-b__price span {
+    display: block;
+    font-family: -apple-system, sans-serif;
+    font-style: normal;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8a857e;
+    margin-bottom: 2px;
+  }
+  .card-b__link {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7a8c6e;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(122,140,110,0.3);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .card-b:hover .card-b__link {
+    border-color: #7a8c6e;
+  }
+
+  /* ══════════════════════════════════════════════════
+     CARD C — Dark Luxury (penthouse / night mode)
+  ══════════════════════════════════════════════════ */
+  .card-c {
+    background: #2a2825;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .card-c:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  }
+  .card-c__image {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .card-c__image img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    filter: brightness(0.8) saturate(0.9);
+    transition: transform 0.5s ease, filter 0.4s ease;
+  }
+  .card-c:hover .card-c__image img {
+    transform: scale(1.05);
+    filter: brightness(0.9) saturate(1);
+  }
+  .card-c__status {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  .card-c__body {
+    padding: 22px 22px 20px;
+  }
+  .card-c__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-c__location {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+  .card-c__units {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7a8c6e;
+  }
+  .card-c__name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.55rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .card-c__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-c__price-wrap {}
+  .card-c__price-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 2px;
+  }
+  .card-c__price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    color: #fff;
+  }
+  .card-c__cta {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7a8c6e;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+  }
+  .card-c:hover .card-c__cta {
+    gap: 10px;
+  }
+
+  /* Selection overlay */
+  .card-wrap {
+    cursor: pointer;
+    border-radius: 16px;
+    transition: outline 0.15s;
+  }
+
+  .select-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(122,140,110,0.4);
+    border-radius: 8px;
+    color: #7a8c6e;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .select-btn:hover {
+    background: rgba(122,140,110,0.08);
+    border-color: #7a8c6e;
+  }
+  .concept.selected .select-btn {
+    background: #7a8c6e;
+    border-color: #7a8c6e;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Premium Card Concepts</h1>
+  <p>GROUNDZ · LIMASSOL · Three directions — click to select your favourite</p>
+</div>
+
+<div class="concepts">
+
+  <!-- OPTION A -->
+  <div class="concept" id="opt-a" onclick="selectOption('a')">
+    <div class="concept-label">Option A</div>
+    <div class="concept-name">Full Bleed Overlay</div>
+    <div class="concept-desc">Photo fills the card. Text floats on dark gradient. Arrow CTA. Sotheby's / luxury hotel feel.</div>
+    <div class="card-wrap">
+      <div class="card-a">
+        <img class="card-a__img"
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"
+          alt="Sungardo" />
+        <div class="card-a__gradient"></div>
+        <div class="card-a__status">Active</div>
+        <div class="card-a__body">
+          <div class="card-a__location">Mouttagiaka, Limassol</div>
+          <div class="card-a__name">Sungardo</div>
+          <div class="card-a__divider"></div>
+          <div class="card-a__footer">
+            <div>
+              <div class="card-a__price-label">From</div>
+              <div class="card-a__price">€430,000</div>
+            </div>
+            <div class="card-a__cta">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="select-btn">Select this style</button>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="concept" id="opt-b" onclick="selectOption('b')">
+    <div class="concept-label">Option B</div>
+    <div class="concept-name">Editorial Clean</div>
+    <div class="concept-desc">White card. Corner badge. Serif italic name. Green accent rule at bottom. Brochure / magazine feel.</div>
+    <div class="card-wrap">
+      <div class="card-b">
+        <div class="card-b__image">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Antigone Court" />
+          <div class="card-b__badge">Active</div>
+        </div>
+        <div class="card-b__body">
+          <div class="card-b__location">Limassol</div>
+          <div class="card-b__name">Antigone Court</div>
+          <div class="card-b__rule"></div>
+          <div class="card-b__footer">
+            <div class="card-b__price">
+              <span>Starting from</span>
+              €225,000
+            </div>
+            <a class="card-b__link" href="#">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="select-btn">Select this style</button>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="concept" id="opt-c" onclick="selectOption('c')">
+    <div class="concept-label">Option C</div>
+    <div class="concept-name">Dark Luxury</div>
+    <div class="concept-desc">Dark charcoal card. Muted image. Frosted status badge. Price in white serif italic. Penthouse / prestige feel.</div>
+    <div class="card-wrap">
+      <div class="card-c">
+        <div class="card-c__image">
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80" alt="Symphony Residence" />
+          <div class="card-c__status">Active</div>
+        </div>
+        <div class="card-c__body">
+          <div class="card-c__top">
+            <div class="card-c__location">Tourist Area, Limassol</div>
+            <div class="card-c__units">14 Units</div>
+          </div>
+          <div class="card-c__name">Symphony Residence</div>
+          <div class="card-c__footer">
+            <div class="card-c__price-wrap">
+              <div class="card-c__price-label">From</div>
+              <div class="card-c__price">€620,000</div>
+            </div>
+            <a class="card-c__cta" href="#">View →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="select-btn">Select this style</button>
+  </div>
+
+</div>
+
+<script>
+  let selected = null;
+  function selectOption(choice) {
+    document.querySelectorAll('.concept').forEach(el => el.classList.remove('selected'));
+    document.getElementById('opt-' + choice).classList.add('selected');
+    selected = choice;
+
+    // Try to record via superpowers helper if available
+    if (window.__superpowers_record) {
+      window.__superpowers_record({ type: 'click', choice, text: 'Option ' + choice.toUpperCase() });
+    }
+  }
+</script>
+
+</body>
+</html>

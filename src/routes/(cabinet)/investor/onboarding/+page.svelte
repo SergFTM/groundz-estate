@@ -15,7 +15,7 @@
       num: '02',
       title: 'Browse Investment Pools',
       desc: 'Explore active pools, review deal structures, yields, and protections — and choose the strategy that fits your goals.',
-      href: '/investment',
+      href: '/pools',
       cta: 'Browse Pools',
       icon: '🏗️',
       status: data.hasPools ? 'done' : 'pending',
@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-  <title>Getting Started — Develta</title>
+  <title>Getting Started — Groundz</title>
 </svelte:head>
 
 <div style="max-width:760px;">
@@ -52,7 +52,7 @@
   <div style="margin-bottom:var(--space-8);">
     <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent);">WELCOME</span>
     <h1 style="font-size:var(--text-3xl);font-weight:700;color:var(--color-text);margin-top:var(--space-1);margin-bottom:var(--space-2);">
-      Welcome to Develta{data.user?.name ? `, ${data.user.name.split(' ')[0]}` : ''}
+      Welcome to Groundz{data.user?.name ? `, ${data.user.name.split(' ')[0]}` : ''}
     </h1>
     <p style="font-size:var(--text-base);color:var(--color-text-muted);line-height:1.65;">
       Your investor account is ready. Follow these steps to complete your onboarding and make your first investment.

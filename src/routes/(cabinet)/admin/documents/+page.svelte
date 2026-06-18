@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Documents — Admin — Develta</title>
+  <title>Documents — Admin — Groundz</title>
 </svelte:head>
 
 <div>

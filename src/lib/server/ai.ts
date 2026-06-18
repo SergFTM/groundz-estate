@@ -1,21 +1,14 @@
-import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$env/static/private';
+import type OpenAI from 'openai';
 import type { ChatRole } from './ai-context';
 import { getBusinessContext, searchKnowledgeBase } from './ai-context';
 import { getToolsForRole, executeTool } from './ai-tools';
-import { getSetting } from './settings';
+import { getLocalLLM, LLM_TIERS } from './local-llm';
 
 export type { ChatRole };
 
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
-}
-
-async function getOpenAI(): Promise<OpenAI> {
-  const dbKey = await getSetting('openai_api_key');
-  const apiKey = dbKey || OPENAI_API_KEY;
-  return new OpenAI({ apiKey });
 }
 
 export async function chat(params: {
@@ -26,17 +19,16 @@ export async function chat(params: {
 }): Promise<{ reply: string; toolUsed?: string }> {
   const { message, role, userId, history } = params;
 
-  // Layer 3: static business context (pass userId per spec signature — reserved for future personalisation)
   const businessContext = getBusinessContext(role, userId);
-
-  // Layer 1: conditional knowledge base search
   const kbContext = await searchKnowledgeBase(message);
-
   const systemContent = kbContext ? `${businessContext}\n\n${kbContext}` : businessContext;
 
-  // Layer 2: role-scoped tools (0 tokens upfront — only paid if AI calls a tool)
   const tools = getToolsForRole(role);
-  const openai = await getOpenAI();
+  const client = getLocalLLM();
+  // Public chat → small (cheap, fast). Authenticated cabinets → large (reasoning + tools).
+  const tier: 'small' | 'large' = role === 'public' ? 'small' : 'large';
+  const model = LLM_TIERS[tier];
+  const capability = role === 'public' ? 'chat.public' : 'chat.authenticated';
 
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     { role: 'system', content: systemContent },
@@ -47,24 +39,22 @@ export async function chat(params: {
     { role: 'user', content: message },
   ];
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+  const response = await client.chat.completions.create({
+    model,
     messages,
     tools: tools.length > 0 ? tools : undefined,
     tool_choice: tools.length > 0 ? 'auto' : undefined,
+  }, {
+    headers: { 'X-Capability': capability, 'X-Tier': tier },
   });
 
   const choice = response.choices[0];
 
-  // No tool call — return directly
   if (!choice.message.tool_calls || choice.message.tool_calls.length === 0) {
     return { reply: choice.message.content ?? '' };
   }
 
-  // Execute first tool call only (max one per request)
   const toolCall = choice.message.tool_calls[0];
-
-  // Narrow to function tool call (the only type we issue via getToolsForRole)
   if (toolCall.type !== 'function') {
     return { reply: choice.message.content ?? '' };
   }
@@ -78,9 +68,8 @@ export async function chat(params: {
 
   const toolResult = await executeTool(toolCall.function.name, toolArgs, role, userId);
 
-  // Second call with tool result
-  const followUp = await openai.chat.completions.create({
-    model: 'gpt-4o',
+  const followUp = await client.chat.completions.create({
+    model,
     messages: [
       ...messages,
       choice.message,
@@ -90,6 +79,8 @@ export async function chat(params: {
         content: toolResult,
       },
     ],
+  }, {
+    headers: { 'X-Capability': capability, 'X-Tier': tier },
   });
 
   return {

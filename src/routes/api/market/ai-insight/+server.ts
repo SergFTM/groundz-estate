@@ -3,11 +3,14 @@
 import { json } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: 'any', bucket: 'text_ai' });
+  const { request } = event;
   const body = await request.json().catch(() => null);
   if (!body?.indexId) return json({ error: 'indexId required' }, { status: 400 });
 
@@ -53,7 +56,7 @@ export const POST: RequestHandler = async ({ request }) => {
     }
   }
 
-  const prompt = `You are a real estate investment analyst for Develta, a Cyprus-based direct investment platform.
+  const prompt = `You are a real estate investment analyst for Groundz, a Cyprus-based direct investment platform.
 
 Instrument: ${index.name} (${index.symbol}), ${index.market} real estate market
 Current close: ${current.toFixed(2)} | YTD: ${pct(current, jan1Price)}% | 1Y: ${pct(current, yearAgo)}% | 5Y: ${pct(current, fiveYearAgo)}%
@@ -62,13 +65,14 @@ Respond ONLY with valid JSON (no markdown, no code fences):
 {
   "what": "2-3 sentences explaining what this instrument tracks and which markets/properties it represents",
   "context": "2-3 sentences describing the current market environment based on the price data above",
-  "comparison": "2-3 sentences explaining how direct real estate investment via Develta (Cyprus development projects, 12-18% target IRR, fixed term) differs from this index in terms of risk, liquidity, and return profile"
+  "comparison": "2-3 sentences explaining how direct real estate investment via Groundz (Cyprus development projects, 12-18% target IRR, fixed term) differs from this index in terms of risk, liquidity, and return profile"
 }`;
 
   try {
     const result = await callAI({
       systemPrompt: 'You are a real estate investment analyst. Return only valid JSON with no markdown.',
       prompt,
+      capability: 'market.ai-insight',
     });
 
     let parsed: { what: string; context: string; comparison: string };

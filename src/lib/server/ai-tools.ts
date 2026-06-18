@@ -8,7 +8,7 @@ const SEARCH_PROJECTS: OpenAI.Chat.ChatCompletionTool = {
   type: 'function',
   function: {
     name: 'searchProjects',
-    description: 'Search Develta real estate projects by status or location keyword',
+    description: 'Search Groundz real estate projects by status or location keyword',
     parameters: {
       type: 'object',
       properties: {
@@ -221,7 +221,7 @@ export async function executeTool(
 
     case 'getMyPools': {
       if (!userId) return JSON.stringify({ error: 'userId required' });
-      const investments = await db.investorInvestment.findMany({
+      const investments = await db.holding.findMany({
         where: { userId },
         select: {
           amount: true,
@@ -233,7 +233,7 @@ export async function executeTool(
 
     case 'getMyInvestments': {
       if (!userId) return JSON.stringify({ error: 'userId required' });
-      const investments = await db.investorInvestment.findMany({
+      const investments = await db.holding.findMany({
         where: { userId },
         select: {
           amount: true,
@@ -269,7 +269,7 @@ export async function executeTool(
         db.unit.count({ where: { status: 'available' } }),
         db.unit.count({ where: { status: 'sold' } }),
         db.user.count(),
-        db.investmentPool.count({ where: { status: 'active' } }),
+        db.pool.count({ where: { status: 'active' } }),
         db.payment.count({ where: { status: 'overdue' } }),
       ]);
       return JSON.stringify({

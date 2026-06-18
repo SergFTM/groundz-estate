@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
   const [pools, investments, investors] = await Promise.all([
-    db.investmentPool.findMany({
+    db.pool.findMany({
       include: {
         investments: true,
         constructionReports: { orderBy: { reportDate: 'desc' }, take: 1 },
@@ -11,7 +11,7 @@ export const load: PageServerLoad = async () => {
       },
       orderBy: { createdAt: 'desc' },
     }),
-    db.investorInvestment.findMany({
+    db.holding.findMany({
       include: { user: { select: { id: true, name: true, email: true } } },
     }),
     db.user.findMany({

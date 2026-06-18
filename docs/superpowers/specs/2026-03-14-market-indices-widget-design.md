@@ -1,6 +1,6 @@
 # Market Indices Widget — Design Spec
 
-**Goal:** Add a public-facing real estate market indices widget to `/investment` showing 20-year daily price history for global ETFs and custom Develta composite indices (Cyprus, Georgia, Dubai, Turkey), with AI analysis and a register CTA.
+**Goal:** Add a public-facing real estate market indices widget to `/investment` showing 20-year daily price history for global ETFs and custom Groundz composite indices (Cyprus, Georgia, Dubai, Turkey), with AI analysis and a register CTA.
 
 **Architecture:** DB-first — historical data synced once and stored in Prisma, daily cron updates latest candle. Page reads purely from DB (no Twelve Data latency in runtime). Custom indices are weighted composites of component symbols, stored as standard DailyPrice rows.
 
@@ -221,7 +221,7 @@ Period: [ 1Y ] [ 5Y ] [ 10Y ] [ MAX ]
   ↓ expands to:
   — What this instrument is
   — Current market context
-  — How Develta investment differs
+  — How Groundz investment differs
   — CTA: "Want this analysis for your portfolio?" → /register
 ```
 
@@ -282,7 +282,7 @@ Respond ONLY with valid JSON (no markdown):
 {
   "what": "2-3 sentence explanation of what this instrument represents and what it tracks",
   "context": "2-3 sentence current market context based on the price data above",
-  "comparison": "2-3 sentence explanation of how direct real estate investment via Develta (Cyprus development projects, 12-18% target IRR) differs from this index"
+  "comparison": "2-3 sentence explanation of how direct real estate investment via Groundz (Cyprus development projects, 12-18% target IRR) differs from this index"
 }
 ```
 

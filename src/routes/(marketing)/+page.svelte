@@ -17,9 +17,9 @@
 <svelte:window bind:scrollY={scrollY} />
 
 <svelte:head>
-	<title>Develta — Premium Real Estate in Limassol, Cyprus</title>
+	<title>Groundz — Premium Real Estate in Limassol, Cyprus</title>
 	<meta name="description" content="Digital platform for smart real estate investment in Limassol, Cyprus. Transparent process from first interest to ownership." />
-	<meta property="og:title" content="Develta — Premium Real Estate in Limassol, Cyprus" />
+	<meta property="og:title" content="Groundz — Premium Real Estate in Limassol, Cyprus" />
 	<meta property="og:description" content="Digital platform for smart real estate investment in Limassol, Cyprus." />
 	<meta property="og:type" content="website" />
 	<meta name="robots" content="index, follow" />
@@ -234,7 +234,7 @@
 	</div>
 </section>
 
-<!-- ========== WHY DEVELTA ========== -->
+<!-- ========== WHY GROUNDZ ========== -->
 <section class="section why-section">
 	<div class="why-section__bg">
 		<svg class="blueprint-bg" viewBox="0 0 800 600" fill="none" preserveAspectRatio="xMidYMid slice">
@@ -256,7 +256,7 @@
 	<div class="container" style="position:relative; z-index:1">
 		<div class="why-header" use:reveal>
 			<span class="overline">Our Approach</span>
-			<h2>Why Develta</h2>
+			<h2>Why Groundz</h2>
 		</div>
 		<div class="features-grid">
 			<div class="feature" use:reveal={{ delay: 0 }}>
@@ -291,7 +291,7 @@
 			<div>
 				<span class="overline">Expert Insights</span>
 				<h2 class="section-h2">News Room</h2>
-				<p class="section-sub">Market analysis, investment guides, and developer updates from the Develta team.</p>
+				<p class="section-sub">Market analysis, investment guides, and developer updates from the Groundz team.</p>
 			</div>
 			<a href="/knowledge" class="btn-text-link">View all articles →</a>
 		</div>
@@ -349,7 +349,7 @@
 				<span class="overline">Who We Are</span>
 				<h2 class="section-h2">Shaping Life<br/><em>&amp; Investment</em></h2>
 				<p class="about-p">
-					Develta is a full-cycle real estate developer based in Limassol, Cyprus. We manage every stage — from land acquisition and architectural design to construction, furnishing, and ongoing property management.
+					Groundz is a full-cycle real estate developer based in Limassol, Cyprus. We manage every stage — from land acquisition and architectural design to construction, furnishing, and ongoing property management.
 				</p>
 				<p class="about-p">
 					15+ completed projects, 300+ clients across 20+ countries. Our mission: make premium Cyprus real estate accessible, transparent, and genuinely rewarding for every buyer.
@@ -401,7 +401,7 @@
 				<span class="overline">Digital Platform</span>
 				<h2 class="section-h2">Your Investment,<br/><em>Powered by AI</em></h2>
 				<p class="platform-p">
-					The Develta platform gives buyers real-time access to construction progress, documents, payment schedules, and a personal AI concierge available 24/7. Select a property, book consultations, and track your entire investment journey in one place.
+					The Groundz platform gives buyers real-time access to construction progress, documents, payment schedules, and a personal AI concierge available 24/7. Select a property, book consultations, and track your entire investment journey in one place.
 				</p>
 				<div class="platform-feats">
 					{#each ['AI property concierge', 'Live construction updates', 'Document vault', 'ROI analytics', 'Virtual apartment tours', '24/7 support chat'] as feat}
@@ -419,7 +419,7 @@
 		<div class="roadmap-head">
 			<span class="overline">What's Coming</span>
 			<h2 class="section-h2">Our Roadmap</h2>
-			<p class="section-sub">Features we're building and improving on the Develta platform.</p>
+			<p class="section-sub">Features we're building and improving on the Groundz platform.</p>
 		</div>
 		<div class="roadmap-grid">
 			{#each [

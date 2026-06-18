@@ -2,10 +2,12 @@
 // P2: full graph-based linker. Currently returns keyword-match stubs.
 import { json, error } from '@sveltejs/kit';
 import prisma from '$lib/server/db.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'text_ai' });
+  const body = await event.request.json().catch(() => null);
   if (!body) throw error(400, 'Invalid JSON');
 
   const { fromRoute, content, topN = 5 } = body;

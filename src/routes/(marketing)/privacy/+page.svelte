@@ -1,6 +1,6 @@
 <svelte:head>
-  <title>Privacy Policy — Develta</title>
-  <meta name="description" content="Develta privacy policy — how we collect, use, and protect your personal data in accordance with GDPR." />
+  <title>Privacy Policy — Groundz</title>
+  <meta name="description" content="Groundz privacy policy — how we collect, use, and protect your personal data in accordance with GDPR." />
 </svelte:head>
 
 <div class="legal-page">
@@ -8,16 +8,16 @@
     <div class="legal-header">
       <span class="section-label">LEGAL</span>
       <h1 class="legal-title">Privacy Policy</h1>
-      <p class="legal-meta">Last updated: March 2025 · Develta Property Development Ltd, Limassol, Cyprus</p>
+      <p class="legal-meta">Last updated: March 2025 · Groundz Property Development Ltd, Limassol, Cyprus</p>
     </div>
 
     <div class="legal-body">
 
       <section>
         <h2>1. Who We Are</h2>
-        <p>Develta Property Development Ltd ("Develta", "we", "us") is a real estate development and investment company registered in Cyprus (Registration No. HE XXXXXX), with its registered office at [Address], Limassol, Cyprus.</p>
-        <p>We operate the website develta.cy and the Develta investor portal (collectively the "Platform"). Develta is the data controller responsible for your personal data.</p>
-        <p>Contact our Data Protection Officer at: <strong>privacy@develta.cy</strong></p>
+        <p>Groundz Property Development Ltd ("Groundz", "we", "us") is a real estate development and investment company registered in Cyprus (Registration No. HE XXXXXX), with its registered office at [Address], Limassol, Cyprus.</p>
+        <p>We operate the website groundz.estate and the Groundz investor portal (collectively the "Platform"). Groundz is the data controller responsible for your personal data.</p>
+        <p>Contact our Data Protection Officer at: <strong>privacy@groundz.estate</strong></p>
       </section>
 
       <section>
@@ -90,7 +90,7 @@
           <li><strong>Objection</strong> — object to processing based on legitimate interests</li>
           <li><strong>Withdraw consent</strong> — at any time, without affecting the lawfulness of prior processing</li>
         </ul>
-        <p>To exercise any right, email <strong>privacy@develta.cy</strong>. We will respond within 30 days. You also have the right to lodge a complaint with the Office of the Commissioner for Personal Data Protection (Cyprus): <a href="https://www.dataprotection.gov.cy" target="_blank" rel="noopener">dataprotection.gov.cy</a>.</p>
+        <p>To exercise any right, email <strong>privacy@groundz.estate</strong>. We will respond within 30 days. You also have the right to lodge a complaint with the Office of the Commissioner for Personal Data Protection (Cyprus): <a href="https://www.dataprotection.gov.cy" target="_blank" rel="noopener">dataprotection.gov.cy</a>.</p>
       </section>
 
       <section>

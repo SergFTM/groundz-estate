@@ -40,7 +40,7 @@ export async function analyzeSemanticsWithAI(
     rewrite_suggestions?: { section: string; reason: string }[];
   };
 
-  const { content: raw } = await callAI({ prompt });
+  const { content: raw } = await callAI({ prompt, capability: 'seo.audit-page' });
   const parsed = parseJson<RawResponse>(raw);
   if (!parsed) throw new Error('Invalid AI response format');
 

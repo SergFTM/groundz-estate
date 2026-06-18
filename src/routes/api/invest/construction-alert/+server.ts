@@ -3,12 +3,14 @@
 import { json } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['investor', 'internal_team'], bucket: 'text_ai' });
+  const body = await event.request.json().catch(() => null);
   if (!body?.poolId) return json({ error: 'poolId required' }, { status: 400 });
 
   const { poolId, constructionData } = body;
@@ -41,6 +43,7 @@ Be direct and factual. No marketing language. Write in English.`;
     const result = await callAI({
       systemPrompt: 'You are a concise, factual construction analyst. Focus on risks and facts.',
       prompt,
+      capability: 'invest.construction-alert',
     });
 
     await db.aiResponseCache.upsert({

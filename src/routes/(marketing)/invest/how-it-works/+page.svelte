@@ -1,17 +1,17 @@
 <svelte:head>
-  <title>How It Works — Invest with Develta</title>
-  <meta name="description" content="Learn how to invest in Develta's real estate pools — from application to exit. Transparent, structured, and professionally managed." />
+  <title>How It Works — Invest with Groundz</title>
+  <meta name="description" content="Learn how to invest in Groundz's real estate pools — from application to exit. Transparent, structured, and professionally managed." />
 </svelte:head>
 
 <!-- Hero -->
 <section class="hiw-hero">
   <div class="container">
-    <a href="/investment" class="hiw-back">← Investment Pools</a>
+    <a href="/pools" class="hiw-back">← Investment Pools</a>
     <p class="hiw-label">HOW IT WORKS</p>
     <h1 class="hiw-title">Invest in Cyprus Real Estate<br/>Without the Complexity</h1>
-    <p class="hiw-sub">Develta pools institutional-grade deals and opens them to qualified private investors with transparent structures, professional management, and digital reporting.</p>
+    <p class="hiw-sub">Groundz pools institutional-grade deals and opens them to qualified private investors with transparent structures, professional management, and digital reporting.</p>
     <div class="hiw-cta-row">
-      <a href="/investment" class="btn btn--primary">Browse Pools</a>
+      <a href="/pools" class="btn btn--primary">Browse Pools</a>
       <a href="/invest/apply" class="btn btn--outline">Apply as Investor →</a>
     </div>
   </div>
@@ -26,7 +26,7 @@
         <div class="step__num">01</div>
         <h3 class="step__title">Browse & Select a Pool</h3>
         <p class="step__body">Review available investment pools — each with a full data room: deal structure, IRR targets, LTV ratios, developer co-invest %, and milestone timeline. Use our AI comparison tool to evaluate pools side-by-side.</p>
-        <a href="/investment" class="step__link">Browse pools →</a>
+        <a href="/pools" class="step__link">Browse pools →</a>
       </div>
 
       <div class="step">
@@ -44,7 +44,7 @@
       <div class="step">
         <div class="step__num">04</div>
         <h3 class="step__title">Wire Funds to SPV</h3>
-        <p class="step__body">Transfer your committed amount to the pool's dedicated Special Purpose Vehicle (SPV). Each pool is legally isolated — your investment is ringfenced from other Develta projects.</p>
+        <p class="step__body">Transfer your committed amount to the pool's dedicated Special Purpose Vehicle (SPV). Each pool is legally isolated — your investment is ringfenced from other Groundz projects.</p>
       </div>
 
       <div class="step">

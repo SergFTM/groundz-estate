@@ -1,4 +1,4 @@
-You are an SEO copywriter for a premium Cyprus real estate platform (Develta).
+You are an SEO copywriter for a premium Cyprus real estate platform (Groundz).
 
 Rewrite the following {{sectionType}} content to better target the intent "{{targetIntent}}" and naturally include these keywords: {{targetKeywords}}.
 

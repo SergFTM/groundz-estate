@@ -22,16 +22,16 @@
 </script>
 
 <svelte:head>
-  <title>Apply as Investor — Develta</title>
-  <meta name="description" content="Apply to invest in Develta's Cyprus real estate pools. Submit your investor profile and our team will contact you within 24 hours." />
+  <title>Apply as Investor — Groundz</title>
+  <meta name="description" content="Apply to invest in Groundz's Cyprus real estate pools. Submit your investor profile and our team will contact you within 24 hours." />
 </svelte:head>
 
 <!-- Hero -->
 <section class="apply-hero">
   <div class="container">
-    <a href="/investment" class="apply-back">← Investment Pools</a>
+    <a href="/pools" class="apply-back">← Investment Pools</a>
     <p class="apply-label">INVESTOR APPLICATION</p>
-    <h1 class="apply-title">Start Your Investment<br/>Journey with Develta</h1>
+    <h1 class="apply-title">Start Your Investment<br/>Journey with Groundz</h1>
     <p class="apply-sub">Tell us about yourself and your investment goals. Our team will review your application and reach out within 1 business day to discuss current pool opportunities.</p>
   </div>
 </section>
@@ -48,7 +48,7 @@
           <div class="apply-success__icon">✓</div>
           <h2 class="apply-success__title">Application Received</h2>
           <p class="apply-success__body">Thank you for your interest. Our investment team will contact you at the email provided within 1 business day to discuss your profile and current pool opportunities.</p>
-          <a href="/investment" class="btn btn--primary" style="margin-top:var(--space-6);">Browse Pools →</a>
+          <a href="/pools" class="btn btn--primary" style="margin-top:var(--space-6);">Browse Pools →</a>
         </div>
 
       {:else}
@@ -168,7 +168,7 @@
             </label>
             <label class="form-check" style="margin-top:var(--space-3);">
               <input type="checkbox" name="gdprConsent" required />
-              <span>I agree to Develta's <a href="/privacy" class="check-link">Privacy Policy</a> and consent to being contacted about investment opportunities.</span>
+              <span>I agree to Groundz's <a href="/privacy" class="check-link">Privacy Policy</a> and consent to being contacted about investment opportunities.</span>
             </label>
           </div>
 
@@ -201,7 +201,7 @@
         <div class="sidebar-links">
           <a href="/invest/how-it-works">How It Works →</a>
           <a href="/invest/protections">Investor Protections →</a>
-          <a href="/investment">Browse Pools →</a>
+          <a href="/pools">Browse Pools →</a>
           <a href="/faq">Investor FAQ →</a>
         </div>
       </div>
