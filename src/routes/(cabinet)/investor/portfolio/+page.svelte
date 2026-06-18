@@ -1,14 +1,19 @@
 <script lang="ts">
   import { formatCurrency, formatDate } from '$lib/utils/formatters';
+  import { locale } from '$lib/stores/locale';
+  import { t } from '$lib/i18n';
 
   let { data } = $props();
   const { investments, totalCommitted, totalTokens, transactions, charts } = data;
 
   function fmtTokens(n: number): string { return n.toLocaleString('en-US'); }
 
-  const TX_LABEL: Record<string, string> = {
-    buy: 'Buy', sell: 'Sell', distribution: 'Distribution', fee: 'Fee'
+  const TX_KEY: Record<string, string> = {
+    buy: 'cab.txBuy', sell: 'cab.txSell', distribution: 'cab.txDistribution', fee: 'cab.txFee'
   };
+  function txLabel(type: string): string {
+    return TX_KEY[type] ? t($locale, TX_KEY[type]) : type;
+  }
   function txColor(type: string): string {
     return type === 'buy' ? 'var(--color-primary)'
       : type === 'distribution' ? '#22c55e'
@@ -79,36 +84,36 @@
 </script>
 
 <svelte:head>
-  <title>My Portfolio — Groundz</title>
+  <title>{t($locale, 'cab.myPortfolio')} — Groundz</title>
 </svelte:head>
 
 <div style="max-width:1100px;">
   <div style="margin-bottom:var(--space-6);">
-    <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">INVESTOR</span>
-    <h1 style="font-size:var(--text-2xl);font-weight:700;color:var(--color-text);margin-top:var(--space-1);">My Portfolio</h1>
+    <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">{t($locale, 'cab.investor')}</span>
+    <h1 style="font-size:var(--text-2xl);font-weight:700;color:var(--color-text);margin-top:var(--space-1);">{t($locale, 'cab.myPortfolio')}</h1>
   </div>
 
   {#if investments.length === 0}
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-12);text-align:center;">
-      <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">No investments yet.</p>
-      <a href="/pools" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
+      <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">{t($locale, 'cab.noInvestments')}</p>
+      <a href="/pools" style="color:var(--color-primary);font-weight:600;text-decoration:none;">{t($locale, 'cab.browsePools')}</a>
     </div>
 
   {:else}
     <!-- Investment Table -->
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-6);">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-5) var(--space-6);border-bottom:1px solid rgba(0,0,0,0.06);">
-        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">Commitments ({investments.length})</p>
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">{t($locale, 'cab.commitments')} ({investments.length})</p>
         <p style="font-size:var(--text-sm);font-weight:700;color:var(--color-text);">
-          {#if totalTokens > 0}<span class="num" style="color:var(--color-primary);">{fmtTokens(totalTokens)}</span> tokens · {/if}Total <span class="num">{formatCurrency(totalCommitted)}</span>
+          {#if totalTokens > 0}<span class="num" style="color:var(--color-primary);">{fmtTokens(totalTokens)}</span> {t($locale, 'cab.tokens')} · {/if}{t($locale, 'cab.total')} <span class="num">{formatCurrency(totalCommitted)}</span>
         </p>
       </div>
       <div style="overflow-x:auto;">
         <table style="width:100%;border-collapse:collapse;min-width:700px;">
           <thead>
             <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              {#each ['Pool','Country','Strategy','Amount','Tokens','Status','Yield','Term Left','Date'] as col}
-                <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);">{col}</th>
+              {#each ['cab.colPool','cab.colCountry','cab.colStrategy','cab.colAmount','cab.colTokens','cab.colStatus','cab.colYield','cab.colTermLeft','cab.colDate'] as col}
+                <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);">{t($locale, col)}</th>
               {/each}
             </tr>
           </thead>
@@ -144,7 +149,7 @@
 
       <!-- By Geography -->
       <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-6);">
-        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">By Geography</p>
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">{t($locale, 'cab.byGeography')}</p>
         <div style="display:flex;flex-direction:column;gap:var(--space-3);">
           {#each toChartRows(charts.byCountry) as row}
             <div>
@@ -162,7 +167,7 @@
 
       <!-- By Strategy -->
       <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-6);">
-        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">By Strategy</p>
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">{t($locale, 'cab.byStrategy')}</p>
         <div style="display:flex;flex-direction:column;gap:var(--space-3);">
           {#each toChartRows(charts.byStrategy) as row}
             <div>
@@ -180,7 +185,7 @@
 
       <!-- By Commitment Status -->
       <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-6);">
-        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">By Commitment Stage</p>
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">{t($locale, 'cab.byStage')}</p>
         <div style="display:flex;flex-direction:column;gap:var(--space-3);">
           {#each toChartRows(charts.byStatus) as row}
             {@const color = row.label === 'funded' ? '#22c55e' : row.label === 'pending' ? '#eab308' : '#d4a944'}
@@ -199,7 +204,7 @@
 
       <!-- By Maturity -->
       <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-6);">
-        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">By Time to Exit</p>
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-4);">{t($locale, 'cab.byMaturity')}</p>
         <div style="display:flex;flex-direction:column;gap:var(--space-3);">
           {#each toChartRows(charts.byMaturity) as row}
             <div>
@@ -219,17 +224,17 @@
     <!-- Transaction feed -->
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-6);">
       <div style="padding:var(--space-5) var(--space-6);border-bottom:1px solid rgba(0,0,0,0.06);">
-        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">Recent transactions</p>
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">{t($locale, 'cab.recentTx')}</p>
       </div>
       {#if transactions.length === 0}
-        <p style="padding:var(--space-6);font-size:var(--text-sm);color:var(--color-text-muted);text-align:center;">No transactions yet. Token buys, distributions and fees will appear here.</p>
+        <p style="padding:var(--space-6);font-size:var(--text-sm);color:var(--color-text-muted);text-align:center;">{t($locale, 'cab.noTx')}</p>
       {:else}
         <div style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;min-width:560px;">
             <thead>
               <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-                {#each ['Date','Type','Pool','Tokens','Amount','Status'] as col}
-                  <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);">{col}</th>
+                {#each ['cab.colDate','cab.colType','cab.colPool','cab.colTokens','cab.colAmount','cab.colStatus'] as col}
+                  <th style="padding:var(--space-3) var(--space-4);text-align:left;font-size:var(--text-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);">{t($locale, col)}</th>
                 {/each}
               </tr>
             </thead>
@@ -237,7 +242,7 @@
               {#each transactions as tx}
                 <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
                   <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);" class="num">{formatDate(tx.createdAt)}</td>
-                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:{txColor(tx.type)};">{TX_LABEL[tx.type] ?? tx.type}</td>
+                  <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:{txColor(tx.type)};">{txLabel(tx.type)}</td>
                   <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);">
                     {#if tx.pool?.slug}<a href="/pools/{tx.pool.slug}" style="color:var(--color-text);text-decoration:none;font-weight:600;">{tx.pool.name}</a>{:else}<span style="color:var(--color-text-muted);">—</span>{/if}
                   </td>
