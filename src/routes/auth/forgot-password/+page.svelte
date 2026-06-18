@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { locale } from '$lib/stores/locale';
+	import { t } from '$lib/i18n';
 
 	let { form } = $props();
 </script>
@@ -11,15 +13,15 @@
 <div class="auth-page">
 	<div class="auth-card">
 		<div class="auth-header">
-			<h1 class="auth-title">Reset Password</h1>
-			<p class="auth-subtitle">Enter your email to receive a reset link</p>
+			<h1 class="auth-title">{t($locale, 'auth.resetTitle')}</h1>
+			<p class="auth-subtitle">{t($locale, 'auth.resetSubtitle')}</p>
 		</div>
 
 		{#if form?.success}
 			<div class="auth-success">
-				If an account with that email exists, we've sent a password reset link. Check your console in development.
+				{t($locale, 'auth.resetSuccess')}
 			</div>
-			<a href="/auth/login" class="btn btn--primary btn--full" style="text-align:center;display:block;text-decoration:none;">Back to Login</a>
+			<a href="/auth/login" class="btn btn--primary btn--full" style="text-align:center;display:block;text-decoration:none;">{t($locale, 'auth.backToLogin')}</a>
 		{:else}
 			{#if form?.error}
 				<div class="auth-alert">{form.error}</div>
@@ -27,7 +29,7 @@
 
 			<form method="POST" use:enhance>
 				<div class="form-group">
-					<label class="form-label" for="email">Email</label>
+					<label class="form-label" for="email">{t($locale, 'auth.email')}</label>
 					<input
 						class="form-input"
 						type="email"
@@ -38,11 +40,11 @@
 					/>
 				</div>
 
-				<button class="btn btn--primary btn--full" type="submit">Send Reset Link</button>
+				<button class="btn btn--primary btn--full" type="submit">{t($locale, 'auth.sendResetLink')}</button>
 			</form>
 
 			<div style="text-align:center;margin-top:var(--space-6);">
-				<a href="/auth/login" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;">Back to Login</a>
+				<a href="/auth/login" style="font-size:var(--text-sm);color:var(--color-primary);text-decoration:none;">{t($locale, 'auth.backToLogin')}</a>
 			</div>
 		{/if}
 	</div>

@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { locale } from '$lib/stores/locale';
+  import { tStatus } from '$lib/i18n';
+
   interface Props {
     status: string;
   }
@@ -25,7 +28,7 @@
   };
 
   let style = $derived(variants[status] ?? { bg: 'rgba(120,120,120,0.1)', color: '#787878' });
-  let label = $derived(status.replace(/_/g, ' '));
+  let label = $derived(tStatus($locale, status));
 </script>
 
 <span class="status-badge" style="background:{style.bg};color:{style.color}">

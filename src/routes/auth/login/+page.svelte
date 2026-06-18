@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
+	import { locale } from '$lib/stores/locale';
+	import { t } from '$lib/i18n';
 
 	let { form }: { form: ActionData } = $props();
 
@@ -15,14 +17,14 @@
 </script>
 
 <svelte:head>
-	<title>Login — Groundz</title>
+	<title>{t($locale, 'auth.tabLogin')} — Groundz</title>
 </svelte:head>
 
 <div class="auth-page">
 	<div class="auth-card">
 		<div class="auth-header">
-			<h1 class="auth-title">Welcome</h1>
-			<p class="auth-subtitle">Sign in to your Groundz account</p>
+			<h1 class="auth-title">{t($locale, 'auth.welcome')}</h1>
+			<p class="auth-subtitle">{t($locale, 'auth.subtitle')}</p>
 		</div>
 
 		<div class="auth-tabs">
@@ -32,7 +34,7 @@
 				onclick={() => (activeTab = 'login')}
 				type="button"
 			>
-				Login
+				{t($locale, 'auth.tabLogin')}
 			</button>
 			<button
 				class="auth-tab"
@@ -40,7 +42,7 @@
 				onclick={() => (activeTab = 'register')}
 				type="button"
 			>
-				Register
+				{t($locale, 'auth.tabRegister')}
 			</button>
 		</div>
 
@@ -51,7 +53,7 @@
 		{#if activeTab === 'login'}
 			<form method="POST" action="?/login" use:enhance>
 				<div class="form-group">
-					<label class="form-label" for="login-email">Email</label>
+					<label class="form-label" for="login-email">{t($locale, 'auth.email')}</label>
 					<input
 						class="form-input"
 						type="email"
@@ -67,13 +69,13 @@
 				</div>
 
 				<div class="form-group">
-					<label class="form-label" for="login-password">Password</label>
+					<label class="form-label" for="login-password">{t($locale, 'auth.password')}</label>
 					<input
 						class="form-input"
 						type="password"
 						id="login-password"
 						name="password"
-						placeholder="Your password"
+						placeholder={t($locale, 'auth.yourPassword')}
 						required
 					/>
 					{#if formErrors.password}
@@ -82,15 +84,15 @@
 				</div>
 
 				<div style="display:flex;justify-content:flex-end;margin-bottom:var(--space-4);">
-					<a href="/auth/forgot-password" style="font-size:var(--text-xs);color:var(--color-accent);text-decoration:none;">Forgot password?</a>
+					<a href="/auth/forgot-password" style="font-size:var(--text-xs);color:var(--color-primary);text-decoration:none;">{t($locale, 'auth.forgot')}</a>
 				</div>
 
-				<button class="btn btn--primary btn--full" type="submit">Sign In</button>
+				<button class="btn btn--primary btn--full" type="submit">{t($locale, 'auth.signIn')}</button>
 			</form>
 		{:else}
 			<form method="POST" action="?/register" use:enhance>
 				<div class="form-group">
-					<label class="form-label" for="reg-name">Full Name</label>
+					<label class="form-label" for="reg-name">{t($locale, 'auth.fullName')}</label>
 					<input
 						class="form-input"
 						type="text"
@@ -106,7 +108,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="form-label" for="reg-email">Email</label>
+					<label class="form-label" for="reg-email">{t($locale, 'auth.email')}</label>
 					<input
 						class="form-input"
 						type="email"
@@ -122,13 +124,13 @@
 				</div>
 
 				<div class="form-group">
-					<label class="form-label" for="reg-password">Password</label>
+					<label class="form-label" for="reg-password">{t($locale, 'auth.password')}</label>
 					<input
 						class="form-input"
 						type="password"
 						id="reg-password"
 						name="password"
-						placeholder="Min. 6 characters"
+						placeholder={t($locale, 'auth.minChars')}
 						required
 					/>
 					{#if formErrors.password}
@@ -137,18 +139,18 @@
 				</div>
 
 				<div class="form-group">
-					<label class="form-label" for="reg-role">I am a</label>
+					<label class="form-label" for="reg-role">{t($locale, 'auth.iAmA')}</label>
 					<select class="form-input form-select" id="reg-role" name="role" required>
-						<option value="buyer" selected={formValues.role === 'buyer'}>Buyer</option>
-						<option value="investor" selected={formValues.role === 'investor'}>Investor</option>
-						<option value="agent" selected={formValues.role === 'agent'}>Agent</option>
+						<option value="buyer" selected={formValues.role === 'buyer'}>{t($locale, 'auth.roleBuyer')}</option>
+						<option value="investor" selected={formValues.role === 'investor'}>{t($locale, 'auth.roleInvestor')}</option>
+						<option value="agent" selected={formValues.role === 'agent'}>{t($locale, 'auth.roleAgent')}</option>
 					</select>
 					{#if formErrors.role}
 						<p class="form-error">{formErrors.role}</p>
 					{/if}
 				</div>
 
-				<button class="btn btn--primary btn--full" type="submit">Create Account</button>
+				<button class="btn btn--primary btn--full" type="submit">{t($locale, 'auth.createAccount')}</button>
 			</form>
 		{/if}
 	</div>
@@ -217,8 +219,8 @@
 	}
 
 	.auth-tab--active {
-		color: var(--color-accent);
-		border-bottom-color: var(--color-accent);
+		color: var(--color-primary);
+		border-bottom-color: var(--color-primary);
 	}
 
 	.auth-alert {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatCurrency, formatDate } from '$lib/utils/formatters';
   import { locale } from '$lib/stores/locale';
-  import { t } from '$lib/i18n';
+  import { t, tStatus } from '$lib/i18n';
 
   let { data } = $props();
   const { investments, totalCommitted, totalTokens, transactions, charts } = data;
@@ -68,12 +68,7 @@
       .map(([label, amount]) => ({ label, amount, pct: barPct(amount, total) }));
   }
 
-  const LABEL_MAP: Record<string, string> = {
-    equity: 'Equity', debt_note: 'Debt Note', rental: 'Rental', club_deal: 'Club Deal',
-    unspecified: 'Unspecified', soft_commit: 'Soft Commit', pending: 'Pending',
-    funded: 'Funded', cancelled: 'Cancelled'
-  };
-  function lbl(s: string): string { return LABEL_MAP[s] ?? s; }
+  function lbl(s: string): string { return tStatus($locale, s); }
 
   // Months left until exit
   function monthsLeft(inv: any): number {

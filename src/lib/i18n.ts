@@ -116,6 +116,35 @@ const en: Dict = {
   'cab.txSell': 'Sell',
   'cab.txDistribution': 'Distribution',
   'cab.txFee': 'Fee',
+  'auth.welcome': 'Welcome',
+  'auth.subtitle': 'Sign in to your Groundz account',
+  'auth.tabLogin': 'Login',
+  'auth.tabRegister': 'Register',
+  'auth.email': 'Email',
+  'auth.password': 'Password',
+  'auth.yourPassword': 'Your password',
+  'auth.forgot': 'Forgot password?',
+  'auth.signIn': 'Sign In',
+  'auth.fullName': 'Full Name',
+  'auth.minChars': 'Min. 6 characters',
+  'auth.iAmA': 'I am a',
+  'auth.roleBuyer': 'Buyer',
+  'auth.roleInvestor': 'Investor',
+  'auth.roleAgent': 'Agent',
+  'auth.createAccount': 'Create Account',
+  'auth.resetTitle': 'Reset Password',
+  'auth.resetSubtitle': 'Enter your email to receive a reset link',
+  'auth.resetSuccess': "If an account with that email exists, we've sent a password reset link.",
+  'auth.backToLogin': 'Back to Login',
+  'auth.sendResetLink': 'Send Reset Link',
+  'auth.newPwTitle': 'New Password',
+  'auth.newPwSubtitle': 'Enter your new password',
+  'auth.resetDone': 'Your password has been reset successfully.',
+  'auth.linkInvalid': 'This reset link has expired or is invalid. Please request a new one.',
+  'auth.requestNewLink': 'Request New Link',
+  'auth.confirmPassword': 'Confirm Password',
+  'auth.repeatPassword': 'Repeat password',
+  'auth.resetPasswordBtn': 'Reset Password',
 };
 
 const ru: Dict = {
@@ -220,10 +249,66 @@ const ru: Dict = {
   'cab.txSell': 'Продажа',
   'cab.txDistribution': 'Выплата',
   'cab.txFee': 'Комиссия',
+  'auth.welcome': 'Добро пожаловать',
+  'auth.subtitle': 'Войдите в аккаунт Groundz',
+  'auth.tabLogin': 'Вход',
+  'auth.tabRegister': 'Регистрация',
+  'auth.email': 'Email',
+  'auth.password': 'Пароль',
+  'auth.yourPassword': 'Ваш пароль',
+  'auth.forgot': 'Забыли пароль?',
+  'auth.signIn': 'Войти',
+  'auth.fullName': 'Полное имя',
+  'auth.minChars': 'Мин. 6 символов',
+  'auth.iAmA': 'Я —',
+  'auth.roleBuyer': 'Покупатель',
+  'auth.roleInvestor': 'Инвестор',
+  'auth.roleAgent': 'Агент',
+  'auth.createAccount': 'Создать аккаунт',
+  'auth.resetTitle': 'Сброс пароля',
+  'auth.resetSubtitle': 'Введите email, чтобы получить ссылку для сброса',
+  'auth.resetSuccess': 'Если аккаунт с таким email существует, мы отправили ссылку для сброса пароля.',
+  'auth.backToLogin': 'Назад ко входу',
+  'auth.sendResetLink': 'Отправить ссылку',
+  'auth.newPwTitle': 'Новый пароль',
+  'auth.newPwSubtitle': 'Введите новый пароль',
+  'auth.resetDone': 'Пароль успешно сброшен.',
+  'auth.linkInvalid': 'Ссылка для сброса истекла или недействительна. Запросите новую.',
+  'auth.requestNewLink': 'Запросить новую ссылку',
+  'auth.confirmPassword': 'Подтвердите пароль',
+  'auth.repeatPassword': 'Повторите пароль',
+  'auth.resetPasswordBtn': 'Сбросить пароль',
 };
 
 const dict: Record<Locale, Dict> = { en, ru };
 
 export function t(locale: Locale, key: string): string {
   return dict[locale]?.[key] ?? dict[DEFAULT_LOCALE][key] ?? key;
+}
+
+// Status / enum labels (used by StatusBadge and chart legends). Falls back to a
+// humanized form of the raw value when a translation is missing.
+const statusLabels: Record<Locale, Record<string, string>> = {
+  en: {
+    paid: 'Paid', approved: 'Approved', active: 'Active', completed: 'Completed',
+    upcoming: 'Upcoming', pending: 'Pending', warm: 'Warm', new: 'New',
+    overdue: 'Overdue', action_required: 'Action Required', hot: 'Hot', cold: 'Cold',
+    reserved: 'Reserved', contacted: 'Contacted', converted: 'Converted', lost: 'Lost',
+    soft_commit: 'Soft Commit', funded: 'Funded', cancelled: 'Cancelled',
+    draft: 'Draft', closed: 'Closed', unspecified: 'Unspecified',
+    equity: 'Equity', debt_note: 'Debt Note', rental: 'Rental', club_deal: 'Club Deal',
+  },
+  ru: {
+    paid: 'Оплачено', approved: 'Одобрено', active: 'Активен', completed: 'Завершён',
+    upcoming: 'Предстоит', pending: 'В ожидании', warm: 'Тёплый', new: 'Новый',
+    overdue: 'Просрочено', action_required: 'Требует действия', hot: 'Горячий', cold: 'Холодный',
+    reserved: 'Забронировано', contacted: 'Связались', converted: 'Конвертирован', lost: 'Потерян',
+    soft_commit: 'Предв. обязательство', funded: 'Профинансировано', cancelled: 'Отменено',
+    draft: 'Черновик', closed: 'Закрыт', unspecified: 'Не указано',
+    equity: 'Долевой', debt_note: 'Долговая нота', rental: 'Аренда', club_deal: 'Клубная сделка',
+  },
+};
+
+export function tStatus(locale: Locale, value: string): string {
+  return statusLabels[locale]?.[value] ?? statusLabels[DEFAULT_LOCALE][value] ?? value.replace(/_/g, ' ');
 }
