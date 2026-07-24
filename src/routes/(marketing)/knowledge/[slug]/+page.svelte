@@ -1,5 +1,6 @@
 <script lang="ts">
   import ArticleCard from '$lib/components/ArticleCard.svelte';
+  import JsonLd from '$lib/components/seo/JsonLd.svelte';
 
   let { data } = $props();
   let { article, related, seoProfile, currentUser } = $derived(data);
@@ -122,7 +123,18 @@
 <svelte:head>
   <title>{seoProfile?.metaTitle ?? article.title} — Groundz</title>
   <meta name="description" content={seoProfile?.metaDescription ?? article.excerpt ?? article.title} />
+  <link rel="canonical" href="https://groundz.estate/knowledge/{article.slug}" />
 </svelte:head>
+
+<JsonLd data={{
+  '@type': 'Article',
+  headline: article.title,
+  description: article.excerpt ?? undefined,
+  datePublished: new Date(article.publishedAt).toISOString(),
+  mainEntityOfPage: `https://groundz.estate/knowledge/${article.slug}`,
+  author: { '@type': 'Organization', name: 'GROUNDZ ESTATE', url: 'https://groundz.estate' },
+  publisher: { '@type': 'Organization', name: 'GROUNDZ ESTATE' },
+}} />
 
 <article class="article-page">
   <div class="container">
