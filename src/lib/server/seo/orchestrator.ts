@@ -4,10 +4,12 @@
 import prisma from '$lib/server/db.js';
 import { analyzeStructure } from './analyzer.js';
 import { checkBasicSeo } from './rules.js';
+import { analyzeAeoSignals, checkAeo } from './aeo-rules.js';
 import { calculateSeoScore } from './scorer.js';
 import { analyzeSemanticsWithAI } from './ai-semantic.js';
+import { analyzeCitabilityWithAI } from './ai-citability.js';
 import { withAiFallback, FALLBACK_SEMANTICS, FALLBACK_LINKS } from './ai-fallback.js';
-import type { SeoAuditInput, SeoAuditResult, LinkSuggestion } from './types.js';
+import type { SeoAuditInput, SeoAuditResult, AeoResult, LinkSuggestion } from './types.js';
 
 export async function runSeoAudit(input: SeoAuditInput): Promise<SeoAuditResult> {
   // 1. Structural analysis (no AI)
@@ -16,25 +18,36 @@ export async function runSeoAudit(input: SeoAuditInput): Promise<SeoAuditResult>
   // 2. Rule engine (deterministic)
   const { issues: ruleIssues, suggestions } = checkBasicSeo(structural);
 
-  // 3. Semantic AI analysis (with fallback)
+  // 3. AEO check-set (deterministic) + AI citability pass (with fallback)
+  const aeoSignals = analyzeAeoSignals(input.html);
+  const aeoChecks = checkAeo(aeoSignals, structural);
+  const { result: citability } = await withAiFallback(
+    () => analyzeCitabilityWithAI(input, structural),
+    null
+  );
+  const aeo: AeoResult = { ...aeoChecks, signals: aeoSignals, citability };
+
+  // 4. Semantic AI analysis (with fallback)
   const { result: semantics, aiAvailable } = await withAiFallback(
     () => analyzeSemanticsWithAI(input, structural),
     FALLBACK_SEMANTICS
   );
 
-  // 4. Internal links — stub for now (P2: linker.ts)
+  // 5. Internal links — stub for now (P2: linker.ts)
   const links: LinkSuggestion[] = FALLBACK_LINKS;
 
-  // 5. Score
+  // 6. Score
   const score = calculateSeoScore({ structural, ruleIssues, semantics, links });
 
-  // 6. Persist page profile + audit record
-  const profile = await upsertPageProfile(input, score);
+  // 7. Persist page profile + audit record
+  const profile = await upsertPageProfile(input, score, aeo.aeoScore);
   const audit = await prisma.seoAudit.create({
     data: {
       seoPageProfileId: profile.id,
       score,
+      aeoScore: aeo.aeoScore,
       issuesJson: JSON.stringify(ruleIssues),
+      aeoIssuesJson: JSON.stringify(aeo.issues),
       suggestionsJson: JSON.stringify(suggestions),
       aiSummary: semantics ? buildAiSummary(semantics) : null,
       aiAvailable,
@@ -49,16 +62,17 @@ export async function runSeoAudit(input: SeoAuditInput): Promise<SeoAuditResult>
     semantics,
     links,
     meta: null, // generated on demand via /api/seo/generate-meta
+    aeo,
     auditId: audit.id,
     aiAvailable,
   };
 }
 
-async function upsertPageProfile(input: SeoAuditInput, score: number) {
+async function upsertPageProfile(input: SeoAuditInput, score: number, aeoScore: number) {
   if (input.pageId) {
     return prisma.seoPageProfile.update({
       where: { id: input.pageId },
-      data: { seoScore: score, lastAuditAt: new Date() },
+      data: { seoScore: score, aeoScore, lastAuditAt: new Date() },
     });
   }
 
@@ -72,7 +86,7 @@ async function upsertPageProfile(input: SeoAuditInput, score: number) {
   if (existing) {
     return prisma.seoPageProfile.update({
       where: { id: existing.id },
-      data: { seoScore: score, lastAuditAt: new Date() },
+      data: { seoScore: score, aeoScore, lastAuditAt: new Date() },
     });
   }
 
@@ -84,6 +98,7 @@ async function upsertPageProfile(input: SeoAuditInput, score: number) {
       pageType: input.pageType,
       primaryClusterId: input.clusterId ?? null,
       seoScore: score,
+      aeoScore,
       lastAuditAt: new Date(),
     },
   });

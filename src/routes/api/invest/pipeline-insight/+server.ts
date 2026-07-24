@@ -3,6 +3,7 @@
 import { json } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { AEO_CONTENT_GUIDELINES } from '$lib/server/seo/aeo-guidelines.js';
 import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
@@ -65,7 +66,7 @@ ${rows.map(r => `${r.id} = ${r.name ?? r.email}`).join('\n')}`;
 
   try {
     const result = await callAI({
-      systemPrompt: 'You are a concise CRM assistant. Return only valid JSON, no markdown.',
+      systemPrompt: `You are a concise CRM assistant. Return only valid JSON, no markdown.${AEO_CONTENT_GUIDELINES}`,
       prompt,
       capability: 'invest.pipeline-insight',
     });

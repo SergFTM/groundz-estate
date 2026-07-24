@@ -35,7 +35,7 @@
   // Suggestions state
   let linksLoading = $state(false);
   let linkSuggestions = $state<{ toRoute: string; anchorText: string; confidence: number }[]>([]);
-  let semanticTab = $state<'issues' | 'semantic' | 'links'>('issues');
+  let semanticTab = $state<'issues' | 'aeo' | 'semantic' | 'links'>('issues');
 
   // Rewrite suggestion state
   let rewriteLoading = $state(false);
@@ -205,6 +205,11 @@
       <button class="seo-tab" class:seo-tab--active={semanticTab === 'issues'} onclick={() => semanticTab = 'issues'}>
         Issues {#if audit.issues.length > 0}<span class="seo-tab__count">{audit.issues.length}</span>{/if}
       </button>
+      {#if audit.aeo}
+        <button class="seo-tab" class:seo-tab--active={semanticTab === 'aeo'} onclick={() => semanticTab = 'aeo'}>
+          AEO {#if audit.aeo.issues.length > 0}<span class="seo-tab__count">{audit.aeo.issues.length}</span>{/if}
+        </button>
+      {/if}
       {#if audit.semantics}
         <button class="seo-tab" class:seo-tab--active={semanticTab === 'semantic'} onclick={() => semanticTab = 'semantic'}>
           Semantic
@@ -217,6 +222,33 @@
 
     {#if semanticTab === 'issues'}
       <SeoIssueList issues={audit.issues} />
+    {:else if semanticTab === 'aeo' && audit.aeo}
+      <div class="seo-aeo">
+        <div class="seo-aeo__score-row">
+          <span class="seo-aeo__score" class:seo-aeo__score--poor={audit.aeo.aeoScore < 50} class:seo-aeo__score--mid={audit.aeo.aeoScore >= 50 && audit.aeo.aeoScore < 80}>{audit.aeo.aeoScore}</span>
+          <div class="seo-aeo__score-text">
+            <span class="seo-semantic__heading">AEO — citability for AI search</span>
+            <p class="seo-aeo__hint">How safely ChatGPT can cite this page: dated figures, disclaimers, authorship, sources.</p>
+          </div>
+        </div>
+        <SeoIssueList issues={audit.aeo.issues} />
+        {#if audit.aeo.citability?.unverifiedClaims?.length}
+          <p class="seo-semantic__heading">Unverified claims (AI)</p>
+          <ul class="seo-semantic__list">
+            {#each audit.aeo.citability.unverifiedClaims.slice(0, 5) as c}
+              <li>{c}</li>
+            {/each}
+          </ul>
+        {/if}
+        {#if audit.aeo.citability?.citabilityNotes?.length}
+          <p class="seo-semantic__heading">Citability notes (AI)</p>
+          <ul class="seo-semantic__list">
+            {#each audit.aeo.citability.citabilityNotes.slice(0, 5) as n}
+              <li>{n}</li>
+            {/each}
+          </ul>
+        {/if}
+      </div>
     {:else if semanticTab === 'semantic' && audit.semantics}
       <div class="seo-semantic">
         {#if audit.semantics.missingTopics.length}
@@ -430,6 +462,34 @@
     border-radius: 8px;
     padding: 0 5px;
     line-height: 16px;
+  }
+
+  /* AEO tab */
+  .seo-aeo { display: flex; flex-direction: column; gap: var(--space-2); }
+
+  .seo-aeo__score-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .seo-aeo__score {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: #22a06b;
+    min-width: 44px;
+    text-align: center;
+  }
+  .seo-aeo__score--mid { color: #b45309; }
+  .seo-aeo__score--poor { color: #e5484d; }
+
+  .seo-aeo__score-text { display: flex; flex-direction: column; gap: 2px; }
+
+  .seo-aeo__hint {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
   }
 
   /* Semantic tab */

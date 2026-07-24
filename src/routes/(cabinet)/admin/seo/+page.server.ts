@@ -22,6 +22,11 @@ export const load: PageServerLoad = async () => {
     ? profiles.reduce((sum: number, p) => sum + (p.seoScore ?? 0), 0) / profiles.length
     : 0;
 
+  const aeoScored = profiles.filter(p => p.aeoScore != null);
+  const avgAeoScore = aeoScored.length
+    ? aeoScored.reduce((sum: number, p) => sum + (p.aeoScore ?? 0), 0) / aeoScored.length
+    : 0;
+
   const issueCount = await prisma.seoAudit.findFirst({
     orderBy: { createdAt: 'desc' },
   }).then(audit => {
@@ -34,6 +39,7 @@ export const load: PageServerLoad = async () => {
     recentAudits,
     pendingRevisions,
     avgScore: Math.round(avgScore),
+    avgAeoScore: Math.round(avgAeoScore),
     issueCount,
     isFirstRun: clusterCount === 0 && profiles.length === 0,
     articleCount,

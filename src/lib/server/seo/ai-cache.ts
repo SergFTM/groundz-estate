@@ -18,7 +18,7 @@ export function buildCacheKey(params: {
   pageId?: string;
   contentHash: string;
   clusterId?: string;
-  type: 'meta' | 'semantic';
+  type: 'meta' | 'semantic' | 'aeo-citability';
 }): string {
   const raw = `${params.pageId ?? ''}:${params.contentHash}:${params.clusterId ?? ''}:${params.type}`;
   return createHash('sha256').update(raw).digest('hex');
@@ -34,7 +34,7 @@ export function getCache<T>(key: string): T | null {
   return entry.value;
 }
 
-export function setCache<T>(key: string, value: T, type: 'meta' | 'semantic'): void {
+export function setCache<T>(key: string, value: T, type: 'meta' | 'semantic' | 'aeo-citability'): void {
   const ttl = type === 'meta' ? META_TTL_MS : SEMANTIC_TTL_MS;
   store.set(key, { value, expiresAt: Date.now() + ttl });
 }

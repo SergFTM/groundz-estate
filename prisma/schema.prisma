@@ -409,6 +409,7 @@ model SeoPageProfile {
   metaTitle        String?
   metaDescription  String?
   seoScore         Float?
+  aeoScore         Float?
   lastAuditAt      DateTime?
   lastAiRunAt      DateTime?
   createdAt        DateTime  @default(now())
@@ -425,7 +426,9 @@ model SeoAudit {
   id               String   @id @default(uuid())
   seoPageProfileId String
   score            Float
+  aeoScore         Float?
   issuesJson       String   // JSON: SeoIssue[]
+  aeoIssuesJson    String?  // JSON: SeoIssue[] (AEO check-set)
   suggestionsJson  String   // JSON: SeoSuggestion[]
   aiSummary        String?
   aiAvailable      Boolean  @default(true)
