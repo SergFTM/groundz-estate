@@ -102,6 +102,26 @@ export type Holding = Prisma.HoldingModel
  */
 export type Transaction = Prisma.TransactionModel
 /**
+ * Model WalletAddress
+ * 
+ */
+export type WalletAddress = Prisma.WalletAddressModel
+/**
+ * Model PaymentIntent
+ * 
+ */
+export type PaymentIntent = Prisma.PaymentIntentModel
+/**
+ * Model Distribution
+ * 
+ */
+export type Distribution = Prisma.DistributionModel
+/**
+ * Model DistributionPayout
+ * 
+ */
+export type DistributionPayout = Prisma.DistributionPayoutModel
+/**
  * Model MembershipTier
  * 
  */

@@ -533,6 +533,8 @@ export type PoolWhereInput = {
   constructionReports?: Prisma.ConstructionReportListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  paymentIntents?: Prisma.PaymentIntentListRelationFilter
+  distributions?: Prisma.DistributionListRelationFilter
 }
 
 export type PoolOrderByWithRelationInput = {
@@ -578,6 +580,8 @@ export type PoolOrderByWithRelationInput = {
   constructionReports?: Prisma.ConstructionReportOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  paymentIntents?: Prisma.PaymentIntentOrderByRelationAggregateInput
+  distributions?: Prisma.DistributionOrderByRelationAggregateInput
 }
 
 export type PoolWhereUniqueInput = Prisma.AtLeast<{
@@ -626,6 +630,8 @@ export type PoolWhereUniqueInput = Prisma.AtLeast<{
   constructionReports?: Prisma.ConstructionReportListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  paymentIntents?: Prisma.PaymentIntentListRelationFilter
+  distributions?: Prisma.DistributionListRelationFilter
 }, "id" | "slug">
 
 export type PoolOrderByWithAggregationInput = {
@@ -759,6 +765,8 @@ export type PoolCreateInput = {
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUncheckedCreateInput = {
@@ -804,6 +812,8 @@ export type PoolUncheckedCreateInput = {
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUpdateInput = {
@@ -849,6 +859,8 @@ export type PoolUpdateInput = {
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolUncheckedUpdateInput = {
@@ -894,6 +906,8 @@ export type PoolUncheckedUpdateInput = {
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolCreateManyInput = {
@@ -1236,6 +1250,34 @@ export type PoolUpdateOneWithoutTransactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutTransactionsInput, Prisma.PoolUpdateWithoutTransactionsInput>, Prisma.PoolUncheckedUpdateWithoutTransactionsInput>
 }
 
+export type PoolCreateNestedOneWithoutPaymentIntentsInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutPaymentIntentsInput, Prisma.PoolUncheckedCreateWithoutPaymentIntentsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutPaymentIntentsInput
+  connect?: Prisma.PoolWhereUniqueInput
+}
+
+export type PoolUpdateOneRequiredWithoutPaymentIntentsNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutPaymentIntentsInput, Prisma.PoolUncheckedCreateWithoutPaymentIntentsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutPaymentIntentsInput
+  upsert?: Prisma.PoolUpsertWithoutPaymentIntentsInput
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutPaymentIntentsInput, Prisma.PoolUpdateWithoutPaymentIntentsInput>, Prisma.PoolUncheckedUpdateWithoutPaymentIntentsInput>
+}
+
+export type PoolCreateNestedOneWithoutDistributionsInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutDistributionsInput, Prisma.PoolUncheckedCreateWithoutDistributionsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutDistributionsInput
+  connect?: Prisma.PoolWhereUniqueInput
+}
+
+export type PoolUpdateOneRequiredWithoutDistributionsNestedInput = {
+  create?: Prisma.XOR<Prisma.PoolCreateWithoutDistributionsInput, Prisma.PoolUncheckedCreateWithoutDistributionsInput>
+  connectOrCreate?: Prisma.PoolCreateOrConnectWithoutDistributionsInput
+  upsert?: Prisma.PoolUpsertWithoutDistributionsInput
+  connect?: Prisma.PoolWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PoolUpdateToOneWithWhereWithoutDistributionsInput, Prisma.PoolUpdateWithoutDistributionsInput>, Prisma.PoolUncheckedUpdateWithoutDistributionsInput>
+}
+
 export type PoolCreateNestedOneWithoutMilestonesInput = {
   create?: Prisma.XOR<Prisma.PoolCreateWithoutMilestonesInput, Prisma.PoolUncheckedCreateWithoutMilestonesInput>
   connectOrCreate?: Prisma.PoolCreateOrConnectWithoutMilestonesInput
@@ -1306,6 +1348,8 @@ export type PoolCreateWithoutDocumentsInput = {
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUncheckedCreateWithoutDocumentsInput = {
@@ -1350,6 +1394,8 @@ export type PoolUncheckedCreateWithoutDocumentsInput = {
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
 }
 
 export type PoolCreateOrConnectWithoutDocumentsInput = {
@@ -1410,6 +1456,8 @@ export type PoolUpdateWithoutDocumentsInput = {
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolUncheckedUpdateWithoutDocumentsInput = {
@@ -1454,6 +1502,8 @@ export type PoolUncheckedUpdateWithoutDocumentsInput = {
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolCreateWithoutInvestmentsInput = {
@@ -1498,6 +1548,8 @@ export type PoolCreateWithoutInvestmentsInput = {
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUncheckedCreateWithoutInvestmentsInput = {
@@ -1542,6 +1594,8 @@ export type PoolUncheckedCreateWithoutInvestmentsInput = {
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
 }
 
 export type PoolCreateOrConnectWithoutInvestmentsInput = {
@@ -1602,6 +1656,8 @@ export type PoolUpdateWithoutInvestmentsInput = {
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolUncheckedUpdateWithoutInvestmentsInput = {
@@ -1646,6 +1702,8 @@ export type PoolUncheckedUpdateWithoutInvestmentsInput = {
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolCreateWithoutTransactionsInput = {
@@ -1690,6 +1748,8 @@ export type PoolCreateWithoutTransactionsInput = {
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUncheckedCreateWithoutTransactionsInput = {
@@ -1734,6 +1794,8 @@ export type PoolUncheckedCreateWithoutTransactionsInput = {
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
 }
 
 export type PoolCreateOrConnectWithoutTransactionsInput = {
@@ -1794,6 +1856,8 @@ export type PoolUpdateWithoutTransactionsInput = {
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolUncheckedUpdateWithoutTransactionsInput = {
@@ -1838,6 +1902,408 @@ export type PoolUncheckedUpdateWithoutTransactionsInput = {
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
+}
+
+export type PoolCreateWithoutPaymentIntentsInput = {
+  id?: string
+  slug?: string | null
+  name: string
+  projectName: string
+  country?: string
+  city?: string | null
+  dealType?: string | null
+  goalAmount: number
+  raisedAmount?: number
+  targetYield: number
+  targetIrr?: number | null
+  preferredReturn?: number | null
+  hurdleRate?: number | null
+  termMonths: number
+  minTicket: number
+  maxTicket?: number | null
+  exitType?: string | null
+  capitalType?: string | null
+  spvName?: string | null
+  ltv?: number | null
+  ltc?: number | null
+  developerCoinvestPct?: number | null
+  raiseEnd?: Date | string | null
+  status?: string
+  imageUrl?: string | null
+  description?: string | null
+  locationThesis?: string | null
+  demandThesis?: string | null
+  constructionThesis?: string | null
+  exitThesis?: string | null
+  summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
+  constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
+}
+
+export type PoolUncheckedCreateWithoutPaymentIntentsInput = {
+  id?: string
+  slug?: string | null
+  name: string
+  projectName: string
+  country?: string
+  city?: string | null
+  dealType?: string | null
+  goalAmount: number
+  raisedAmount?: number
+  targetYield: number
+  targetIrr?: number | null
+  preferredReturn?: number | null
+  hurdleRate?: number | null
+  termMonths: number
+  minTicket: number
+  maxTicket?: number | null
+  exitType?: string | null
+  capitalType?: string | null
+  spvName?: string | null
+  ltv?: number | null
+  ltc?: number | null
+  developerCoinvestPct?: number | null
+  raiseEnd?: Date | string | null
+  status?: string
+  imageUrl?: string | null
+  description?: string | null
+  locationThesis?: string | null
+  demandThesis?: string | null
+  constructionThesis?: string | null
+  exitThesis?: string | null
+  summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
+  constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
+}
+
+export type PoolCreateOrConnectWithoutPaymentIntentsInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutPaymentIntentsInput, Prisma.PoolUncheckedCreateWithoutPaymentIntentsInput>
+}
+
+export type PoolUpsertWithoutPaymentIntentsInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutPaymentIntentsInput, Prisma.PoolUncheckedUpdateWithoutPaymentIntentsInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutPaymentIntentsInput, Prisma.PoolUncheckedCreateWithoutPaymentIntentsInput>
+  where?: Prisma.PoolWhereInput
+}
+
+export type PoolUpdateToOneWithWhereWithoutPaymentIntentsInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutPaymentIntentsInput, Prisma.PoolUncheckedUpdateWithoutPaymentIntentsInput>
+}
+
+export type PoolUpdateWithoutPaymentIntentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  raisedAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetYield?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetIrr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  preferredReturn?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hurdleRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  termMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxTicket?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capitalType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  spvName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltv?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltc?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  developerCoinvestPct?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  raiseEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  demandThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
+  constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
+}
+
+export type PoolUncheckedUpdateWithoutPaymentIntentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  raisedAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetYield?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetIrr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  preferredReturn?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hurdleRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  termMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxTicket?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capitalType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  spvName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltv?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltc?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  developerCoinvestPct?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  raiseEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  demandThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
+  constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
+}
+
+export type PoolCreateWithoutDistributionsInput = {
+  id?: string
+  slug?: string | null
+  name: string
+  projectName: string
+  country?: string
+  city?: string | null
+  dealType?: string | null
+  goalAmount: number
+  raisedAmount?: number
+  targetYield: number
+  targetIrr?: number | null
+  preferredReturn?: number | null
+  hurdleRate?: number | null
+  termMonths: number
+  minTicket: number
+  maxTicket?: number | null
+  exitType?: string | null
+  capitalType?: string | null
+  spvName?: string | null
+  ltv?: number | null
+  ltc?: number | null
+  developerCoinvestPct?: number | null
+  raiseEnd?: Date | string | null
+  status?: string
+  imageUrl?: string | null
+  description?: string | null
+  locationThesis?: string | null
+  demandThesis?: string | null
+  constructionThesis?: string | null
+  exitThesis?: string | null
+  summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  investments?: Prisma.HoldingCreateNestedManyWithoutPoolInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
+  constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+}
+
+export type PoolUncheckedCreateWithoutDistributionsInput = {
+  id?: string
+  slug?: string | null
+  name: string
+  projectName: string
+  country?: string
+  city?: string | null
+  dealType?: string | null
+  goalAmount: number
+  raisedAmount?: number
+  targetYield: number
+  targetIrr?: number | null
+  preferredReturn?: number | null
+  hurdleRate?: number | null
+  termMonths: number
+  minTicket: number
+  maxTicket?: number | null
+  exitType?: string | null
+  capitalType?: string | null
+  spvName?: string | null
+  ltv?: number | null
+  ltc?: number | null
+  developerCoinvestPct?: number | null
+  raiseEnd?: Date | string | null
+  status?: string
+  imageUrl?: string | null
+  description?: string | null
+  locationThesis?: string | null
+  demandThesis?: string | null
+  constructionThesis?: string | null
+  exitThesis?: string | null
+  summary?: string | null
+  tokenSymbol?: string | null
+  totalTokens?: number | null
+  pricePerToken?: number | null
+  tokensSold?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutPoolInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
+  constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+}
+
+export type PoolCreateOrConnectWithoutDistributionsInput = {
+  where: Prisma.PoolWhereUniqueInput
+  create: Prisma.XOR<Prisma.PoolCreateWithoutDistributionsInput, Prisma.PoolUncheckedCreateWithoutDistributionsInput>
+}
+
+export type PoolUpsertWithoutDistributionsInput = {
+  update: Prisma.XOR<Prisma.PoolUpdateWithoutDistributionsInput, Prisma.PoolUncheckedUpdateWithoutDistributionsInput>
+  create: Prisma.XOR<Prisma.PoolCreateWithoutDistributionsInput, Prisma.PoolUncheckedCreateWithoutDistributionsInput>
+  where?: Prisma.PoolWhereInput
+}
+
+export type PoolUpdateToOneWithWhereWithoutDistributionsInput = {
+  where?: Prisma.PoolWhereInput
+  data: Prisma.XOR<Prisma.PoolUpdateWithoutDistributionsInput, Prisma.PoolUncheckedUpdateWithoutDistributionsInput>
+}
+
+export type PoolUpdateWithoutDistributionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  raisedAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetYield?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetIrr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  preferredReturn?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hurdleRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  termMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxTicket?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capitalType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  spvName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltv?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltc?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  developerCoinvestPct?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  raiseEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  demandThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  investments?: Prisma.HoldingUpdateManyWithoutPoolNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
+  constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+}
+
+export type PoolUncheckedUpdateWithoutDistributionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  raisedAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetYield?: Prisma.FloatFieldUpdateOperationsInput | number
+  targetIrr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  preferredReturn?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hurdleRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  termMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  minTicket?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxTicket?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capitalType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  spvName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ltv?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ltc?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  developerCoinvestPct?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  raiseEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  demandThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  constructionThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  exitThesis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tokenSymbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerToken?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tokensSold?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutPoolNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
+  constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolCreateWithoutMilestonesInput = {
@@ -1882,6 +2348,8 @@ export type PoolCreateWithoutMilestonesInput = {
   constructionReports?: Prisma.ConstructionReportCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUncheckedCreateWithoutMilestonesInput = {
@@ -1926,6 +2394,8 @@ export type PoolUncheckedCreateWithoutMilestonesInput = {
   constructionReports?: Prisma.ConstructionReportUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
 }
 
 export type PoolCreateOrConnectWithoutMilestonesInput = {
@@ -1986,6 +2456,8 @@ export type PoolUpdateWithoutMilestonesInput = {
   constructionReports?: Prisma.ConstructionReportUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolUncheckedUpdateWithoutMilestonesInput = {
@@ -2030,6 +2502,8 @@ export type PoolUncheckedUpdateWithoutMilestonesInput = {
   constructionReports?: Prisma.ConstructionReportUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolCreateWithoutConstructionReportsInput = {
@@ -2074,6 +2548,8 @@ export type PoolCreateWithoutConstructionReportsInput = {
   milestones?: Prisma.MilestoneCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionCreateNestedManyWithoutPoolInput
 }
 
 export type PoolUncheckedCreateWithoutConstructionReportsInput = {
@@ -2118,6 +2594,8 @@ export type PoolUncheckedCreateWithoutConstructionReportsInput = {
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPoolInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutPoolInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutPoolInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutPoolInput
+  distributions?: Prisma.DistributionUncheckedCreateNestedManyWithoutPoolInput
 }
 
 export type PoolCreateOrConnectWithoutConstructionReportsInput = {
@@ -2178,6 +2656,8 @@ export type PoolUpdateWithoutConstructionReportsInput = {
   milestones?: Prisma.MilestoneUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUpdateManyWithoutPoolNestedInput
 }
 
 export type PoolUncheckedUpdateWithoutConstructionReportsInput = {
@@ -2222,6 +2702,8 @@ export type PoolUncheckedUpdateWithoutConstructionReportsInput = {
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPoolNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutPoolNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutPoolNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutPoolNestedInput
+  distributions?: Prisma.DistributionUncheckedUpdateManyWithoutPoolNestedInput
 }
 
 
@@ -2235,6 +2717,8 @@ export type PoolCountOutputType = {
   constructionReports: number
   documents: number
   transactions: number
+  paymentIntents: number
+  distributions: number
 }
 
 export type PoolCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2243,6 +2727,8 @@ export type PoolCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   constructionReports?: boolean | PoolCountOutputTypeCountConstructionReportsArgs
   documents?: boolean | PoolCountOutputTypeCountDocumentsArgs
   transactions?: boolean | PoolCountOutputTypeCountTransactionsArgs
+  paymentIntents?: boolean | PoolCountOutputTypeCountPaymentIntentsArgs
+  distributions?: boolean | PoolCountOutputTypeCountDistributionsArgs
 }
 
 /**
@@ -2290,6 +2776,20 @@ export type PoolCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.TransactionWhereInput
 }
 
+/**
+ * PoolCountOutputType without action
+ */
+export type PoolCountOutputTypeCountPaymentIntentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentIntentWhereInput
+}
+
+/**
+ * PoolCountOutputType without action
+ */
+export type PoolCountOutputTypeCountDistributionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DistributionWhereInput
+}
+
 
 export type PoolSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2334,6 +2834,8 @@ export type PoolSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   constructionReports?: boolean | Prisma.Pool$constructionReportsArgs<ExtArgs>
   documents?: boolean | Prisma.Pool$documentsArgs<ExtArgs>
   transactions?: boolean | Prisma.Pool$transactionsArgs<ExtArgs>
+  paymentIntents?: boolean | Prisma.Pool$paymentIntentsArgs<ExtArgs>
+  distributions?: boolean | Prisma.Pool$distributionsArgs<ExtArgs>
   _count?: boolean | Prisma.PoolCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pool"]>
 
@@ -2464,6 +2966,8 @@ export type PoolInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   constructionReports?: boolean | Prisma.Pool$constructionReportsArgs<ExtArgs>
   documents?: boolean | Prisma.Pool$documentsArgs<ExtArgs>
   transactions?: boolean | Prisma.Pool$transactionsArgs<ExtArgs>
+  paymentIntents?: boolean | Prisma.Pool$paymentIntentsArgs<ExtArgs>
+  distributions?: boolean | Prisma.Pool$distributionsArgs<ExtArgs>
   _count?: boolean | Prisma.PoolCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PoolIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2477,6 +2981,8 @@ export type $PoolPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     constructionReports: Prisma.$ConstructionReportPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    paymentIntents: Prisma.$PaymentIntentPayload<ExtArgs>[]
+    distributions: Prisma.$DistributionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2915,6 +3421,8 @@ export interface Prisma__PoolClient<T, Null = never, ExtArgs extends runtime.Typ
   constructionReports<T extends Prisma.Pool$constructionReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$constructionReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConstructionReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Pool$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.Pool$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  paymentIntents<T extends Prisma.Pool$paymentIntentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$paymentIntentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentIntentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  distributions<T extends Prisma.Pool$distributionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pool$distributionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DistributionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3484,6 +3992,54 @@ export type Pool$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * Pool.paymentIntents
+ */
+export type Pool$paymentIntentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentIntent
+   */
+  select?: Prisma.PaymentIntentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentIntent
+   */
+  omit?: Prisma.PaymentIntentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentIntentInclude<ExtArgs> | null
+  where?: Prisma.PaymentIntentWhereInput
+  orderBy?: Prisma.PaymentIntentOrderByWithRelationInput | Prisma.PaymentIntentOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentIntentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentIntentScalarFieldEnum | Prisma.PaymentIntentScalarFieldEnum[]
+}
+
+/**
+ * Pool.distributions
+ */
+export type Pool$distributionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Distribution
+   */
+  select?: Prisma.DistributionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Distribution
+   */
+  omit?: Prisma.DistributionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DistributionInclude<ExtArgs> | null
+  where?: Prisma.DistributionWhereInput
+  orderBy?: Prisma.DistributionOrderByWithRelationInput | Prisma.DistributionOrderByWithRelationInput[]
+  cursor?: Prisma.DistributionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DistributionScalarFieldEnum | Prisma.DistributionScalarFieldEnum[]
 }
 
 /**

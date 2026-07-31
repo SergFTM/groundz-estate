@@ -218,6 +218,9 @@ export type UserWhereInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeListRelationFilter
   otcListings?: Prisma.OtcListingListRelationFilter
   otcOffers?: Prisma.OtcOfferListRelationFilter
+  walletAddresses?: Prisma.WalletAddressListRelationFilter
+  paymentIntents?: Prisma.PaymentIntentListRelationFilter
+  distributionPayouts?: Prisma.DistributionPayoutListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -241,6 +244,9 @@ export type UserOrderByWithRelationInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeOrderByRelationAggregateInput
   otcListings?: Prisma.OtcListingOrderByRelationAggregateInput
   otcOffers?: Prisma.OtcOfferOrderByRelationAggregateInput
+  walletAddresses?: Prisma.WalletAddressOrderByRelationAggregateInput
+  paymentIntents?: Prisma.PaymentIntentOrderByRelationAggregateInput
+  distributionPayouts?: Prisma.DistributionPayoutOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -267,6 +273,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   articleCommentLikes?: Prisma.ArticleCommentLikeListRelationFilter
   otcListings?: Prisma.OtcListingListRelationFilter
   otcOffers?: Prisma.OtcOfferListRelationFilter
+  walletAddresses?: Prisma.WalletAddressListRelationFilter
+  paymentIntents?: Prisma.PaymentIntentListRelationFilter
+  distributionPayouts?: Prisma.DistributionPayoutListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -318,6 +327,9 @@ export type UserCreateInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -341,6 +353,9 @@ export type UserUncheckedCreateInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -364,6 +379,9 @@ export type UserUpdateInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -387,6 +405,9 @@ export type UserUncheckedUpdateInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -595,6 +616,48 @@ export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionsInput, Prisma.UserUpdateWithoutTransactionsInput>, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
 }
 
+export type UserCreateNestedOneWithoutWalletAddressesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletAddressesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWalletAddressesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletAddressesInput
+  upsert?: Prisma.UserUpsertWithoutWalletAddressesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletAddressesInput, Prisma.UserUpdateWithoutWalletAddressesInput>, Prisma.UserUncheckedUpdateWithoutWalletAddressesInput>
+}
+
+export type UserCreateNestedOneWithoutPaymentIntentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentIntentsInput, Prisma.UserUncheckedCreateWithoutPaymentIntentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentIntentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPaymentIntentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentIntentsInput, Prisma.UserUncheckedCreateWithoutPaymentIntentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentIntentsInput
+  upsert?: Prisma.UserUpsertWithoutPaymentIntentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentIntentsInput, Prisma.UserUpdateWithoutPaymentIntentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentIntentsInput>
+}
+
+export type UserCreateNestedOneWithoutDistributionPayoutsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDistributionPayoutsInput, Prisma.UserUncheckedCreateWithoutDistributionPayoutsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDistributionPayoutsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDistributionPayoutsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDistributionPayoutsInput, Prisma.UserUncheckedCreateWithoutDistributionPayoutsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDistributionPayoutsInput
+  upsert?: Prisma.UserUpsertWithoutDistributionPayoutsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDistributionPayoutsInput, Prisma.UserUpdateWithoutDistributionPayoutsInput>, Prisma.UserUncheckedUpdateWithoutDistributionPayoutsInput>
+}
+
 export type UserCreateNestedOneWithoutArticleCommentsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutArticleCommentsInput, Prisma.UserUncheckedCreateWithoutArticleCommentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutArticleCommentsInput
@@ -671,6 +734,9 @@ export type UserCreateWithoutUnitsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUnitsInput = {
@@ -693,6 +759,9 @@ export type UserUncheckedCreateWithoutUnitsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUnitsInput = {
@@ -731,6 +800,9 @@ export type UserUpdateWithoutUnitsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUnitsInput = {
@@ -753,6 +825,9 @@ export type UserUncheckedUpdateWithoutUnitsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -775,6 +850,9 @@ export type UserCreateWithoutPaymentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -797,6 +875,9 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -835,6 +916,9 @@ export type UserUpdateWithoutPaymentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -857,6 +941,9 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDocumentsInput = {
@@ -879,6 +966,9 @@ export type UserCreateWithoutDocumentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDocumentsInput = {
@@ -901,6 +991,9 @@ export type UserUncheckedCreateWithoutDocumentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDocumentsInput = {
@@ -939,6 +1032,9 @@ export type UserUpdateWithoutDocumentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDocumentsInput = {
@@ -961,6 +1057,9 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommissionsInput = {
@@ -983,6 +1082,9 @@ export type UserCreateWithoutCommissionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommissionsInput = {
@@ -1005,6 +1107,9 @@ export type UserUncheckedCreateWithoutCommissionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommissionsInput = {
@@ -1043,6 +1148,9 @@ export type UserUpdateWithoutCommissionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommissionsInput = {
@@ -1065,6 +1173,9 @@ export type UserUncheckedUpdateWithoutCommissionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLeadsInput = {
@@ -1087,6 +1198,9 @@ export type UserCreateWithoutLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLeadsInput = {
@@ -1109,6 +1223,9 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLeadsInput = {
@@ -1136,6 +1253,9 @@ export type UserCreateWithoutAgentLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAgentLeadsInput = {
@@ -1158,6 +1278,9 @@ export type UserUncheckedCreateWithoutAgentLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAgentLeadsInput = {
@@ -1196,6 +1319,9 @@ export type UserUpdateWithoutLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLeadsInput = {
@@ -1218,6 +1344,9 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutAgentLeadsInput = {
@@ -1251,6 +1380,9 @@ export type UserUpdateWithoutAgentLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAgentLeadsInput = {
@@ -1273,6 +1405,9 @@ export type UserUncheckedUpdateWithoutAgentLeadsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInvestmentsInput = {
@@ -1295,6 +1430,9 @@ export type UserCreateWithoutInvestmentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInvestmentsInput = {
@@ -1317,6 +1455,9 @@ export type UserUncheckedCreateWithoutInvestmentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInvestmentsInput = {
@@ -1355,6 +1496,9 @@ export type UserUpdateWithoutInvestmentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInvestmentsInput = {
@@ -1377,6 +1521,9 @@ export type UserUncheckedUpdateWithoutInvestmentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransactionsInput = {
@@ -1399,6 +1546,9 @@ export type UserCreateWithoutTransactionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransactionsInput = {
@@ -1421,6 +1571,9 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransactionsInput = {
@@ -1459,6 +1612,9 @@ export type UserUpdateWithoutTransactionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransactionsInput = {
@@ -1481,6 +1637,357 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWalletAddressesInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
+  articleComments?: Prisma.ArticleCommentCreateNestedManyWithoutUserInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
+  otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
+  otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWalletAddressesInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
+  articleComments?: Prisma.ArticleCommentUncheckedCreateNestedManyWithoutUserInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
+  otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWalletAddressesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
+}
+
+export type UserUpsertWithoutWalletAddressesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletAddressesInput, Prisma.UserUncheckedUpdateWithoutWalletAddressesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWalletAddressesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletAddressesInput, Prisma.UserUncheckedUpdateWithoutWalletAddressesInput>
+}
+
+export type UserUpdateWithoutWalletAddressesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
+  articleComments?: Prisma.ArticleCommentUpdateManyWithoutUserNestedInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
+  otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
+  otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWalletAddressesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUncheckedUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
+  articleComments?: Prisma.ArticleCommentUncheckedUpdateManyWithoutUserNestedInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
+  otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPaymentIntentsInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
+  articleComments?: Prisma.ArticleCommentCreateNestedManyWithoutUserInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
+  otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
+  otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPaymentIntentsInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
+  articleComments?: Prisma.ArticleCommentUncheckedCreateNestedManyWithoutUserInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
+  otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPaymentIntentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentIntentsInput, Prisma.UserUncheckedCreateWithoutPaymentIntentsInput>
+}
+
+export type UserUpsertWithoutPaymentIntentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentIntentsInput, Prisma.UserUncheckedUpdateWithoutPaymentIntentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentIntentsInput, Prisma.UserUncheckedCreateWithoutPaymentIntentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaymentIntentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentIntentsInput, Prisma.UserUncheckedUpdateWithoutPaymentIntentsInput>
+}
+
+export type UserUpdateWithoutPaymentIntentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
+  articleComments?: Prisma.ArticleCommentUpdateManyWithoutUserNestedInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
+  otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
+  otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaymentIntentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUncheckedUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
+  articleComments?: Prisma.ArticleCommentUncheckedUpdateManyWithoutUserNestedInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
+  otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDistributionPayoutsInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.HoldingCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutAgentInput
+  articleComments?: Prisma.ArticleCommentCreateNestedManyWithoutUserInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
+  otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
+  otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDistributionPayoutsInput = {
+  id?: string
+  email: string
+  password: string
+  role: string
+  name?: string | null
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
+  agentLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutAgentInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuyerInput
+  investments?: Prisma.HoldingUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutAgentInput
+  articleComments?: Prisma.ArticleCommentUncheckedCreateNestedManyWithoutUserInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
+  otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDistributionPayoutsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDistributionPayoutsInput, Prisma.UserUncheckedCreateWithoutDistributionPayoutsInput>
+}
+
+export type UserUpsertWithoutDistributionPayoutsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDistributionPayoutsInput, Prisma.UserUncheckedUpdateWithoutDistributionPayoutsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDistributionPayoutsInput, Prisma.UserUncheckedCreateWithoutDistributionPayoutsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDistributionPayoutsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDistributionPayoutsInput, Prisma.UserUncheckedUpdateWithoutDistributionPayoutsInput>
+}
+
+export type UserUpdateWithoutDistributionPayoutsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.HoldingUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutAgentNestedInput
+  articleComments?: Prisma.ArticleCommentUpdateManyWithoutUserNestedInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
+  otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
+  otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDistributionPayoutsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
+  agentLeads?: Prisma.LeadUncheckedUpdateManyWithoutAgentNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuyerNestedInput
+  investments?: Prisma.HoldingUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutAgentNestedInput
+  articleComments?: Prisma.ArticleCommentUncheckedUpdateManyWithoutUserNestedInput
+  articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
+  otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutArticleCommentsInput = {
@@ -1503,6 +2010,9 @@ export type UserCreateWithoutArticleCommentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutArticleCommentsInput = {
@@ -1525,6 +2035,9 @@ export type UserUncheckedCreateWithoutArticleCommentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutArticleCommentsInput = {
@@ -1563,6 +2076,9 @@ export type UserUpdateWithoutArticleCommentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutArticleCommentsInput = {
@@ -1585,6 +2101,9 @@ export type UserUncheckedUpdateWithoutArticleCommentsInput = {
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutArticleCommentLikesInput = {
@@ -1607,6 +2126,9 @@ export type UserCreateWithoutArticleCommentLikesInput = {
   articleComments?: Prisma.ArticleCommentCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutArticleCommentLikesInput = {
@@ -1629,6 +2151,9 @@ export type UserUncheckedCreateWithoutArticleCommentLikesInput = {
   articleComments?: Prisma.ArticleCommentUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutArticleCommentLikesInput = {
@@ -1667,6 +2192,9 @@ export type UserUpdateWithoutArticleCommentLikesInput = {
   articleComments?: Prisma.ArticleCommentUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutArticleCommentLikesInput = {
@@ -1689,6 +2217,9 @@ export type UserUncheckedUpdateWithoutArticleCommentLikesInput = {
   articleComments?: Prisma.ArticleCommentUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOtcListingsInput = {
@@ -1711,6 +2242,9 @@ export type UserCreateWithoutOtcListingsInput = {
   articleComments?: Prisma.ArticleCommentCreateNestedManyWithoutUserInput
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcOffers?: Prisma.OtcOfferCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOtcListingsInput = {
@@ -1733,6 +2267,9 @@ export type UserUncheckedCreateWithoutOtcListingsInput = {
   articleComments?: Prisma.ArticleCommentUncheckedCreateNestedManyWithoutUserInput
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcOffers?: Prisma.OtcOfferUncheckedCreateNestedManyWithoutBuyerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOtcListingsInput = {
@@ -1771,6 +2308,9 @@ export type UserUpdateWithoutOtcListingsInput = {
   articleComments?: Prisma.ArticleCommentUpdateManyWithoutUserNestedInput
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcOffers?: Prisma.OtcOfferUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOtcListingsInput = {
@@ -1793,6 +2333,9 @@ export type UserUncheckedUpdateWithoutOtcListingsInput = {
   articleComments?: Prisma.ArticleCommentUncheckedUpdateManyWithoutUserNestedInput
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcOffers?: Prisma.OtcOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOtcOffersInput = {
@@ -1815,6 +2358,9 @@ export type UserCreateWithoutOtcOffersInput = {
   articleComments?: Prisma.ArticleCommentCreateNestedManyWithoutUserInput
   articleCommentLikes?: Prisma.ArticleCommentLikeCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingCreateNestedManyWithoutSellerInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOtcOffersInput = {
@@ -1837,6 +2383,9 @@ export type UserUncheckedCreateWithoutOtcOffersInput = {
   articleComments?: Prisma.ArticleCommentUncheckedCreateNestedManyWithoutUserInput
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedCreateNestedManyWithoutUserInput
   otcListings?: Prisma.OtcListingUncheckedCreateNestedManyWithoutSellerInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedCreateNestedManyWithoutUserInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOtcOffersInput = {
@@ -1875,6 +2424,9 @@ export type UserUpdateWithoutOtcOffersInput = {
   articleComments?: Prisma.ArticleCommentUpdateManyWithoutUserNestedInput
   articleCommentLikes?: Prisma.ArticleCommentLikeUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUpdateManyWithoutSellerNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOtcOffersInput = {
@@ -1897,6 +2449,9 @@ export type UserUncheckedUpdateWithoutOtcOffersInput = {
   articleComments?: Prisma.ArticleCommentUncheckedUpdateManyWithoutUserNestedInput
   articleCommentLikes?: Prisma.ArticleCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   otcListings?: Prisma.OtcListingUncheckedUpdateManyWithoutSellerNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  paymentIntents?: Prisma.PaymentIntentUncheckedUpdateManyWithoutUserNestedInput
+  distributionPayouts?: Prisma.DistributionPayoutUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1917,6 +2472,9 @@ export type UserCountOutputType = {
   articleCommentLikes: number
   otcListings: number
   otcOffers: number
+  walletAddresses: number
+  paymentIntents: number
+  distributionPayouts: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1932,6 +2490,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   articleCommentLikes?: boolean | UserCountOutputTypeCountArticleCommentLikesArgs
   otcListings?: boolean | UserCountOutputTypeCountOtcListingsArgs
   otcOffers?: boolean | UserCountOutputTypeCountOtcOffersArgs
+  walletAddresses?: boolean | UserCountOutputTypeCountWalletAddressesArgs
+  paymentIntents?: boolean | UserCountOutputTypeCountPaymentIntentsArgs
+  distributionPayouts?: boolean | UserCountOutputTypeCountDistributionPayoutsArgs
 }
 
 /**
@@ -2028,6 +2589,27 @@ export type UserCountOutputTypeCountOtcOffersArgs<ExtArgs extends runtime.Types.
   where?: Prisma.OtcOfferWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWalletAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WalletAddressWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaymentIntentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentIntentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDistributionPayoutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DistributionPayoutWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2050,6 +2632,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   articleCommentLikes?: boolean | Prisma.User$articleCommentLikesArgs<ExtArgs>
   otcListings?: boolean | Prisma.User$otcListingsArgs<ExtArgs>
   otcOffers?: boolean | Prisma.User$otcOffersArgs<ExtArgs>
+  walletAddresses?: boolean | Prisma.User$walletAddressesArgs<ExtArgs>
+  paymentIntents?: boolean | Prisma.User$paymentIntentsArgs<ExtArgs>
+  distributionPayouts?: boolean | Prisma.User$distributionPayoutsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2100,6 +2685,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   articleCommentLikes?: boolean | Prisma.User$articleCommentLikesArgs<ExtArgs>
   otcListings?: boolean | Prisma.User$otcListingsArgs<ExtArgs>
   otcOffers?: boolean | Prisma.User$otcOffersArgs<ExtArgs>
+  walletAddresses?: boolean | Prisma.User$walletAddressesArgs<ExtArgs>
+  paymentIntents?: boolean | Prisma.User$paymentIntentsArgs<ExtArgs>
+  distributionPayouts?: boolean | Prisma.User$distributionPayoutsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2120,6 +2708,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     articleCommentLikes: Prisma.$ArticleCommentLikePayload<ExtArgs>[]
     otcListings: Prisma.$OtcListingPayload<ExtArgs>[]
     otcOffers: Prisma.$OtcOfferPayload<ExtArgs>[]
+    walletAddresses: Prisma.$WalletAddressPayload<ExtArgs>[]
+    paymentIntents: Prisma.$PaymentIntentPayload<ExtArgs>[]
+    distributionPayouts: Prisma.$DistributionPayoutPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2536,6 +3127,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   articleCommentLikes<T extends Prisma.User$articleCommentLikesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$articleCommentLikesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleCommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otcListings<T extends Prisma.User$otcListingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otcListingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtcListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otcOffers<T extends Prisma.User$otcOffersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otcOffersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtcOfferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  walletAddresses<T extends Prisma.User$walletAddressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletAddressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  paymentIntents<T extends Prisma.User$paymentIntentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentIntentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentIntentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  distributionPayouts<T extends Prisma.User$distributionPayoutsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$distributionPayoutsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DistributionPayoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3244,6 +3838,78 @@ export type User$otcOffersArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.OtcOfferScalarFieldEnum | Prisma.OtcOfferScalarFieldEnum[]
+}
+
+/**
+ * User.walletAddresses
+ */
+export type User$walletAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WalletAddress
+   */
+  select?: Prisma.WalletAddressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WalletAddress
+   */
+  omit?: Prisma.WalletAddressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WalletAddressInclude<ExtArgs> | null
+  where?: Prisma.WalletAddressWhereInput
+  orderBy?: Prisma.WalletAddressOrderByWithRelationInput | Prisma.WalletAddressOrderByWithRelationInput[]
+  cursor?: Prisma.WalletAddressWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WalletAddressScalarFieldEnum | Prisma.WalletAddressScalarFieldEnum[]
+}
+
+/**
+ * User.paymentIntents
+ */
+export type User$paymentIntentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentIntent
+   */
+  select?: Prisma.PaymentIntentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentIntent
+   */
+  omit?: Prisma.PaymentIntentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentIntentInclude<ExtArgs> | null
+  where?: Prisma.PaymentIntentWhereInput
+  orderBy?: Prisma.PaymentIntentOrderByWithRelationInput | Prisma.PaymentIntentOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentIntentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentIntentScalarFieldEnum | Prisma.PaymentIntentScalarFieldEnum[]
+}
+
+/**
+ * User.distributionPayouts
+ */
+export type User$distributionPayoutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DistributionPayout
+   */
+  select?: Prisma.DistributionPayoutSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DistributionPayout
+   */
+  omit?: Prisma.DistributionPayoutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DistributionPayoutInclude<ExtArgs> | null
+  where?: Prisma.DistributionPayoutWhereInput
+  orderBy?: Prisma.DistributionPayoutOrderByWithRelationInput | Prisma.DistributionPayoutOrderByWithRelationInput[]
+  cursor?: Prisma.DistributionPayoutWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DistributionPayoutScalarFieldEnum | Prisma.DistributionPayoutScalarFieldEnum[]
 }
 
 /**

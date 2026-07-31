@@ -396,6 +396,10 @@ export const ModelName = {
   Pool: 'Pool',
   Holding: 'Holding',
   Transaction: 'Transaction',
+  WalletAddress: 'WalletAddress',
+  PaymentIntent: 'PaymentIntent',
+  Distribution: 'Distribution',
+  DistributionPayout: 'DistributionPayout',
   MembershipTier: 'MembershipTier',
   Milestone: 'Milestone',
   ConstructionReport: 'ConstructionReport',
@@ -433,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "commission" | "lead" | "pool" | "holding" | "transaction" | "membershipTier" | "milestone" | "constructionReport" | "aiResponseCache" | "jobPosition" | "jobApplication" | "passwordReset" | "article" | "articleComment" | "articleCommentLike" | "appSetting" | "fAQ" | "seoKeywordCluster" | "seoPageProfile" | "seoAudit" | "internalLinkSuggestion" | "seoContentRevision" | "marketIndex" | "indexComponent" | "dailyPrice" | "otcListing" | "otcOffer"
+    modelProps: "user" | "project" | "unit" | "constructionPhase" | "constructionMedia" | "payment" | "document" | "commission" | "lead" | "pool" | "holding" | "transaction" | "walletAddress" | "paymentIntent" | "distribution" | "distributionPayout" | "membershipTier" | "milestone" | "constructionReport" | "aiResponseCache" | "jobPosition" | "jobApplication" | "passwordReset" | "article" | "articleComment" | "articleCommentLike" | "appSetting" | "fAQ" | "seoKeywordCluster" | "seoPageProfile" | "seoAudit" | "internalLinkSuggestion" | "seoContentRevision" | "marketIndex" | "indexComponent" | "dailyPrice" | "otcListing" | "otcOffer"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1322,6 +1326,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TransactionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TransactionCountAggregateOutputType> | number
+        }
+      }
+    }
+    WalletAddress: {
+      payload: Prisma.$WalletAddressPayload<ExtArgs>
+      fields: Prisma.WalletAddressFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WalletAddressFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WalletAddressFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>
+        }
+        findFirst: {
+          args: Prisma.WalletAddressFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WalletAddressFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>
+        }
+        findMany: {
+          args: Prisma.WalletAddressFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>[]
+        }
+        create: {
+          args: Prisma.WalletAddressCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>
+        }
+        createMany: {
+          args: Prisma.WalletAddressCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WalletAddressCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>[]
+        }
+        delete: {
+          args: Prisma.WalletAddressDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>
+        }
+        update: {
+          args: Prisma.WalletAddressUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>
+        }
+        deleteMany: {
+          args: Prisma.WalletAddressDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WalletAddressUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WalletAddressUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>[]
+        }
+        upsert: {
+          args: Prisma.WalletAddressUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletAddressPayload>
+        }
+        aggregate: {
+          args: Prisma.WalletAddressAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWalletAddress>
+        }
+        groupBy: {
+          args: Prisma.WalletAddressGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletAddressGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WalletAddressCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletAddressCountAggregateOutputType> | number
+        }
+      }
+    }
+    PaymentIntent: {
+      payload: Prisma.$PaymentIntentPayload<ExtArgs>
+      fields: Prisma.PaymentIntentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PaymentIntentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PaymentIntentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>
+        }
+        findFirst: {
+          args: Prisma.PaymentIntentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PaymentIntentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>
+        }
+        findMany: {
+          args: Prisma.PaymentIntentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>[]
+        }
+        create: {
+          args: Prisma.PaymentIntentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>
+        }
+        createMany: {
+          args: Prisma.PaymentIntentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PaymentIntentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>[]
+        }
+        delete: {
+          args: Prisma.PaymentIntentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>
+        }
+        update: {
+          args: Prisma.PaymentIntentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>
+        }
+        deleteMany: {
+          args: Prisma.PaymentIntentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PaymentIntentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PaymentIntentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>[]
+        }
+        upsert: {
+          args: Prisma.PaymentIntentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentIntentPayload>
+        }
+        aggregate: {
+          args: Prisma.PaymentIntentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePaymentIntent>
+        }
+        groupBy: {
+          args: Prisma.PaymentIntentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PaymentIntentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PaymentIntentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PaymentIntentCountAggregateOutputType> | number
+        }
+      }
+    }
+    Distribution: {
+      payload: Prisma.$DistributionPayload<ExtArgs>
+      fields: Prisma.DistributionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DistributionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DistributionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>
+        }
+        findFirst: {
+          args: Prisma.DistributionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DistributionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>
+        }
+        findMany: {
+          args: Prisma.DistributionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>[]
+        }
+        create: {
+          args: Prisma.DistributionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>
+        }
+        createMany: {
+          args: Prisma.DistributionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DistributionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>[]
+        }
+        delete: {
+          args: Prisma.DistributionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>
+        }
+        update: {
+          args: Prisma.DistributionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>
+        }
+        deleteMany: {
+          args: Prisma.DistributionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DistributionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DistributionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>[]
+        }
+        upsert: {
+          args: Prisma.DistributionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayload>
+        }
+        aggregate: {
+          args: Prisma.DistributionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDistribution>
+        }
+        groupBy: {
+          args: Prisma.DistributionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistributionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DistributionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistributionCountAggregateOutputType> | number
+        }
+      }
+    }
+    DistributionPayout: {
+      payload: Prisma.$DistributionPayoutPayload<ExtArgs>
+      fields: Prisma.DistributionPayoutFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DistributionPayoutFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DistributionPayoutFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>
+        }
+        findFirst: {
+          args: Prisma.DistributionPayoutFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DistributionPayoutFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>
+        }
+        findMany: {
+          args: Prisma.DistributionPayoutFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>[]
+        }
+        create: {
+          args: Prisma.DistributionPayoutCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>
+        }
+        createMany: {
+          args: Prisma.DistributionPayoutCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DistributionPayoutCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>[]
+        }
+        delete: {
+          args: Prisma.DistributionPayoutDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>
+        }
+        update: {
+          args: Prisma.DistributionPayoutUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>
+        }
+        deleteMany: {
+          args: Prisma.DistributionPayoutDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DistributionPayoutUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DistributionPayoutUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>[]
+        }
+        upsert: {
+          args: Prisma.DistributionPayoutUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionPayoutPayload>
+        }
+        aggregate: {
+          args: Prisma.DistributionPayoutAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDistributionPayout>
+        }
+        groupBy: {
+          args: Prisma.DistributionPayoutGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistributionPayoutGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DistributionPayoutCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistributionPayoutCountAggregateOutputType> | number
         }
       }
     }
@@ -3194,6 +3494,81 @@ export const TransactionScalarFieldEnum = {
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
+export const WalletAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  address: 'address',
+  chain: 'chain',
+  label: 'label',
+  status: 'status',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WalletAddressScalarFieldEnum = (typeof WalletAddressScalarFieldEnum)[keyof typeof WalletAddressScalarFieldEnum]
+
+
+export const PaymentIntentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  poolId: 'poolId',
+  walletAddressId: 'walletAddressId',
+  tokens: 'tokens',
+  pricePerToken: 'pricePerToken',
+  amount: 'amount',
+  currency: 'currency',
+  paymentReference: 'paymentReference',
+  transferDetails: 'transferDetails',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentIntentScalarFieldEnum = (typeof PaymentIntentScalarFieldEnum)[keyof typeof PaymentIntentScalarFieldEnum]
+
+
+export const DistributionScalarFieldEnum = {
+  id: 'id',
+  poolId: 'poolId',
+  periodLabel: 'periodLabel',
+  kind: 'kind',
+  formula: 'formula',
+  currency: 'currency',
+  totalAmount: 'totalAmount',
+  eligibleSupply: 'eligibleSupply',
+  snapshotAt: 'snapshotAt',
+  windowStart: 'windowStart',
+  windowEnd: 'windowEnd',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistributionScalarFieldEnum = (typeof DistributionScalarFieldEnum)[keyof typeof DistributionScalarFieldEnum]
+
+
+export const DistributionPayoutScalarFieldEnum = {
+  id: 'id',
+  distributionId: 'distributionId',
+  userId: 'userId',
+  walletAddress: 'walletAddress',
+  snapshotTokens: 'snapshotTokens',
+  grossAmount: 'grossAmount',
+  netAmount: 'netAmount',
+  currency: 'currency',
+  reference: 'reference',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistributionPayoutScalarFieldEnum = (typeof DistributionPayoutScalarFieldEnum)[keyof typeof DistributionPayoutScalarFieldEnum]
+
+
 export const MembershipTierScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -3671,6 +4046,10 @@ export type GlobalOmitConfig = {
   pool?: Prisma.PoolOmit
   holding?: Prisma.HoldingOmit
   transaction?: Prisma.TransactionOmit
+  walletAddress?: Prisma.WalletAddressOmit
+  paymentIntent?: Prisma.PaymentIntentOmit
+  distribution?: Prisma.DistributionOmit
+  distributionPayout?: Prisma.DistributionPayoutOmit
   membershipTier?: Prisma.MembershipTierOmit
   milestone?: Prisma.MilestoneOmit
   constructionReport?: Prisma.ConstructionReportOmit

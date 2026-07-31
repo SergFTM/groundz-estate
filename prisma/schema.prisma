@@ -29,6 +29,9 @@ model User {
   articleCommentLikes ArticleCommentLike[]
   otcListings  OtcListing[] @relation("OtcSeller")
   otcOffers    OtcOffer[]   @relation("OtcBuyer")
+  walletAddresses     WalletAddress[]
+  paymentIntents      PaymentIntent[]
+  distributionPayouts DistributionPayout[]
 }
 
 model Project {
@@ -195,6 +198,8 @@ model Pool {
   constructionReports ConstructionReport[]
   documents           Document[]
   transactions        Transaction[]
+  paymentIntents      PaymentIntent[]
+  distributions       Distribution[]
 
   @@map("InvestmentPool")
 }
@@ -237,6 +242,95 @@ model Transaction {
   @@index([userId])
   @@index([poolId])
   @@index([holdingId])
+}
+
+// ── Tokenization (docs/spec/12-tokenization-rwa.md) ─────────────────────────
+
+model WalletAddress {
+  id         String    @id @default(uuid())
+  userId     String
+  address    String    @unique
+  chain      String    @default("evm")
+  label      String?
+  status     String    @default("pending") // pending | verified | active | expired | revoked
+  verifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentIntents PaymentIntent[]
+
+  @@index([userId])
+}
+
+model PaymentIntent {
+  id               String    @id @default(uuid())
+  userId           String
+  poolId           String
+  walletAddressId  String?
+  tokens           Int
+  pricePerToken    Float
+  amount           Float
+  currency         String    @default("EUR")
+  paymentReference String    @unique
+  transferDetails  String?   // bank requisites / deposit address shown to the investor
+  status           String    @default("created") // created | awaiting_funds | underpaid | overpaid | confirmed | minted | expired | refunded | cancelled
+  expiresAt        DateTime
+  confirmedAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now()) @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id])
+  pool          Pool           @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  walletAddress WalletAddress? @relation(fields: [walletAddressId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([poolId])
+  @@index([status])
+}
+
+model Distribution {
+  id             String    @id @default(uuid())
+  poolId         String
+  periodLabel    String    // e.g. "Q3 2026 rent", "Exit proceeds"
+  kind           String    @default("rental") // rental | exit
+  formula        String?   // human-readable calculation basis (AEO: methodology must be explicit)
+  currency       String    @default("EUR")
+  totalAmount    Float
+  eligibleSupply Float     @default(0) // fixed at snapshot
+  snapshotAt     DateTime?
+  windowStart    DateTime?
+  windowEnd      DateTime?
+  status         String    @default("draft") // draft | snapshotted | paying | completed | cancelled
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+
+  pool    Pool                 @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  payouts DistributionPayout[]
+
+  @@index([poolId])
+}
+
+model DistributionPayout {
+  id             String    @id @default(uuid())
+  distributionId String
+  userId         String
+  walletAddress  String?
+  snapshotTokens Float
+  grossAmount    Float
+  netAmount     Float
+  currency       String    @default("EUR")
+  reference      String?   // tx hash / payment reference from payout provider
+  status         String    @default("created") // created | paid | failed
+  paidAt         DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+
+  distribution Distribution @relation(fields: [distributionId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@unique([distributionId, userId])
+  @@index([userId])
 }
 
 model MembershipTier {

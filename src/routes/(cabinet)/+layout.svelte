@@ -22,6 +22,7 @@
     { label: 'Construction', href: '/investor/construction' },
     { label: 'Pools', href: '/investor/pools' },
     { label: 'Documents', href: '/investor/documents' },
+    { label: 'Wallet', href: '/investor/wallet' },
     { label: 'Secondary Market', href: '/investor/otc' }
   ];
 

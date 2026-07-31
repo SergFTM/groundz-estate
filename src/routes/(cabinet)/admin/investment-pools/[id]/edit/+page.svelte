@@ -211,6 +211,7 @@
 <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-6);flex-wrap:wrap;">
   <a href="/admin/investment-pools/{data.pool.id}/construction" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);background:rgba(212,169,68,0.08);border:1px solid rgba(212,169,68,0.2);border-radius:var(--radius-md);padding:var(--space-2) var(--space-4);text-decoration:none;">🏗 Construction Reports →</a>
   <a href="/admin/investment-pools/{data.pool.id}/data-room" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);background:rgba(212,169,68,0.08);border:1px solid rgba(212,169,68,0.2);border-radius:var(--radius-md);padding:var(--space-2) var(--space-4);text-decoration:none;">📁 Data Room →</a>
+  <a href="/admin/investment-pools/{data.pool.id}/tokenization" style="font-size:var(--text-xs);font-weight:700;color:var(--color-accent);background:rgba(212,169,68,0.08);border:1px solid rgba(212,169,68,0.2);border-radius:var(--radius-md);padding:var(--space-2) var(--space-4);text-decoration:none;">🪙 Tokenization →</a>
 </div>
 
 <!-- Milestones -->

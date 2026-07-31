@@ -63,6 +63,10 @@ export const ModelName = {
   Pool: 'Pool',
   Holding: 'Holding',
   Transaction: 'Transaction',
+  WalletAddress: 'WalletAddress',
+  PaymentIntent: 'PaymentIntent',
+  Distribution: 'Distribution',
+  DistributionPayout: 'DistributionPayout',
   MembershipTier: 'MembershipTier',
   Milestone: 'Milestone',
   ConstructionReport: 'ConstructionReport',
@@ -303,6 +307,81 @@ export const TransactionScalarFieldEnum = {
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const WalletAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  address: 'address',
+  chain: 'chain',
+  label: 'label',
+  status: 'status',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WalletAddressScalarFieldEnum = (typeof WalletAddressScalarFieldEnum)[keyof typeof WalletAddressScalarFieldEnum]
+
+
+export const PaymentIntentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  poolId: 'poolId',
+  walletAddressId: 'walletAddressId',
+  tokens: 'tokens',
+  pricePerToken: 'pricePerToken',
+  amount: 'amount',
+  currency: 'currency',
+  paymentReference: 'paymentReference',
+  transferDetails: 'transferDetails',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentIntentScalarFieldEnum = (typeof PaymentIntentScalarFieldEnum)[keyof typeof PaymentIntentScalarFieldEnum]
+
+
+export const DistributionScalarFieldEnum = {
+  id: 'id',
+  poolId: 'poolId',
+  periodLabel: 'periodLabel',
+  kind: 'kind',
+  formula: 'formula',
+  currency: 'currency',
+  totalAmount: 'totalAmount',
+  eligibleSupply: 'eligibleSupply',
+  snapshotAt: 'snapshotAt',
+  windowStart: 'windowStart',
+  windowEnd: 'windowEnd',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistributionScalarFieldEnum = (typeof DistributionScalarFieldEnum)[keyof typeof DistributionScalarFieldEnum]
+
+
+export const DistributionPayoutScalarFieldEnum = {
+  id: 'id',
+  distributionId: 'distributionId',
+  userId: 'userId',
+  walletAddress: 'walletAddress',
+  snapshotTokens: 'snapshotTokens',
+  grossAmount: 'grossAmount',
+  netAmount: 'netAmount',
+  currency: 'currency',
+  reference: 'reference',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistributionPayoutScalarFieldEnum = (typeof DistributionPayoutScalarFieldEnum)[keyof typeof DistributionPayoutScalarFieldEnum]
 
 
 export const MembershipTierScalarFieldEnum = {
