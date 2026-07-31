@@ -7,6 +7,7 @@ Quick links:
 - **Specification (TZ):** [docs/spec/](docs/spec/README.md)
 - **AI coder skills:** [docs/skills/](docs/skills/README.md)
 - **Rebrand → GROUNDZ ESTATE:** [docs/spec/10-rebrand-groundz.md](docs/spec/10-rebrand-groundz.md) — ребренд, дизайн-токены, токенизация инвест-слоя, AI-слой фронта (DRAFT)
+- **Файловая архитектура:** [docs/spec/11-file-architecture.md](docs/spec/11-file-architecture.md) — карта папок/файлов + куда добавлять новое
 
 ## Hard rules (do not violate)
 
