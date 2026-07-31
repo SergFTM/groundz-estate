@@ -2,6 +2,7 @@
 // (docs/spec/12-tokenization-rwa.md). Platform-side ledger only: on-chain mint
 // and settlement belong to third-party providers.
 import { error, fail } from '@sveltejs/kit';
+import type { RequestEvent } from '@sveltejs/kit';
 import db from '$lib/server/db';
 import {
   createPaymentIntent,
@@ -15,6 +16,11 @@ import type { PageServerLoad, Actions } from './$types';
 
 // Only transitions an operator may trigger manually from this screen
 const MANUAL_INTENT_TRANSITIONS = ['confirmed', 'underpaid', 'overpaid', 'expired', 'refunded', 'cancelled'];
+
+// Layout guards do not run for POST actions — every action re-checks the role.
+function requireAdmin(locals: RequestEvent['locals']) {
+  if (!locals.user || locals.user.role !== 'internal_team') throw error(403, 'Forbidden');
+}
 
 export const load: PageServerLoad = async ({ params }) => {
   const pool = await db.pool.findUnique({
@@ -53,7 +59,8 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 export const actions: Actions = {
-  createIntent: async ({ request, params }) => {
+  createIntent: async ({ request, params, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     const userId = String(form.get('userId') ?? '');
     const tokens = Number(form.get('tokens'));
@@ -68,7 +75,8 @@ export const actions: Actions = {
     }
   },
 
-  intentTransition: async ({ request }) => {
+  intentTransition: async ({ request, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     const intentId = String(form.get('intentId') ?? '');
     const to = String(form.get('to') ?? '');
@@ -83,7 +91,8 @@ export const actions: Actions = {
     }
   },
 
-  mintIntent: async ({ request }) => {
+  mintIntent: async ({ request, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     const intentId = String(form.get('intentId') ?? '');
     try {
@@ -94,7 +103,8 @@ export const actions: Actions = {
     }
   },
 
-  createDistribution: async ({ request, params }) => {
+  createDistribution: async ({ request, params, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     const periodLabel = String(form.get('periodLabel') ?? '').trim();
     const kind = String(form.get('kind') ?? 'rental');
@@ -109,7 +119,8 @@ export const actions: Actions = {
     return { action: 'createDistribution', success: true };
   },
 
-  snapshotDistribution: async ({ request }) => {
+  snapshotDistribution: async ({ request, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     try {
       await snapshotDistribution(String(form.get('distributionId') ?? ''));
@@ -119,7 +130,8 @@ export const actions: Actions = {
     }
   },
 
-  startPaying: async ({ request }) => {
+  startPaying: async ({ request, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     try {
       await transitionDistribution(String(form.get('distributionId') ?? ''), 'paying');
@@ -129,7 +141,8 @@ export const actions: Actions = {
     }
   },
 
-  markPaid: async ({ request }) => {
+  markPaid: async ({ request, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     try {
       await markPayoutPaid(String(form.get('payoutId') ?? ''), String(form.get('reference') ?? '') || undefined);
@@ -139,7 +152,8 @@ export const actions: Actions = {
     }
   },
 
-  walletTransition: async ({ request }) => {
+  walletTransition: async ({ request, locals }) => {
+    requireAdmin(locals);
     const form = await request.formData();
     const walletId = String(form.get('walletId') ?? '');
     const to = String(form.get('to') ?? '');

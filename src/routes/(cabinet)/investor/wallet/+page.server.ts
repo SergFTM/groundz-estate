@@ -27,8 +27,9 @@ export const load: PageServerLoad = async ({ parent }) => {
 
 export const actions: Actions = {
   addWallet: async ({ request, locals }) => {
+    // Layout guards do not run for POST actions — re-check the role here.
     const user = locals.user;
-    if (!user) return fail(401, { error: 'Not authenticated' });
+    if (!user || user.role !== 'investor') return fail(403, { error: 'Investor account required' });
 
     const form = await request.formData();
     const address = String(form.get('address') ?? '').trim();
