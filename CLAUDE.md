@@ -8,6 +8,7 @@ Quick links:
 - **AI coder skills:** [docs/skills/](docs/skills/README.md)
 - **Rebrand → GROUNDZ ESTATE:** [docs/spec/10-rebrand-groundz.md](docs/spec/10-rebrand-groundz.md) — ребренд, дизайн-токены, токенизация инвест-слоя, AI-слой фронта (DRAFT)
 - **Файловая архитектура:** [docs/spec/11-file-architecture.md](docs/spec/11-file-architecture.md) — карта папок/файлов + куда добавлять новое
+- **Токенизация RWA:** [docs/spec/12-tokenization-rwa.md](docs/spec/12-tokenization-rwa.md) — RWA-токены пулов (ERC-3643) + utility-токен + NFT-сертификаты, модель RFQ/settlement (DRAFT)
 
 ## Hard rules (do not violate)
 
