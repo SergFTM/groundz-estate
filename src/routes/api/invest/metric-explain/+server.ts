@@ -3,6 +3,7 @@
 import { json } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -19,7 +20,9 @@ const METRIC_FALLBACKS: Record<string, string> = {
   targetYield: 'Target yield is the annual return percentage the pool aims to deliver to investors.',
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: 'any', bucket: 'text_ai' });
+  const { request } = event;
   const body = await request.json().catch(() => null);
   if (!body?.metric) return json({ error: 'metric required' }, { status: 400 });
 
@@ -54,6 +57,7 @@ Keep it educational, honest, and free of jargon. Max 120 words. Return plain tex
     const result = await callAI({
       systemPrompt: 'You are a real estate investment advisor. Be concise and honest.',
       prompt,
+      capability: 'invest.metric-explain',
     });
 
     // Cache the result

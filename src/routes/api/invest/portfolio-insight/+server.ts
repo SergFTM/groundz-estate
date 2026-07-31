@@ -1,17 +1,20 @@
 // POST /api/invest/portfolio-insight
 // Generates personalized AI portfolio insight with 4h cache per investor
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const CACHE_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+export const POST: RequestHandler = async (event) => {
+  const user = aiGuard(event, { roles: ['investor', 'internal_team'], bucket: 'text_ai' });
+  const body = await event.request.json().catch(() => null);
   if (!body?.investorId) return json({ error: 'investorId required' }, { status: 400 });
 
   const { investorId, portfolioData } = body;
+  if (user!.role === 'investor' && investorId !== user!.id) throw error(403, 'Forbidden');
   const cacheKey = `portfolio_insight:${investorId}:${JSON.stringify(portfolioData).slice(0, 100)}`;
 
   const cached = await db.aiResponseCache.findUnique({ where: { cacheKey } });
@@ -28,7 +31,7 @@ export const POST: RequestHandler = async ({ request }) => {
     )
     .join('\n') ?? '';
 
-  const prompt = `You are an investment advisor reviewing a real estate portfolio on the Develta platform.
+  const prompt = `You are an investment advisor reviewing a real estate portfolio on the Groundz platform.
 
 Portfolio summary:
 - Total committed: €${totalInvested?.toLocaleString()}
@@ -51,6 +54,7 @@ Be specific with numbers. Be honest about risks. No fluff. Write in English.`;
     const result = await callAI({
       systemPrompt: 'You are a concise, honest real estate investment advisor. Never guarantee returns.',
       prompt,
+      capability: 'invest.portfolio-insight',
     });
 
     await db.aiResponseCache.upsert({

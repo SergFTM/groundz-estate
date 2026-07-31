@@ -1,10 +1,12 @@
 import { json } from '@sveltejs/kit';
 import db from '$lib/server/db';
 import { runSeoAudit } from '$lib/server/seo/orchestrator.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ request }) => {
-  const { clusters } = await request.json() as {
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'admin_job' });
+  const { clusters } = await event.request.json() as {
     clusters: {
       name: string;
       primaryTerm: string;

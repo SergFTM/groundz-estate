@@ -13,7 +13,7 @@ const uploadSchema = z.object({
 });
 
 export const load: PageServerLoad = async ({ params }) => {
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { id: params.id },
     select: { id: true, name: true },
   });
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ params }) => {
   });
 
   // Count investors who have access (are invested in this pool)
-  const investorCount = await db.investorInvestment.count({
+  const investorCount = await db.holding.count({
     where: { poolId: params.id },
   });
 

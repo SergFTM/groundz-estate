@@ -37,8 +37,8 @@
 </script>
 
 <svelte:head>
-	<title>Contact — Develta</title>
-	<meta name="description" content="Get in touch with Develta. Subscribe to our newsletter, download project brochures, or schedule a call with our investment advisors." />
+	<title>Contact — Groundz</title>
+	<meta name="description" content="Get in touch with Groundz. Subscribe to our newsletter, download project brochures, or schedule a call with our investment advisors." />
 </svelte:head>
 
 <div class="lead-forms-page">

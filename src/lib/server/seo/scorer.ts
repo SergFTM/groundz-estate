@@ -13,6 +13,15 @@ const SEVERITY_PENALTY: Record<string, number> = {
 const SEMANTIC_BONUS = 10;
 const LINKS_BONUS = 5;
 
+/** Generic 0–100 score from a list of issues (used by the AEO check-set). */
+export function scoreFromIssues(issues: SeoIssue[]): number {
+  let score = 100;
+  for (const issue of issues) {
+    score -= SEVERITY_PENALTY[issue.severity] ?? 0;
+  }
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
 export function calculateSeoScore(params: {
   structural: StructuralAnalysis;
   ruleIssues: SeoIssue[];

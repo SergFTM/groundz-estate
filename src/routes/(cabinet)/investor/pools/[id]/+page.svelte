@@ -38,7 +38,7 @@
 </script>
 
 <svelte:head>
-  <title>{data.pool.name} — Develta</title>
+  <title>{data.pool.name} — Groundz</title>
 </svelte:head>
 
 <div class="pool-detail-page">

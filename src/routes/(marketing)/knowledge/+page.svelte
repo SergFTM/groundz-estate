@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>Knowledge Base — Develta</title>
+  <title>Knowledge Base — Groundz</title>
   <meta name="description" content="Expert insights on Cyprus real estate investment, market trends, and buying guides." />
 </svelte:head>
 

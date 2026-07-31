@@ -63,15 +63,25 @@ export type Commission = Prisma.CommissionModel
  */
 export type Lead = Prisma.LeadModel
 /**
- * Model InvestmentPool
+ * Model Pool
  * 
  */
-export type InvestmentPool = Prisma.InvestmentPoolModel
+export type Pool = Prisma.PoolModel
 /**
- * Model InvestorInvestment
+ * Model Holding
  * 
  */
-export type InvestorInvestment = Prisma.InvestorInvestmentModel
+export type Holding = Prisma.HoldingModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel
+/**
+ * Model MembershipTier
+ * 
+ */
+export type MembershipTier = Prisma.MembershipTierModel
 /**
  * Model Milestone
  * 
@@ -167,3 +177,13 @@ export type IndexComponent = Prisma.IndexComponentModel
  * 
  */
 export type DailyPrice = Prisma.DailyPriceModel
+/**
+ * Model OtcListing
+ * 
+ */
+export type OtcListing = Prisma.OtcListingModel
+/**
+ * Model OtcOffer
+ * 
+ */
+export type OtcOffer = Prisma.OtcOfferModel

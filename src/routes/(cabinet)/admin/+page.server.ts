@@ -30,8 +30,8 @@ export const load: PageServerLoad = async () => {
       }),
       db.user.count(),
       db.user.groupBy({ by: ['role'], _count: true }),
-      db.investorInvestment.aggregate({ _sum: { amount: true } }),
-      db.investmentPool.count({ where: { status: 'active' } }),
+      db.holding.aggregate({ _sum: { amount: true } }),
+      db.pool.count({ where: { status: 'active' } }),
       db.document.count({ where: { status: 'pending' } }),
       // conversion & sales metrics
       db.lead.count({ where: { status: 'converted' } }),
@@ -45,8 +45,8 @@ export const load: PageServerLoad = async () => {
       // Investment operations
       db.lead.count({ where: { source: 'investor_application', status: 'new' } }),
       db.document.count({ where: { status: 'pending', category: { in: ['passport', 'kyc', 'proof_of_funds'] } } }),
-      db.investorInvestment.count({ where: { status: { in: ['soft_commit', 'pending'] } } }),
-      db.investorInvestment.findMany({
+      db.holding.count({ where: { status: { in: ['soft_commit', 'pending'] } } }),
+      db.holding.findMany({
         where: { status: { in: ['soft_commit', 'pending'] } },
         include: { user: { select: { name: true, email: true } }, pool: { select: { name: true } } },
         orderBy: { createdAt: 'desc' },

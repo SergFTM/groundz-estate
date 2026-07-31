@@ -41,7 +41,7 @@
 </script>
 
 <svelte:head>
-  <title>{data.project.name} — Projects — Admin — Develta</title>
+  <title>{data.project.name} — Projects — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/projects" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Projects</a>

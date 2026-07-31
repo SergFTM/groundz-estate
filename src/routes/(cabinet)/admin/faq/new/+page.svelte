@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>New FAQ — Admin — Develta</title>
+  <title>New FAQ — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/faq" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to FAQ</a>

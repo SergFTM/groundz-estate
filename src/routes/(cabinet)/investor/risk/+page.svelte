@@ -49,7 +49,7 @@
 </script>
 
 <svelte:head>
-  <title>Risk Dashboard — Develta</title>
+  <title>Risk Dashboard — Groundz</title>
 </svelte:head>
 
 <div style="max-width:900px;">
@@ -61,7 +61,7 @@
   {#if !riskMetrics}
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-12);text-align:center;">
       <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">No investments to analyse yet.</p>
-      <a href="/investment" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
+      <a href="/pools" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
     </div>
 
   {:else}

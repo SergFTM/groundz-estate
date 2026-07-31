@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>Investment Pools — Develta</title>
+  <title>Investment Pools — Groundz</title>
 </svelte:head>
 
 <div class="pools-page">
@@ -83,7 +83,7 @@
           <div class="pool-card__footer" style="display:flex;justify-content:space-between;align-items:center;">
             <a href="/investor/pools/{pool.id}" class="pool-card__link">View Details →</a>
             {#if pool.status === 'active' && !commit}
-              <a href="/investment/{pool.slug}/commit" class="pool-card__link" style="background:var(--color-accent);color:#fff;padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-xs);">Commit →</a>
+              <a href="/pools/{pool.slug}/commit" class="pool-card__link" style="background:var(--color-accent);color:#fff;padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-xs);">Commit →</a>
             {/if}
           </div>
         </div>
@@ -91,7 +91,7 @@
     </div>
   {:else}
     <div class="empty-state-card">
-      <p class="empty-state">No investment pools available at this time. <a href="/investment" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse pools →</a></p>
+      <p class="empty-state">No investment pools available at this time. <a href="/pools" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse pools →</a></p>
     </div>
   {/if}
 </div>

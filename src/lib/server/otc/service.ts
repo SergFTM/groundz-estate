@@ -57,7 +57,7 @@ export async function createListing(sellerId: string, input: CreateListingInput)
 
   if (input.assetType === 'investment_share') {
     if (!input.investmentId) throw new Error('investmentId required for investment_share');
-    const inv = await db.investorInvestment.findUnique({ where: { id: input.investmentId } });
+    const inv = await db.holding.findUnique({ where: { id: input.investmentId } });
     if (!inv || inv.userId !== sellerId) throw new Error('Investment not found or not owned by seller');
     const existing = await db.otcListing.findFirst({
       where: { investmentId: input.investmentId, status: { in: ['pending', 'active'] } },
@@ -112,7 +112,7 @@ export async function acceptOffer(offerId: string, sellerId: string) {
     if (offer.listing.assetType === 'investment_share') {
       if (!offer.listing.investmentId)
         throw new Error('Asset no longer exists; cannot transfer ownership');
-      await tx.investorInvestment.update({
+      await tx.holding.update({
         where: { id: offer.listing.investmentId },
         data: { userId: offer.buyerId },
       });

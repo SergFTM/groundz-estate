@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const promptTemplate = readFileSync(
@@ -10,7 +11,8 @@ const promptTemplate = readFileSync(
   'utf-8'
 );
 
-export const POST: RequestHandler = async () => {
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'text_ai' });
   const articles = await db.article.findMany({
     select: { id: true, title: true, category: true, excerpt: true, slug: true },
     orderBy: { publishedAt: 'desc' },
@@ -30,6 +32,7 @@ export const POST: RequestHandler = async () => {
     const result = await callAI({
       systemPrompt: 'You are an SEO keyword research assistant. Return only valid JSON array.',
       prompt,
+      capability: 'seo.setup-analyze',
     });
 
     const clean = result.content.replace(/```json\n?/g, '').replace(/```/g, '').trim();

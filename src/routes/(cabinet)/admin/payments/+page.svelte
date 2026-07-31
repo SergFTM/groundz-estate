@@ -41,7 +41,7 @@
 </script>
 
 <svelte:head>
-  <title>Payments — Admin — Develta</title>
+  <title>Payments — Admin — Groundz</title>
 </svelte:head>
 
 <div>

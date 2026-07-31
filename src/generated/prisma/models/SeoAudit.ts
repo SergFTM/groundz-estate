@@ -28,17 +28,21 @@ export type AggregateSeoAudit = {
 
 export type SeoAuditAvgAggregateOutputType = {
   score: number | null
+  aeoScore: number | null
 }
 
 export type SeoAuditSumAggregateOutputType = {
   score: number | null
+  aeoScore: number | null
 }
 
 export type SeoAuditMinAggregateOutputType = {
   id: string | null
   seoPageProfileId: string | null
   score: number | null
+  aeoScore: number | null
   issuesJson: string | null
+  aeoIssuesJson: string | null
   suggestionsJson: string | null
   aiSummary: string | null
   aiAvailable: boolean | null
@@ -49,7 +53,9 @@ export type SeoAuditMaxAggregateOutputType = {
   id: string | null
   seoPageProfileId: string | null
   score: number | null
+  aeoScore: number | null
   issuesJson: string | null
+  aeoIssuesJson: string | null
   suggestionsJson: string | null
   aiSummary: string | null
   aiAvailable: boolean | null
@@ -60,7 +66,9 @@ export type SeoAuditCountAggregateOutputType = {
   id: number
   seoPageProfileId: number
   score: number
+  aeoScore: number
   issuesJson: number
+  aeoIssuesJson: number
   suggestionsJson: number
   aiSummary: number
   aiAvailable: number
@@ -71,17 +79,21 @@ export type SeoAuditCountAggregateOutputType = {
 
 export type SeoAuditAvgAggregateInputType = {
   score?: true
+  aeoScore?: true
 }
 
 export type SeoAuditSumAggregateInputType = {
   score?: true
+  aeoScore?: true
 }
 
 export type SeoAuditMinAggregateInputType = {
   id?: true
   seoPageProfileId?: true
   score?: true
+  aeoScore?: true
   issuesJson?: true
+  aeoIssuesJson?: true
   suggestionsJson?: true
   aiSummary?: true
   aiAvailable?: true
@@ -92,7 +104,9 @@ export type SeoAuditMaxAggregateInputType = {
   id?: true
   seoPageProfileId?: true
   score?: true
+  aeoScore?: true
   issuesJson?: true
+  aeoIssuesJson?: true
   suggestionsJson?: true
   aiSummary?: true
   aiAvailable?: true
@@ -103,7 +117,9 @@ export type SeoAuditCountAggregateInputType = {
   id?: true
   seoPageProfileId?: true
   score?: true
+  aeoScore?: true
   issuesJson?: true
+  aeoIssuesJson?: true
   suggestionsJson?: true
   aiSummary?: true
   aiAvailable?: true
@@ -201,7 +217,9 @@ export type SeoAuditGroupByOutputType = {
   id: string
   seoPageProfileId: string
   score: number
+  aeoScore: number | null
   issuesJson: string
+  aeoIssuesJson: string | null
   suggestionsJson: string
   aiSummary: string | null
   aiAvailable: boolean
@@ -235,7 +253,9 @@ export type SeoAuditWhereInput = {
   id?: Prisma.StringFilter<"SeoAudit"> | string
   seoPageProfileId?: Prisma.StringFilter<"SeoAudit"> | string
   score?: Prisma.FloatFilter<"SeoAudit"> | number
+  aeoScore?: Prisma.FloatNullableFilter<"SeoAudit"> | number | null
   issuesJson?: Prisma.StringFilter<"SeoAudit"> | string
+  aeoIssuesJson?: Prisma.StringNullableFilter<"SeoAudit"> | string | null
   suggestionsJson?: Prisma.StringFilter<"SeoAudit"> | string
   aiSummary?: Prisma.StringNullableFilter<"SeoAudit"> | string | null
   aiAvailable?: Prisma.BoolFilter<"SeoAudit"> | boolean
@@ -247,7 +267,9 @@ export type SeoAuditOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   seoPageProfileId?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrderInput | Prisma.SortOrder
   issuesJson?: Prisma.SortOrder
+  aeoIssuesJson?: Prisma.SortOrderInput | Prisma.SortOrder
   suggestionsJson?: Prisma.SortOrder
   aiSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   aiAvailable?: Prisma.SortOrder
@@ -262,7 +284,9 @@ export type SeoAuditWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.SeoAuditWhereInput | Prisma.SeoAuditWhereInput[]
   seoPageProfileId?: Prisma.StringFilter<"SeoAudit"> | string
   score?: Prisma.FloatFilter<"SeoAudit"> | number
+  aeoScore?: Prisma.FloatNullableFilter<"SeoAudit"> | number | null
   issuesJson?: Prisma.StringFilter<"SeoAudit"> | string
+  aeoIssuesJson?: Prisma.StringNullableFilter<"SeoAudit"> | string | null
   suggestionsJson?: Prisma.StringFilter<"SeoAudit"> | string
   aiSummary?: Prisma.StringNullableFilter<"SeoAudit"> | string | null
   aiAvailable?: Prisma.BoolFilter<"SeoAudit"> | boolean
@@ -274,7 +298,9 @@ export type SeoAuditOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   seoPageProfileId?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrderInput | Prisma.SortOrder
   issuesJson?: Prisma.SortOrder
+  aeoIssuesJson?: Prisma.SortOrderInput | Prisma.SortOrder
   suggestionsJson?: Prisma.SortOrder
   aiSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   aiAvailable?: Prisma.SortOrder
@@ -293,7 +319,9 @@ export type SeoAuditScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"SeoAudit"> | string
   seoPageProfileId?: Prisma.StringWithAggregatesFilter<"SeoAudit"> | string
   score?: Prisma.FloatWithAggregatesFilter<"SeoAudit"> | number
+  aeoScore?: Prisma.FloatNullableWithAggregatesFilter<"SeoAudit"> | number | null
   issuesJson?: Prisma.StringWithAggregatesFilter<"SeoAudit"> | string
+  aeoIssuesJson?: Prisma.StringNullableWithAggregatesFilter<"SeoAudit"> | string | null
   suggestionsJson?: Prisma.StringWithAggregatesFilter<"SeoAudit"> | string
   aiSummary?: Prisma.StringNullableWithAggregatesFilter<"SeoAudit"> | string | null
   aiAvailable?: Prisma.BoolWithAggregatesFilter<"SeoAudit"> | boolean
@@ -303,7 +331,9 @@ export type SeoAuditScalarWhereWithAggregatesInput = {
 export type SeoAuditCreateInput = {
   id?: string
   score: number
+  aeoScore?: number | null
   issuesJson: string
+  aeoIssuesJson?: string | null
   suggestionsJson: string
   aiSummary?: string | null
   aiAvailable?: boolean
@@ -315,7 +345,9 @@ export type SeoAuditUncheckedCreateInput = {
   id?: string
   seoPageProfileId: string
   score: number
+  aeoScore?: number | null
   issuesJson: string
+  aeoIssuesJson?: string | null
   suggestionsJson: string
   aiSummary?: string | null
   aiAvailable?: boolean
@@ -325,7 +357,9 @@ export type SeoAuditUncheckedCreateInput = {
 export type SeoAuditUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -337,7 +371,9 @@ export type SeoAuditUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   seoPageProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -348,7 +384,9 @@ export type SeoAuditCreateManyInput = {
   id?: string
   seoPageProfileId: string
   score: number
+  aeoScore?: number | null
   issuesJson: string
+  aeoIssuesJson?: string | null
   suggestionsJson: string
   aiSummary?: string | null
   aiAvailable?: boolean
@@ -358,7 +396,9 @@ export type SeoAuditCreateManyInput = {
 export type SeoAuditUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -369,7 +409,9 @@ export type SeoAuditUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   seoPageProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -390,7 +432,9 @@ export type SeoAuditCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   seoPageProfileId?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
   issuesJson?: Prisma.SortOrder
+  aeoIssuesJson?: Prisma.SortOrder
   suggestionsJson?: Prisma.SortOrder
   aiSummary?: Prisma.SortOrder
   aiAvailable?: Prisma.SortOrder
@@ -399,13 +443,16 @@ export type SeoAuditCountOrderByAggregateInput = {
 
 export type SeoAuditAvgOrderByAggregateInput = {
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
 }
 
 export type SeoAuditMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   seoPageProfileId?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
   issuesJson?: Prisma.SortOrder
+  aeoIssuesJson?: Prisma.SortOrder
   suggestionsJson?: Prisma.SortOrder
   aiSummary?: Prisma.SortOrder
   aiAvailable?: Prisma.SortOrder
@@ -416,7 +463,9 @@ export type SeoAuditMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   seoPageProfileId?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
   issuesJson?: Prisma.SortOrder
+  aeoIssuesJson?: Prisma.SortOrder
   suggestionsJson?: Prisma.SortOrder
   aiSummary?: Prisma.SortOrder
   aiAvailable?: Prisma.SortOrder
@@ -425,6 +474,7 @@ export type SeoAuditMinOrderByAggregateInput = {
 
 export type SeoAuditSumOrderByAggregateInput = {
   score?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
 }
 
 export type SeoAuditCreateNestedManyWithoutPageProfileInput = {
@@ -472,7 +522,9 @@ export type SeoAuditUncheckedUpdateManyWithoutPageProfileNestedInput = {
 export type SeoAuditCreateWithoutPageProfileInput = {
   id?: string
   score: number
+  aeoScore?: number | null
   issuesJson: string
+  aeoIssuesJson?: string | null
   suggestionsJson: string
   aiSummary?: string | null
   aiAvailable?: boolean
@@ -482,7 +534,9 @@ export type SeoAuditCreateWithoutPageProfileInput = {
 export type SeoAuditUncheckedCreateWithoutPageProfileInput = {
   id?: string
   score: number
+  aeoScore?: number | null
   issuesJson: string
+  aeoIssuesJson?: string | null
   suggestionsJson: string
   aiSummary?: string | null
   aiAvailable?: boolean
@@ -521,7 +575,9 @@ export type SeoAuditScalarWhereInput = {
   id?: Prisma.StringFilter<"SeoAudit"> | string
   seoPageProfileId?: Prisma.StringFilter<"SeoAudit"> | string
   score?: Prisma.FloatFilter<"SeoAudit"> | number
+  aeoScore?: Prisma.FloatNullableFilter<"SeoAudit"> | number | null
   issuesJson?: Prisma.StringFilter<"SeoAudit"> | string
+  aeoIssuesJson?: Prisma.StringNullableFilter<"SeoAudit"> | string | null
   suggestionsJson?: Prisma.StringFilter<"SeoAudit"> | string
   aiSummary?: Prisma.StringNullableFilter<"SeoAudit"> | string | null
   aiAvailable?: Prisma.BoolFilter<"SeoAudit"> | boolean
@@ -531,7 +587,9 @@ export type SeoAuditScalarWhereInput = {
 export type SeoAuditCreateManyPageProfileInput = {
   id?: string
   score: number
+  aeoScore?: number | null
   issuesJson: string
+  aeoIssuesJson?: string | null
   suggestionsJson: string
   aiSummary?: string | null
   aiAvailable?: boolean
@@ -541,7 +599,9 @@ export type SeoAuditCreateManyPageProfileInput = {
 export type SeoAuditUpdateWithoutPageProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -551,7 +611,9 @@ export type SeoAuditUpdateWithoutPageProfileInput = {
 export type SeoAuditUncheckedUpdateWithoutPageProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -561,7 +623,9 @@ export type SeoAuditUncheckedUpdateWithoutPageProfileInput = {
 export type SeoAuditUncheckedUpdateManyWithoutPageProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issuesJson?: Prisma.StringFieldUpdateOperationsInput | string
+  aeoIssuesJson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   suggestionsJson?: Prisma.StringFieldUpdateOperationsInput | string
   aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -574,7 +638,9 @@ export type SeoAuditSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   seoPageProfileId?: boolean
   score?: boolean
+  aeoScore?: boolean
   issuesJson?: boolean
+  aeoIssuesJson?: boolean
   suggestionsJson?: boolean
   aiSummary?: boolean
   aiAvailable?: boolean
@@ -586,7 +652,9 @@ export type SeoAuditSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   seoPageProfileId?: boolean
   score?: boolean
+  aeoScore?: boolean
   issuesJson?: boolean
+  aeoIssuesJson?: boolean
   suggestionsJson?: boolean
   aiSummary?: boolean
   aiAvailable?: boolean
@@ -598,7 +666,9 @@ export type SeoAuditSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   seoPageProfileId?: boolean
   score?: boolean
+  aeoScore?: boolean
   issuesJson?: boolean
+  aeoIssuesJson?: boolean
   suggestionsJson?: boolean
   aiSummary?: boolean
   aiAvailable?: boolean
@@ -610,14 +680,16 @@ export type SeoAuditSelectScalar = {
   id?: boolean
   seoPageProfileId?: boolean
   score?: boolean
+  aeoScore?: boolean
   issuesJson?: boolean
+  aeoIssuesJson?: boolean
   suggestionsJson?: boolean
   aiSummary?: boolean
   aiAvailable?: boolean
   createdAt?: boolean
 }
 
-export type SeoAuditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "seoPageProfileId" | "score" | "issuesJson" | "suggestionsJson" | "aiSummary" | "aiAvailable" | "createdAt", ExtArgs["result"]["seoAudit"]>
+export type SeoAuditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "seoPageProfileId" | "score" | "aeoScore" | "issuesJson" | "aeoIssuesJson" | "suggestionsJson" | "aiSummary" | "aiAvailable" | "createdAt", ExtArgs["result"]["seoAudit"]>
 export type SeoAuditInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pageProfile?: boolean | Prisma.SeoPageProfileDefaultArgs<ExtArgs>
 }
@@ -637,7 +709,9 @@ export type $SeoAuditPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     seoPageProfileId: string
     score: number
+    aeoScore: number | null
     issuesJson: string
+    aeoIssuesJson: string | null
     suggestionsJson: string
     aiSummary: string | null
     aiAvailable: boolean
@@ -1069,7 +1143,9 @@ export interface SeoAuditFieldRefs {
   readonly id: Prisma.FieldRef<"SeoAudit", 'String'>
   readonly seoPageProfileId: Prisma.FieldRef<"SeoAudit", 'String'>
   readonly score: Prisma.FieldRef<"SeoAudit", 'Float'>
+  readonly aeoScore: Prisma.FieldRef<"SeoAudit", 'Float'>
   readonly issuesJson: Prisma.FieldRef<"SeoAudit", 'String'>
+  readonly aeoIssuesJson: Prisma.FieldRef<"SeoAudit", 'String'>
   readonly suggestionsJson: Prisma.FieldRef<"SeoAudit", 'String'>
   readonly aiSummary: Prisma.FieldRef<"SeoAudit", 'String'>
   readonly aiAvailable: Prisma.FieldRef<"SeoAudit", 'Boolean'>

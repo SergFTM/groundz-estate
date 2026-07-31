@@ -60,7 +60,7 @@
 </script>
 
 <svelte:head>
-  <title>Cashflow Forecast — Develta</title>
+  <title>Cashflow Forecast — Groundz</title>
 </svelte:head>
 
 <div style="max-width:1000px;">
@@ -72,7 +72,7 @@
   {#if projections.length === 0}
     <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:var(--radius-lg);padding:var(--space-12);text-align:center;">
       <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4);">No investments to project yet.</p>
-      <a href="/investment" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
+      <a href="/pools" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Browse Investment Pools →</a>
     </div>
 
   {:else}
@@ -139,7 +139,7 @@
             {#each projections as p}
               <tr style="border-bottom:1px solid rgba(0,0,0,0.04);">
                 <td style="padding:var(--space-3) var(--space-4);">
-                  <a href="/investment/{p.poolSlug}" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);text-decoration:none;">{p.poolName}</a>
+                  <a href="/pools/{p.poolSlug}" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text);text-decoration:none;">{p.poolName}</a>
                 </td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-xs);color:var(--color-text-muted);">{dtLabel(p.dealType)}</td>
                 <td style="padding:var(--space-3) var(--space-4);font-size:var(--text-sm);font-weight:700;color:var(--color-text);">{formatCurrency(p.amount)}</td>

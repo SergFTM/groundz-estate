@@ -1,30 +1,32 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { locale } from '$lib/stores/locale';
+	import { t } from '$lib/i18n';
 
 	let { data, form } = $props();
 </script>
 
 <svelte:head>
-	<title>Reset Password — Develta</title>
+	<title>Reset Password — Groundz</title>
 </svelte:head>
 
 <div class="auth-page">
 	<div class="auth-card">
 		<div class="auth-header">
-			<h1 class="auth-title">New Password</h1>
-			<p class="auth-subtitle">Enter your new password</p>
+			<h1 class="auth-title">{t($locale, 'auth.newPwTitle')}</h1>
+			<p class="auth-subtitle">{t($locale, 'auth.newPwSubtitle')}</p>
 		</div>
 
 		{#if form?.success}
 			<div class="auth-success">
-				Your password has been reset successfully.
+				{t($locale, 'auth.resetDone')}
 			</div>
-			<a href="/auth/login" class="btn btn--primary btn--full" style="text-align:center;display:block;text-decoration:none;">Sign In</a>
+			<a href="/auth/login" class="btn btn--primary btn--full" style="text-align:center;display:block;text-decoration:none;">{t($locale, 'auth.signIn')}</a>
 		{:else if !data.valid}
 			<div class="auth-alert">
-				This reset link has expired or is invalid. Please request a new one.
+				{t($locale, 'auth.linkInvalid')}
 			</div>
-			<a href="/auth/forgot-password" class="btn btn--primary btn--full" style="text-align:center;display:block;text-decoration:none;">Request New Link</a>
+			<a href="/auth/forgot-password" class="btn btn--primary btn--full" style="text-align:center;display:block;text-decoration:none;">{t($locale, 'auth.requestNewLink')}</a>
 		{:else}
 			{#if form?.error}
 				<div class="auth-alert">{form.error}</div>
@@ -34,31 +36,31 @@
 				<input type="hidden" name="token" value={data.token} />
 
 				<div class="form-group">
-					<label class="form-label" for="password">New Password</label>
+					<label class="form-label" for="password">{t($locale, 'auth.newPwTitle')}</label>
 					<input
 						class="form-input"
 						type="password"
 						id="password"
 						name="password"
-						placeholder="Min. 6 characters"
+						placeholder={t($locale, 'auth.minChars')}
 						required
 						minlength="6"
 					/>
 				</div>
 
 				<div class="form-group">
-					<label class="form-label" for="confirmPassword">Confirm Password</label>
+					<label class="form-label" for="confirmPassword">{t($locale, 'auth.confirmPassword')}</label>
 					<input
 						class="form-input"
 						type="password"
 						id="confirmPassword"
 						name="confirmPassword"
-						placeholder="Repeat password"
+						placeholder={t($locale, 'auth.repeatPassword')}
 						required
 					/>
 				</div>
 
-				<button class="btn btn--primary btn--full" type="submit">Reset Password</button>
+				<button class="btn btn--primary btn--full" type="submit">{t($locale, 'auth.resetPasswordBtn')}</button>
 			</form>
 		{/if}
 	</div>

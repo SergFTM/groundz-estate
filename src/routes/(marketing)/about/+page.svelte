@@ -1,6 +1,6 @@
 <svelte:head>
-  <title>About Us — Develta</title>
-  <meta name="description" content="Develta is a premium real estate developer in Limassol, Cyprus, offering full-cycle development, investment solutions, and property management." />
+  <title>About Us — Groundz</title>
+  <meta name="description" content="Groundz is a premium real estate developer in Limassol, Cyprus, offering full-cycle development, investment solutions, and property management." />
 </svelte:head>
 
 <!-- ========== HERO ========== -->
@@ -9,7 +9,7 @@
     <span class="section-label">ABOUT US</span>
     <h1 class="about-hero__title">Building the Future<br /><em>of Limassol</em></h1>
     <p class="about-hero__sub">
-      Develta is a full-cycle real estate developer based in Limassol, Cyprus. We design, build, and manage premium residential properties — and provide investors with a complete hands-off ownership experience.
+      Groundz is a full-cycle real estate developer based in Limassol, Cyprus. We design, build, and manage premium residential properties — and provide investors with a complete hands-off ownership experience.
     </p>
   </div>
 </section>
@@ -143,7 +143,7 @@
   <div class="container">
     <div class="team-header">
       <span class="section-label">THE TEAM</span>
-      <h2 class="section-h2">People behind Develta</h2>
+      <h2 class="section-h2">People behind Groundz</h2>
       <p class="section-sub">Architects, engineers, investment advisors, and property managers — working together toward one goal.</p>
     </div>
     <div class="team-grid">

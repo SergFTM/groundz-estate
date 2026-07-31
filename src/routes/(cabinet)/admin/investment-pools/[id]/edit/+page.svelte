@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-  <title>Edit {data.pool.name} — Admin — Develta</title>
+  <title>Edit {data.pool.name} — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/investment-pools" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Pools</a>

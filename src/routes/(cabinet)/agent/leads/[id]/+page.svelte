@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>Lead — Develta</title>
+  <title>Lead — Groundz</title>
 </svelte:head>
 
 <div class="lead-detail-page">

@@ -1,17 +1,20 @@
 // POST /api/invest/risk-narrative
 // AI risk narrative for investor's portfolio risk profile, 4h cache
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import db from '$lib/server/db.js';
 import { callAI } from '$lib/server/seo/ai-client.js';
+import { aiGuard } from '$lib/server/ai-guard.js';
 import type { RequestHandler } from './$types';
 
 const CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 
-export const POST: RequestHandler = async ({ request }) => {
-  const body = await request.json().catch(() => null);
+export const POST: RequestHandler = async (event) => {
+  const user = aiGuard(event, { roles: ['investor', 'internal_team'], bucket: 'text_ai' });
+  const body = await event.request.json().catch(() => null);
   if (!body?.investorId) return json({ error: 'investorId required' }, { status: 400 });
 
   const { investorId, riskData } = body;
+  if (user!.role === 'investor' && investorId !== user!.id) throw error(403, 'Forbidden');
   const cacheKey = `risk_narrative:${investorId}:${riskData?.overallScore ?? 0}`;
 
   const cached = await db.aiResponseCache.findUnique({ where: { cacheKey } });
@@ -48,6 +51,7 @@ Be direct, specific, and honest. Write in English.`;
     const result = await callAI({
       systemPrompt: 'You are a concise, honest real estate risk analyst. Focus on actionable insights.',
       prompt,
+      capability: 'invest.risk-narrative',
     });
 
     await db.aiResponseCache.upsert({

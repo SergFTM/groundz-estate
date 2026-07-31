@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-  <title>Leads — Admin — Develta</title>
+  <title>Leads — Admin — Groundz</title>
 </svelte:head>
 
 <div>

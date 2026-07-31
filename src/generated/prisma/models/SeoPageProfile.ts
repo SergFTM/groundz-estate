@@ -28,10 +28,12 @@ export type AggregateSeoPageProfile = {
 
 export type SeoPageProfileAvgAggregateOutputType = {
   seoScore: number | null
+  aeoScore: number | null
 }
 
 export type SeoPageProfileSumAggregateOutputType = {
   seoScore: number | null
+  aeoScore: number | null
 }
 
 export type SeoPageProfileMinAggregateOutputType = {
@@ -45,6 +47,7 @@ export type SeoPageProfileMinAggregateOutputType = {
   metaTitle: string | null
   metaDescription: string | null
   seoScore: number | null
+  aeoScore: number | null
   lastAuditAt: Date | null
   lastAiRunAt: Date | null
   createdAt: Date | null
@@ -62,6 +65,7 @@ export type SeoPageProfileMaxAggregateOutputType = {
   metaTitle: string | null
   metaDescription: string | null
   seoScore: number | null
+  aeoScore: number | null
   lastAuditAt: Date | null
   lastAiRunAt: Date | null
   createdAt: Date | null
@@ -79,6 +83,7 @@ export type SeoPageProfileCountAggregateOutputType = {
   metaTitle: number
   metaDescription: number
   seoScore: number
+  aeoScore: number
   lastAuditAt: number
   lastAiRunAt: number
   createdAt: number
@@ -89,10 +94,12 @@ export type SeoPageProfileCountAggregateOutputType = {
 
 export type SeoPageProfileAvgAggregateInputType = {
   seoScore?: true
+  aeoScore?: true
 }
 
 export type SeoPageProfileSumAggregateInputType = {
   seoScore?: true
+  aeoScore?: true
 }
 
 export type SeoPageProfileMinAggregateInputType = {
@@ -106,6 +113,7 @@ export type SeoPageProfileMinAggregateInputType = {
   metaTitle?: true
   metaDescription?: true
   seoScore?: true
+  aeoScore?: true
   lastAuditAt?: true
   lastAiRunAt?: true
   createdAt?: true
@@ -123,6 +131,7 @@ export type SeoPageProfileMaxAggregateInputType = {
   metaTitle?: true
   metaDescription?: true
   seoScore?: true
+  aeoScore?: true
   lastAuditAt?: true
   lastAiRunAt?: true
   createdAt?: true
@@ -140,6 +149,7 @@ export type SeoPageProfileCountAggregateInputType = {
   metaTitle?: true
   metaDescription?: true
   seoScore?: true
+  aeoScore?: true
   lastAuditAt?: true
   lastAiRunAt?: true
   createdAt?: true
@@ -244,6 +254,7 @@ export type SeoPageProfileGroupByOutputType = {
   metaTitle: string | null
   metaDescription: string | null
   seoScore: number | null
+  aeoScore: number | null
   lastAuditAt: Date | null
   lastAiRunAt: Date | null
   createdAt: Date
@@ -284,6 +295,7 @@ export type SeoPageProfileWhereInput = {
   metaTitle?: Prisma.StringNullableFilter<"SeoPageProfile"> | string | null
   metaDescription?: Prisma.StringNullableFilter<"SeoPageProfile"> | string | null
   seoScore?: Prisma.FloatNullableFilter<"SeoPageProfile"> | number | null
+  aeoScore?: Prisma.FloatNullableFilter<"SeoPageProfile"> | number | null
   lastAuditAt?: Prisma.DateTimeNullableFilter<"SeoPageProfile"> | Date | string | null
   lastAiRunAt?: Prisma.DateTimeNullableFilter<"SeoPageProfile"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SeoPageProfile"> | Date | string
@@ -306,6 +318,7 @@ export type SeoPageProfileOrderByWithRelationInput = {
   metaTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   metaDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   seoScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  aeoScore?: Prisma.SortOrderInput | Prisma.SortOrder
   lastAuditAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastAiRunAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -331,6 +344,7 @@ export type SeoPageProfileWhereUniqueInput = Prisma.AtLeast<{
   metaTitle?: Prisma.StringNullableFilter<"SeoPageProfile"> | string | null
   metaDescription?: Prisma.StringNullableFilter<"SeoPageProfile"> | string | null
   seoScore?: Prisma.FloatNullableFilter<"SeoPageProfile"> | number | null
+  aeoScore?: Prisma.FloatNullableFilter<"SeoPageProfile"> | number | null
   lastAuditAt?: Prisma.DateTimeNullableFilter<"SeoPageProfile"> | Date | string | null
   lastAiRunAt?: Prisma.DateTimeNullableFilter<"SeoPageProfile"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SeoPageProfile"> | Date | string
@@ -353,6 +367,7 @@ export type SeoPageProfileOrderByWithAggregationInput = {
   metaTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   metaDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   seoScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  aeoScore?: Prisma.SortOrderInput | Prisma.SortOrder
   lastAuditAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastAiRunAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -378,6 +393,7 @@ export type SeoPageProfileScalarWhereWithAggregatesInput = {
   metaTitle?: Prisma.StringNullableWithAggregatesFilter<"SeoPageProfile"> | string | null
   metaDescription?: Prisma.StringNullableWithAggregatesFilter<"SeoPageProfile"> | string | null
   seoScore?: Prisma.FloatNullableWithAggregatesFilter<"SeoPageProfile"> | number | null
+  aeoScore?: Prisma.FloatNullableWithAggregatesFilter<"SeoPageProfile"> | number | null
   lastAuditAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SeoPageProfile"> | Date | string | null
   lastAiRunAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SeoPageProfile"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SeoPageProfile"> | Date | string
@@ -394,6 +410,7 @@ export type SeoPageProfileCreateInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -416,6 +433,7 @@ export type SeoPageProfileUncheckedCreateInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -436,6 +454,7 @@ export type SeoPageProfileUpdateInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -458,6 +477,7 @@ export type SeoPageProfileUncheckedUpdateInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -479,6 +499,7 @@ export type SeoPageProfileCreateManyInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -495,6 +516,7 @@ export type SeoPageProfileUpdateManyMutationInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -512,6 +534,7 @@ export type SeoPageProfileUncheckedUpdateManyInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -539,6 +562,7 @@ export type SeoPageProfileCountOrderByAggregateInput = {
   metaTitle?: Prisma.SortOrder
   metaDescription?: Prisma.SortOrder
   seoScore?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
   lastAuditAt?: Prisma.SortOrder
   lastAiRunAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -547,6 +571,7 @@ export type SeoPageProfileCountOrderByAggregateInput = {
 
 export type SeoPageProfileAvgOrderByAggregateInput = {
   seoScore?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
 }
 
 export type SeoPageProfileMaxOrderByAggregateInput = {
@@ -560,6 +585,7 @@ export type SeoPageProfileMaxOrderByAggregateInput = {
   metaTitle?: Prisma.SortOrder
   metaDescription?: Prisma.SortOrder
   seoScore?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
   lastAuditAt?: Prisma.SortOrder
   lastAiRunAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -577,6 +603,7 @@ export type SeoPageProfileMinOrderByAggregateInput = {
   metaTitle?: Prisma.SortOrder
   metaDescription?: Prisma.SortOrder
   seoScore?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
   lastAuditAt?: Prisma.SortOrder
   lastAiRunAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -585,6 +612,7 @@ export type SeoPageProfileMinOrderByAggregateInput = {
 
 export type SeoPageProfileSumOrderByAggregateInput = {
   seoScore?: Prisma.SortOrder
+  aeoScore?: Prisma.SortOrder
 }
 
 export type SeoPageProfileScalarRelationFilter = {
@@ -700,6 +728,7 @@ export type SeoPageProfileCreateWithoutPrimaryClusterInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -720,6 +749,7 @@ export type SeoPageProfileUncheckedCreateWithoutPrimaryClusterInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -769,6 +799,7 @@ export type SeoPageProfileScalarWhereInput = {
   metaTitle?: Prisma.StringNullableFilter<"SeoPageProfile"> | string | null
   metaDescription?: Prisma.StringNullableFilter<"SeoPageProfile"> | string | null
   seoScore?: Prisma.FloatNullableFilter<"SeoPageProfile"> | number | null
+  aeoScore?: Prisma.FloatNullableFilter<"SeoPageProfile"> | number | null
   lastAuditAt?: Prisma.DateTimeNullableFilter<"SeoPageProfile"> | Date | string | null
   lastAiRunAt?: Prisma.DateTimeNullableFilter<"SeoPageProfile"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SeoPageProfile"> | Date | string
@@ -785,6 +816,7 @@ export type SeoPageProfileCreateWithoutAuditsInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -806,6 +838,7 @@ export type SeoPageProfileUncheckedCreateWithoutAuditsInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -841,6 +874,7 @@ export type SeoPageProfileUpdateWithoutAuditsInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -862,6 +896,7 @@ export type SeoPageProfileUncheckedUpdateWithoutAuditsInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -881,6 +916,7 @@ export type SeoPageProfileCreateWithoutLinkSuggestionsFromInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -902,6 +938,7 @@ export type SeoPageProfileUncheckedCreateWithoutLinkSuggestionsFromInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -926,6 +963,7 @@ export type SeoPageProfileCreateWithoutLinkSuggestionsToInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -947,6 +985,7 @@ export type SeoPageProfileUncheckedCreateWithoutLinkSuggestionsToInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -982,6 +1021,7 @@ export type SeoPageProfileUpdateWithoutLinkSuggestionsFromInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1003,6 +1043,7 @@ export type SeoPageProfileUncheckedUpdateWithoutLinkSuggestionsFromInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1033,6 +1074,7 @@ export type SeoPageProfileUpdateWithoutLinkSuggestionsToInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1054,6 +1096,7 @@ export type SeoPageProfileUncheckedUpdateWithoutLinkSuggestionsToInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1073,6 +1116,7 @@ export type SeoPageProfileCreateWithoutRevisionsInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -1094,6 +1138,7 @@ export type SeoPageProfileUncheckedCreateWithoutRevisionsInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -1129,6 +1174,7 @@ export type SeoPageProfileUpdateWithoutRevisionsInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1150,6 +1196,7 @@ export type SeoPageProfileUncheckedUpdateWithoutRevisionsInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1169,6 +1216,7 @@ export type SeoPageProfileCreateManyPrimaryClusterInput = {
   metaTitle?: string | null
   metaDescription?: string | null
   seoScore?: number | null
+  aeoScore?: number | null
   lastAuditAt?: Date | string | null
   lastAiRunAt?: Date | string | null
   createdAt?: Date | string
@@ -1185,6 +1233,7 @@ export type SeoPageProfileUpdateWithoutPrimaryClusterInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1205,6 +1254,7 @@ export type SeoPageProfileUncheckedUpdateWithoutPrimaryClusterInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1225,6 +1275,7 @@ export type SeoPageProfileUncheckedUpdateManyWithoutPrimaryClusterInput = {
   metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  aeoScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastAuditAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastAiRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1300,6 +1351,7 @@ export type SeoPageProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   metaTitle?: boolean
   metaDescription?: boolean
   seoScore?: boolean
+  aeoScore?: boolean
   lastAuditAt?: boolean
   lastAiRunAt?: boolean
   createdAt?: boolean
@@ -1323,6 +1375,7 @@ export type SeoPageProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   metaTitle?: boolean
   metaDescription?: boolean
   seoScore?: boolean
+  aeoScore?: boolean
   lastAuditAt?: boolean
   lastAiRunAt?: boolean
   createdAt?: boolean
@@ -1341,6 +1394,7 @@ export type SeoPageProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   metaTitle?: boolean
   metaDescription?: boolean
   seoScore?: boolean
+  aeoScore?: boolean
   lastAuditAt?: boolean
   lastAiRunAt?: boolean
   createdAt?: boolean
@@ -1359,13 +1413,14 @@ export type SeoPageProfileSelectScalar = {
   metaTitle?: boolean
   metaDescription?: boolean
   seoScore?: boolean
+  aeoScore?: boolean
   lastAuditAt?: boolean
   lastAiRunAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SeoPageProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "route" | "articleId" | "locale" | "pageType" | "primaryClusterId" | "targetKeywords" | "metaTitle" | "metaDescription" | "seoScore" | "lastAuditAt" | "lastAiRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["seoPageProfile"]>
+export type SeoPageProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "route" | "articleId" | "locale" | "pageType" | "primaryClusterId" | "targetKeywords" | "metaTitle" | "metaDescription" | "seoScore" | "aeoScore" | "lastAuditAt" | "lastAiRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["seoPageProfile"]>
 export type SeoPageProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   primaryCluster?: boolean | Prisma.SeoPageProfile$primaryClusterArgs<ExtArgs>
   audits?: boolean | Prisma.SeoPageProfile$auditsArgs<ExtArgs>
@@ -1401,6 +1456,7 @@ export type $SeoPageProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     metaTitle: string | null
     metaDescription: string | null
     seoScore: number | null
+    aeoScore: number | null
     lastAuditAt: Date | null
     lastAiRunAt: Date | null
     createdAt: Date
@@ -1843,6 +1899,7 @@ export interface SeoPageProfileFieldRefs {
   readonly metaTitle: Prisma.FieldRef<"SeoPageProfile", 'String'>
   readonly metaDescription: Prisma.FieldRef<"SeoPageProfile", 'String'>
   readonly seoScore: Prisma.FieldRef<"SeoPageProfile", 'Float'>
+  readonly aeoScore: Prisma.FieldRef<"SeoPageProfile", 'Float'>
   readonly lastAuditAt: Prisma.FieldRef<"SeoPageProfile", 'DateTime'>
   readonly lastAiRunAt: Prisma.FieldRef<"SeoPageProfile", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"SeoPageProfile", 'DateTime'>

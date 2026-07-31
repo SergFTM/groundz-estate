@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>{job.title} — Careers at Develta</title>
+  <title>{job.title} — Careers at Groundz</title>
 </svelte:head>
 
 <article class="job-page">

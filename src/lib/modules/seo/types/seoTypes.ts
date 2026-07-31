@@ -28,6 +28,21 @@ export interface SemanticAnalysis {
   rewriteSuggestions: { section: string; reason: string }[];
 }
 
+export interface AeoResult {
+  aeoScore: number;
+  issues: SeoIssue[];
+  suggestions: SeoSuggestion[];
+  signals: {
+    yieldClaimCount: number;
+    hasDisclaimer: boolean;
+    hasUpdatedDate: boolean;
+    hasAuthorBlock: boolean;
+    externalSourceCount: number;
+    mixedLanguage: boolean;
+  };
+  citability: { unverifiedClaims: string[]; citabilityNotes: string[] } | null;
+}
+
 export interface SeoAuditResult {
   score: number;
   issues: SeoIssue[];
@@ -36,6 +51,7 @@ export interface SeoAuditResult {
   aiAvailable: boolean;
   meta: { metaTitle: string; metaDescription: string; ogTitle: string; cached: boolean } | null;
   semantics: SemanticAnalysis | null;
+  aeo: AeoResult;
 }
 
 export interface SeoContentRevision {

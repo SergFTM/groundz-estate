@@ -217,7 +217,7 @@ All under `src/routes/api/otc/`.
 ### Page layout
 ```
 [OTC SECONDARY MARKET]
-Early-exit liquidity for Develta investors and buyers
+Early-exit liquidity for Groundz investors and buyers
 
 [All] [Investment Shares] [Option Contracts] [Apartments]   ← filter tabs
 

@@ -1,47 +1,31 @@
 import { json, error } from '@sveltejs/kit';
-import { getSetting } from '$lib/server/settings';
 import { getRooms } from '$lib/tour-rooms';
-import OpenAI from 'openai';
+import { generateLocalImage } from '$lib/server/local-image';
 import db from '$lib/server/db';
 import * as fs from 'fs';
 import * as path from 'path';
 import type { RequestHandler } from './$types';
 
 const STYLE_SUFFIX = [
-  'Architectural interior render, photorealistic, daytime Mediterranean light,',
+  'architectural interior render, photorealistic, daytime mediterranean light,',
   'white walls, light oak floors, minimalist luxury furniture, no people,',
-  'wide-angle lens 24mm, sharp focus, high resolution.',
-  'Style: contemporary Cyprus residential, clean lines, warm neutral palette.',
+  'wide-angle lens 24mm, sharp focus, high resolution,',
+  'contemporary cyprus residential, clean lines, warm neutral palette',
 ].join(' ');
 
 const ANGLE_HINTS: Record<string, string> = {
-  left:  'Camera positioned at the left side of the room, rotated approximately 30 degrees rightward, wide-angle shot showing the left wall and far corner.',
-  front: 'Camera centered, facing straight ahead, symmetrical composition of the main feature wall.',
-  right: 'Camera positioned at the right side of the room, rotated approximately 30 degrees leftward, wide-angle shot showing the right wall and far corner.',
+  left:  'camera positioned at the left side of the room, rotated approximately 30 degrees rightward, wide-angle shot showing the left wall and far corner',
+  front: 'camera centered, facing straight ahead, symmetrical composition of the main feature wall',
+  right: 'camera positioned at the right side of the room, rotated approximately 30 degrees leftward, wide-angle shot showing the right wall and far corner',
 };
 
 const ANGLE_TAG: Record<string, string> = { left: 'l', front: 'f', right: 'r' };
 
-function buildParams(model: string, prompt: string): Parameters<OpenAI['images']['generate']>[0] {
-  const base = model === 'dall-e-3-hd' ? 'dall-e-3' : model;
-  if (base === 'gpt-image-1') {
-    return { model: base, prompt, n: 1, size: '1536x1024', quality: 'high' };
-  }
-  if (base === 'dall-e-2') {
-    return { model: base, prompt, n: 1, size: '1024x1024', response_format: 'b64_json' };
-  }
-  return { model: base, prompt, n: 1, size: '1792x1024', response_format: 'b64_json', quality: model === 'dall-e-3-hd' ? 'hd' : 'standard' };
-}
+export const POST: RequestHandler = async ({ request, locals }) => {
+  if (locals.user?.role !== 'internal_team') throw error(403, 'Forbidden');
 
-export const POST: RequestHandler = async ({ request }) => {
   const { unitId, roomIndex, angle = 'front' } = await request.json();
   if (!unitId || roomIndex == null) throw error(400, 'unitId and roomIndex required');
-
-  const [apiKey, imageModel] = await Promise.all([
-    getSetting('openai_api_key'),
-    getSetting('openai_image_model'),
-  ]);
-  if (!apiKey) throw error(503, 'OpenAI API key not configured');
 
   const unit = await db.unit.findUnique({
     where: { id: unitId },
@@ -53,21 +37,16 @@ export const POST: RequestHandler = async ({ request }) => {
   const room = rooms[roomIndex];
   if (!room) throw error(400, `Room index ${roomIndex} out of range`);
 
-  const model = imageModel ?? 'dall-e-3';
   const angleHint = ANGLE_HINTS[angle] ?? ANGLE_HINTS.front;
-  const prompt = `${room.fragment}. ${angleHint} ${STYLE_SUFFIX}`;
+  const prompt = `${room.fragment}. ${angleHint}. ${STYLE_SUFFIX}`;
 
-  let b64: string | null | undefined;
+  let b64: string;
   try {
-    const client = new OpenAI({ apiKey });
-    const resp = await client.images.generate(buildParams(model, prompt)) as { data: Array<{ b64_json?: string | null }> };
-    b64 = resp.data?.[0]?.b64_json;
+    b64 = await generateLocalImage({ prompt, width: 1280, height: 832, steps: 32 });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     return json({ success: false, message: msg }, { status: 500 });
   }
-
-  if (!b64) return json({ success: false, message: 'No image returned' }, { status: 500 });
 
   const outputDir = path.join(process.cwd(), 'static', 'images', 'tours', unit.code.toLowerCase());
   fs.mkdirSync(outputDir, { recursive: true });

@@ -95,6 +95,29 @@
     transactional: '#166534',
     informational: '#92400e',
   };
+
+  // ── Lead-page audit (AEO) ─────────────────────────────────
+  let leadAuditRunning = $state(false);
+  let leadAuditMsg = $state('');
+
+  async function auditLeadPages() {
+    leadAuditRunning = true;
+    leadAuditMsg = '';
+    try {
+      const res = await fetch('/api/seo/audit-routes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || result.error) {
+        leadAuditMsg = result.error ?? `Server error ${res.status}`;
+      } else {
+        leadAuditMsg = `Audited ${result.audited} lead pages — reloading…`;
+        setTimeout(() => location.reload(), 800);
+      }
+    } catch {
+      leadAuditMsg = 'Network error';
+    } finally {
+      leadAuditRunning = false;
+    }
+  }
 </script>
 
 <div class="seo-dash">
@@ -216,19 +239,29 @@
       <span class="seo-kpi__value {data.pendingRevisions > 0 ? 'score--medium' : ''}">{data.pendingRevisions}</span>
       <span class="seo-kpi__label">Pending Revisions</span>
     </div>
+    <div class="seo-kpi">
+      <span class="seo-kpi__value {scoreClass(data.avgAeoScore)}">{data.avgAeoScore}</span>
+      <span class="seo-kpi__label">Avg AEO Score</span>
+    </div>
   </div>
 
   <div class="seo-dash__grid">
     <section class="seo-card">
       <div class="seo-card__head">
         <h2 class="seo-card__title">Page Profiles</h2>
-        <a href="/admin/seo/pages" class="seo-card__link">View all →</a>
+        <div class="seo-card__actions">
+          <button class="seo-lead-audit-btn" onclick={auditLeadPages} disabled={leadAuditRunning}>
+            {leadAuditRunning ? 'Auditing…' : '✦ Audit lead pages'}
+          </button>
+          <a href="/admin/seo/pages" class="seo-card__link">View all →</a>
+        </div>
       </div>
+      {#if leadAuditMsg}<p class="seo-lead-audit-msg">{leadAuditMsg}</p>{/if}
       {#if data.profiles.length === 0}
         <p class="seo-empty">No pages audited yet.</p>
       {:else}
         <table class="seo-table">
-          <thead><tr><th>Route / Type</th><th>Score</th><th>Last Audit</th></tr></thead>
+          <thead><tr><th>Route / Type</th><th>Score</th><th>AEO</th><th>Last Audit</th></tr></thead>
           <tbody>
             {#each data.profiles.slice(0, 8) as p}
               <tr>
@@ -237,6 +270,7 @@
                   <span class="seo-badge">{p.pageType}</span>
                 </td>
                 <td><span class="score {scoreClass(p.seoScore ?? 0)}">{p.seoScore ?? '—'}</span></td>
+                <td><span class="score {p.aeoScore != null ? scoreClass(p.aeoScore) : ''}">{p.aeoScore ?? '—'}</span></td>
                 <td class="seo-date">{formatDate(p.lastAuditAt)}</td>
               </tr>
             {/each}
@@ -669,5 +703,28 @@
     .seo-dash__grid { grid-template-columns: 1fr; }
     .seo-quick-links { flex-direction: column; }
     .suggestion-grid { grid-template-columns: 1fr; }
+  }
+  .seo-card__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .seo-lead-audit-btn {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
+    cursor: pointer;
+  }
+  .seo-lead-audit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .seo-lead-audit-msg {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-2);
   }
 </style>

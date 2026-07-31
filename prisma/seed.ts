@@ -11,7 +11,9 @@ async function main() {
 
   // ── Clean existing data (FK-safe order) ─────────────────
   await prisma.passwordReset.deleteMany();
-  await prisma.investorInvestment.deleteMany();
+  await prisma.transaction.deleteMany();
+  await prisma.membershipTier.deleteMany();
+  await prisma.holding.deleteMany();
   await prisma.constructionMedia.deleteMany();
   await prisma.constructionPhase.deleteMany();
   await prisma.payment.deleteMany();
@@ -21,17 +23,17 @@ async function main() {
   await prisma.unit.deleteMany();
   await prisma.project.deleteMany();
   await prisma.jobPosition.deleteMany();
-  await prisma.investmentPool.deleteMany();
+  await prisma.pool.deleteMany();
   await prisma.article.deleteMany();
   await prisma.fAQ.deleteMany();
   await prisma.user.deleteMany();
 
   // ── Users (6) ────────────────────────────────────────────
-  const hashedPassword = await bcrypt.hash("develta123", 12);
+  const hashedPassword = await bcrypt.hash("groundz123", 12);
 
   const admin = await prisma.user.create({
     data: {
-      email: "admin@develta.cy",
+      email: "admin@groundz.estate",
       password: hashedPassword,
       role: "internal_team",
       name: "Sarah Admin",
@@ -41,7 +43,7 @@ async function main() {
 
   const buyer = await prisma.user.create({
     data: {
-      email: "buyer@develta.cy",
+      email: "buyer@groundz.estate",
       password: hashedPassword,
       role: "buyer",
       name: "Maria Petrova",
@@ -51,7 +53,7 @@ async function main() {
 
   const buyer2 = await prisma.user.create({
     data: {
-      email: "buyer2@develta.cy",
+      email: "buyer2@groundz.estate",
       password: hashedPassword,
       role: "buyer",
       name: "Andreas Christodoulou",
@@ -61,7 +63,7 @@ async function main() {
 
   const investor = await prisma.user.create({
     data: {
-      email: "investor@develta.cy",
+      email: "investor@groundz.estate",
       password: hashedPassword,
       role: "investor",
       name: "Alexander Chen",
@@ -71,7 +73,7 @@ async function main() {
 
   const agent = await prisma.user.create({
     data: {
-      email: "agent@develta.cy",
+      email: "agent@groundz.estate",
       password: hashedPassword,
       role: "agent",
       name: "Nikos Papadopoulos",
@@ -81,15 +83,15 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: "team@develta.cy",
+      email: "team@groundz.estate",
       password: hashedPassword,
       role: "internal_team",
-      name: "Develta Team",
+      name: "Groundz Team",
       phone: "+357 96 567890",
     },
   });
 
-  console.log("  Created 6 users (password: develta123)");
+  console.log("  Created 6 users (password: groundz123)");
 
   // ── Projects (5) ─────────────────────────────────────────
   const sungardo = await prisma.project.create({
@@ -108,7 +110,7 @@ async function main() {
       name: "Antigone Court",
       slug: "antigone-court",
       location: "Limassol",
-      description: "A new Develta Group residential development in Limassol. Thoughtfully designed apartments in a prime location. Register your interest for priority access and project updates.",
+      description: "A new Groundz Group residential development in Limassol. Thoughtfully designed apartments in a prime location. Register your interest for priority access and project updates.",
       imageUrl: "/images/projects/antigone-court.jpeg",
       status: "active",
     },
@@ -141,7 +143,7 @@ async function main() {
       name: "Ptolemy Studios",
       slug: "ptolemy-studios",
       location: "Limassol",
-      description: "A completed boutique collection of studios and one-bedroom apartments in central Limassol. Ptolemy Studios was fully sold prior to handover — demonstrating Develta Group's delivery track record.",
+      description: "A completed boutique collection of studios and one-bedroom apartments in central Limassol. Ptolemy Studios was fully sold prior to handover — demonstrating Groundz Group's delivery track record.",
       imageUrl: "/images/projects/ptolemy-studios.jpeg",
       status: "completed",
     },
@@ -151,7 +153,7 @@ async function main() {
 
   // ── Units (22) ───────────────────────────────────────────
   const units = await Promise.all([
-    // Sungardo — real floor plans from develta.cy
+    // Sungardo — real floor plans from groundz.estate
     // Floor 1: units 101 (2bed, 83.4m²) and 102 (3bed, 114.8m²)
     // Floor 2: unit 202 (3bed, 114.8m²) confirmed; 201 estimated
     // Floors 3-4: estimated based on building layout
@@ -289,7 +291,7 @@ async function main() {
   await prisma.lead.create({ data: { source: "newsletter", status: "new", email: "john.smith@example.com", tag: "warm" } });
   const lead3 = await prisma.lead.create({ data: { source: "brochure", status: "contacted", name: "Ahmed Al-Hassan", email: "ahmed@example.com", phone: "+971 50 1234567", tag: "warm", agentId: agent.id } });
   await prisma.lead.create({ data: { source: "call_booking", status: "new", name: "Li Wei", email: "li.wei@example.com", phone: "+86 138 0000 1234", data: '{"preferredDate":"2026-03-15","project":"sungardo"}', tag: "hot" } });
-  await prisma.lead.create({ data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@develta.cy", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id } });
+  await prisma.lead.create({ data: { userId: investor.id, source: "quiz", status: "converted", name: "Alexander Chen", email: "investor@groundz.estate", data: '{"investmentRange":"100k-500k","interest":"rental_yield"}', tag: "hot", agentId: agent.id } });
   await prisma.lead.create({ data: { source: "quiz", status: "contacted", name: "Dmitry Volkov", email: "dmitry@example.com", phone: "+357 99 123456", tag: "hot", agentId: agent.id, data: JSON.stringify({ timing: "1-3 months", budget: "€500k+" }) } });
   await prisma.lead.create({ data: { source: "quiz", status: "new", name: "Sophie Laurent", email: "sophie@example.com", tag: "warm" } });
   await prisma.lead.create({ data: { source: "newsletter", status: "lost", name: "Robert Mueller", email: "r.mueller@example.com", tag: "cold" } });
@@ -301,7 +303,7 @@ async function main() {
   console.log("  Created 12 leads (new: 4, contacted: 3, converted: 3, lost: 2)");
 
   // ── Investment Pools (2) ──────────────────────────────────
-  const auraPool = await prisma.investmentPool.create({
+  const auraPool = await prisma.pool.create({
     data: {
       name: "Aura Residences Pool",
       projectName: "Aura Residences",
@@ -313,9 +315,13 @@ async function main() {
       status: "active",
       imageUrl: "/images/pools/aura-residences.jpg",
       description: "Co-investment pool for Aura Residences, a premium seafront development in Limassol Marina. 74% funded with strong investor demand.",
+      tokenSymbol: "AURA",
+      totalTokens: 2500,
+      pricePerToken: 1000,
+      tokensSold: 1850,
     },
   });
-  const elysiumPool = await prisma.investmentPool.create({
+  const elysiumPool = await prisma.pool.create({
     data: {
       name: "Elysium Villas Pool",
       projectName: "Elysium Villas",
@@ -327,17 +333,40 @@ async function main() {
       status: "active",
       imageUrl: "/images/pools/elysium-villas.jpg",
       description: "Early-stage investment opportunity in Elysium Villas, a boutique villa complex in Germasogeia. High yield potential with 18-month term.",
+      tokenSymbol: "ELYS",
+      totalTokens: 3600,
+      pricePerToken: 500,
+      tokensSold: 900,
     },
   });
 
-  await prisma.investorInvestment.createMany({
+  await prisma.holding.createMany({
     data: [
-      { userId: investor.id, poolId: auraPool.id, amount: 100000 },
-      { userId: investor.id, poolId: elysiumPool.id, amount: 50000 },
+      { userId: investor.id, poolId: auraPool.id, amount: 100000, tokens: 100, status: "funded" },
+      { userId: investor.id, poolId: elysiumPool.id, amount: 50000, tokens: 100, status: "funded" },
     ],
   });
 
-  console.log("  Created 2 investment pools + 2 investor investments");
+  // Transaction history for the investor (token buys, distribution, fee)
+  await prisma.transaction.createMany({
+    data: [
+      { userId: investor.id, poolId: auraPool.id, type: "buy", tokens: 100, amount: 100000, status: "completed" },
+      { userId: investor.id, poolId: elysiumPool.id, type: "buy", tokens: 100, amount: 50000, status: "completed" },
+      { userId: investor.id, poolId: auraPool.id, type: "distribution", amount: 1800, status: "completed", note: "Q1 rental distribution" },
+      { userId: investor.id, poolId: auraPool.id, type: "fee", amount: 250, status: "completed", note: "Annual management fee" },
+    ],
+  });
+
+  // Membership tiers (/pricing)
+  await prisma.membershipTier.createMany({
+    data: [
+      { slug: "explorer", name: "Explorer", price: 0, minTicket: 25000, maxTicket: 100000, order: 0, perks: JSON.stringify(["Access to open pools", "Quarterly reports", "Standard support"]) },
+      { slug: "partner", name: "Partner", price: 1500, minTicket: 100000, maxTicket: 500000, order: 1, perks: JSON.stringify(["Priority allocation", "Reduced fees", "Dedicated relationship manager", "Pre-sale access"]) },
+      { slug: "private", name: "Private", price: 5000, minTicket: 500000, order: 2, perks: JSON.stringify(["Club-deal access", "Co-investment rights", "Bespoke structuring", "Direct developer access", "Concierge support"]) },
+    ],
+  });
+
+  console.log("  Created 2 tokenized pools + 2 holdings + 4 transactions + 3 membership tiers");
 
   // ── Job Positions (4) ────────────────────────────────────
   await prisma.jobPosition.createMany({
@@ -350,7 +379,7 @@ async function main() {
         type: "full_time",
         isActive: true,
         description: `<h3>About the Role</h3>
-<p>We are looking for an experienced full-stack developer to build and maintain Develta's property technology platform — the digital backbone that connects our developers, buyers, investors, and agents. You'll be working on a modern SvelteKit codebase with a focus on clean architecture, real-time data, and an exceptional user experience.</p>
+<p>We are looking for an experienced full-stack developer to build and maintain Groundz's property technology platform — the digital backbone that connects our developers, buyers, investors, and agents. You'll be working on a modern SvelteKit codebase with a focus on clean architecture, real-time data, and an exceptional user experience.</p>
 <h3>What You'll Do</h3>
 <ul>
   <li>Build and extend our buyer, investor, agent, and admin portal features</li>
@@ -376,7 +405,7 @@ async function main() {
         type: "full_time",
         isActive: true,
         description: `<h3>About the Role</h3>
-<p>Join Develta Group as a Sales Manager and take ownership of residential sales across our premium Limassol developments. You'll be working with an international client base — from local Cypriot buyers to investors from the Middle East, Eastern Europe, and Asia — guiding them through the purchase process from first inquiry to signed contract.</p>
+<p>Join Groundz Group as a Sales Manager and take ownership of residential sales across our premium Limassol developments. You'll be working with an international client base — from local Cypriot buyers to investors from the Middle East, Eastern Europe, and Asia — guiding them through the purchase process from first inquiry to signed contract.</p>
 <h3>What You'll Do</h3>
 <ul>
   <li>Manage the full sales cycle for off-plan and completed residential units</li>
@@ -401,11 +430,11 @@ async function main() {
         type: "full_time",
         isActive: true,
         description: `<h3>About the Role</h3>
-<p>We are looking for a creative and data-driven Marketing Specialist to grow Develta's digital presence and drive qualified leads to our sales team. You'll manage campaigns across social media, search, and content channels, building awareness of our brand and our projects in key target markets.</p>
+<p>We are looking for a creative and data-driven Marketing Specialist to grow Groundz's digital presence and drive qualified leads to our sales team. You'll manage campaigns across social media, search, and content channels, building awareness of our brand and our projects in key target markets.</p>
 <h3>What You'll Do</h3>
 <ul>
   <li>Plan and execute paid campaigns on Meta, Google, and LinkedIn targeting international property investors</li>
-  <li>Create and manage content for Instagram (@develta.cy), LinkedIn, and Facebook</li>
+  <li>Create and manage content for Instagram (@groundz.estate), LinkedIn, and Facebook</li>
   <li>Write and edit website copy, blog articles, and email campaigns</li>
   <li>Manage lead generation funnels and coordinate with the sales team on lead quality</li>
   <li>Analyse campaign performance and report on key metrics</li>
@@ -449,11 +478,11 @@ async function main() {
 
   console.log("  Created 4 job positions");
 
-  // ── FAQ (5) — from develta.cy ─────────────────────────────
+  // ── FAQ (5) — from groundz.estate ─────────────────────────────
   await prisma.fAQ.createMany({
     data: [
-      { question: "What is the expected ROI on Develta projects?", answer: "Our projects typically target a net rental yield of 6–8% per annum, supported by Limassol's strong tourism-driven rental demand. Capital appreciation has historically averaged 5–10% annually in prime Limassol locations.", sortOrder: 1, category: "Investment" },
-      { question: "Can purchasing a property help me obtain Cyprus residency?", answer: "Yes. Investing a minimum of €300,000 in new residential property in Cyprus qualifies you for the Cyprus Permanent Residency programme (Category F). Develta's legal team can guide you through the full application process.", sortOrder: 2, category: "Residency" },
+      { question: "What is the expected ROI on Groundz projects?", answer: "Our projects typically target a net rental yield of 6–8% per annum, supported by Limassol's strong tourism-driven rental demand. Capital appreciation has historically averaged 5–10% annually in prime Limassol locations.", sortOrder: 1, category: "Investment" },
+      { question: "Can purchasing a property help me obtain Cyprus residency?", answer: "Yes. Investing a minimum of €300,000 in new residential property in Cyprus qualifies you for the Cyprus Permanent Residency programme (Category F). Groundz's legal team can guide you through the full application process.", sortOrder: 2, category: "Residency" },
       { question: "What is the minimum investment amount?", answer: "Our studio apartments start from approximately €150,000. The minimum qualifying investment for Cyprus Permanent Residency is €300,000 (VAT included). Investment pool participation is available from €25,000.", sortOrder: 3, category: "Investment" },
       { question: "What tax benefits does Cyprus offer property investors?", answer: "Cyprus offers some of Europe's most attractive property investment conditions: no annual property tax (abolished 2017), 5% VAT on your first residential property, no inheritance tax, and a flat 12.5% corporate tax rate — one of the lowest in the EU.", sortOrder: 4, category: "Legal & Tax" },
       { question: "Are there residency or citizenship programmes available?", answer: "Cyprus offers a Permanent Residency programme for non-EU investors who purchase property worth €300,000 or more. Fast-track processing is available. Note: the Cyprus Investment Programme (citizenship by investment) was suspended in November 2020; Permanent Residency remains the primary route for property investors.", sortOrder: 5, category: "Residency" },
@@ -489,7 +518,7 @@ async function main() {
 <p>The second advantage is flexibility in payment. Unlike a completed property purchase, off-plan deals are structured in milestones tied to construction progress, spreading your capital commitment over 18–36 months. This allows investors to deploy capital gradually while the asset appreciates.</p>
 
 <h3>Understanding the payment structure</h3>
-<p>A typical Develta payment schedule looks like this:</p>
+<p>A typical Groundz payment schedule looks like this:</p>
 <ul>
   <li><strong>Booking deposit (5–10%):</strong> Reserves your unit and removes it from sale</li>
   <li><strong>Contract signing (20–30%):</strong> Paid within 30 days of signing the SPA at the Land Registry</li>
@@ -500,7 +529,7 @@ async function main() {
 <p>Each milestone payment is tied to independently verifiable construction progress, giving buyers full transparency and contractual protection.</p>
 
 <h3>Legal protections for buyers</h3>
-<p>Cyprus has a well-developed legal framework for property purchases. The Sale of Property (Specific Performance) Law requires that purchase contracts be deposited at the Land Registry, which protects the buyer's title claim even if the developer has a mortgage on the land. All Develta contracts are deposited at the Land Registry as standard.</p>
+<p>Cyprus has a well-developed legal framework for property purchases. The Sale of Property (Specific Performance) Law requires that purchase contracts be deposited at the Land Registry, which protects the buyer's title claim even if the developer has a mortgage on the land. All Groundz contracts are deposited at the Land Registry as standard.</p>
 <p>For non-EU buyers, a Council of Ministers approval is required to purchase property — this is a straightforward administrative process that our legal team handles on your behalf.</p>
 
 <h3>Due diligence checklist</h3>
@@ -512,7 +541,7 @@ async function main() {
   <li>Engage an independent Cyprus-qualified lawyer (separate from the developer's legal team)</li>
 </ul>
 
-<h3>The Develta approach</h3>
+<h3>The Groundz approach</h3>
 <p>We provide all buyers with a dedicated client portal from day one. This gives you real-time access to construction photo updates, payment schedules, document storage, and direct communication with our team. Our goal is to make off-plan investment as transparent and stress-free as a completed property purchase.</p>
 `.trim();
 
@@ -538,7 +567,7 @@ async function main() {
 
 <h3>A note on quality</h3>
 <p>Symphony Residence uses reinforced concrete frame construction with AAC block infill — the same proven system used in our completed Ptolemy Studios project, which was handed over to buyers fully on time and within budget. All structural works are supervised by our appointed independent engineer and inspected at each milestone before payment triggers are activated.</p>
-<p>If you have any questions about your unit or the construction timeline, please contact your dedicated client manager through the portal or reach our team at sales@develta.cy.</p>
+<p>If you have any questions about your unit or the construction timeline, please contact your dedicated client manager through the portal or reach our team at sales@groundz.estate.</p>
 `.trim();
 
   await prisma.article.createMany({
@@ -573,13 +602,13 @@ async function main() {
   console.log("  Created 3 articles");
 
   console.log("\n✓ Seeding complete!");
-  console.log("  Test accounts (password: develta123):");
-  console.log("    admin@develta.cy   — internal_team");
-  console.log("    buyer@develta.cy   — buyer (unit SYM-202)");
-  console.log("    buyer2@develta.cy  — buyer (unit AC-201)");
-  console.log("    investor@develta.cy — investor");
-  console.log("    agent@develta.cy   — agent");
-  console.log("    team@develta.cy    — internal_team");
+  console.log("  Test accounts (password: groundz123):");
+  console.log("    admin@groundz.estate   — internal_team");
+  console.log("    buyer@groundz.estate   — buyer (unit SYM-202)");
+  console.log("    buyer2@groundz.estate  — buyer (unit AC-201)");
+  console.log("    investor@groundz.estate — investor");
+  console.log("    agent@groundz.estate   — agent");
+  console.log("    team@groundz.estate    — internal_team");
 
   void admin;
   void lead9;

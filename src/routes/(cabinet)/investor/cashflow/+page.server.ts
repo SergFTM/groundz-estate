@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ parent }) => {
   const { user } = await parent();
 
-  const investments = await db.investorInvestment.findMany({
+  const investments = await db.holding.findMany({
     where: { userId: user.id },
     include: {
       pool: {

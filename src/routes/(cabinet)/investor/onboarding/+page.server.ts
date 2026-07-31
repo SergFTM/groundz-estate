@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ parent }) => {
       where: { userId: user.id, category: { in: ['passport', 'kyc', 'proof_of_funds'] } },
       select: { status: true },
     }),
-    db.investorInvestment.findMany({
+    db.holding.findMany({
       where: { userId: user.id },
       select: { id: true },
     }),

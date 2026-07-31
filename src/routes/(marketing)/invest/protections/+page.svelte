@@ -1,15 +1,15 @@
 <svelte:head>
-  <title>Investor Protections — Develta</title>
-  <meta name="description" content="How Develta protects your capital: SPV isolation, registered security, escrow controls, KYC compliance, and independent audits." />
+  <title>Investor Protections — Groundz</title>
+  <meta name="description" content="How Groundz protects your capital: SPV isolation, registered security, escrow controls, KYC compliance, and independent audits." />
 </svelte:head>
 
 <!-- Hero -->
 <section class="prot-hero">
   <div class="container">
-    <a href="/investment" class="prot-back">← Investment Pools</a>
+    <a href="/pools" class="prot-back">← Investment Pools</a>
     <p class="prot-label">INVESTOR PROTECTIONS</p>
     <h1 class="prot-title">Your Capital is<br/>Structurally Protected</h1>
-    <p class="prot-sub">Develta uses legally isolated Special Purpose Vehicles, registered collateral, escrow-controlled disbursements, and independent oversight — so your investment is protected by structure, not just promises.</p>
+    <p class="prot-sub">Groundz uses legally isolated Special Purpose Vehicles, registered collateral, escrow-controlled disbursements, and independent oversight — so your investment is protected by structure, not just promises.</p>
     <div class="prot-cta-row">
       <a href="/invest/apply" class="btn btn--primary">Apply as Investor →</a>
       <a href="/invest/how-it-works" class="btn btn--outline">How It Works</a>
@@ -26,7 +26,7 @@
       <div class="prot-card prot-card--featured">
         <div class="prot-card__icon">🏛</div>
         <h3 class="prot-card__title">SPV Isolation</h3>
-        <p class="prot-card__body">Every investment pool is housed in a separate Special Purpose Vehicle (SPV) registered in Cyprus. Your capital is legally ringfenced — problems in one project cannot affect another, and Develta's corporate liabilities cannot touch pool assets.</p>
+        <p class="prot-card__body">Every investment pool is housed in a separate Special Purpose Vehicle (SPV) registered in Cyprus. Your capital is legally ringfenced — problems in one project cannot affect another, and Groundz's corporate liabilities cannot touch pool assets.</p>
         <ul class="prot-list">
           <li>Separate legal entity per pool</li>
           <li>Cyprus company registration</li>
@@ -60,7 +60,7 @@
       <div class="prot-card">
         <div class="prot-card__icon">📊</div>
         <h3 class="prot-card__title">Developer Co-Investment</h3>
-        <p class="prot-card__body">Develta requires developers to co-invest their own capital in every pool. This aligns developer incentives with investor outcomes — they lose money first if the project underperforms.</p>
+        <p class="prot-card__body">Groundz requires developers to co-invest their own capital in every pool. This aligns developer incentives with investor outcomes — they lose money first if the project underperforms.</p>
         <ul class="prot-list">
           <li>Minimum 10–20% developer co-invest</li>
           <li>Disclosed in every pool data room</li>
@@ -138,7 +138,7 @@
   <div class="container">
     <div class="risk-box">
       <p class="risk-box__label">IMPORTANT NOTICE</p>
-      <p class="risk-box__text">All investments carry risk. Past performance is not indicative of future results. The value of your investment may go down as well as up. Capital invested in real estate development pools is illiquid for the agreed investment term and cannot be redeemed early. Please read the full Information Memorandum for each pool before committing capital. Develta's investment products are intended for experienced investors who understand and can bear the risks of private real estate investment.</p>
+      <p class="risk-box__text">All investments carry risk. Past performance is not indicative of future results. The value of your investment may go down as well as up. Capital invested in real estate development pools is illiquid for the agreed investment term and cannot be redeemed early. Please read the full Information Memorandum for each pool before committing capital. Groundz's investment products are intended for experienced investors who understand and can bear the risks of private real estate investment.</p>
     </div>
   </div>
 </section>
@@ -152,7 +152,7 @@
     </div>
     <div class="prot-cta__links">
       <a href="/invest/apply" class="btn btn--primary">Apply as Investor →</a>
-      <a href="/investment" class="btn btn--outline">Browse Pools</a>
+      <a href="/pools" class="btn btn--outline">Browse Pools</a>
     </div>
   </div>
 </section>

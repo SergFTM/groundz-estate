@@ -60,8 +60,10 @@ export const ModelName = {
   Document: 'Document',
   Commission: 'Commission',
   Lead: 'Lead',
-  InvestmentPool: 'InvestmentPool',
-  InvestorInvestment: 'InvestorInvestment',
+  Pool: 'Pool',
+  Holding: 'Holding',
+  Transaction: 'Transaction',
+  MembershipTier: 'MembershipTier',
   Milestone: 'Milestone',
   ConstructionReport: 'ConstructionReport',
   AiResponseCache: 'AiResponseCache',
@@ -80,7 +82,9 @@ export const ModelName = {
   SeoContentRevision: 'SeoContentRevision',
   MarketIndex: 'MarketIndex',
   IndexComponent: 'IndexComponent',
-  DailyPrice: 'DailyPrice'
+  DailyPrice: 'DailyPrice',
+  OtcListing: 'OtcListing',
+  OtcOffer: 'OtcOffer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -227,7 +231,7 @@ export const LeadScalarFieldEnum = {
 export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
 
 
-export const InvestmentPoolScalarFieldEnum = {
+export const PoolScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   name: 'name',
@@ -259,25 +263,63 @@ export const InvestmentPoolScalarFieldEnum = {
   constructionThesis: 'constructionThesis',
   exitThesis: 'exitThesis',
   summary: 'summary',
+  tokenSymbol: 'tokenSymbol',
+  totalTokens: 'totalTokens',
+  pricePerToken: 'pricePerToken',
+  tokensSold: 'tokensSold',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type InvestmentPoolScalarFieldEnum = (typeof InvestmentPoolScalarFieldEnum)[keyof typeof InvestmentPoolScalarFieldEnum]
+export type PoolScalarFieldEnum = (typeof PoolScalarFieldEnum)[keyof typeof PoolScalarFieldEnum]
 
 
-export const InvestorInvestmentScalarFieldEnum = {
+export const HoldingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   poolId: 'poolId',
   amount: 'amount',
+  tokens: 'tokens',
   status: 'status',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type InvestorInvestmentScalarFieldEnum = (typeof InvestorInvestmentScalarFieldEnum)[keyof typeof InvestorInvestmentScalarFieldEnum]
+export type HoldingScalarFieldEnum = (typeof HoldingScalarFieldEnum)[keyof typeof HoldingScalarFieldEnum]
+
+
+export const TransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  poolId: 'poolId',
+  holdingId: 'holdingId',
+  type: 'type',
+  tokens: 'tokens',
+  amount: 'amount',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const MembershipTierScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  price: 'price',
+  minTicket: 'minTicket',
+  maxTicket: 'maxTicket',
+  perks: 'perks',
+  order: 'order',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MembershipTierScalarFieldEnum = (typeof MembershipTierScalarFieldEnum)[keyof typeof MembershipTierScalarFieldEnum]
 
 
 export const MilestoneScalarFieldEnum = {
@@ -447,6 +489,7 @@ export const SeoPageProfileScalarFieldEnum = {
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
   seoScore: 'seoScore',
+  aeoScore: 'aeoScore',
   lastAuditAt: 'lastAuditAt',
   lastAiRunAt: 'lastAiRunAt',
   createdAt: 'createdAt',
@@ -460,7 +503,9 @@ export const SeoAuditScalarFieldEnum = {
   id: 'id',
   seoPageProfileId: 'seoPageProfileId',
   score: 'score',
+  aeoScore: 'aeoScore',
   issuesJson: 'issuesJson',
+  aeoIssuesJson: 'aeoIssuesJson',
   suggestionsJson: 'suggestionsJson',
   aiSummary: 'aiSummary',
   aiAvailable: 'aiAvailable',
@@ -538,6 +583,40 @@ export const DailyPriceScalarFieldEnum = {
 } as const
 
 export type DailyPriceScalarFieldEnum = (typeof DailyPriceScalarFieldEnum)[keyof typeof DailyPriceScalarFieldEnum]
+
+
+export const OtcListingScalarFieldEnum = {
+  id: 'id',
+  sellerId: 'sellerId',
+  assetType: 'assetType',
+  investmentId: 'investmentId',
+  unitId: 'unitId',
+  title: 'title',
+  description: 'description',
+  askPrice: 'askPrice',
+  currency: 'currency',
+  status: 'status',
+  adminNote: 'adminNote',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OtcListingScalarFieldEnum = (typeof OtcListingScalarFieldEnum)[keyof typeof OtcListingScalarFieldEnum]
+
+
+export const OtcOfferScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  buyerId: 'buyerId',
+  amount: 'amount',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OtcOfferScalarFieldEnum = (typeof OtcOfferScalarFieldEnum)[keyof typeof OtcOfferScalarFieldEnum]
 
 
 export const SortOrder = {

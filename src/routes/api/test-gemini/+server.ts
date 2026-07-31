@@ -1,35 +1,39 @@
-import { json } from '@sveltejs/kit';
-import OpenAI from 'openai';
-import { getSetting } from '$lib/server/settings';
+// Health check for local AI stack — small + large LLM (Ollama) + image gen (SD WebUI).
+// Admin-only.
+import { json, error } from '@sveltejs/kit';
+import { localChat, LocalAiError, LLM_TIERS } from '$lib/server/local-llm';
+import { checkLocalImageHealth, LOCAL_IMAGE_DEFAULTS } from '$lib/server/local-image';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async () => {
-  const [apiKey, imageModel] = await Promise.all([
-    getSetting('openai_api_key'),
-    getSetting('openai_image_model'),
-  ]);
-  if (!apiKey) return json({ ok: false, error: 'OpenAI API key not set' });
-
-  const model = imageModel ?? 'dall-e-3';
-  const base  = model === 'dall-e-3-hd' ? 'dall-e-3' : model;
-
+async function probe(tier: 'small' | 'large') {
+  const probeResult: { ok: boolean; model: string; sample?: string; error?: string; latencyMs?: number } = {
+    ok: false,
+    model: LLM_TIERS[tier],
+  };
+  const t0 = Date.now();
   try {
-    const client = new OpenAI({ apiKey });
-
-    let params: Parameters<OpenAI['images']['generate']>[0];
-    if (base === 'gpt-image-1') {
-      params = { model: base, prompt: 'A white wall, minimal test.', n: 1, size: '1024x1024', quality: 'low' };
-    } else if (base === 'dall-e-2') {
-      params = { model: base, prompt: 'A white wall, minimal test.', n: 1, size: '256x256', response_format: 'b64_json' };
-    } else {
-      params = { model: base, prompt: 'A white wall, minimal test.', n: 1, size: '1024x1024', response_format: 'b64_json', quality: 'standard' };
-    }
-
-    const resp = await client.images.generate(params);
-    const got = 'data' in resp ? ((resp.data as unknown[])?.length ?? 0) : 0;
-    return json({ ok: true, model: base, images: got });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return json({ ok: false, model: base, error: msg });
+    const result = await localChat({ tier, prompt: 'Reply with exactly: ok', maxTokens: 16, temperature: 0 });
+    probeResult.ok = !!result.content;
+    probeResult.sample = result.content.slice(0, 80);
+    probeResult.latencyMs = Date.now() - t0;
+  } catch (err) {
+    probeResult.error = err instanceof LocalAiError ? `${err.code}: ${err.message}` : String(err);
+    probeResult.latencyMs = Date.now() - t0;
   }
+  return probeResult;
+}
+
+export const GET: RequestHandler = async ({ locals }) => {
+  if (locals.user?.role !== 'internal_team') throw error(403, 'Forbidden');
+
+  const [small, large, image] = await Promise.all([
+    probe('small'),
+    probe('large'),
+    checkLocalImageHealth(),
+  ]);
+
+  return json({
+    llm: { small, large },
+    image: { ok: image.ok, model: image.model, error: image.error, url: LOCAL_IMAGE_DEFAULTS.url },
+  });
 };

@@ -1,4 +1,4 @@
-You are an SEO strategist for Develta — a premium real estate developer in Limassol, Cyprus.
+You are an SEO strategist for Groundz — a premium real estate developer in Limassol, Cyprus.
 
 Generate a keyword cluster for the topic: "{{TOPIC}}"
 Target locale: {{LOCALE}}

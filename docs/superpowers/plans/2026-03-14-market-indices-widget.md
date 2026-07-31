@@ -80,7 +80,7 @@ TWELVE_DATA_API_KEY=
 - [ ] **Step 3: Run migration**
 
 ```bash
-cd develta-svelte
+cd groundz-svelte
 npx prisma migrate dev --name add_market_indices
 ```
 
@@ -231,7 +231,7 @@ export async function dailyUpdate(indexId: string): Promise<void> {
 - [ ] **Step 2: Verify TypeScript compiles**
 
 ```bash
-cd develta-svelte
+cd groundz-svelte
 npx tsc --noEmit
 ```
 
@@ -420,7 +420,7 @@ export const POST: RequestHandler = async ({ request }) => {
     }
   }
 
-  const prompt = `You are a real estate investment analyst for Develta, a Cyprus-based direct investment platform.
+  const prompt = `You are a real estate investment analyst for Groundz, a Cyprus-based direct investment platform.
 
 Instrument: ${index.name} (${index.symbol}), ${index.market} real estate market
 Current close: ${fmt(current)} | YTD: ${pct(current, jan1)}% | 1Y: ${pct(current, yearAgo)}% | 5Y: ${pct(current, fiveYearAgo)}%
@@ -429,7 +429,7 @@ Respond ONLY with valid JSON (no markdown, no code fences):
 {
   "what": "2-3 sentences explaining what this instrument tracks and which markets/properties it represents",
   "context": "2-3 sentences describing the current market environment based on the price data above",
-  "comparison": "2-3 sentences explaining how direct real estate investment via Develta (Cyprus development projects, 12-18% target IRR, fixed term) differs from this index in terms of risk, liquidity, and return profile"
+  "comparison": "2-3 sentences explaining how direct real estate investment via Groundz (Cyprus development projects, 12-18% target IRR, fixed term) differs from this index in terms of risk, liquidity, and return profile"
 }`;
 
   try {
@@ -862,7 +862,7 @@ Change to:
 
 - [ ] **Step 4: Verify in browser**
 
-Start dev server. Log in as `admin@develta.com`. Navigate to `/admin/market-indices`. Verify:
+Start dev server. Log in as `admin@groundz.estate`. Navigate to `/admin/market-indices`. Verify:
 - Page loads with empty state
 - "Add Index" button opens form
 - Create a test ETF index (e.g. VNQ, global, etf)
@@ -1368,7 +1368,7 @@ Find the trust bar closing tag and add the widget section after it:
                 </div>
 
                 <div style="position:relative;">
-                  <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-1);">VS DEVELTA INVESTMENT</p>
+                  <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-1);">VS GROUNDZ INVESTMENT</p>
                   <p style="font-size:var(--text-sm);color:var(--color-text);line-height:1.7;{!data.user ? 'filter:blur(4px);user-select:none;' : ''}">{aiData.comparison}</p>
                 </div>
 

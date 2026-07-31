@@ -5,7 +5,7 @@ import { ZodError } from 'zod';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { id: params.id },
     include: {
       investments: {
@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ params }) => {
 
 export const actions: Actions = {
   update: async ({ request, params }) => {
-    const pool = await db.investmentPool.findUnique({ where: { id: params.id } });
+    const pool = await db.pool.findUnique({ where: { id: params.id } });
     if (!pool) throw error(404, 'Investment pool not found');
 
     const formData = await request.formData();
@@ -29,7 +29,7 @@ export const actions: Actions = {
 
     try {
       const data = createPoolSchema.parse(raw);
-      await db.investmentPool.update({
+      await db.pool.update({
         where: { id: params.id },
         data: {
           name: data.name,
@@ -73,10 +73,10 @@ export const actions: Actions = {
   },
 
   delete: async ({ params }) => {
-    const pool = await db.investmentPool.findUnique({ where: { id: params.id } });
+    const pool = await db.pool.findUnique({ where: { id: params.id } });
     if (!pool) throw error(404, 'Investment pool not found');
 
-    await db.investmentPool.delete({ where: { id: params.id } });
+    await db.pool.delete({ where: { id: params.id } });
     throw redirect(303, '/admin/investment-pools');
   },
 } satisfies Actions;

@@ -1,11 +1,15 @@
 import { fail } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
+import { dev } from '$app/environment';
 import type { Actions } from './$types';
 import prisma from '$lib/server/db';
 import { sendPasswordResetEmail } from '$lib/server/email';
+import { rateLimit } from '$lib/server/rate-limit';
 
 export const actions: Actions = {
-	default: async ({ request, url }) => {
+	default: async (event) => {
+		rateLimit(event, 'public');
+		const { request, url } = event;
 		const formData = await request.formData();
 		const email = (formData.get('email') as string)?.trim().toLowerCase();
 
@@ -35,8 +39,7 @@ export const actions: Actions = {
 
 		const resetUrl = `${url.origin}/auth/reset-password?token=${token}`;
 
-		// Always log for dev debugging; also attempt email if SMTP configured
-		console.log(`\n[Password Reset] Link for ${email}:\n${resetUrl}\n`);
+		if (dev) console.log(`[Password Reset] ${email}: ${resetUrl}`);
 		void sendPasswordResetEmail({ email, resetUrl });
 
 		return { success: true };

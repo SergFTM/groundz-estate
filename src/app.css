@@ -1,6 +1,6 @@
 /* ============================================
-   DEVELTA DESIGN SYSTEM — Premium Edition
-   Hybrid: develta.cy brand + kategora.com typography
+   GROUNDZ DESIGN SYSTEM — Premium Edition
+   Hybrid: groundz.estate brand + kategora.com typography
    Dubai/Cyprus luxury real estate aesthetic
    ============================================ */
 
@@ -30,6 +30,24 @@
 	font-display: swap;
 }
 
+/* IBM Plex Mono — numeric/metric typography (yield, IRR, amounts, tickers).
+   OFL-licensed, self-hosted .woff2 in static/fonts/ (latin 400 + 500). */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	src: url('/fonts/IBMPlexMono-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'IBM Plex Mono';
+	src: url('/fonts/IBMPlexMono-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
 /* === RESET === */
 *, *::before, *::after {
 	box-sizing: border-box;
@@ -39,9 +57,36 @@
 
 /* === CUSTOM PROPERTIES === */
 :root {
-	/* Colors — Muted Sage & Stone palette */
-	--color-accent: #7a8c6e;
-	--color-accent-hover: #6b7d60;
+	/* Brand primary — GROUNDZ ESTATE deep green (#104e49).
+	   Primary = brand/CTA/links/focus; sage accent below = secondary/supporting.
+	   Component repaint (buttons, links, CTAs → primary) lands in refactor phase R3. */
+	--color-primary: #104e49;          /* prototype --ink */
+	--color-primary-hover: #0c3a35;    /* prototype --ink-deep */
+	--color-primary-light: rgba(16, 78, 73, 0.08);
+	--color-primary-glow: rgba(16, 78, 73, 0.15);
+	--color-primary-contrast: #ffffff;
+	/* Green scale (anchored on #104e49 as 700), values aligned to prototype */
+	--color-primary-50: #e8f0ee;
+	--color-primary-100: #c5dbd7;
+	--color-primary-300: #6fa39c;
+	--color-primary-500: #2d6f68;
+	--color-primary-700: #104e49;
+	--color-primary-900: #08302b;      /* prototype deep ink */
+	/* Positive / gains — muted brand green (prototype --pos), mint surface */
+	--color-positive: #4f8a5b;
+	--color-mint: #9fc0a3;
+
+	/* Prototype aliases (GROUNDZ ESTATE design system — see prototype) */
+	--ink: #104e49;        /* dark green surfaces + data */
+	--ink-deep: #0c3a35;   /* footer, deep panels */
+	--acc: #7a8c6e;        /* sage — ACTION/CTA color */
+	--acc-dk: #5f7257;     /* sage dark — eyebrows, metrics */
+	--acc-light: rgba(122, 140, 110, 0.12);
+	--mint: #9fc0a3;       /* gains on dark */
+
+	/* Colors — Muted Sage & Stone palette (secondary accent) */
+	--color-accent: #7a8c6e;           /* prototype --acc */
+	--color-accent-hover: #5f7257;     /* prototype --acc-dk */
 	--color-accent-light: rgba(122, 140, 110, 0.08);
 	--color-accent-glow: rgba(122, 140, 110, 0.15);
 	--color-bg: #ffffff;
@@ -66,6 +111,7 @@
 	/* Typography — Ivyora Display (headings) + Helvetica Now Text (body) */
 	--font-display: 'Ivyora Display', Georgia, 'Times New Roman', serif;
 	--font-body: 'Helvetica Now Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--font-mono: 'IBM Plex Mono', 'SFMono-Regular', ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace;
 
 	/* Font sizes */
 	--text-xs: 0.75rem;
@@ -204,6 +250,26 @@ small {
 
 .text-center {
 	text-align: center;
+}
+
+/* Numeric/metric typography — yield, IRR, amounts, tokens, tickers.
+   Mono + tabular figures so digits align in columns and don't jitter. */
+.num {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'tnum' 1;
+	letter-spacing: -0.01em;
+}
+
+/* === GLOBAL BRAND PRIMITIVES === */
+::selection {
+	background: var(--color-primary);
+	color: var(--color-primary-contrast);
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
 }
 
 /* === LAYOUT === */

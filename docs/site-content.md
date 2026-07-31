@@ -1,6 +1,6 @@
-# Develta.cy — Scraped Site Content
+# groundz.estate — Scraped Site Content
 
-> Collected March 2026. Source: https://develta.cy/
+> Collected March 2026. Source: https://groundz.estate/
 
 ---
 
@@ -9,7 +9,7 @@
 **Headline (large):** Premium Real Estate in Limassol, Cyprus
 
 **Subheadline / tagline:**
-Develta Group develops luxury residential and investment properties in the most sought-after locations on the Mediterranean coast.
+Groundz Group develops luxury residential and investment properties in the most sought-after locations on the Mediterranean coast.
 
 **CTA Buttons:**
 - "Explore Projects"
@@ -27,10 +27,10 @@ Develta Group develops luxury residential and investment properties in the most 
 
 ## About Us
 
-**Section Title:** About Develta Group
+**Section Title:** About Groundz Group
 
 **Body Text:**
-Develta Group is a premium real estate development company in Cyprus, specializing in high-end residential and commercial property development in Limassol. We combine architectural excellence with investment intelligence to deliver properties that offer both superior living standards and strong financial returns.
+Groundz Group is a premium real estate development company in Cyprus, specializing in high-end residential and commercial property development in Limassol. We combine architectural excellence with investment intelligence to deliver properties that offer both superior living standards and strong financial returns.
 
 Our projects are located in prime Limassol locations — from the seafront and marina to the verdant hillsides — offering residents and investors direct access to the best Cyprus has to offer.
 
@@ -66,7 +66,7 @@ Contemporary low-rise residential complex in Mouttagiaka, 150m from the Mediterr
 **Note:** Minimal public info. Same Sungardo building render used on placeholder page.
 
 **Description (to use in app):**
-A new residential development by Develta Group in Limassol. Antigone Court continues our commitment to thoughtfully designed living spaces in prime locations. Register your interest to receive project updates and priority access.
+A new residential development by Groundz Group in Limassol. Antigone Court continues our commitment to thoughtfully designed living spaces in prime locations. Register your interest to receive project updates and priority access.
 
 ---
 
@@ -94,17 +94,17 @@ Cascada Residence brings a new level of coastal living to Limassol's Mouttagiaka
 **Location:** Limassol
 
 **Description (to use in app):**
-A completed boutique collection of studios and one-bedroom apartments in central Limassol. Ptolemy Studios was fully sold prior to handover — demonstrating Develta Group's track record of delivering on time and to specification.
+A completed boutique collection of studios and one-bedroom apartments in central Limassol. Ptolemy Studios was fully sold prior to handover — demonstrating Groundz Group's track record of delivering on time and to specification.
 
 ---
 
-## FAQ (from develta.cy)
+## FAQ (from groundz.estate)
 
-1. **What is the expected ROI on Develta projects?**
+1. **What is the expected ROI on Groundz projects?**
    Our projects typically target a rental yield of 6–8% net per annum, supported by Limassol's strong tourism-driven rental demand. Capital appreciation has historically averaged 5–10% annually in prime Limassol locations.
 
 2. **Can purchasing a property help me obtain Cyprus residency?**
-   Yes. Investing a minimum of €300,000 in new residential property in Cyprus qualifies you for the Cyprus Permanent Residency programme (Category F). Develta's legal team can guide you through the application process.
+   Yes. Investing a minimum of €300,000 in new residential property in Cyprus qualifies you for the Cyprus Permanent Residency programme (Category F). Groundz's legal team can guide you through the application process.
 
 3. **What is the minimum investment amount?**
    Our studio apartments start from approximately €150,000. The minimum qualifying investment for Cyprus Permanent Residency is €300,000 (VAT included). Investment pool participation starts from €25,000.
@@ -124,15 +124,15 @@ A completed boutique collection of studios and one-bedroom apartments in central
 **Phone 1:** +357 94 098 889
 **Phone 2:** +357 25 335 100
 
-**Email:** sales@develta.cy
+**Email:** sales@groundz.estate
 
 **VAT Number:** 60022080Q
 **Company Registration:** HE 450620
 
 **Social Media:**
-- LinkedIn: develta-group (link on site)
-- Instagram: @develta.cy
-- Facebook: develta.cy
+- LinkedIn: groundz-group (link on site)
+- Instagram: @groundz.estate
+- Facebook: groundz.estate
 
 **Map:** Google Maps iframe embedded for office location
 
@@ -174,4 +174,4 @@ Suggested article topics based on site positioning:
 
 **Links:** Projects, Investment, Knowledge, FAQ, Jobs, Contact
 
-**Legal:** © 2025 Develta Group. All rights reserved. VAT: 60022080Q · HE 450620
+**Legal:** © 2025 Groundz Group. All rights reserved. VAT: 60022080Q · HE 450620

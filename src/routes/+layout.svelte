@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { page } from '$app/stores';
 	import { platformStore } from '$lib/stores/platform';
+	import { locale } from '$lib/stores/locale';
 	import NavigationMenu from '$lib/components/NavigationMenu.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
@@ -11,6 +12,12 @@
 	let { data, children } = $props();
 
 	let isLandingPage = $derived($page.url.pathname === '/');
+
+	// Sync UI locale from server (cookie-resolved) + reflect on <html lang>
+	$effect(() => {
+		locale.set(data.locale);
+		document.documentElement.lang = data.locale;
+	});
 
 	$effect(() => {
 		if (data.user) {
@@ -47,7 +54,8 @@
 
 <style>
 	.main-content {
-		padding-top: var(--header-height);
+		/* Nav is sticky/in-flow (occupies its own space) — no offset needed */
+		padding-top: 0;
 		min-height: 100vh;
 	}
 

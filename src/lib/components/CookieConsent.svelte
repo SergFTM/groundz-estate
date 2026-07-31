@@ -2,7 +2,7 @@
 	import { fly } from 'svelte/transition';
 	import { browser } from '$app/environment';
 
-	const STORAGE_KEY = 'develta-cookies';
+	const STORAGE_KEY = 'groundz-cookies';
 
 	let visible = $state(false);
 

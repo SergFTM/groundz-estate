@@ -5,8 +5,8 @@
 </script>
 
 <svelte:head>
-  <title>Careers — Develta</title>
-  <meta name="description" content="Join the Develta team and help shape the future of real estate in Limassol, Cyprus." />
+  <title>Careers — Groundz</title>
+  <meta name="description" content="Join the Groundz team and help shape the future of real estate in Limassol, Cyprus." />
 </svelte:head>
 
 <section class="jobs-section">

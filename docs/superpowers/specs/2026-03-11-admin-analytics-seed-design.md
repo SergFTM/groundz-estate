@@ -8,7 +8,7 @@
 
 ## Overview
 
-Two independent improvements to the Develta platform:
+Two independent improvements to the Groundz platform:
 
 1. **Admin Analytics Dashboard Extensions** — add missing KPIs (conversion rate, sold units, revenue, breakdowns) to the existing `/admin` page
 2. **Seed Data Enrichment** — expand `prisma/seed.ts` with more leads, a second buyer, overdue payments, commissions, and lead notes for realistic testing
@@ -123,12 +123,12 @@ Full replacement of `prisma/seed.ts`. Preserve all existing data structure but e
 
 | Email | Role | Name | Password |
 |-------|------|------|----------|
-| admin@develta.cy | internal_team | Sarah Admin | develta123 |
-| buyer@develta.cy | buyer | Maria Petrova | develta123 |
-| buyer2@develta.cy | buyer | Andreas Christodoulou | develta123 ← NEW |
-| investor@develta.cy | investor | Alexander Chen | develta123 |
-| agent@develta.cy | agent | Nikos Papadopoulos | develta123 |
-| team@develta.cy | internal_team | Develta Team | develta123 ← NEW |
+| admin@groundz.estate | internal_team | Sarah Admin | groundz123 |
+| buyer@groundz.estate | buyer | Maria Petrova | groundz123 |
+| buyer2@groundz.estate | buyer | Andreas Christodoulou | groundz123 ← NEW |
+| investor@groundz.estate | investor | Alexander Chen | groundz123 |
+| agent@groundz.estate | agent | Nikos Papadopoulos | groundz123 |
+| team@groundz.estate | internal_team | Groundz Team | groundz123 ← NEW |
 
 Note: `internal_team` is the admin role (schema: `buyer | investor | agent | internal_team`). Amounts stored in euros as Float.
 
@@ -227,7 +227,7 @@ Lead 11 (Priya Sharma): "Converted — signed reservation for SYM-101."
 ### Seed Data
 
 - `npx prisma db seed` runs without errors and is re-runnable (idempotent)
-- 6 users exist; all log in with password `develta123`
+- 6 users exist; all log in with password `groundz123`
 - 12 leads exist covering all 4 statuses (new/contacted/converted/lost)
 - 10 payments exist including at least 2 overdue entries
 - 2 commissions exist (1 approved, 1 pending)

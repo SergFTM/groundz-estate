@@ -1,1223 +1,450 @@
 <script lang="ts">
-	import { reveal } from '$lib/utils/scroll-reveal';
-	import KPICard from '$lib/components/KPICard.svelte';
-	import ROICalculator from '$lib/components/ROICalculator.svelte';
-	import ProjectCarousel from '$lib/components/ProjectCarousel.svelte';
-	import LeadQuizWidget from '$lib/components/LeadQuizWidget.svelte';
+  // Landing styled to the GROUNDZ ESTATE prototype, driven by REAL data (db pools + metrics)
+  // and an interactive yield calculator. Design tokens (--ink/--acc/--acc-dk/--mint) in app.css.
+  import ProjectCarousel from '$lib/components/ProjectCarousel.svelte';
+  import LeadQuizWidget from '$lib/components/LeadQuizWidget.svelte';
 
-	let { data } = $props();
+  let { data } = $props();
+  const projects = $derived(data.projects ?? []);
 
-	let scrollY = $state(0);
-	// Text fades out + moves up fast, skyline moves up slower = parallax difference
-	let heroOpacity = $derived(Math.max(0, 1 - scrollY / 700));
-	let heroTextShift = $derived(scrollY * 0.4);
-	let heroBuildingsShift = $derived(scrollY * 0.12);
+  // ── formatting ──────────────────────────────────────────────
+  function eur(n: number): string {
+    if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
+    return '€' + Math.round(n).toLocaleString('en-US');
+  }
+  function eurFull(n: number): string { return '€' + Math.round(n).toLocaleString('en-US'); }
+  function pct(raised: number, goal: number): number { return goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0; }
+
+  const STATUS: Record<string, { label: string; bg: string }> = {
+    active: { label: 'Активен', bg: 'rgba(79,138,91,0.92)' },
+    presale: { label: 'Пресейл', bg: 'rgba(122,140,110,0.92)' },
+    funding: { label: 'Сбор', bg: 'rgba(122,140,110,0.92)' },
+    closed: { label: 'Закрыт', bg: 'rgba(120,120,120,0.92)' },
+    completed: { label: 'Завершён', bg: 'rgba(79,138,91,0.92)' },
+  };
+  function statusOf(s: string) { return STATUS[s] ?? { label: s, bg: 'rgba(122,140,110,0.92)' }; }
+
+  const MARKET_IMG: Record<string, string> = {
+    Cyprus: '/img/p-cyprus.jpg', Кипр: '/img/p-cyprus.jpg',
+    Georgia: '/img/p-georgia.jpg', Грузия: '/img/p-georgia.jpg',
+    Dubai: '/img/p-dubai.jpg', UAE: '/img/p-dubai.jpg',
+    Thailand: '/img/p-phuket.jpg', Indonesia: '/img/p-bali.jpg',
+  };
+  // Prefer bundled market imagery; seed imageUrls point at not-yet-uploaded paths.
+  function poolImg(p: any): string { return MARKET_IMG[p.country] || p.imageUrl || '/img/p-cyprus.jpg'; }
+  function roiOf(p: any): number { return p.targetIrr ?? p.targetYield ?? 0; }
+
+  const pools = $derived(data.pools ?? []);
+  const m = $derived(data.metrics ?? { totalRaised: 0, investorCount: 0, markets: 0, avgYield: 0 });
+
+  // ── interactive yield calculator ────────────────────────────
+  const calcPools = $derived(
+    pools.length
+      ? pools.map((p: any) => ({ label: `${p.country} · ${roiOf(p).toFixed(1)}%`, roi: roiOf(p), price: p.pricePerToken || 100, sym: p.tokenSymbol || 'dGRZ' }))
+      : [{ label: 'Cyprus · 12.0%', roi: 12, price: 100, sym: 'dCYP' }]
+  );
+  let amount = $state(50000);
+  let years = $state(5);
+  let sel = $state(0);
+  const cp = $derived(calcPools[Math.min(sel, calcPools.length - 1)]);
+  const tokens = $derived(Math.round(amount / cp.price));
+  const incomeYear = $derived(Math.round(amount * cp.roi / 100));
+  const incomeTotal = $derived(incomeYear * years);
+  const projection = $derived(Math.round(amount * Math.pow(1 + cp.roi / 100, years)));
+
+  const markets = [
+    { name: 'Кипр', sub: 'PR от €300к · VAT 5%', pools: '2', yield: '8–12%' },
+    { name: 'Грузия', sub: 'Пресейл · рост рынка', pools: '1', yield: 'до 18%' },
+    { name: 'Дубай', sub: '0% налог · аренда', pools: '1', yield: '9–11%' },
+    { name: 'Пхукет', sub: 'Краткоср. аренда', pools: '1', yield: '10–13%' },
+    { name: 'Бали', sub: 'Hospitality · скоро', pools: '1', yield: 'до 14%' },
+  ];
+  const steps = [
+    { n: '01', t: 'Объект → пул', d: 'Мы упаковываем объект или портфель в пул: цель сбора, срок, юридическая структура и документы.' },
+    { n: '02', t: 'Пул → токены', d: 'Пул делится на токены. Один токен — это ваша доля в активе и в его доходе.' },
+    { n: '03', t: 'Токен → доход', d: 'Вы получаете доход от аренды и роста стоимости. Всё видно в кабинете инвестора.' },
+    { n: '04', t: 'Выход и ликвидность', d: 'Выход по стратегии пула или продажа токенов на вторичном рынке.' },
+  ];
+  const layers = [
+    { n: '01', t: 'Marketplace', d: 'Каталог объектов и портфелей: карты, фильтры, планировки, цены и статусы.' },
+    { n: '02', t: 'Investment Pools', d: 'Пулы и пресейлы: цель сбора, билет, доходность, стратегия выхода.' },
+    { n: '03', t: 'Tokenization', d: 'Токены, allocation, vesting, treasury и учёт on-chain / off-chain.' },
+    { n: '04', t: 'Investor Cabinet', d: 'Портфель, доли, начисления, отчёты и история операций.' },
+    { n: '05', t: 'Compliance & Trust', d: 'Документы, due diligence, KYC/AML и юридическая структура.' },
+    { n: '06', t: 'Liquidity', d: 'Вторичный рынок, market making и сценарии выкупа.' },
+  ];
+  const trust = [
+    { t: 'Документы по каждому объекту', d: 'Title deed, разрешения, финансовая модель и investor memo.' },
+    { t: 'Due diligence', d: 'Проверка девелопера, прав и юридической чистоты.' },
+    { t: 'KYC / AML', d: 'Верификация инвесторов и соблюдение требований.' },
+    { t: 'Юридическая структура', d: 'SPV и прозрачная связь токена с активом.' },
+    { t: 'Аудит смарт-контрактов', d: 'Независимая проверка кода и логики пула.' },
+    { t: 'Отчётность', d: 'Регулярные отчёты по доходу, загрузке и статусу строительства.' },
+  ];
+  const roles = [
+    { tag: 'Инвестор', t: 'Доход без хлопот', d: 'Вход от €5 000, диверсификация по рынкам и прозрачный кабинет с начислениями.' },
+    { tag: 'Покупатель', t: 'Прозрачная сделка', d: 'Статусы, платежи, документы и ход строительства в одном месте.' },
+    { tag: 'Агент', t: 'Инвентарь и комиссии', d: 'Доступ к объектам, материалы, offer-ссылки и учёт комиссий.' },
+  ];
 </script>
 
-<svelte:window bind:scrollY={scrollY} />
-
 <svelte:head>
-	<title>Develta — Premium Real Estate in Limassol, Cyprus</title>
-	<meta name="description" content="Digital platform for smart real estate investment in Limassol, Cyprus. Transparent process from first interest to ownership." />
-	<meta property="og:title" content="Develta — Premium Real Estate in Limassol, Cyprus" />
-	<meta property="og:description" content="Digital platform for smart real estate investment in Limassol, Cyprus." />
-	<meta property="og:type" content="website" />
-	<meta name="robots" content="index, follow" />
+  <title>GROUNDZ ESTATE — токенизированная недвижимость</title>
+  <meta name="description" content="GROUNDZ превращает объекты и портфели в инвестиционные пулы. Токен = доля в активе и его доходе. Кипр, Грузия, Дубай, Пхукет, Бали." />
 </svelte:head>
 
-<!-- ========== HERO — Gradient + Parallax Skyline ========== -->
-<section class="hero">
-
-	<!-- Layer 1: Construction skyline SVG (parallax — bold visibility) -->
-	<div class="hero__skyline" style="transform: translateY({heroBuildingsShift}px)">
-		<svg class="hero__skyline-svg" viewBox="0 0 1440 600" fill="none" preserveAspectRatio="xMidYMax slice">
-			<!-- Tower crane left -->
-			<line x1="140" y1="40" x2="140" y2="520" stroke="rgba(90,100,80,0.18)" stroke-width="2.5"/>
-			<line x1="80" y1="65" x2="280" y2="65" stroke="rgba(90,100,80,0.18)" stroke-width="2.5"/>
-			<line x1="140" y1="65" x2="95" y2="520" stroke="rgba(90,100,80,0.08)" stroke-width="1.5"/>
-			<line x1="280" y1="65" x2="265" y2="160" stroke="rgba(90,100,80,0.12)" stroke-width="1" stroke-dasharray="6 4"/>
-			<line x1="265" y1="160" x2="265" y2="220" stroke="rgba(90,100,80,0.10)" stroke-width="1"/>
-			<rect x="256" y="220" width="18" height="10" fill="rgba(90,100,80,0.08)" rx="1"/>
-
-			<!-- Building 1 — tall glass tower -->
-			<rect x="260" y="100" width="120" height="500" fill="rgba(90,100,80,0.07)" rx="2"/>
-			<line x1="260" y1="150" x2="380" y2="150" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="200" x2="380" y2="200" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="250" x2="380" y2="250" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="300" x2="380" y2="300" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="350" x2="380" y2="350" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="400" x2="380" y2="400" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="450" x2="380" y2="450" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="260" y1="500" x2="380" y2="500" stroke="rgba(90,100,80,0.06)" stroke-width="1"/>
-			<line x1="320" y1="100" x2="320" y2="600" stroke="rgba(90,100,80,0.03)" stroke-width="1"/>
-			<!-- Windows -->
-			<rect x="275" y="115" width="16" height="22" fill="rgba(90,100,80,0.06)" rx="1"/>
-			<rect x="303" y="115" width="16" height="22" fill="rgba(90,100,80,0.09)" rx="1"/>
-			<rect x="348" y="115" width="16" height="22" fill="rgba(90,100,80,0.06)" rx="1"/>
-			<rect x="275" y="165" width="16" height="22" fill="rgba(90,100,80,0.07)" rx="1"/>
-			<rect x="303" y="165" width="16" height="22" fill="rgba(90,100,80,0.06)" rx="1"/>
-			<rect x="348" y="165" width="16" height="22" fill="rgba(90,100,80,0.09)" rx="1"/>
-			<rect x="275" y="215" width="16" height="22" fill="rgba(90,100,80,0.06)" rx="1"/>
-			<rect x="348" y="215" width="16" height="22" fill="rgba(90,100,80,0.07)" rx="1"/>
-			<rect x="275" y="265" width="16" height="22" fill="rgba(90,100,80,0.09)" rx="1"/>
-			<rect x="303" y="265" width="16" height="22" fill="rgba(90,100,80,0.06)" rx="1"/>
-			<rect x="348" y="265" width="16" height="22" fill="rgba(90,100,80,0.07)" rx="1"/>
-
-			<!-- Building 2 — wide mid-rise -->
-			<rect x="410" y="260" width="160" height="340" fill="rgba(90,100,80,0.06)" rx="2"/>
-			<line x1="410" y1="310" x2="570" y2="310" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="410" y1="360" x2="570" y2="360" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="410" y1="410" x2="570" y2="410" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="410" y1="460" x2="570" y2="460" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="490" y1="260" x2="490" y2="600" stroke="rgba(90,100,80,0.03)" stroke-width="1"/>
-			<rect x="425" y="275" width="14" height="20" fill="rgba(90,100,80,0.07)" rx="1"/>
-			<rect x="450" y="275" width="14" height="20" fill="rgba(90,100,80,0.05)" rx="1"/>
-			<rect x="505" y="275" width="14" height="20" fill="rgba(90,100,80,0.07)" rx="1"/>
-			<rect x="540" y="275" width="14" height="20" fill="rgba(90,100,80,0.05)" rx="1"/>
-
-			<!-- Tower crane right -->
-			<line x1="1100" y1="20" x2="1100" y2="520" stroke="rgba(90,100,80,0.16)" stroke-width="2.5"/>
-			<line x1="980" y1="45" x2="1240" y2="45" stroke="rgba(90,100,80,0.16)" stroke-width="2.5"/>
-			<line x1="1100" y1="45" x2="1040" y2="520" stroke="rgba(90,100,80,0.06)" stroke-width="1.5"/>
-			<line x1="1240" y1="45" x2="1225" y2="140" stroke="rgba(90,100,80,0.10)" stroke-width="1" stroke-dasharray="6 4"/>
-			<line x1="1225" y1="140" x2="1225" y2="200" stroke="rgba(90,100,80,0.10)" stroke-width="1"/>
-			<rect x="1216" y="200" width="18" height="10" fill="rgba(90,100,80,0.07)" rx="1"/>
-
-			<!-- Building 3 — right tower under construction -->
-			<rect x="930" y="140" width="110" height="460" fill="rgba(90,100,80,0.065)" rx="1"/>
-			<line x1="930" y1="190" x2="1040" y2="190" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="930" y1="240" x2="1040" y2="240" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="930" y1="290" x2="1040" y2="290" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="930" y1="340" x2="1040" y2="340" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="930" y1="390" x2="1040" y2="390" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="930" y1="440" x2="1040" y2="440" stroke="rgba(90,100,80,0.05)" stroke-width="1"/>
-			<line x1="985" y1="140" x2="985" y2="600" stroke="rgba(90,100,80,0.03)" stroke-width="1"/>
-			<!-- Scaffolding -->
-			<rect x="930" y="140" width="110" height="100" fill="rgba(90,100,80,0.03)"/>
-			<line x1="930" y1="140" x2="1040" y2="240" stroke="rgba(90,100,80,0.05)" stroke-width="0.7"/>
-			<line x1="1040" y1="140" x2="930" y2="240" stroke="rgba(90,100,80,0.05)" stroke-width="0.7"/>
-
-			<!-- Building 4 — far right -->
-			<rect x="1240" y="300" width="80" height="300" fill="rgba(90,100,80,0.05)" rx="1"/>
-			<line x1="1240" y1="350" x2="1320" y2="350" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-			<line x1="1240" y1="400" x2="1320" y2="400" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-			<line x1="1240" y1="450" x2="1320" y2="450" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-
-			<!-- Small building far left -->
-			<rect x="30" y="340" width="90" height="260" fill="rgba(90,100,80,0.05)" rx="1"/>
-			<line x1="30" y1="390" x2="120" y2="390" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-			<line x1="30" y1="440" x2="120" y2="440" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-			<line x1="30" y1="490" x2="120" y2="490" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-
-			<!-- Villa mid-right -->
-			<path d="M720 480 L720 380 L785 330 L850 380 L850 480" stroke="rgba(90,100,80,0.10)" stroke-width="1.5" fill="rgba(90,100,80,0.035)"/>
-			<rect x="748" y="420" width="30" height="60" fill="rgba(90,100,80,0.05)" rx="1"/>
-			<rect x="800" y="395" width="22" height="28" fill="rgba(90,100,80,0.06)" rx="1"/>
-
-			<!-- Residential blocks -->
-			<rect x="600" y="400" width="60" height="200" fill="rgba(90,100,80,0.05)" rx="1"/>
-			<rect x="670" y="430" width="50" height="170" fill="rgba(90,100,80,0.04)" rx="1"/>
-			<line x1="600" y1="450" x2="660" y2="450" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-			<line x1="600" y1="500" x2="660" y2="500" stroke="rgba(90,100,80,0.04)" stroke-width="1"/>
-
-			<!-- Ground line -->
-			<line x1="0" y1="600" x2="1440" y2="600" stroke="rgba(90,100,80,0.10)" stroke-width="1.5"/>
-		</svg>
-	</div>
-
-	<!-- Layer 2: text content (fastest parallax — moves up most) -->
-	<div class="hero__content container" style="opacity: {heroOpacity}; transform: translateY({heroTextShift}px)">
-		<span class="hero__tag">Premium Real Estate — Limassol, Cyprus</span>
-
-		<h1 class="hero__heading">
-			Transparency in every<br/>brick we lay.
-		</h1>
-
-		<p class="hero__subtitle">
-			A digital platform for mindful real estate investment.<br/>
-			From first inquiry to key handover — we guide every step.
-		</p>
-
-		<div class="hero__cta">
-			<a href="/projects" class="btn btn--primary btn--lg">View Projects</a>
-			<a href="#roi-calculator" class="btn btn--hero-outline btn--lg">Calculate ROI</a>
-		</div>
-	</div>
-
-	<!-- Stats bar at bottom -->
-	<div class="hero__bottom">
-		<div class="hero__bottom-inner container">
-			<div class="hero__stat">
-				<span class="hero__stat-num">7%</span>
-				<span class="hero__stat-label">Avg. Annual Yield</span>
-			</div>
-			<div class="hero__stat-divider"></div>
-			<div class="hero__stat">
-				<span class="hero__stat-num">15+</span>
-				<span class="hero__stat-label">Completed Projects</span>
-			</div>
-			<div class="hero__stat-divider"></div>
-			<div class="hero__stat">
-				<span class="hero__stat-num">300+</span>
-				<span class="hero__stat-label">Clients Served</span>
-			</div>
-			<div class="hero__stat-divider"></div>
-			<div class="hero__stat">
-				<span class="hero__stat-num">€300k</span>
-				<span class="hero__stat-label">PR Investment Threshold</span>
-			</div>
-		</div>
-	</div>
+<!-- HERO -->
+<section class="g-hero">
+  <img src="/img/hero.jpg" alt="" class="g-hero__img" />
+  <div class="g-hero__overlay"></div>
+  <div class="g-hero__inner">
+    <div class="g-eyebrow g-eyebrow--light">Токенизированная недвижимость · Кипр · Грузия · Дубай</div>
+    <h1 class="g-hero__title">Инвестируйте в недвижимость по частям.</h1>
+    <p class="g-hero__sub">GROUNDZ превращает объекты и портфели в инвестиционные пулы. Вы покупаете токен — он закреплён за реальным активом, документами и долей в доходе.</p>
+    <div class="g-hero__cta">
+      <a href="/pools" class="g-btn g-btn--acc g-btn--shadow">Смотреть пулы</a>
+      <a href="#calc" class="g-btn g-btn--ghost">Рассчитать доходность</a>
+    </div>
+  </div>
 </section>
 
-<!-- ========== FEATURED PROJECTS ========== -->
-<section class="section projects-section">
-	<div class="projects-section__bg-element" style="transform: translateY({scrollY * 0.06}px)">
-		<svg viewBox="0 0 300 400" fill="none" width="300" height="400">
-			<rect x="130" y="0" width="40" height="400" fill="rgba(122,140,110,0.03)"/>
-			<rect x="120" y="0" width="60" height="20" fill="rgba(122,140,110,0.04)" rx="2"/>
-			<rect x="120" y="380" width="60" height="20" fill="rgba(122,140,110,0.04)" rx="2"/>
-			<line x1="150" y1="20" x2="150" y2="380" stroke="rgba(122,140,110,0.03)" stroke-width="0.5" stroke-dasharray="8 4"/>
-		</svg>
-	</div>
-	<div class="container" style="position:relative; z-index:1" use:reveal>
-		<div class="projects-header">
-			<span class="overline">Portfolio</span>
-			<h2>Our Projects</h2>
-		</div>
-		<ProjectCarousel projects={data.projects} />
-	</div>
+<!-- METRICS (real data) -->
+<section class="g-metrics">
+  <div class="g-metrics__grid">
+    <div class="g-metric"><div class="g-metric__val num">{eur(m.totalRaised)}</div><div class="g-metric__label">Собрано в пулах</div></div>
+    <div class="g-metric"><div class="g-metric__val num">{m.investorCount.toLocaleString('en-US')}</div><div class="g-metric__label">Инвесторов</div></div>
+    <div class="g-metric"><div class="g-metric__val num">{m.markets}</div><div class="g-metric__label">Рынка</div></div>
+    <div class="g-metric"><div class="g-metric__val num" style="color:var(--mint)">{m.avgYield}%</div><div class="g-metric__label">Ср. целевая доходность</div></div>
+  </div>
 </section>
 
-<!-- ========== PROPERTY SELECTION ========== -->
-<section class="section cta-section">
-	<div class="cta-section__skyline">
-		<svg viewBox="0 0 1440 200" fill="none" preserveAspectRatio="xMidYMax slice">
-			<rect x="100" y="80" width="60" height="120" fill="rgba(255,255,255,0.02)" rx="1"/>
-			<rect x="180" y="40" width="80" height="160" fill="rgba(255,255,255,0.025)" rx="1"/>
-			<rect x="280" y="100" width="50" height="100" fill="rgba(255,255,255,0.015)" rx="1"/>
-			<path d="M400 120 L400 80 L440 50 L480 80 L480 120" stroke="rgba(255,255,255,0.03)" stroke-width="1" fill="rgba(255,255,255,0.01)"/>
-			<rect x="900" y="60" width="70" height="140" fill="rgba(255,255,255,0.02)" rx="1"/>
-			<rect x="990" y="90" width="90" height="110" fill="rgba(255,255,255,0.025)" rx="1"/>
-			<rect x="1100" y="40" width="60" height="160" fill="rgba(255,255,255,0.02)" rx="1"/>
-			<rect x="1200" y="100" width="80" height="100" fill="rgba(255,255,255,0.015)" rx="1"/>
-			<line x1="0" y1="200" x2="1440" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-		</svg>
-	</div>
-	<div class="container" style="position:relative; z-index:1" use:reveal>
-		<div class="cta-layout">
-			<div class="cta-text">
-				<span class="overline overline--light">Personal Advisory</span>
-				<h2 class="cta-title">Find Your Ideal Property</h2>
-				<p class="cta-subtitle">
-					Answer a few questions and get a personalised selection of properties that match your goals.
-				</p>
-			</div>
-			<div class="cta-widget">
-				<LeadQuizWidget />
-			</div>
-		</div>
-	</div>
+<!-- HOW IT WORKS -->
+<section class="g-sec g-sec--warm">
+  <div class="g-wrap">
+    <div class="g-eyebrow">Как это работает</div>
+    <h2 class="g-h2">Токены — это просто ваша доля.</h2>
+    <p class="g-lead">Никакой крипто-магии. Четыре шага от объекта до дохода.</p>
+    <div class="g-grid-4">
+      {#each steps as s}
+        <div class="g-card"><div class="g-card__n num">{s.n}</div><h3 class="g-card__t">{s.t}</h3><p class="g-card__d">{s.d}</p></div>
+      {/each}
+    </div>
+  </div>
 </section>
 
-<!-- ========== ROI CALCULATOR ========== -->
-<section class="section roi-section" id="roi-calculator">
-	<div class="container" use:reveal>
-		<div class="roi-header">
-			<span class="overline">Investment Tools</span>
-			<h2>Calculate Your Return</h2>
-			<p class="roi-header__sub">
-				Project your investment returns in the Cyprus property market.
-			</p>
-		</div>
-		<ROICalculator compact={true} />
-	</div>
+<!-- POOLS (real data) -->
+<section class="g-sec">
+  <div class="g-wrap">
+    <div class="g-sec__head">
+      <div>
+        <div class="g-eyebrow">Открытые пулы</div>
+        <h2 class="g-h2">Выберите рынок и стратегию.</h2>
+      </div>
+      <a href="/pools" class="g-btn g-btn--outline">Все пулы →</a>
+    </div>
+    {#if pools.length === 0}
+      <p class="g-lead">Пулы скоро появятся. <a href="/pools" style="color:var(--acc-dk)">Открыть маркетплейс →</a></p>
+    {:else}
+      <div class="g-grid-3">
+        {#each pools as p}
+          {@const st = statusOf(p.status)}
+          <a class="g-pool" href="/pools/{p.slug}">
+            <div class="g-pool__media">
+              <div class="g-pool__img" style="background-image:url('{poolImg(p)}')"></div>
+              <span class="g-pool__status" style="background:{st.bg}">{st.label}</span>
+              {#if p.tokenSymbol}<span class="g-pool__ticker num">{p.tokenSymbol}</span>{/if}
+            </div>
+            <div class="g-pool__body">
+              <div class="g-pool__loc num">{p.country}{p.city ? ` · ${p.city}` : ''}</div>
+              <h3 class="g-pool__name">{p.name}</h3>
+              <p class="g-pool__desc">{p.description ?? ''}</p>
+              <div class="g-pool__prog">
+                <div class="g-pool__progrow num"><span style="color:var(--color-text-muted)">{eurFull(p.raisedAmount)}</span><span style="color:#1c1c1a;font-weight:500">{pct(p.raisedAmount, p.goalAmount)}%</span></div>
+                <div class="g-bar"><div class="g-bar__fill" style="width:{pct(p.raisedAmount, p.goalAmount)}%"></div></div>
+                <div class="g-pool__goal">из <span class="num">{eurFull(p.goalAmount)}</span></div>
+              </div>
+              <div class="g-pool__foot">
+                <div><div class="g-pool__metric num" style="color:var(--acc-dk)">{roiOf(p).toFixed(1)}%</div><div class="g-pool__metriclabel">Целевой ROI</div></div>
+                <div style="text-align:right"><div class="g-pool__metric num">{eurFull(p.minTicket)}</div><div class="g-pool__metriclabel">Мин. билет</div></div>
+              </div>
+            </div>
+          </a>
+        {/each}
+      </div>
+    {/if}
+  </div>
 </section>
 
-<!-- ========== WHY DEVELTA ========== -->
-<section class="section why-section">
-	<div class="why-section__bg">
-		<svg class="blueprint-bg" viewBox="0 0 800 600" fill="none" preserveAspectRatio="xMidYMid slice">
-			<rect x="100" y="100" width="250" height="180" stroke="rgba(122,140,110,0.06)" stroke-width="1" fill="none"/>
-			<rect x="120" y="120" width="80" height="60" stroke="rgba(122,140,110,0.04)" stroke-width="0.5" fill="none"/>
-			<rect x="220" y="120" width="110" height="60" stroke="rgba(122,140,110,0.04)" stroke-width="0.5" fill="none"/>
-			<rect x="120" y="200" width="210" height="60" stroke="rgba(122,140,110,0.04)" stroke-width="0.5" fill="none"/>
-			<path d="M200 180 A15 15 0 0 1 215 165" stroke="rgba(122,140,110,0.05)" stroke-width="0.5" fill="none"/>
-			<path d="M330 200 A15 15 0 0 0 315 215" stroke="rgba(122,140,110,0.05)" stroke-width="0.5" fill="none"/>
-			<line x1="100" y1="300" x2="350" y2="300" stroke="rgba(122,140,110,0.04)" stroke-width="0.5"/>
-			<line x1="100" y1="295" x2="100" y2="305" stroke="rgba(122,140,110,0.04)" stroke-width="0.5"/>
-			<line x1="350" y1="295" x2="350" y2="305" stroke="rgba(122,140,110,0.04)" stroke-width="0.5"/>
-			<rect x="450" y="300" width="200" height="150" stroke="rgba(122,140,110,0.05)" stroke-width="1" fill="none"/>
-			<line x1="450" y1="370" x2="650" y2="370" stroke="rgba(122,140,110,0.03)" stroke-width="0.5"/>
-			<rect x="480" y="320" width="60" height="40" stroke="rgba(122,140,110,0.03)" stroke-width="0.5" fill="none"/>
-			<rect x="570" y="320" width="50" height="40" stroke="rgba(122,140,110,0.03)" stroke-width="0.5" fill="none"/>
-		</svg>
-	</div>
-	<div class="container" style="position:relative; z-index:1">
-		<div class="why-header" use:reveal>
-			<span class="overline">Our Approach</span>
-			<h2>Why Develta</h2>
-		</div>
-		<div class="features-grid">
-			<div class="feature" use:reveal={{ delay: 0 }}>
-				<span class="feature__num">01</span>
-				<h3 class="feature__title">Full Transparency</h3>
-				<p class="feature__text">
-					Real-time construction updates, document access, and payment tracking — everything in one dashboard from day one.
-				</p>
-			</div>
-			<div class="feature" use:reveal={{ delay: 120 }}>
-				<span class="feature__num">02</span>
-				<h3 class="feature__title">Smart Investment</h3>
-				<p class="feature__text">
-					Data-driven ROI projections, market analytics, and expert advisory to help you make confident decisions.
-				</p>
-			</div>
-			<div class="feature" use:reveal={{ delay: 240 }}>
-				<span class="feature__num">03</span>
-				<h3 class="feature__title">End-to-End Service</h3>
-				<p class="feature__text">
-					From property selection and legal review to residency applications and property management — we handle it all.
-				</p>
-			</div>
-		</div>
-	</div>
+<!-- MARKETS -->
+<section class="g-sec g-sec--alt">
+  <div class="g-wrap">
+    <div class="g-eyebrow">Мультимаркет</div>
+    <h2 class="g-h2">Одна платформа — пять рынков.</h2>
+    <p class="g-lead">Разные юрисдикции, налоги и сценарии — единый инвестиционный опыт.</p>
+    <div class="g-grid-5">
+      {#each markets as mk}
+        <div class="g-market">
+          <h3 class="g-market__name">{mk.name}</h3>
+          <div class="g-market__sub">{mk.sub}</div>
+          <div class="g-market__foot">
+            <div><div class="g-market__val num">{mk.pools}</div><div class="g-market__lbl">пулов</div></div>
+            <div style="text-align:right"><div class="g-market__val num" style="color:var(--acc-dk)">{mk.yield}</div><div class="g-market__lbl">доходность</div></div>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
 </section>
 
-<!-- ========== NEWS ROOM ========== -->
-<section class="section news-section">
-	<div class="container" use:reveal>
-		<div class="section-head">
-			<div>
-				<span class="overline">Expert Insights</span>
-				<h2 class="section-h2">News Room</h2>
-				<p class="section-sub">Market analysis, investment guides, and developer updates from the Develta team.</p>
-			</div>
-			<a href="/knowledge" class="btn-text-link">View all articles →</a>
-		</div>
-		<div class="news-grid">
-			{#if data.articles.length > 0}
-				{#each data.articles as article}
-					<a href="/knowledge/{article.slug}" class="news-card">
-						<div class="news-card__img">
-							{#if article.imageUrl}
-								<img src={article.imageUrl} alt={article.title} />
-							{:else}
-								<div class="news-card__placeholder-img">
-									<svg viewBox="0 0 48 48" fill="none" width="28" height="28"><rect x="4" y="8" width="40" height="32" rx="3" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="18" x2="44" y2="18" stroke="currentColor" stroke-width="1"/><line x1="14" y1="26" x2="34" y2="26" stroke="currentColor" stroke-width="1"/><line x1="14" y1="31" x2="28" y2="31" stroke="currentColor" stroke-width="1"/></svg>
-								</div>
-							{/if}
-							<span class="news-card__tag">{article.category}</span>
-						</div>
-						<div class="news-card__body">
-							<h3 class="news-card__title">{article.title}</h3>
-							{#if article.excerpt}<p class="news-card__excerpt">{article.excerpt}</p>{/if}
-							<span class="news-card__read">Read →</span>
-						</div>
-					</a>
-				{/each}
-			{:else}
-				{#each [
-					{ tag: 'Market', title: 'Limassol Real Estate Market Report 2026', excerpt: 'An in-depth analysis of property price trends, rental yields, and investment opportunities in Limassol.' },
-					{ tag: 'Investment', title: 'Why Cyprus Residency Through Property Remains Attractive', excerpt: 'A guide to the residency-by-investment programme and how the €300,000 threshold property route works.' },
-					{ tag: 'Development', title: 'Sungardo Construction Update — Q1 2026', excerpt: 'Latest progress on the Sungardo residential complex: structural completion on schedule for Q3 2026 handover.' }
-				] as item}
-					<div class="news-card">
-						<div class="news-card__img">
-							<div class="news-card__placeholder-img">
-								<svg viewBox="0 0 48 48" fill="none" width="28" height="28"><rect x="4" y="8" width="40" height="32" rx="3" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="18" x2="44" y2="18" stroke="currentColor" stroke-width="1"/><line x1="14" y1="26" x2="34" y2="26" stroke="currentColor" stroke-width="1"/><line x1="14" y1="31" x2="28" y2="31" stroke="currentColor" stroke-width="1"/></svg>
-							</div>
-							<span class="news-card__tag">{item.tag}</span>
-						</div>
-						<div class="news-card__body">
-							<h3 class="news-card__title">{item.title}</h3>
-							<p class="news-card__excerpt">{item.excerpt}</p>
-							<span class="news-card__read">Read →</span>
-						</div>
-					</div>
-				{/each}
-			{/if}
-		</div>
-	</div>
+<!-- PROJECTS (carousel) -->
+{#if projects.length}
+  <section class="g-sec g-sec--warm">
+    <div class="g-wrap">
+      <div class="g-eyebrow">Проекты застройщика</div>
+      <h2 class="g-h2" style="margin-bottom:36px">Объекты в основе пулов.</h2>
+    </div>
+    <ProjectCarousel {projects} />
+  </section>
+{/if}
+
+<!-- ROI CALC (interactive) -->
+<section class="g-sec g-calc" id="calc">
+  <div class="g-calc__grid">
+    <div>
+      <div class="g-eyebrow" style="color:var(--mint)">Калькулятор доходности</div>
+      <h2 class="g-h2 g-h2--light">Посчитайте свой доход.</h2>
+      <p class="g-lead g-lead--light" style="max-width:440px">Прозрачная экономика до сделки, а не после. Выберите сумму, пул и срок.</p>
+      <div class="g-field">
+        <div class="g-field__row"><span class="g-field__label">Сумма инвестиции</span><span class="g-field__val num">{eurFull(amount)}</span></div>
+        <input type="range" min="5000" max="500000" step="5000" bind:value={amount} style="width:100%" aria-label="Сумма" />
+      </div>
+      <div class="g-field">
+        <div class="g-field__label" style="margin-bottom:14px">Пул</div>
+        <div class="g-chips">
+          {#each calcPools as c, i}
+            <button class="g-chip" class:g-chip--active={sel === i} onclick={() => (sel = i)}>{c.label}</button>
+          {/each}
+        </div>
+      </div>
+      <div class="g-field">
+        <div class="g-field__row"><span class="g-field__label">Горизонт</span><span class="g-field__val num">{years} {years === 1 ? 'год' : years < 5 ? 'года' : 'лет'}</span></div>
+        <input type="range" min="1" max="10" step="1" bind:value={years} style="width:100%" aria-label="Горизонт" />
+      </div>
+    </div>
+    <div class="g-calc__panel">
+      <div class="g-calc__phead"><span>Расчёт</span><span class="num g-calc__tag">{cp.sym}</span></div>
+      <div class="g-calc__line"><span>Токенов</span><span class="num">{tokens.toLocaleString('en-US')}</span></div>
+      <div class="g-calc__line"><span>Доход в год</span><span class="num" style="color:var(--mint)">{eurFull(incomeYear)}</span></div>
+      <div class="g-calc__line"><span>Доход за весь срок</span><span class="num">{eurFull(incomeTotal)}</span></div>
+      <div class="g-calc__result">
+        <div><div class="g-calc__rlabel">Прогноз стоимости</div><div class="g-calc__rsub num">{years} {years === 1 ? 'год' : years < 5 ? 'года' : 'лет'} · {cp.sym}</div></div>
+        <div class="g-calc__rval num">{eurFull(projection)}</div>
+      </div>
+      <p class="g-calc__note">Прогноз носит иллюстративный характер и не является гарантией доходности.</p>
+    </div>
+  </div>
 </section>
 
-<!-- ========== ABOUT US ========== -->
-<section class="section about-section">
-	<div class="container" use:reveal>
-		<div class="about-grid">
-			<div class="about-text">
-				<span class="overline">Who We Are</span>
-				<h2 class="section-h2">Shaping Life<br/><em>&amp; Investment</em></h2>
-				<p class="about-p">
-					Develta is a full-cycle real estate developer based in Limassol, Cyprus. We manage every stage — from land acquisition and architectural design to construction, furnishing, and ongoing property management.
-				</p>
-				<p class="about-p">
-					15+ completed projects, 300+ clients across 20+ countries. Our mission: make premium Cyprus real estate accessible, transparent, and genuinely rewarding for every buyer.
-				</p>
-				<a href="/about" class="btn btn--outline-dark">About the Company →</a>
-			</div>
-			<div class="services-list">
-				{#each [
-					{ num: '01', title: 'Full-cycle Development', desc: 'From site selection and design to construction and handover — every stage managed under one roof.' },
-					{ num: '02', title: 'Turnkey Apartment Setup', desc: 'Fully furnished, ready-to-live-in homes with appliances, linens, and every detail thoughtfully prepared.' },
-					{ num: '03', title: 'Property Management', desc: 'Tenant search, bookings, payment collection, and taxes — a fully hands-off rental experience.' },
-					{ num: '04', title: 'Renovation & Interior Design', desc: 'Aesthetic and functional spaces tailored to your style, delivered without contractor complexity.' }
-				] as svc}
-					<div class="svc-item">
-						<span class="svc-item__num">{svc.num}</span>
-						<div class="svc-item__body">
-							<h4 class="svc-item__title">{svc.title}</h4>
-							<p class="svc-item__desc">{svc.desc}</p>
-						</div>
-						<span class="svc-item__arrow">→</span>
-					</div>
-				{/each}
-			</div>
-		</div>
-	</div>
+<!-- PLATFORM -->
+<section class="g-sec" id="platform">
+  <div class="g-wrap">
+    <div class="g-eyebrow">Платформа</div>
+    <h2 class="g-h2">Это не сайт недвижимости. Это инфраструктура.</h2>
+    <p class="g-lead">Шесть слоёв, которые превращают недвижимость в управляемый цифровой актив.</p>
+    <div class="g-layers">
+      {#each layers as l}
+        <div class="g-layer"><div class="g-layer__n num">{l.n}</div><h3 class="g-layer__t">{l.t}</h3><p class="g-layer__d">{l.d}</p></div>
+      {/each}
+    </div>
+  </div>
 </section>
 
-<!-- ========== PLATFORM + AI ========== -->
-<section class="section platform-section">
-	<div class="container" use:reveal>
-		<div class="platform-layout">
-			<div class="platform-visual">
-				<div class="platform-icon">
-					<svg viewBox="0 0 64 64" fill="none" width="48" height="48">
-						<polygon points="32,4 36,26 58,32 36,38 32,60 28,38 6,32 28,26" fill="rgba(122,140,110,0.12)" stroke="rgba(122,140,110,0.55)" stroke-width="1.5"/>
-						<polygon points="32,18 34,27 43,32 34,37 32,46 30,37 21,32 30,27" fill="rgba(122,140,110,0.3)"/>
-					</svg>
-				</div>
-				<div class="platform-stats">
-					{#each [{ n: '24/7', l: 'AI Concierge' }, { n: '100%', l: 'Digital Process' }, { n: 'Live', l: 'Tour Preview' }] as s}
-						<div class="platform-stat">
-							<span class="platform-stat__n">{s.n}</span>
-							<span class="platform-stat__l">{s.l}</span>
-						</div>
-					{/each}
-				</div>
-			</div>
-			<div class="platform-content">
-				<span class="overline">Digital Platform</span>
-				<h2 class="section-h2">Your Investment,<br/><em>Powered by AI</em></h2>
-				<p class="platform-p">
-					The Develta platform gives buyers real-time access to construction progress, documents, payment schedules, and a personal AI concierge available 24/7. Select a property, book consultations, and track your entire investment journey in one place.
-				</p>
-				<div class="platform-feats">
-					{#each ['AI property concierge', 'Live construction updates', 'Document vault', 'ROI analytics', 'Virtual apartment tours', '24/7 support chat'] as feat}
-						<span class="platform-feat"><span class="platform-feat__dot"></span>{feat}</span>
-					{/each}
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- TRUST -->
+<section class="g-sec g-sec--warm">
+  <div class="g-wrap">
+    <div class="g-eyebrow">Прозрачность</div>
+    <h2 class="g-h2">Доверие — это архитектура данных.</h2>
+    <p class="g-lead">Каждый пул опирается на документы и проверки, а не на обещания.</p>
+    <div class="g-trust">
+      {#each trust as item}
+        <div class="g-trust__item">
+          <div class="g-trust__ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg></div>
+          <div><h3 class="g-trust__t">{item.t}</h3><p class="g-trust__d">{item.d}</p></div>
+        </div>
+      {/each}
+    </div>
+    <div class="g-disclaimer">Инвестиции в недвижимость и токенизированные активы связаны с риском. Доходность не гарантирована. Это демо-прототип и не является офертой.</div>
+  </div>
 </section>
 
-<!-- ========== ROADMAP ========== -->
-<section class="section roadmap-section">
-	<div class="container" use:reveal>
-		<div class="roadmap-head">
-			<span class="overline">What's Coming</span>
-			<h2 class="section-h2">Our Roadmap</h2>
-			<p class="section-sub">Features we're building and improving on the Develta platform.</p>
-		</div>
-		<div class="roadmap-grid">
-			{#each [
-				{ status: 'live',     label: 'Live',        title: 'AI Property Concierge',    desc: 'Conversational assistant for project info and consultation booking.' },
-				{ status: 'live',     label: 'Live',        title: 'Virtual Tour Generation',  desc: 'AI-generated room-by-room tours for every unit before construction completes.' },
-				{ status: 'progress', label: 'In Progress', title: 'Buyer Personal Cabinet',   desc: 'Real-time documents, payment schedules, and construction progress tracker.' },
-				{ status: 'progress', label: 'In Progress', title: 'Interactive Floor Plans',  desc: '3D plan viewer with room dimensions and finish options per unit.' },
-				{ status: 'planned',  label: 'Planned',     title: 'Investment Analytics',     desc: 'Market data, rental yield forecasts, and portfolio performance dashboards.' },
-				{ status: 'planned',  label: 'Planned',     title: 'Legal & Residency Hub',    desc: 'Residency-by-investment workflow with document checklist and status tracking.' }
-			] as item}
-				<div class="roadmap-item roadmap-item--{item.status}">
-					<span class="roadmap-item__badge">{item.label}</span>
-					<h4 class="roadmap-item__title">{item.title}</h4>
-					<p class="roadmap-item__desc">{item.desc}</p>
-				</div>
-			{/each}
-		</div>
-	</div>
+<!-- FOR WHOM -->
+<section class="g-sec">
+  <div class="g-wrap">
+    <div class="g-eyebrow">Для кого</div>
+    <h2 class="g-h2">Одна платформа — три роли.</h2>
+    <div class="g-grid-3">
+      {#each roles as r}
+        <div class="g-role"><div class="g-role__tag num">{r.tag}</div><h3 class="g-role__t">{r.t}</h3><p class="g-role__d">{r.d}</p></div>
+      {/each}
+    </div>
+  </div>
+</section>
+
+<!-- LEAD QUIZ (lead generator) -->
+<section class="g-sec g-sec--alt">
+  <div class="g-wrap g-quiz">
+    <div class="g-quiz__copy">
+      <div class="g-eyebrow">Подбор</div>
+      <h2 class="g-h2">Не знаете, с чего начать?</h2>
+      <p class="g-lead">Ответьте на пять вопросов — подберём объекты и пулы под вашу цель, бюджет и горизонт.</p>
+      <a href="/lead-quiz" class="g-btn g-btn--acc">Пройти подбор</a>
+    </div>
+    <div class="g-quiz__widget"><LeadQuizWidget /></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="g-cta">
+  <div class="g-cta__inner">
+    <h2 class="g-cta__title">Начните с одного токена.</h2>
+    <p class="g-cta__sub">Посмотрите открытые пулы или выберите уровень участия.</p>
+    <div class="g-cta__btns">
+      <a href="/pools" class="g-btn g-btn--acc">Смотреть пулы</a>
+      <a href="/pricing" class="g-btn g-btn--ghost g-btn--ghost-dark">Уровни участия</a>
+    </div>
+  </div>
 </section>
 
 <style>
-	/* ========== OVERLINE ========== */
-	.overline {
-		display: block;
-		font-size: 11px;
-		font-weight: 700;
-		letter-spacing: 0.15em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin-bottom: var(--space-4);
-	}
-
-	.overline--light {
-		color: var(--color-accent);
-		opacity: 0.85;
-	}
-
-	/* ========== HERO — Fixed gradient + parallax layers ========== */
-	.hero {
-		position: relative;
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		margin-top: calc(var(--header-height) * -1);
-		padding-top: var(--header-height);
-		overflow: hidden;
-		/* THE gradient — fixed on the section, cream top → warm charcoal bottom */
-		background: linear-gradient(
-			to bottom,
-			#f5f2ec 0%,
-			#ece7dd 20%,
-			#d2cbbf 40%,
-			#a09889 58%,
-			#706a63 72%,
-			#514c48 85%,
-			#44403d 100%
-		);
-	}
-
-	/* Skyline parallax layer — moves SLOWER than scroll = parallax */
-	.hero__skyline {
-		position: absolute;
-		bottom: 60px;
-		left: 0;
-		right: 0;
-		z-index: 0;
-		will-change: transform;
-		pointer-events: none;
-	}
-
-	.hero__skyline-svg {
-		width: 100%;
-		height: auto;
-		display: block;
-	}
-
-	/* Text content — moves FASTER than scroll = parallax contrast */
-	.hero__content {
-		position: relative;
-		z-index: 1;
-		max-width: 780px;
-		padding: var(--space-24) var(--space-6);
-		will-change: transform;
-	}
-
-	.hero__tag {
-		display: inline-block;
-		font-size: 11px;
-		font-weight: 700;
-		letter-spacing: 0.15em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin-bottom: var(--space-8);
-	}
-
-	.hero__heading {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-7xl);
-		color: var(--color-text);
-		line-height: 1.05;
-		margin-bottom: var(--space-6);
-		letter-spacing: -0.01em;
-	}
-
-	.hero__subtitle {
-		font-size: var(--text-lg);
-		color: rgba(80, 75, 68, 0.8);
-		line-height: 1.8;
-		max-width: 520px;
-		margin-bottom: var(--space-10);
-	}
-
-	.hero__cta {
-		display: flex;
-		gap: var(--space-4);
-		flex-wrap: wrap;
-	}
-
-	/* Custom outline button for gradient hero */
-	.hero__cta :global(.btn--hero-outline) {
-		background: transparent;
-		border: 2px solid rgba(42, 40, 37, 0.35);
-		color: var(--color-text);
-	}
-
-	.hero__cta :global(.btn--hero-outline:hover) {
-		background: rgba(42, 40, 37, 0.08);
-		border-color: rgba(42, 40, 37, 0.6);
-		transform: translateY(-2px);
-	}
-
-	/* Stats bar — dark glass at bottom of gradient */
-	.hero__bottom {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		z-index: 2;
-		border-top: 1px solid rgba(255, 255, 255, 0.10);
-		background: rgba(0, 0, 0, 0.35);
-		-webkit-backdrop-filter: blur(20px);
-		backdrop-filter: blur(20px);
-	}
-
-	.hero__bottom-inner {
-		display: flex;
-		align-items: center;
-	}
-
-	.hero__stat {
-		flex: 1;
-		padding: var(--space-6) var(--space-4);
-		text-align: center;
-	}
-
-	.hero__stat-num {
-		display: block;
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-2xl);
-		color: var(--color-text-light);
-		line-height: 1.2;
-		margin-bottom: var(--space-1);
-	}
-
-	.hero__stat-label {
-		font-size: 10px;
-		font-weight: 600;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: rgba(255, 255, 255, 0.5);
-	}
-
-	.hero__stat-divider {
-		width: 1px;
-		height: 40px;
-		background: rgba(255, 255, 255, 0.10);
-		flex-shrink: 0;
-	}
-
-	/* ========== WHY SECTION — with blueprint bg ========== */
-	.why-section {
-		background: var(--color-bg);
-		padding: var(--space-24) 0;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.why-section__bg {
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		opacity: 0.7;
-	}
-
-	.blueprint-bg {
-		width: 100%;
-		height: 100%;
-	}
-
-	.why-header {
-		margin-bottom: var(--space-16);
-	}
-
-	.why-header h2 {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-4xl);
-		line-height: 1.15;
-	}
-
-	.features-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--space-12);
-	}
-
-	.feature {
-		padding: var(--space-8);
-		background: rgba(0, 0, 0, 0.03);
-		border: 1px solid rgba(0, 0, 0, 0.05);
-		border-radius: var(--radius-lg);
-		-webkit-backdrop-filter: blur(8px);
-		backdrop-filter: blur(8px);
-		transition: background var(--transition-fast), box-shadow var(--transition-fast);
-	}
-
-	.feature:hover {
-		background: rgba(0, 0, 0, 0.05);
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-	}
-
-	.feature__num {
-		display: block;
-		font-size: var(--text-xs);
-		font-weight: 700;
-		color: var(--color-text-muted);
-		letter-spacing: 0.05em;
-		margin-bottom: var(--space-6);
-	}
-
-	.feature__title {
-		font-size: var(--text-xl);
-		font-weight: 700;
-		margin-bottom: var(--space-3);
-		color: var(--color-text);
-	}
-
-	.feature__text {
-		color: var(--color-text-body);
-		font-size: var(--text-sm);
-		line-height: 1.8;
-		margin: 0;
-	}
-
-	/* ========== ROI SECTION ========== */
-	.roi-section {
-		background: var(--color-bg-alt);
-	}
-
-	.roi-header {
-		margin-bottom: var(--space-12);
-	}
-
-	.roi-header h2 {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-4xl);
-		line-height: 1.15;
-		margin-bottom: var(--space-3);
-	}
-
-	.roi-header__sub {
-		color: var(--color-text-muted);
-		font-size: var(--text-base);
-		margin: 0;
-	}
-
-	/* ========== PROJECTS SECTION ========== */
-	.projects-section {
-		background: var(--color-bg);
-		position: relative;
-		overflow: hidden;
-	}
-
-	.projects-section__bg-element {
-		position: absolute;
-		right: -60px;
-		top: 0;
-		bottom: 0;
-		z-index: 0;
-		pointer-events: none;
-		opacity: 0.6;
-		will-change: transform;
-	}
-
-	.projects-header {
-		margin-bottom: var(--space-12);
-	}
-
-	.projects-header h2 {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-4xl);
-		line-height: 1.15;
-	}
-
-	/* ========== CTA SECTION ========== */
-	.cta-section {
-		background: var(--color-bg-dark);
-		color: var(--color-text-light);
-		position: relative;
-		overflow: hidden;
-	}
-
-	.cta-section__skyline {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		z-index: 0;
-		pointer-events: none;
-	}
-
-	.cta-section__skyline svg {
-		width: 100%;
-		height: auto;
-		display: block;
-	}
-
-	.cta-layout {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: var(--space-16);
-		align-items: center;
-	}
-
-	.cta-title {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-4xl);
-		color: var(--color-text-light);
-		margin-bottom: var(--space-4);
-		line-height: 1.15;
-	}
-
-	.cta-subtitle {
-		color: rgba(255, 255, 255, 0.5);
-		font-size: var(--text-base);
-		line-height: 1.7;
-		margin: 0;
-	}
-
-	/* ========== RESPONSIVE ========== */
-	@media (max-width: 1024px) {
-		.hero__heading {
-			font-size: var(--text-5xl);
-		}
-
-		.features-grid {
-			grid-template-columns: 1fr;
-			gap: var(--space-8);
-		}
-
-		.cta-layout {
-			grid-template-columns: 1fr;
-			gap: var(--space-10);
-		}
-
-		.hero__stat-num {
-			font-size: var(--text-xl);
-		}
-
-		.projects-section__bg-element {
-			display: none;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.hero__heading { font-size: var(--text-4xl); }
-		.hero__content { padding: var(--space-16) var(--space-4); }
-		.hero__cta { flex-direction: column; }
-		.hero__cta :global(.btn) { width: 100%; max-width: 320px; }
-		.hero__bottom-inner { flex-wrap: wrap; }
-		.hero__stat { flex: 0 0 50%; }
-		.hero__stat-divider { display: none; }
-		.hero__skyline { opacity: 0.5; }
-		.why-header h2, .roi-header h2, .projects-header h2, .cta-title { font-size: var(--text-3xl); }
-	}
-
-	/* ========== SHARED NEW SECTION HELPERS ========== */
-	.section-h2 {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-4xl);
-		line-height: 1.15;
-		color: var(--color-text);
-		margin-bottom: var(--space-3);
-	}
-	.section-h2 em { font-style: italic; color: var(--color-accent); }
-
-	.section-sub {
-		color: var(--color-text-muted);
-		font-size: var(--text-base);
-		line-height: 1.7;
-		margin: 0;
-	}
-
-	.section-head {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: var(--space-6);
-		margin-bottom: var(--space-12);
-		flex-wrap: wrap;
-	}
-
-	.btn-text-link {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--color-accent);
-		text-decoration: none;
-		white-space: nowrap;
-		transition: opacity var(--transition-fast);
-	}
-	.btn-text-link:hover { opacity: 0.7; }
-
-	.btn--outline-dark {
-		display: inline-flex;
-		align-items: center;
-		padding: var(--space-3) var(--space-6);
-		border: 1.5px solid rgba(60, 57, 50, 0.25);
-		border-radius: var(--radius-base);
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--color-text);
-		text-decoration: none;
-		transition: border-color var(--transition-fast), background var(--transition-fast);
-		margin-top: var(--space-6);
-	}
-	.btn--outline-dark:hover {
-		border-color: var(--color-accent);
-		background: rgba(122, 140, 110, 0.06);
-	}
-
-	/* ========== NEWS ROOM ========== */
-	.news-section { background: var(--color-bg-alt); }
-
-	.news-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--space-6);
-	}
-
-	.news-card {
-		background: var(--color-bg);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-lg);
-		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		text-decoration: none;
-		color: inherit;
-		transition: box-shadow var(--transition-base), transform var(--transition-fast);
-	}
-	.news-card:hover {
-		box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-		transform: translateY(-2px);
-	}
-
-	.news-card__img {
-		position: relative;
-		aspect-ratio: 16 / 9;
-		background: var(--color-bg-alt);
-		overflow: hidden;
-	}
-	.news-card__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-	.news-card__placeholder-img {
-		width: 100%; height: 100%;
-		display: flex; align-items: center; justify-content: center;
-		color: var(--color-text-muted);
-	}
-
-	.news-card__tag {
-		position: absolute;
-		top: var(--space-3);
-		left: var(--space-3);
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-		background: rgba(255,255,255,0.9);
-		padding: 2px 8px;
-		border-radius: 20px;
-	}
-
-	.news-card__body {
-		padding: var(--space-5);
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-2);
-		flex: 1;
-	}
-
-	.news-card__title {
-		font-size: var(--text-base);
-		font-weight: 700;
-		color: var(--color-text);
-		line-height: 1.4;
-		margin: 0;
-	}
-
-	.news-card__excerpt {
-		font-size: var(--text-sm);
-		color: var(--color-text-body);
-		line-height: 1.7;
-		margin: 0;
-		flex: 1;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.news-card__read {
-		font-size: var(--text-xs);
-		font-weight: 700;
-		color: var(--color-accent);
-		letter-spacing: 0.05em;
-		margin-top: var(--space-2);
-	}
-
-	/* ========== ABOUT US ========== */
-	.about-section { background: var(--color-bg); }
-
-	.about-grid {
-		display: grid;
-		grid-template-columns: 1fr 1.4fr;
-		gap: var(--space-20);
-		align-items: start;
-	}
-
-	.about-p {
-		color: var(--color-text-body);
-		font-size: var(--text-base);
-		line-height: 1.85;
-		margin: 0 0 var(--space-4);
-	}
-
-	.services-list {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.svc-item {
-		display: flex;
-		align-items: flex-start;
-		gap: var(--space-5);
-		padding: var(--space-5) 0;
-		border-bottom: 1px solid var(--color-border);
-		cursor: default;
-		transition: background var(--transition-base);
-	}
-	.svc-item:first-child { border-top: 1px solid var(--color-border); }
-	.svc-item:hover .svc-item__arrow { opacity: 1; transform: translateX(4px); }
-
-	.svc-item__num {
-		font-size: var(--text-xs);
-		font-weight: 800;
-		letter-spacing: 0.12em;
-		color: var(--color-accent);
-		flex-shrink: 0;
-		padding-top: 3px;
-		width: 28px;
-	}
-
-	.svc-item__body {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-1);
-	}
-
-	.svc-item__title {
-		font-size: var(--text-sm);
-		font-weight: 700;
-		color: var(--color-text);
-		margin: 0;
-		letter-spacing: 0.01em;
-	}
-
-	.svc-item__desc {
-		font-size: var(--text-xs);
-		color: var(--color-text-muted);
-		line-height: 1.65;
-		margin: 0;
-	}
-
-	.svc-item__arrow {
-		font-size: var(--text-sm);
-		color: var(--color-accent);
-		flex-shrink: 0;
-		opacity: 0;
-		transition: opacity var(--transition-fast), transform var(--transition-fast);
-		padding-top: 2px;
-	}
-
-	/* ========== PLATFORM + AI ========== */
-	.platform-section { background: var(--color-bg-alt); }
-
-	.platform-layout {
-		display: grid;
-		grid-template-columns: 280px 1fr;
-		gap: var(--space-20);
-		align-items: center;
-	}
-
-	.platform-visual {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--space-8);
-	}
-
-	.platform-icon {
-		width: 96px;
-		height: 96px;
-		border-radius: 50%;
-		background: rgba(122,140,110,0.08);
-		border: 1px solid rgba(122,140,110,0.2);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.platform-stats {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-4);
-		width: 100%;
-	}
-
-	.platform-stat {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: var(--space-4);
-		background: var(--color-bg);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		text-align: center;
-	}
-
-	.platform-stat__n {
-		font-family: var(--font-display);
-		font-weight: 300;
-		font-style: italic;
-		font-size: var(--text-2xl);
-		color: var(--color-accent);
-		line-height: 1;
-	}
-
-	.platform-stat__l {
-		font-size: 10px;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--color-text-muted);
-		margin-top: var(--space-1);
-	}
-
-	.platform-p {
-		font-size: var(--text-base);
-		color: var(--color-text-body);
-		line-height: 1.85;
-		margin: 0 0 var(--space-8);
-	}
-
-	.platform-feats {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
-	}
-
-	.platform-feat {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		font-size: var(--text-sm);
-		color: var(--color-text-body);
-		font-weight: 500;
-	}
-
-	.platform-feat__dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background: var(--color-accent);
-		flex-shrink: 0;
-	}
-
-	/* ========== ROADMAP ========== */
-	.roadmap-section { background: var(--color-bg); }
-
-	.roadmap-head { margin-bottom: var(--space-12); }
-
-	.roadmap-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--space-5);
-	}
-
-	.roadmap-item {
-		padding: var(--space-6);
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--color-border);
-		background: var(--color-bg-alt);
-		position: relative;
-	}
-
-	.roadmap-item__badge {
-		display: inline-block;
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		padding: 2px 9px;
-		border-radius: 20px;
-		margin-bottom: var(--space-4);
-	}
-
-	.roadmap-item--live {
-		border-color: rgba(122,140,110,0.3);
-		background: rgba(122,140,110,0.04);
-	}
-	.roadmap-item--live .roadmap-item__badge {
-		background: rgba(122,140,110,0.15);
-		color: var(--color-accent);
-	}
-
-	.roadmap-item--progress {
-		border-color: rgba(245,158,11,0.25);
-		background: rgba(245,158,11,0.03);
-	}
-	.roadmap-item--progress .roadmap-item__badge {
-		background: rgba(245,158,11,0.15);
-		color: #92400e;
-	}
-
-	.roadmap-item--planned .roadmap-item__badge {
-		background: var(--color-bg);
-		color: var(--color-text-muted);
-		border: 1px solid var(--color-border);
-	}
-
-	.roadmap-item__title {
-		font-size: var(--text-base);
-		font-weight: 700;
-		color: var(--color-text);
-		margin: 0 0 var(--space-2);
-	}
-
-	.roadmap-item__desc {
-		font-size: var(--text-sm);
-		color: var(--color-text-body);
-		line-height: 1.7;
-		margin: 0;
-	}
-
-	/* ========== RESPONSIVE ADDITIONS ========== */
-	@media (max-width: 1024px) {
-		.about-grid { grid-template-columns: 1fr; gap: var(--space-12); }
-		.platform-layout { grid-template-columns: 1fr; gap: var(--space-10); }
-		.platform-visual { flex-direction: row; justify-content: center; }
-		.platform-stats { flex-direction: row; }
-		.roadmap-grid { grid-template-columns: 1fr 1fr; }
-		.news-grid { grid-template-columns: 1fr 1fr; }
-		.section-h2 { font-size: var(--text-3xl); }
-	}
-
-	@media (max-width: 768px) {
-		.news-grid { grid-template-columns: 1fr; }
-		.services-grid { grid-template-columns: 1fr; }
-		.roadmap-grid { grid-template-columns: 1fr; }
-		.platform-visual { flex-direction: column; }
-		.platform-stats { flex-direction: column; }
-		.section-head { flex-direction: column; align-items: flex-start; }
-		.section-h2 { font-size: var(--text-2xl); }
-	}
+  .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .g-wrap { max-width: 1200px; margin: 0 auto; }
+  .g-sec { padding: 108px 40px; background: #fff; }
+  .g-sec--warm { background: #faf8f5; }
+  .g-sec--alt { background: #f5f3ef; }
+  .g-eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--acc-dk); text-transform: uppercase; margin-bottom: 16px; }
+  .g-eyebrow--light { color: rgba(255,255,255,0.82); letter-spacing: 0.22em; }
+  .g-h2 { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 46px; line-height: 1.08; color: #1c1c1a; max-width: 700px; margin-bottom: 14px; }
+  .g-h2--light { color: #fff; }
+  .g-lead { font-size: 17px; color: #5c5c5c; max-width: 600px; margin-bottom: 56px; }
+  .g-lead--light { color: rgba(255,255,255,0.7); }
+
+  .g-btn { display: inline-block; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; padding: 16px 32px; border-radius: 999px; text-decoration: none; cursor: pointer; transition: opacity .2s, background .2s; }
+  .g-btn--acc { background: var(--acc); color: #fff; }
+  .g-btn--acc:hover { background: var(--acc-dk); }
+  .g-btn--shadow { box-shadow: 0 8px 28px rgba(122,140,110,0.4); }
+  .g-btn--ghost { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.45); backdrop-filter: blur(4px); }
+  .g-btn--ghost:hover { background: rgba(255,255,255,0.2); }
+  .g-btn--ghost-dark { backdrop-filter: none; }
+  .g-btn--outline { background: none; border: 1px solid #1c1c1a; color: #1c1c1a; padding: 14px 26px; }
+  .g-btn--outline:hover { background: #1c1c1a; color: #fff; }
+
+  .g-hero { position: relative; min-height: 86vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .g-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .g-hero__overlay { position: absolute; inset: 0; background: linear-gradient(rgba(20,24,22,0.34) 0%, rgba(20,24,22,0.12) 38%, rgba(20,24,22,0.62) 100%); }
+  .g-hero__inner { position: relative; max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 64px; color: #fff; }
+  .g-hero__title { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 74px; line-height: 1.04; letter-spacing: -0.01em; max-width: 880px; margin-bottom: 24px; }
+  .g-hero__sub { font-size: 19px; line-height: 1.6; max-width: 560px; color: rgba(255,255,255,0.9); margin-bottom: 34px; }
+  .g-hero__cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .g-metrics { background: var(--ink); color: #fff; }
+  .g-metrics__grid { max-width: 1200px; margin: 0 auto; padding: 38px 40px; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+  .g-metric { border-left: 1px solid rgba(255,255,255,0.16); padding-left: 22px; }
+  .g-metric__val { font-size: 38px; font-weight: 500; letter-spacing: -0.02em; }
+  .g-metric__label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 6px; }
+
+  .g-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; }
+  .g-card { background: #fff; border: 1px solid #ece8e1; border-radius: 18px; padding: 30px 26px; }
+  .g-card__n { font-size: 13px; color: var(--acc); letter-spacing: 0.1em; margin-bottom: 38px; }
+  .g-card__t { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: #1c1c1a; }
+  .g-card__d { font-size: 14.5px; color: #5c5c5c; line-height: 1.6; }
+
+  .g-sec__head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; flex-wrap: wrap; gap: 20px; }
+  .g-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+  .g-pool { background: #fff; border: 1px solid #ece8e1; border-radius: 18px; overflow: hidden; cursor: pointer; transition: box-shadow .3s, transform .3s; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .g-pool:hover { box-shadow: 0 18px 50px rgba(0,0,0,0.13); transform: translateY(-4px); }
+  .g-pool__media { position: relative; height: 190px; overflow: hidden; }
+  .g-pool__img { width: 100%; height: 100%; background-size: cover; background-position: center; }
+  .g-pool__status { position: absolute; top: 14px; left: 14px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; color: #fff; }
+  .g-pool__ticker { position: absolute; top: 14px; right: 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; background: rgba(16,78,73,0.85); color: #fff; padding: 5px 9px; border-radius: 6px; backdrop-filter: blur(4px); }
+  .g-pool__body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .g-pool__loc { font-size: 11px; letter-spacing: 0.12em; color: #9a948c; text-transform: uppercase; margin-bottom: 8px; }
+  .g-pool__name { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #1c1c1a; }
+  .g-pool__desc { font-size: 14px; color: #5c5c5c; line-height: 1.55; margin-bottom: 20px; flex: 1; }
+  .g-pool__prog { margin-bottom: 18px; }
+  .g-pool__progrow { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 7px; }
+  .g-bar { height: 5px; background: #eceae4; border-radius: 9px; overflow: hidden; }
+  .g-bar__fill { height: 100%; background: var(--acc); border-radius: 9px; }
+  .g-pool__goal { font-size: 11.5px; color: #9a948c; margin-top: 7px; }
+  .g-pool__foot { display: flex; justify-content: space-between; border-top: 1px solid #f0ede7; padding-top: 16px; }
+  .g-pool__metric { font-size: 18px; font-weight: 600; color: #1c1c1a; }
+  .g-pool__metriclabel { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #9a948c; margin-top: 3px; }
+
+  .g-grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; }
+  .g-market { background: #fff; border: 1px solid #e8e4dd; border-radius: 16px; padding: 26px 22px; }
+  .g-market__name { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 27px; color: #1c1c1a; margin-bottom: 6px; }
+  .g-market__sub { font-size: 12.5px; color: var(--acc-dk); margin-bottom: 22px; }
+  .g-market__foot { display: flex; justify-content: space-between; border-top: 1px solid #f0ede7; padding-top: 14px; }
+  .g-market__val { font-size: 17px; font-weight: 600; }
+  .g-market__lbl { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #9a948c; margin-top: 2px; }
+
+  .g-calc { background: var(--ink); color: #fff; }
+  .g-calc__grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
+  .g-field { margin-bottom: 34px; }
+  .g-field__row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .g-field__label { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .g-field__val { font-size: 24px; font-weight: 500; }
+  .g-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .g-chip { font-size: 12.5px; cursor: pointer; padding: 9px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.22); background: transparent; color: #fff; font-weight: 400; font-family: inherit; transition: background .2s, border-color .2s; }
+  .g-chip--active { border-color: transparent; background: var(--acc); font-weight: 600; }
+  .g-calc__panel { background: #0e453f; border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 40px; }
+  .g-calc__phead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .g-calc__tag { font-size: 12px; color: var(--mint); border: 1px solid rgba(159,192,163,0.4); padding: 4px 9px; border-radius: 6px; text-transform: none; letter-spacing: 0; }
+  .g-calc__line { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 15px; color: rgba(255,255,255,0.7); }
+  .g-calc__line .num { font-size: 17px; color: #fff; }
+  .g-calc__result { background: #08302b; border-radius: 14px; padding: 22px; margin-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .g-calc__rlabel { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  .g-calc__rsub { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .g-calc__rval { font-size: 34px; font-weight: 600; color: #fff; }
+  .g-calc__note { font-size: 11.5px; color: rgba(255,255,255,0.4); margin-top: 18px; line-height: 1.5; }
+
+  .g-layers { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: #ece8e1; border: 1px solid #ece8e1; border-radius: 18px; overflow: hidden; }
+  .g-layer { background: #fff; padding: 34px 30px; }
+  .g-layer__n { font-size: 12px; color: var(--acc); letter-spacing: 0.08em; margin-bottom: 20px; }
+  .g-layer__t { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #1c1c1a; }
+  .g-layer__d { font-size: 14px; color: #5c5c5c; line-height: 1.6; }
+
+  .g-trust { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-bottom: 36px; }
+  .g-trust__item { display: flex; gap: 14px; align-items: flex-start; }
+  .g-trust__ico { flex: 0 0 auto; width: 32px; height: 32px; border-radius: 9px; background: var(--acc-light); display: flex; align-items: center; justify-content: center; color: var(--acc-dk); }
+  .g-trust__t { font-size: 16px; font-weight: 700; margin-bottom: 5px; color: #1c1c1a; }
+  .g-trust__d { font-size: 13.5px; color: #5c5c5c; line-height: 1.55; }
+  .g-disclaimer { background: #fff; border: 1px solid #ece8e1; border-left: 3px solid var(--acc); border-radius: 12px; padding: 20px 24px; font-size: 13px; color: #7a756c; line-height: 1.6; }
+
+  .g-role { background: #faf8f5; border: 1px solid #ece8e1; border-radius: 18px; padding: 34px 30px; }
+  .g-role__tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--acc); margin-bottom: 18px; }
+  .g-role__t { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 28px; color: #1c1c1a; margin-bottom: 12px; }
+  .g-role__d { font-size: 14.5px; color: #5c5c5c; line-height: 1.6; }
+
+  .g-quiz { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .g-quiz .g-lead { margin-bottom: 28px; }
+  @media (max-width: 960px) { .g-quiz { grid-template-columns: 1fr; gap: 28px; } }
+
+  .g-cta { background: var(--ink); color: #fff; padding: 96px 40px; text-align: center; }
+  .g-cta__inner { max-width: 720px; margin: 0 auto; }
+  .g-cta__title { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 48px; line-height: 1.1; color: #fff; margin-bottom: 18px; }
+  .g-cta__sub { font-size: 17px; color: rgba(255,255,255,0.72); margin-bottom: 34px; }
+  .g-cta__btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 960px) {
+    .g-grid-4, .g-grid-5, .g-grid-3, .g-layers, .g-trust { grid-template-columns: repeat(2,1fr); }
+    .g-calc__grid { grid-template-columns: 1fr; gap: 32px; }
+    .g-hero__title { font-size: 48px; }
+    .g-h2 { font-size: 34px; }
+  }
+  @media (max-width: 560px) {
+    .g-sec { padding: 64px 22px; }
+    .g-grid-4, .g-grid-5, .g-grid-3, .g-layers, .g-trust, .g-metrics__grid { grid-template-columns: 1fr; }
+    .g-hero__inner { padding: 0 22px 44px; }
+    .g-hero__title { font-size: 38px; }
+  }
 </style>

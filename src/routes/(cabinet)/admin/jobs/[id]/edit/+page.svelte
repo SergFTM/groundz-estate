@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>Edit {data.job.title} — Admin — Develta</title>
+  <title>Edit {data.job.title} — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/jobs" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Jobs</a>

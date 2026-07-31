@@ -2,6 +2,7 @@ import { json, error } from '@sveltejs/kit';
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import db from '$lib/server/db';
+import { aiGuard } from '$lib/server/ai-guard';
 import type { RequestHandler } from './$types';
 
 const ALLOWED_TYPES = [
@@ -10,8 +11,9 @@ const ALLOWED_TYPES = [
 ];
 const MAX_SIZE = 20 * 1024 * 1024; // 20 MB
 
-export const POST: RequestHandler = async ({ request }) => {
-  const formData = await request.formData();
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'admin_job' });
+  const formData = await event.request.formData();
   const file = formData.get('file') as File | null;
   const unitId = formData.get('unitId') as string | null;
 

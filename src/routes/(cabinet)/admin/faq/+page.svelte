@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-  <title>FAQ — Admin — Develta</title>
+  <title>FAQ — Admin — Groundz</title>
 </svelte:head>
 
 <div>

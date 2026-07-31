@@ -61,6 +61,28 @@ export interface LinkSuggestion {
   context: string;
 }
 
+export interface AeoSignals {
+  yieldClaimCount: number;
+  hasDisclaimer: boolean;
+  hasUpdatedDate: boolean;
+  hasAuthorBlock: boolean;
+  externalSourceCount: number;
+  mixedLanguage: boolean;
+}
+
+export interface AeoCitability {
+  unverifiedClaims: string[];
+  citabilityNotes: string[];
+}
+
+export interface AeoResult {
+  aeoScore: number;
+  issues: SeoIssue[];
+  suggestions: SeoSuggestion[];
+  signals: AeoSignals;
+  citability: AeoCitability | null;
+}
+
 export interface SeoAuditInput {
   pageId?: string;
   route?: string;
@@ -79,6 +101,7 @@ export interface SeoAuditResult {
   semantics: SemanticAnalysis | null;
   links: LinkSuggestion[];
   meta: MetaSuggestion | null;
+  aeo: AeoResult;
   auditId: string;
   aiAvailable: boolean;
 }

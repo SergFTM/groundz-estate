@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ parent }) => {
   const { user } = await parent();
 
   // Get investor's pool ids for the pool selector
-  const investments = await db.investorInvestment.findMany({
+  const investments = await db.holding.findMany({
     where: { userId: user.id },
     include: { pool: { select: { id: true, name: true } } },
     orderBy: { createdAt: 'desc' },

@@ -5,11 +5,11 @@ export const load: PageServerLoad = async ({ parent }) => {
   const { user } = await parent();
 
   const [pools, myInvestments] = await Promise.all([
-    db.investmentPool.findMany({
+    db.pool.findMany({
       include: { _count: { select: { investments: true } } },
       orderBy: { createdAt: 'desc' }
     }),
-    db.investorInvestment.findMany({
+    db.holding.findMany({
       where: { userId: user.id },
       select: { poolId: true, amount: true, status: true }
     }),

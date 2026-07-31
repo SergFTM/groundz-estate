@@ -143,7 +143,7 @@
         </div>
         <div class="ai-panel__head-text">
           <span class="ai-panel__title">AI Консьерж</span>
-          <span class="ai-panel__subtitle">{projectName ?? 'Develta'}</span>
+          <span class="ai-panel__subtitle">{projectName ?? 'Groundz'}</span>
         </div>
         {#if floating}
           <button class="ai-panel__close" onclick={() => (open = false)} aria-label="Закрыть">

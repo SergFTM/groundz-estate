@@ -1,22 +1,17 @@
 import { json, error } from '@sveltejs/kit';
 import { getSetting } from '$lib/server/settings';
 import { generateTourImages } from '$lib/server/gemini-tour';
+import { aiGuard } from '$lib/server/ai-guard';
 import db from '$lib/server/db';
 import * as path from 'path';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ request }) => {
-  const { unitId, fillOnly = false, imageQuality } = await request.json();
+export const POST: RequestHandler = async (event) => {
+  aiGuard(event, { roles: ['internal_team'], bucket: 'image_ai' });
+  const { unitId, fillOnly = false, imageQuality } = await event.request.json();
   if (!unitId) throw error(400, 'unitId required');
 
-  const [apiKey, imageModel, savedQuality] = await Promise.all([
-    getSetting('openai_api_key'),
-    getSetting('openai_image_model'),
-    getSetting('openai_image_quality'),
-  ]);
-  if (!apiKey) throw error(503, 'OpenAI API key not configured');
-
-  // Quality: prefer value sent by client (toggled in UI), fall back to saved setting
+  const savedQuality = await getSetting('local_image_quality');
   const quality = imageQuality ?? savedQuality ?? 'high';
 
   const unit = await db.unit.findUnique({
@@ -34,7 +29,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
   let result;
   try {
-    result = await generateTourImages(apiKey, unit, staticDir, imageModel ?? 'dall-e-3', existingImages, quality);
+    result = await generateTourImages('', unit, staticDir, 'sdxl', existingImages, quality);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error('[generate-tour]', msg);

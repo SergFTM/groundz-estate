@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>New Article — Admin — Develta</title>
+  <title>New Article — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/articles" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Articles</a>

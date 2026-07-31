@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>Agent Dashboard — Develta</title>
+  <title>Agent Dashboard — Groundz</title>
 </svelte:head>
 
 <div class="agent-dash">

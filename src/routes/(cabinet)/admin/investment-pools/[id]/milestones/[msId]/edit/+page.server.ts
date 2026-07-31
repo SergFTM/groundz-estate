@@ -15,7 +15,7 @@ const milestoneSchema = z.object({
 });
 
 export const load: PageServerLoad = async ({ params }) => {
-  const pool = await db.investmentPool.findUnique({
+  const pool = await db.pool.findUnique({
     where: { id: params.id },
     select: { id: true, name: true }
   });

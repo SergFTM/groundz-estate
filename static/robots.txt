@@ -1,3 +1,17 @@
-# allow crawling everything by default
+# Groundz Estate — crawler policy
+# AEO: OAI-SearchBot must stay allowed or the site disappears from ChatGPT search answers.
+
+# ChatGPT search visibility (does NOT feed model training)
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI model training crawler.
+# To keep ChatGPT visibility but opt out of training data, change "Allow: /" to "Disallow: /".
+User-agent: GPTBot
+Allow: /
+
+# Everyone else
 User-agent: *
 Disallow:
+
+Sitemap: https://groundz.estate/sitemap.xml

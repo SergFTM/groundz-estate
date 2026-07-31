@@ -1,6 +1,6 @@
 <svelte:head>
-  <title>Terms of Use — Develta</title>
-  <meta name="description" content="Develta terms of use — rules governing access to and use of the Develta platform and investment services." />
+  <title>Terms of Use — Groundz</title>
+  <meta name="description" content="Groundz terms of use — rules governing access to and use of the Groundz platform and investment services." />
 </svelte:head>
 
 <div class="legal-page">
@@ -8,15 +8,15 @@
     <div class="legal-header">
       <span class="section-label">LEGAL</span>
       <h1 class="legal-title">Terms of Use</h1>
-      <p class="legal-meta">Last updated: March 2025 · Develta Property Development Ltd, Limassol, Cyprus</p>
+      <p class="legal-meta">Last updated: March 2025 · Groundz Property Development Ltd, Limassol, Cyprus</p>
     </div>
 
     <div class="legal-body">
 
       <section>
         <h2>1. Acceptance of Terms</h2>
-        <p>By accessing the Develta website (develta.cy) or the Develta investor portal (the "Platform"), you agree to be bound by these Terms of Use. If you do not agree, do not use the Platform.</p>
-        <p>These Terms constitute a legally binding agreement between you and Develta Property Development Ltd ("Develta", "we", "us"), a company registered in Cyprus.</p>
+        <p>By accessing the Groundz website (groundz.estate) or the Groundz investor portal (the "Platform"), you agree to be bound by these Terms of Use. If you do not agree, do not use the Platform.</p>
+        <p>These Terms constitute a legally binding agreement between you and Groundz Property Development Ltd ("Groundz", "we", "us"), a company registered in Cyprus.</p>
       </section>
 
       <section>
@@ -28,7 +28,7 @@
       <section>
         <h2>3. Investment Risk Disclaimer</h2>
         <p><strong>Investing involves risk. The value of investments can go down as well as up. Past performance is not a reliable indicator of future results. You may lose some or all of your invested capital.</strong></p>
-        <p>Develta is a real estate developer and asset manager. The Platform provides information about investment opportunities in real estate projects in Cyprus and other jurisdictions. Nothing on the Platform constitutes:</p>
+        <p>Groundz is a real estate developer and asset manager. The Platform provides information about investment opportunities in real estate projects in Cyprus and other jurisdictions. Nothing on the Platform constitutes:</p>
         <ul>
           <li>Regulated investment advice under the Cyprus Investment Services and Activities Law (Law 87(I)/2017)</li>
           <li>An offer to sell or a solicitation of an offer to buy any securities</li>
@@ -39,14 +39,14 @@
 
       <section>
         <h2>4. Account Registration</h2>
-        <p>You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account. You must notify us immediately at <strong>support@develta.cy</strong> if you suspect unauthorised access.</p>
+        <p>You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account. You must notify us immediately at <strong>support@groundz.estate</strong> if you suspect unauthorised access.</p>
         <p>You agree to provide accurate and complete information when registering and to keep your account information up to date.</p>
         <p>We reserve the right to suspend or terminate accounts that violate these Terms or that we believe pose a security risk to the Platform or other users.</p>
       </section>
 
       <section>
         <h2>5. KYC / AML Compliance</h2>
-        <p>Develta is obligated under Cyprus anti-money laundering legislation (Law 188(I)/2007, as amended) to verify the identity of investors before processing any investment commitments. By participating in investment opportunities on the Platform, you agree to:</p>
+        <p>Groundz is obligated under Cyprus anti-money laundering legislation (Law 188(I)/2007, as amended) to verify the identity of investors before processing any investment commitments. By participating in investment opportunities on the Platform, you agree to:</p>
         <ul>
           <li>Provide accurate identity documents (passport/national ID)</li>
           <li>Submit proof of funds from legitimate, traceable sources</li>
@@ -57,8 +57,8 @@
 
       <section>
         <h2>6. Intellectual Property</h2>
-        <p>All content on the Platform — including text, images, designs, software, and data — is owned by or licensed to Develta. You may not reproduce, distribute, or create derivative works without our prior written consent.</p>
-        <p>You retain ownership of documents and materials you upload; by uploading, you grant Develta a non-exclusive licence to use them solely for the purpose of providing the Platform services.</p>
+        <p>All content on the Platform — including text, images, designs, software, and data — is owned by or licensed to Groundz. You may not reproduce, distribute, or create derivative works without our prior written consent.</p>
+        <p>You retain ownership of documents and materials you upload; by uploading, you grant Groundz a non-exclusive licence to use them solely for the purpose of providing the Platform services.</p>
       </section>
 
       <section>
@@ -76,14 +76,14 @@
 
       <section>
         <h2>8. Limitation of Liability</h2>
-        <p>To the maximum extent permitted by Cyprus and EU law, Develta's total liability to you for any claims arising from your use of the Platform shall not exceed the amount of fees (if any) paid by you to Develta in the 12 months preceding the claim.</p>
+        <p>To the maximum extent permitted by Cyprus and EU law, Groundz's total liability to you for any claims arising from your use of the Platform shall not exceed the amount of fees (if any) paid by you to Groundz in the 12 months preceding the claim.</p>
         <p>We are not liable for: indirect, consequential, or special damages; loss of profits or investment returns; or any damages arising from reliance on information provided on the Platform.</p>
       </section>
 
       <section>
         <h2>9. Governing Law and Disputes</h2>
         <p>These Terms are governed by the laws of the Republic of Cyprus. Any dispute arising under these Terms shall be subject to the exclusive jurisdiction of the courts of Limassol, Cyprus.</p>
-        <p>For informal resolution, contact us first at <strong>legal@develta.cy</strong>. We will endeavour to resolve disputes within 30 days.</p>
+        <p>For informal resolution, contact us first at <strong>legal@groundz.estate</strong>. We will endeavour to resolve disputes within 30 days.</p>
       </section>
 
       <section>
@@ -93,9 +93,9 @@
 
       <section>
         <h2>11. Contact</h2>
-        <p>Develta Property Development Ltd<br />
+        <p>Groundz Property Development Ltd<br />
         [Address], Limassol, Cyprus<br />
-        Email: <strong>legal@develta.cy</strong></p>
+        Email: <strong>legal@groundz.estate</strong></p>
         <p>For privacy matters: <a href="/privacy">Privacy Policy</a></p>
       </section>
 

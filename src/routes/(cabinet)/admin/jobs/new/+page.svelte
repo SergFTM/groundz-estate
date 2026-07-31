@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>New Job Position — Admin — Develta</title>
+  <title>New Job Position — Admin — Groundz</title>
 </svelte:head>
 
 <a href="/admin/jobs" style="font-size:var(--text-sm);color:var(--color-accent);text-decoration:none;font-weight:600;display:inline-block;margin-bottom:var(--space-4);">← Back to Jobs</a>

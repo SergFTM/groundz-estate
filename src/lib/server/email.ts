@@ -16,7 +16,7 @@ async function send(opts: { to: string; subject: string; text: string; html?: st
   }
   try {
     await createTransport().sendMail({
-      from: process.env.SMTP_FROM ?? 'noreply@develta.cy',
+      from: process.env.SMTP_FROM ?? 'noreply@groundz.estate',
       ...opts,
     });
   } catch (err) {
@@ -40,7 +40,7 @@ export async function sendLeadNotification(lead: {
   ].filter(Boolean).join('\n');
 
   await send({
-    to: process.env.ADMIN_EMAIL ?? 'admin@develta.cy',
+    to: process.env.ADMIN_EMAIL ?? 'admin@groundz.estate',
     subject: `New Lead: ${lead.source}`,
     text: lines,
   });
@@ -58,7 +58,7 @@ export async function sendInvestorApplicationNotification(app: {
   message?: string | null;
 }) {
   const text = [
-    `New investor application received on Develta.`,
+    `New investor application received on Groundz.`,
     ``,
     `Name:         ${app.name}`,
     `Email:        ${app.email}`,
@@ -70,12 +70,12 @@ export async function sendInvestorApplicationNotification(app: {
     `Time Horizon: ${app.timeHorizon}`,
     app.message ? `\nMessage:\n${app.message}` : '',
     ``,
-    `Review at: ${process.env.SITE_URL ?? 'https://develta.cy'}/admin/leads`,
+    `Review at: ${process.env.SITE_URL ?? 'https://groundz.estate'}/admin/leads`,
   ].join('\n');
 
   // Notification to admin
   await send({
-    to: process.env.ADMIN_EMAIL ?? 'admin@develta.cy',
+    to: process.env.ADMIN_EMAIL ?? 'admin@groundz.estate',
     subject: `Investor Application: ${app.name} (${app.ticketSize.replace(/_/g, ' ')})`,
     text,
   });
@@ -83,20 +83,20 @@ export async function sendInvestorApplicationNotification(app: {
   // Confirmation to applicant
   await send({
     to: app.email,
-    subject: `Your Develta investor application has been received`,
+    subject: `Your Groundz investor application has been received`,
     text: [
       `Dear ${app.name},`,
       ``,
-      `Thank you for submitting your investor application to Develta.`,
+      `Thank you for submitting your investor application to Groundz.`,
       ``,
       `Our investment team will review your profile and reach out within 1 business day`,
       `to discuss current pool opportunities and next steps.`,
       ``,
       `In the meantime, you can browse available pools at:`,
-      `${process.env.SITE_URL ?? 'https://develta.cy'}/investment`,
+      `${process.env.SITE_URL ?? 'https://groundz.estate'}/pools`,
       ``,
       `Best regards,`,
-      `Develta Investment Team`,
+      `Groundz Investment Team`,
     ].join('\n'),
   });
 }
@@ -107,9 +107,9 @@ export async function sendPasswordResetEmail(opts: {
 }) {
   await send({
     to: opts.email,
-    subject: `Reset your Develta password`,
+    subject: `Reset your Groundz password`,
     text: [
-      `You requested a password reset for your Develta account.`,
+      `You requested a password reset for your Groundz account.`,
       ``,
       `Click the link below to set a new password (valid for 1 hour):`,
       opts.resetUrl,
@@ -117,7 +117,7 @@ export async function sendPasswordResetEmail(opts: {
       `If you did not request this, you can ignore this email — your password will not change.`,
       ``,
       `Best regards,`,
-      `Develta Security Team`,
+      `Groundz Security Team`,
     ].join('\n'),
   });
 }
@@ -141,10 +141,10 @@ export async function sendKycStatusEmail(investor: {
         ? `Your document "${investor.documentName}" has been reviewed and approved.`
         : `Your document "${investor.documentName}" requires attention. Please log in to your investor portal to review and resubmit.`,
       ``,
-      `Login at: ${process.env.SITE_URL ?? 'https://develta.cy'}/auth/login`,
+      `Login at: ${process.env.SITE_URL ?? 'https://groundz.estate'}/auth/login`,
       ``,
       `Best regards,`,
-      `Develta Compliance Team`,
+      `Groundz Compliance Team`,
     ].join('\n'),
   });
 }
