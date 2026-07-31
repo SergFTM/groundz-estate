@@ -163,13 +163,13 @@ confirmations и KYT-проверки. Недоплата, переплата, �
 
 ## 11. Что уже есть в платформе / чего не хватает
 
-| Есть | Не хватает (бэклог токенизации) |
+| Реализовано (миграция `add_tokenization_models`, 2026-07-31) | Осталось (бэклог) |
 |---|---|
-| `Pool` с полями токенизации, `Holding.tokens`, `Transaction`, `MembershipTier` | Поле кошелька у пользователя + подтверждение владения подписью |
-| KYC-раздел админки, роли, audit | `PaymentIntent` (реквизиты, срок, payment_reference, статусы недоплаты/возврата) |
-| OTC-модуль (листинги/офферы) как каркас вторички | `Distribution` + snapshot-модуль (record date, формула, статусы выплат) |
-| Кабинет инвестора с портфелем и фидом транзакций | Интеграции: Asset Catalog / Eligibility / RFQ / Settlement / Payout API + подписанные webhooks |
-| AI-слой (объяснение метрик, риск-нарративы) | Статусная модель адресов (pending/verified/active/expired/revoked) |
+| `WalletAddress` со статусной моделью pending/verified/active/expired/revoked; добавление в `/investor/wallet`, верификация командой в админке | Подтверждение владения кошельком подписью сообщения (сейчас — ручная верификация) |
+| `PaymentIntent` (payment_reference, TTL 72ч, статусы недоплаты/возврата); state-machine запрещает mint до confirmed | Реальные реквизиты/deposit address от settlement-провайдера в `transferDetails` |
+| `Distribution` + `DistributionPayout`: snapshot держателей, формула total × balance / eligible supply (floor до цента), выплаты → `Transaction` | On-chain snapshot по блоку (сейчас — DB-балансы `Holding`), Merkle-claim контракт |
+| Fail-closed eligibility: роль + approved KYC-документ + верифицированный кошелёк | Интеграции: Asset Catalog / RFQ / Settlement / Payout API внешних провайдеров + подписанные webhooks |
+| Админ-операции: `/admin/investment-pools/[id]/tokenization`; mint ведёт платформенный леджер (tokensSold, Holding, Transaction) | Utility-токен и NFT-сертификаты (фаза 2), ERC-3643 деплой у issuer |
 
-Prisma-модели `PaymentIntent`, `Distribution`, `WalletAddress` — расширение существующей
-схемы (Hard rule: extend, no duplicates), проектируются отдельной спекой при старте фазы.
+Серверный модуль: `src/lib/server/tokenization/` (status.ts — state-machines,
+payouts.ts — чистая математика выплат, service.ts — DB-флоу). Тесты: `npm run test:tokenization`.
